@@ -1,0 +1,160 @@
+<!-- include header -->
+<%- include('include/_header') %>
+<!-- /include header -->
+
+<!-- include header -->
+<%- include('include/_navbar') %>
+<!-- /include header -->
+<div class="container">
+    <div class="row justify-content-center">                 
+        <div class="col-lg-12">
+          <div class="card shadow-lg border-0 rounded-lg mt-5 mb-5">
+            <form action = '/manifest' method = "post">
+              <div class="card-header">
+                  <h3 class="text-center font-weight-light my-4">Generate Manifest</h3>
+              </div>
+              <div class="card-body">                  
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="manifestNumber">Manifest Number<span style="color:red;">*</span></label>    
+                                <input type="hidden" name="admin" value="<%= user._id %>">
+                                <input class="form-control" name = "manifestNumber" type="text" required/>                            
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="manifestDate">Manifest Date<span style="color:red;">*</span></label>                                                                               
+                                <input class="form-control" name = "manifestDate" type="date" id="inputDate" required/>                            
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="dispatchTo">Dispatch To<span style="color:red;">*</span></label>                                                                               
+                                <select class="form-select" name = "dispatchTo">
+                                    <option value = "">---Select Dispatch To---</option>
+                                    <option value="Rainbow Logistics Ltd">Rainbow Logistics Ltd</option>
+                                    <option value="Rainbow Sky Couriers LLC">Rainbow Sky Couriers LLC</option>
+                                    <option value="Deanshill Logistics Ltd">Deanshill Logistics Ltd</option>
+                                </select>                            
+                            </div>
+                        </div>                                                
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="manifestOrigin">Origin<span style="color:red;">*</span></label>
+                                <select class ="form-select" name = "manifestOrigin" required>
+                                    <option value="">---Select Origin---</option>
+                                    <% countries.forEach(country => { %>
+                                        <option value="<%= country.name %>"><%= country.name %></option>
+                                    <% }) %>                                                    
+                                </select>                                
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="manifestDestination">Destination<span style="color:red;">*</span></label>
+                                <select class ="form-select" name = "manifestDestination" required>
+                                    <option value="">---Select Destination---</option>
+                                    <% countries.forEach(country => { %>
+                                        <option value="<%= country.name %>"><%= country.name %></option>
+                                    <% }) %>                                                    
+                                </select>                                
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="manifestMode">Mode<span style="color:red;">*</span></label>                                                                               
+                                <select class="form-select" name = "manifestMode">
+                                    <option value = "">---Select Mode---</option>
+                                    <option value="International">International</option>                                    
+                                </select>                            
+                            </div>
+                        </div>                 
+                    </div> 
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="mawbNumber">MAWB Number<span style="color:red;">*</span></label>                                                                               
+                                <input class="form-control" name = "mawbNumber" type="text" required/>                            
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="cdNumber">CD Number<span style="color:red;">*</span></label>                                                                               
+                                <input class="form-control" name = "cdNumber" type="text" required/>                            
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="runNumber">Run Number<span style="color:red;">*</span></label>                                                                               
+                                <input class="form-control" name = "runNumber" type="text" required/>                            
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="flightNumber">Flight Number<span style="color:red;">*</span></label>                                                                               
+                                <input class="form-control" name = "flightNumber" type="text" required/>                            
+                            </div>
+                        </div>
+                    </div>                 
+              </div> 
+              <div class="card-header">
+                <h3 class="text-center font-weight-light my-4">Bag Details</h3>
+            </div>
+            <div class="card-body">                  
+                <div class="row">                                   
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="bagNumber">Bag Number</label><br>                                                                         
+                            <input type="text" class="form-control" id="bagNumber">
+                        </div>
+                    </div>             
+                    <div class="col-md-4">                        
+                        <div class="form-group">
+                            <label for="order">Select AWB Number</label><br>                                                                         
+                            <select class="form-select" id="order">
+                                <option value="">---Select AWB Number---</option>
+                                <% orderList.forEach(order => { %>
+                                
+                                <option value="<%= order.awbNumber %>"><%= order.awbNumber %></option>
+                                <% }) %>
+                            </select>                            
+                        </div>    
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="actionBox">Action</label><br>                                                                         
+                            <button class="btn btn-primary btn-block" id="actionBag">Add Bag</button>
+                        </div>
+                    </div>                                                
+                </div>
+                <div class="row">                        
+                    <table class="table table-bordered table-responsive-sm" id="bagTable">                            
+                            <tr>
+                                <td><label for='bagNumber'>Bag Number</label></td>
+                                <td><label for='order'>AWB Number</label></td>                                                                  
+                                <td><label for='bagRemove'>Action</label></td>
+                            </tr>
+                                       
+                    </table>                    
+                </div>                                  
+          </div>
+              <div class="card-footer">
+                    <div class="row">
+                        <div class="col-md-12 text-center">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </div>                
+              </div>  
+            </form>             
+          </div>            
+        </div>          
+    </div>
+</div>
+
+
+<!-- include footer -->
+<%- include('include/_footer') %>
+<!-- /include footer -->

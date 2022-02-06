@@ -1,0 +1,258 @@
+<!-- include header -->
+<%- include('include/_header') %>
+<!-- /include header -->
+
+<!-- include header -->
+<%- include('include/_navbar') %>
+<!-- /include header -->
+<div class="container">
+    <div class="row justify-content-center">                 
+        <div class="col-lg-12">
+          <div class="card shadow-lg border-0 rounded-lg mt-5 mb-5">
+            <form action = '/orders/<%= order._id %>/update?_method=PATCH' method = "post">
+              <div class="card-header">
+                  <h3 class="text-center font-weight-light my-4">Update Order</h3>
+              </div>
+
+              <div class="card-body">                  
+                <div class="row">
+                    <div class="col-md-4">                            
+                        <div class="form-group">
+                            <label for="bookingDate">Booking Date<span style="color:red;">*</span></label>                                                                               
+                            <input class="form-control" name = "bookingDate" value="<%= order.bookingDate.toISOString().split('T')[0] %>" type="date" id="inputDate" required/>                            
+                        </div>
+                    </div>
+                    <% if(user.role == "admin"){ %>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="consignorReference">Consignor Reference<span style="color:red;">*</span></label>
+                                <select class ="form-select" name = "client_id" required >
+                                    <option value="<%= order.client._id %>"><%= order.client.username %></option>
+                                    <% clientlist.forEach(client => { %>
+                                        <option value="<%= client._id %>"><%= client.username %></option>
+                                    <% }) %>                                        
+                                </select>                                
+                            </div> 
+                        </div>
+                    <% } %>
+                    <% if(user.accessRight.indexOf('services') != -1){ %>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="service">Service<span style="color:red;">*</span></label>
+                                <select class ="form-select" name = "service" required >
+                                    <option value="">---Select Service---</option>
+                                    <% if(user.role == "admin") { 
+                                        serviceList.forEach(service => { %>
+                                            <option value="<%= service._id %>"><%= service.serviceName %></option>
+                                        <% })
+                                    }else if(user.role == "client"){ 
+                                        displayNames.forEach(name => { %>
+                                            <option value="<%= name %>"><%= name %></option>
+                                       <% })
+                                    } %>
+                                                                            
+                                </select>                                
+                            </div> 
+                        </div>
+                    <% }else{ %>
+                        <input type="hidden" name="service" value="<%= user.defaultService %>">
+                    <% } %>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="text-center font-weight-light my-4">Consignor</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="consignor">Name<span style="color:red;">*</span></label>                                                                               
+                                            <input class="form-control" name = "consignor" value="<%= order.consignor %>" type="text" required/>                            
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="origin">Origin<span style="color:red;">*</span></label>
+                                            <select class ="form-select" name = "origin" required>
+                                                <option value="<%= order.origin %>"><%= order.origin %></option>
+                                                <% countries.forEach(country => { %>
+                                                    <option value="<%= country.name %>"><%= country.name %></option>
+                                                <% }) %>                                                    
+                                            </select>                                
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="consignorContactNumber">Contact Number<span style="color:red;">*</span></label>                                                                               
+                                            <input class="form-control" name = "consignorContactNumber" value="<%= order.consignorContactNumber %>" type="text" required/>                            
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="consignorEmail">Email</label>
+                                            <input class="form-control" name = "consignorEmail" value="<%= order.consignorEmail %>" type="text" />                                                      
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="consignorAddress1">Address 1<span style="color:red;">*</span></label>                                                                                                                 
+                                            <textarea class="form-control" name="consignorAddress1" required><%= order.consignorAddress1 %></textarea>                          
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="consignorAddress2">Address 2<span style="color:red;">*</span></label>
+                                            <textarea class="form-control" name="consignorAddress2" required><%= order.consignorAddress2 %></textarea>                                                      
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="consignorPincode">Pincode<span style="color:red;">*</span></label>                                                                                                                 
+                                            <input class="form-control" name="consignorPincode" value="<%= order.consignorPincode %>" type="text" required/>                         
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="consignorCity">City</label>
+                                            <input class="form-control" name="consignorCity" value="<%= order.consignorCity %>" type="text" />                                                      
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="consignorCity">State</label>
+                                            <input class="form-control" name="consignorState" value="<%= order.consignorState %>" type="text" />                                                      
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="docType">Document Type<span style="color:red;">*</span></label>                                                                                                                 
+                                            <select class="form-select" name="docType" required>
+                                                <option value="<%= order.docType %>"><%= order.docType %></option>
+                                                <option value="aadhar">Aadhar</option>
+                                                <option value="pan">PAN</option>
+                                                <option value="GST">GST</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="docNumber">Document Number<span style="color:red;">*</span></label>
+                                            <input class="form-control" name="docNumber" value="<%= order.docNumber %>" type="text" required>                                                    
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="text-center font-weight-light my-4">Consginee</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="consignee">Name<span style="color:red;">*</span></label>                                                                               
+                                            <input class="form-control" name = "consignee" value="<%= order.consignee %>" type="text" required/>                            
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="destination">Destination<span style="color:red;">*</span></label>
+                                            <select class ="form-select" name = "destination" required>
+                                                <option value="<%= order.destination %>"><%= order.destination %></option>
+                                                <% countries.forEach(country => { %>
+                                                    <option value="<%= country.name %>"><%= country.name %></option>
+                                                <% }) %>
+                                            </select>                                
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="consigneeContactNumber">Contact Number<span style="color:red;">*</span></label>                                                                               
+                                            <input class="form-control" name = "consigneeContactNumber" value="<%= order.consigneeContactNumber %>" type="text" required/>                            
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="consigneeEmail">Email</label>
+                                            <input class="form-control" name = "consigneeEmail" value="<%= order.consigneeEmail %>" type="text" />                                                      
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="consigneeAddress1">Address 1<span style="color:red;">*</span></label>                                                                                                                 
+                                            <textarea class="form-control" name="consigneeAddress1" required><%= order.consigneeAddress1 %></textarea>                          
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="consigneeAddress2">Address 2<span style="color:red;">*</span></label>
+                                            <textarea class="form-control" name="consigneeAddress2" required><%= order.consigneeAddress2 %></textarea>                                                      
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="consigneePincode">Pincode<span style="color:red;">*</span></label>                                                                                                                 
+                                            <input class="form-control" name="consigneePincode" value="<%= order.consigneePincode %>" type="text" required/>                         
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="consigneeCity">City</label>
+                                            <input class="form-control" name="consigneeCity" value="<%= order.consigneeCity %>" type="text" />                                                      
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="consigneeCity">State</label>
+                                            <input class="form-control" name="consigneeState" value="<%= order.consigneeState %>" type="text" />                                                      
+                                        </div>
+                                    </div>
+                                </div>                                    
+                            </div>
+                        </div>
+                    </div>
+                </div>                  
+            </div>
+               
+              <div class="card-footer">
+                    <div class="row">
+                        <div class="col-md-12 text-center">
+                            <% if(user.role == 'client'){ %>
+                            <h2>Please contact Admin to update details</h2>
+                            <% }else if(user.role == 'admin'){ %>
+                            <button type="submit" class="btn btn-primary">Update</button>
+                            <% } %>
+                        </div>
+                    </div>                
+              </div>  
+            </form>             
+          </div>            
+        </div>          
+    </div>
+</div>
+
+
+
+
+<!-- include footer -->
+<%- include('include/_footer') %>
+<!-- /include footer -->

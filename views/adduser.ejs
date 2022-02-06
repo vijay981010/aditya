@@ -1,0 +1,55 @@
+<!-- include header -->
+<%- include('include/_header') %>
+<!-- /include header -->
+
+<!-- include header -->
+<%- include('include/_navbar') %>
+<!-- /include header -->
+
+<div class="container">
+     
+    <!-- include header -->
+    <%- include('include/_validations') %>
+    <!-- /include header -->
+    
+    <div class="row justify-content-center">                 
+        <div class="col-lg-4">
+          <div class="card shadow-lg border-0 rounded-lg mt-5">
+            <form action = '/users/add' method = "post">
+              <div class="card-header">
+                  <h3 class="text-center font-weight-light my-4">Add User</h3>
+              </div>
+              <div class="card-body">                  
+                    <div class="form-group">                          
+                        <% if(user.role == 'admin'){ %>
+                        <input type="hidden" name="admin_id" value="<%= user._id %>" >
+                        <input type="hidden" name="role" value="client" >
+                        <% } else if(user.role == 'superadmin') { %> 
+                        <input type="hidden" name="role" value="admin" >
+                        <% } %>                                                
+                        <label for="username">Username<span style="color:red;">*</span></label>                        
+                        <input class="form-control" name = "username" type="text" required/>                                                                       
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password<span style="color:red;">*</span></label>
+                        <input class="form-control" name = "password" type="password" required/>                       
+                    </div>                                                                              
+              </div> 
+              <div class="card-footer">
+                    <div class="row">
+                        <div class="col-md-12 text-center">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </div>                
+              </div> 
+            </form>               
+          </div>            
+        </div>          
+    </div>
+</div>
+
+
+
+<!-- include footer -->
+<%- include('include/_footer') %>
+<!-- /include footer -->
