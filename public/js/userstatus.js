@@ -11,7 +11,7 @@ document.querySelectorAll('.myClass')
                 data.status = 'inactive'                                
             }
             $.ajax({
-                url: "http://localhost:3000/users/userstatus",
+                url: "https://nodejs-courierapp.herokuapp.com/users/userstatus",
                 method: "PATCH",
                 data: data, 
                 dataType: 'json',
