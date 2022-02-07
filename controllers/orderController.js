@@ -382,12 +382,20 @@ exports.trackDetails = async(req, res, next) => {
     try{
         //debug(req.query)
         //res.send('yes')
+        let order = await Order.find({awbNumber: req.query.trackingNumber})
         let postData = {
             "username":"adinr4",
             "password":"be57b1d8cbcf5c9cd7fe3d8011233985",
             "order_id": req.query.trackingNumber
         }
         let response = await axios.post('https://shipway.in/api/getOrderShipmentDetails', postData)
+        
+        response.data.date = order.bookingDate
+        response.data.consignor = order.consignor
+        response.data.consignee = order.consignee
+        response.data.destination = order.destination
+        response.data.note = order.clientNote
+
         //debug(response)
         res.json(response.data)
     }catch(err){
