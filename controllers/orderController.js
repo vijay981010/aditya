@@ -390,14 +390,18 @@ exports.trackDetails = async(req, res, next) => {
         }
         let response = await axios.post('https://shipway.in/api/getOrderShipmentDetails', postData)
 
-        response.date = order.bookingDate
-        response.consignor = order.consignor
-        response.consignee = order.consignee
-        response.destination = order.destination
-        response.note = order.clientNote
+        if(response.data.status == "Success"){            
+            response.date = order.bookingDate
+            response.consignor = order.consignor
+            response.consignee = order.consignee
+            response.destination = order.destination
+            response.note = order.clientNote
 
-        debug(response.data)
-        res.json(response.data)
+            debug(response.data)
+            res.json(response.date)
+        }else{
+            res.status(400).send(`tracking number doesn't exist`)
+        }
     }catch(err){
         next(err)
     }
