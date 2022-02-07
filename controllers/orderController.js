@@ -390,11 +390,11 @@ exports.trackDetails = async(req, res, next) => {
         }
         let response = await axios.post('https://shipway.in/api/getOrderShipmentDetails', postData)
 
-        response.data.date = order.bookingDate
-        response.data.consignor = order.consignor
-        response.data.consignee = order.consignee
-        response.data.destination = order.destination
-        response.data.note = order.clientNote
+        response.date = order.bookingDate
+        response.consignor = order.consignor
+        response.consignee = order.consignee
+        response.destination = order.destination
+        response.note = order.clientNote
 
         debug(response.data)
         res.json(response.data)
