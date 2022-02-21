@@ -52,3 +52,130 @@ error: 03-02-2022 15:21:19:
  URL: /orders/add, 
  HTTP METHOD: GET, 
  IP: ::1
+error: 21-02-2022 20:09:04: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: EBUSY: resource busy or locked, unlink '1449988.png', 
+ URL: /orders/6213a2c24b340765200ec1c3/print/awb, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 22-02-2022 01:09:12: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: C:\Users\Sabik shaikh\Dropbox\node_react\courierapp2\views\orderlist.ejs:43
+    41|         </thead>
+    42|         <tbody>          
+ >> 43|             <% orderlist.slice().reverse().forEach(order => { %> 
+    44|                 <tr>
+    45|                     <td><%= moment(order.bookingDate).format(shortDateFormat) %></td>
+    46|                     <% if(order.vendorName == 'OTHERS' && user.role == 'admin'){ %>
+
+Cannot read properties of undefined (reading 'slice'), 
+ URL: /orders/orderlist, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 22-02-2022 01:09:12: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: C:\Users\Sabik shaikh\Dropbox\node_react\courierapp2\views\orderlist.ejs:43
+    41|         </thead>
+    42|         <tbody>          
+ >> 43|             <% orderlist.slice().reverse().forEach(order => { %> 
+    44|                 <tr>
+    45|                     <td><%= moment(order.bookingDate).format(shortDateFormat) %></td>
+    46|                     <% if(order.vendorName == 'OTHERS' && user.role == 'admin'){ %>
+
+Cannot read properties of undefined (reading 'slice'), 
+ URL: /orders/orderlist, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 22-02-2022 01:09:12: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: C:\Users\Sabik shaikh\Dropbox\node_react\courierapp2\views\orderlist.ejs:43
+    41|         </thead>
+    42|         <tbody>          
+ >> 43|             <% orderlist.slice().reverse().forEach(order => { %> 
+    44|                 <tr>
+    45|                     <td><%= moment(order.bookingDate).format(shortDateFormat) %></td>
+    46|                     <% if(order.vendorName == 'OTHERS' && user.role == 'admin'){ %>
+
+Cannot read properties of undefined (reading 'slice'), 
+ URL: /orders/orderlist, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 22-02-2022 01:09:12: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: C:\Users\Sabik shaikh\Dropbox\node_react\courierapp2\views\orderlist.ejs:43
+    41|         </thead>
+    42|         <tbody>          
+ >> 43|             <% orderlist.slice().reverse().forEach(order => { %> 
+    44|                 <tr>
+    45|                     <td><%= moment(order.bookingDate).format(shortDateFormat) %></td>
+    46|                     <% if(order.vendorName == 'OTHERS' && user.role == 'admin'){ %>
+
+Cannot read properties of undefined (reading 'slice'), 
+ URL: /orders/orderlist, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 22-02-2022 01:09:12: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: C:\Users\Sabik shaikh\Dropbox\node_react\courierapp2\views\orderlist.ejs:43
+    41|         </thead>
+    42|         <tbody>          
+ >> 43|             <% orderlist.slice().reverse().forEach(order => { %> 
+    44|                 <tr>
+    45|                     <td><%= moment(order.bookingDate).format(shortDateFormat) %></td>
+    46|                     <% if(order.vendorName == 'OTHERS' && user.role == 'admin'){ %>
+
+Cannot read properties of undefined (reading 'slice'), 
+ URL: /orders/orderlist, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 22-02-2022 01:09:12: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: C:\Users\Sabik shaikh\Dropbox\node_react\courierapp2\views\orderlist.ejs:43
+    41|         </thead>
+    42|         <tbody>          
+ >> 43|             <% orderlist.slice().reverse().forEach(order => { %> 
+    44|                 <tr>
+    45|                     <td><%= moment(order.bookingDate).format(shortDateFormat) %></td>
+    46|                     <% if(order.vendorName == 'OTHERS' && user.role == 'admin'){ %>
+
+Cannot read properties of undefined (reading 'slice'), 
+ URL: /orders/orderlist, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 22-02-2022 01:09:12: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: C:\Users\Sabik shaikh\Dropbox\node_react\courierapp2\views\orderlist.ejs:43
+    41|         </thead>
+    42|         <tbody>          
+ >> 43|             <% orderlist.slice().reverse().forEach(order => { %> 
+    44|                 <tr>
+    45|                     <td><%= moment(order.bookingDate).format(shortDateFormat) %></td>
+    46|                     <% if(order.vendorName == 'OTHERS' && user.role == 'admin'){ %>
+
+Cannot read properties of undefined (reading 'slice'), 
+ URL: /orders/orderlist, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 22-02-2022 01:09:13: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: C:\Users\Sabik shaikh\Dropbox\node_react\courierapp2\views\orderlist.ejs:43
+    41|         </thead>
+    42|         <tbody>          
+ >> 43|             <% orderlist.slice().reverse().forEach(order => { %> 
+    44|                 <tr>
+    45|                     <td><%= moment(order.bookingDate).format(shortDateFormat) %></td>
+    46|                     <% if(order.vendorName == 'OTHERS' && user.role == 'admin'){ %>
+
+Cannot read properties of undefined (reading 'slice'), 
+ URL: /orders/orderlist, 
+ HTTP METHOD: GET, 
+ IP: ::1
