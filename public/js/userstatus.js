@@ -3,7 +3,7 @@ document.querySelectorAll('.myClass')
     .forEach(item => {
         item.addEventListener('click', () => {     
             let burl                   
-            if(window.location.hostname = 'localhost'){
+            if(window.location.hostname == 'localhost'){
                 burl = "http://localhost:3000"
             }else{
                 burl = "https://nodejs-courierapp.herokuapp.com"
