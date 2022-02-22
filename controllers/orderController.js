@@ -34,7 +34,7 @@ exports.orderList = async (req, res, next) => {
             message: `Orderlist for id : ${userId}`,
             orderCount: orderlist.length,
             data: orderlist
-        }) */
+        }) */               
         res.render('orderlist', {orderlist, user}) 
     }catch(err){
         next(err)

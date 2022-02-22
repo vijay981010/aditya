@@ -2,7 +2,8 @@ $(document).ready( function () {
     
     // ------------------ DATATABLE ------------------ //
     $('#myTable').DataTable({
-        "scrollX": true,              
+        "scrollX": true,          
+        "order": []    
         /* "sScrollX": "80%",
         "sScrollXInner": "110%",
         "bScrollCollapse": true */          
