@@ -400,7 +400,8 @@ exports.trackDetails = async(req, res, next) => {
             debug(order)
             res.json(response.data)
         }else{
-            res.status(400).send(`tracking number doesn't exist`)
+            //res.status(400).send(`tracking number doesn't exist`)
+            res.json({status: 'fail'})
         }
     }catch(err){
         next(err)
