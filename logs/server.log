@@ -179,3 +179,41 @@ Cannot read properties of undefined (reading 'slice'),
  URL: /orders/orderlist, 
  HTTP METHOD: GET, 
  IP: ::1
+error: 24-02-2022 23:12:22: 
+ 	HTTP METHOD: GET
+info: 24-02-2022 23:18:00: 
+ 	verifyToken invoked
+info: 24-02-2022 23:18:12: 
+ 	verifyToken invoked
+info: 24-02-2022 23:18:20: 
+ 	verifyToken invoked
+error: 24-02-2022 23:18:43: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: EBUSY: resource busy or locked, unlink '6331596.png', 
+ URL: /orders/6215453a890ba9096c136245/print/awb, 
+ HTTP METHOD: GET, 
+ IP: ::1
+info: 24-02-2022 23:35:40: 
+ 	verifyToken invoked on URL: /orders/orderlist
+info: 24-02-2022 23:35:55: 
+ 	verifyToken invoked on URL: /orders/6215453a890ba9096c136245
+info: 24-02-2022 23:36:09: 
+ 	verifyToken invoked on URL: /orders/orderlist
+error: 24-02-2022 23:36:23: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: EBUSY: resource busy or locked, unlink '6331596.png', 
+ URL: /orders/6215453a890ba9096c136245/print/awb, 
+ HTTP METHOD: GET, 
+ IP: ::1
+info: 24-02-2022 23:38:21: 
+ 	verifyToken invoked on URL: /orders/orderlist
+info: 24-02-2022 23:38:26: 
+ 	verifyToken invoked on URL: /orders/6215453a890ba9096c136245/print/boxsticker
+info: 24-02-2022 23:38:44: 
+ 	verifyToken invoked on URL: /orders/61fff0629cc76024549588b0/box
+info: 24-02-2022 23:39:08: 
+ 	verifyToken invoked on URL: /orders/61fff0629cc76024549588b0/box?_method=PATCH
+info: 24-02-2022 23:39:10: 
+ 	verifyToken invoked on URL: /orders/orderlist
