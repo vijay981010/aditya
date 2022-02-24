@@ -2,13 +2,13 @@ const User = require('../model/userModel')
 const Order = require('../model/orderModel')
 const jwt = require('jsonwebtoken')
 const debug = require('debug')('dev')
-const logger = require('./helpers/logger')
+const logger = require('../helpers/logger')
 
 exports.verifyToken = (req, res, next) => {    
-    const token = req.cookies.coapp;        
+    const token = req.cookies.coapp;     
+    logger.info(`verifyToken invoked on URL: ${req.originalUrl}`)   
     if (!token) {
-        //return res.status(403).json({message: "A token is required for authentication"})  
-        logger.info('passed verifyToken')
+        //return res.status(403).json({message: "A token is required for authentication"})          
         return res.render('error', {message: `A token is required for authentication`, statusCode: '403'})            
     }    
     try{
