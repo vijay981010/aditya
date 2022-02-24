@@ -86,7 +86,7 @@ router.patch('/:orderId/trackingdetails',verifyToken, authorizeRole(['admin', 's
 **/
 //router.delete('/:orderId', verifyToken, authorizeRole(['admin', 'superadmin']), authorizeUser, orderController.deleteOrder)
 
-router.get('/:orderId/print/awb', verifyToken, authorizeUser, authorizeOrderResource, orderController.printawb)
+router.get('/:orderId/print/awb', verifyToken, orderController.printawb) //authorizeUser, authorizeOrderResource
 
 router.get('/:orderId/print/packinglist', verifyToken, authorizeUser, authorizeOrderResource, orderController.packingList)
 
