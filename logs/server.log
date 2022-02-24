@@ -179,3 +179,17 @@ Cannot read properties of undefined (reading 'slice'),
  URL: /orders/orderlist, 
  HTTP METHOD: GET, 
  IP: ::1
+error: 23-02-2022 18:25:37: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Failed to lookup view "addTrack" in views directory "/home/tdnine/courierApp/views", 
+ URL: /orders/6215453a890ba9096c136245/track, 
+ HTTP METHOD: GET, 
+ IP: ::ffff:49.36.36.56
+error: 23-02-2022 18:27:12: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Failed to lookup view "addTrack" in views directory "/home/tdnine/courierApp/views", 
+ URL: /orders/6215453a890ba9096c136245/track, 
+ HTTP METHOD: GET, 
+ IP: ::ffff:49.36.36.56
