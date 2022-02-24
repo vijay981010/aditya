@@ -30,12 +30,12 @@ exports.orderList = async (req, res, next) => {
         }/* else{
             res.send(`No Orders found for id: ${userId}`)
         } */             
-        /* res.json({
+        res.json({
             message: `Orderlist for id : ${userId}`,
             orderCount: orderlist.length,
             data: orderlist
-        }) */               
-        res.render('orderlist', {orderlist, user}) 
+        })               
+        //res.render('orderlist', {orderlist, user}) 
     }catch(err){
         next(err)
     }
