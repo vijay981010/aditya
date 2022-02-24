@@ -6,7 +6,7 @@ const logger = require('../helpers/logger')
 
 exports.verifyToken = (req, res, next) => {    
     const token = req.cookies.coapp;     
-    logger.info(`verifyToken invoked on URL: ${req.originalUrl}`)   
+    //logger.info(`verifyToken invoked on URL: ${req.originalUrl}`)   
     if (!token) {
         //return res.status(403).json({message: "A token is required for authentication"})          
         return res.render('error', {message: `A token is required for authentication`, statusCode: '403'})            
