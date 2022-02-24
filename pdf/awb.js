@@ -29,7 +29,7 @@ exports.generateAwb = (doc, order, user) => {
     .fontSize(20)
     .text(`AIRWAY BILL`, 175, 50, {width: 250, align: 'center'})
     .fontSize(15)
-    .text(user.username, 175, 75, {width: 250, align: 'center'})
+    .text('test', 175, 75, {width: 250, align: 'center'}) //user.username
 
     doc
     .lineWidth(2)

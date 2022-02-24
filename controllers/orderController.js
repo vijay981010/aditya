@@ -483,10 +483,10 @@ exports.patchManualTracking = async (req, res, next) => {
 exports.printawb = async(req, res, next) => {
     try{
         let orderId = req.params.orderId
-        let userId = req.user.id
+        //let userId = req.user.id
 
         let order = await Order.findById(orderId).populate('client').exec()
-        let user = await User.findById(userId)
+        //let user = await User.findById(userId)
 
         const doc = new PDFdocument({             
             autoFirstPage: false
@@ -501,7 +501,7 @@ exports.printawb = async(req, res, next) => {
 
         for(let i = 0; i < order.numberOfBoxes; i++){
             doc.addPage()
-            generateAwb(doc, order, user)      
+            generateAwb(doc, order) //user   
         }        
 
         res.setHeader('Content-type', 'application/pdf')
