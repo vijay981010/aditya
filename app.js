@@ -47,8 +47,8 @@ app.use(
     helmet.contentSecurityPolicy({
         useDefaults: true,
         directives: {
-        "style-src": ["stackpath.bootstrapcdn.com", "'unsafe-inline'", "cdn.jsdelivr.net", "cdn.datatables.net", "'self'"],
-        "script-src-elem": ["'self'", "stackpath.bootstrapcdn.com", "code.jquery.com", "'unsafe-inline'", "cdn.jsdelivr.net", "cdnjs.cloudflare.com", "cdn.datatables.net"], 
+        "style-src": ["stackpath.bootstrapcdn.com", "'unsafe-inline'", "cdn.jsdelivr.net", "cdn.datatables.net", "'self'", "digitalawb.in"],
+        "script-src-elem": ["'self'", "stackpath.bootstrapcdn.com", "code.jquery.com", "'unsafe-inline'", "cdn.jsdelivr.net", "cdnjs.cloudflare.com", "cdn.datatables.net", "digitalawb.in"], 
         "script-src-attr": ["'unsafe-inline'"],       
         },                    
     })
