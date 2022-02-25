@@ -53,20 +53,6 @@ app.use(cookieParser())
         },                    
     })
 ) */
-app.use(helmet({
-    contentSecurityPolicy: {
-        directives: {
-            defaultSrc: ["'self'"],
-            styleSrc: ["'self'"],
-            scriptSrc: ["'self'"],
-            reportUri: '/report-violation',
-            objectSrc: ["'self'"],
-            upgradeInsecureRequests: true,
-        },
-    },
-    referrerPolicy: {policy: 'same-origin'},
-    featurePolicy: {},
-}))
 app.use(express.urlencoded({ extended: true }))
 
 
