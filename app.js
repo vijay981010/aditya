@@ -43,17 +43,16 @@ app.use(express.static('public'))
 //bodyparser and cookieparser middleware
 app.use(express.json())
 app.use(cookieParser())
-/* app.use(
+app.use(
     helmet.contentSecurityPolicy({
         useDefaults: true,
-        directives: {
+        /* directives: {
         "style-src": ["stackpath.bootstrapcdn.com", "'unsafe-inline'", "cdn.jsdelivr.net", "cdn.datatables.net", "'self'", "digitalawb.in"],
         "script-src-elem": ["'self'", "stackpath.bootstrapcdn.com", "code.jquery.com", "'unsafe-inline'", "cdn.jsdelivr.net", "cdnjs.cloudflare.com", "cdn.datatables.net", "digitalawb.in"], 
         "script-src-attr": ["'unsafe-inline'"],       
-        },                    
+        }, */                    
     })
-) */
-app.use(helmet())
+)
 app.use(express.urlencoded({ extended: true }))
 
 
