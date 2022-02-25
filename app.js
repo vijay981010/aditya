@@ -43,7 +43,7 @@ app.use(express.static('public'))
 //bodyparser and cookieparser middleware
 app.use(express.json())
 app.use(cookieParser())
-app.use(
+/* app.use(
     helmet.contentSecurityPolicy({
         //useDefaults: true,
         directives: {
@@ -52,7 +52,7 @@ app.use(
         "script-src-attr": ["'unsafe-inline'"],       
         },                    
     })
-)
+) */
 app.use(express.urlencoded({ extended: true }))
 
 
