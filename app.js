@@ -49,7 +49,8 @@ app.use(
         directives: {
         "style-src": [ "'self'", "stackpath.bootstrapcdn.com", "'unsafe-inline'", "cdn.jsdelivr.net", "cdn.datatables.net"],
         "script-src-elem": ["'self'", "stackpath.bootstrapcdn.com", "code.jquery.com", "'unsafe-inline'", "cdn.jsdelivr.net", "cdnjs.cloudflare.com", "cdn.datatables.net"], 
-        "script-src-attr": ["'unsafe-inline'"],       
+        "script-src-attr": ["'unsafe-inline'"], 
+        "img-src": ["cdn.datatables.net"]    
         },                    
     })
 )
