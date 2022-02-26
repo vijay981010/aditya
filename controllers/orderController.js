@@ -492,6 +492,7 @@ exports.printawb = async(req, res, next) => {
             autoFirstPage: false
           })
 
+        doc.pipe(res)
         //debug(order.numberOfBoxes)
 
         if(order.boxDetails.length == 0){
@@ -504,10 +505,11 @@ exports.printawb = async(req, res, next) => {
             generateAwb(doc, order) //user   
         }        
 
-        res.setHeader('Content-type', 'application/pdf')
+        /* res.setHeader('Content-type', 'application/pdf')
         res.set({ 'Content-Disposition': `inline; filename=awb_${order.awbNumber}.pdf` })
         
-        doc.pipe(res)                                              
+        doc.pipe(res) */                                              
+        //res.download(`${order.awbNumber}.png`)
         doc.end()
         
         fs.unlinkSync(`${order.awbNumber}.png`)
