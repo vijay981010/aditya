@@ -703,7 +703,7 @@ exports.boxSticker = async(req, res, next) => {
         doc.pipe(res)                                              
         doc.end()
         
-        fs.unlinkSync(`${order.awbNumber}.png`)
+        //fs.unlinkSync(`${order.awbNumber}.png`)
 
     }catch(err){
         next(err)
