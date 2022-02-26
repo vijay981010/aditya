@@ -492,19 +492,18 @@ exports.printawb = async(req, res, next) => {
             autoFirstPage: false
           })
 
-        doc.pipe(res)
-        //debug(order.numberOfBoxes)
+        doc.pipe(res)        
 
         if(order.boxDetails.length == 0){
             //return res.status(400).send('No Box Details added. Please add Box Details first before generating AWB')
             return res.render('error', {message: `No Box Details added. Please add Box Details first before generating AWB`, statusCode: '400'})
         }
 
-        /* for(let i = 0; i < order.numberOfBoxes; i++){
+        for(let i = 0; i < order.numberOfBoxes; i++){
             doc.addPage()
             generateAwb(doc, order) //user   
-        } */     
-        doc.text('page title')   
+        }     
+        //doc.text('page title')   
 
         /* res.setHeader('Content-type', 'application/pdf')
         res.set({ 'Content-Disposition': `inline; filename=awb_${order.awbNumber}.pdf` })
