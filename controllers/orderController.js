@@ -482,7 +482,7 @@ exports.patchManualTracking = async (req, res, next) => {
 
 exports.printawb = async(req, res, next) => {
     try{
-        let orderId = req.params.orderId
+        /* let orderId = req.params.orderId
         //let userId = req.user.id
 
         let order = await Order.findById(orderId).populate('client').exec()
@@ -505,14 +505,22 @@ exports.printawb = async(req, res, next) => {
         }     
         //doc.text('page title')   
 
-        /* res.setHeader('Content-type', 'application/pdf')
-        res.set({ 'Content-Disposition': `inline; filename=awb_${order.awbNumber}.pdf` })
+        //res.setHeader('Content-type', 'application/pdf')
+        //res.set({ 'Content-Disposition': `inline; filename=awb_${order.awbNumber}.pdf` })
         
-        doc.pipe(res) */                                              
+        //doc.pipe(res)                                              
         //res.download(`${order.awbNumber}.png`)
         doc.end()
         
-        fs.unlinkSync(`${order.awbNumber}.png`)
+        fs.unlinkSync(`${order.awbNumber}.png`) */
+        const doc = new PDFdocument
+        
+        let num = Math.floor(Math.random() * 1000)
+        let file = `abc${num}.pdf`
+        
+        doc.pipe(res)
+        doc.text("Page Title")  
+        doc.end()
     }catch(err){
         next(err)
     }
