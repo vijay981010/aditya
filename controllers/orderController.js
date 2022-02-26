@@ -500,10 +500,11 @@ exports.printawb = async(req, res, next) => {
             return res.render('error', {message: `No Box Details added. Please add Box Details first before generating AWB`, statusCode: '400'})
         }
 
-        for(let i = 0; i < order.numberOfBoxes; i++){
+        /* for(let i = 0; i < order.numberOfBoxes; i++){
             doc.addPage()
             generateAwb(doc, order) //user   
-        }        
+        } */     
+        doc.text('page title')   
 
         /* res.setHeader('Content-type', 'application/pdf')
         res.set({ 'Content-Disposition': `inline; filename=awb_${order.awbNumber}.pdf` })
