@@ -698,7 +698,7 @@ exports.boxSticker = async(req, res, next) => {
         } */
 
         doc.addPage()
-        boxstickergenerate(i, doc, order, user)
+        boxstickergenerate(0, doc, order, user)//i
 
         res.setHeader('Content-type', 'application/pdf')
         res.set({ 'Content-Disposition': `inline; filename=boxsticker_${order.awbNumber}.pdf` })
@@ -706,7 +706,7 @@ exports.boxSticker = async(req, res, next) => {
         doc.pipe(res)                                              
         doc.end()
         
-        //fs.unlinkSync(`${order.awbNumber}.png`)
+        fs.unlinkSync(`${order.awbNumber}.png`)
 
     }catch(err){
         next(err)
