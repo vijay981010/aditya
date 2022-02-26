@@ -692,10 +692,13 @@ exports.boxSticker = async(req, res, next) => {
             return res.render('error', {message: `No Box Details added. Please add Box Details first before generating AWB`, statusCode: '400'})
         }
 
-        for(let i = 0; i < order.numberOfBoxes; i++){
+        /* for(let i = 0; i < order.numberOfBoxes; i++){
             doc.addPage()
             boxstickergenerate(i, doc, order, user)
-        }
+        } */
+
+        doc.addPage()
+        boxstickergenerate(i, doc, order, user)
 
         res.setHeader('Content-type', 'application/pdf')
         res.set({ 'Content-Disposition': `inline; filename=boxsticker_${order.awbNumber}.pdf` })
