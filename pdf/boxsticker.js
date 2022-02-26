@@ -3,6 +3,7 @@ var JsBarcode = require('jsbarcode')
 const fs = require('fs')
 var moment = require('moment')
 var shortDateFormat = 'DD-MM-yyyy'
+const logger = require('../helpers/logger')
 
 exports.boxstickergenerate = (current, doc, order, user) => {
 
@@ -12,8 +13,8 @@ exports.boxstickergenerate = (current, doc, order, user) => {
     JsBarcode(canvas, order.awbNumber)
     const buffer = canvas.toBuffer('image/png')
 
-    fs.writeFileSync(`${order.awbNumber}.png`, buffer)
-
+    fs.writeFileSync(`box_${order.awbNumber}.png`, buffer)
+    
     doc.info['Title'] = `boxsticker${order.awbNumber}`
 
     doc    
@@ -79,14 +80,14 @@ exports.boxstickergenerate = (current, doc, order, user) => {
       .text(`NO OF BOX: ${order.numberOfBoxes}`, 40, 470)
       .text(`WAYBILL NO: ${order.awbNumber}`, 300, 450)
 
-      .image(`${order.awbNumber}.png`, 265, 490, {width: 80, align:'center'})
+      .image(`box_${order.awbNumber}.png`, 265, 490, {width: 80, align:'center'})
 
       .lineWidth(1.5)
       .moveTo(40, 550)
       .lineTo(560, 550).stroke()
 
       .text('Office Purpose Only', 230, 570, {width: 150, align:'center'})
-      .image(`${order.awbNumber}.png`, 265, 590, {width: 80, align:'center'})
+      .image(`box_${order.awbNumber}.png`, 265, 590, {width: 80, align:'center'})
 
       .lineWidth(1.5)
       .moveTo(40, 650)

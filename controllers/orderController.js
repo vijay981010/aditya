@@ -12,6 +12,7 @@ const {boxstickergenerate} = require('../pdf/boxsticker')
 const {primarydetails, boxdetails, footerdetails} = require('../pdf/packinglist')
 const fs = require('fs')
 const { validationResult } = require('express-validator')
+let stream = require('stream')
 
 const db = mongoose.connection;
 
@@ -482,7 +483,8 @@ exports.patchManualTracking = async (req, res, next) => {
 
 exports.printawb = async(req, res, next) => {
     try{
-        /* let orderId = req.params.orderId
+        /* var startTime = performance.now() */
+        let orderId = req.params.orderId
         //let userId = req.user.id
 
         let order = await Order.findById(orderId).populate('client').exec()
@@ -490,9 +492,7 @@ exports.printawb = async(req, res, next) => {
 
         const doc = new PDFdocument({             
             autoFirstPage: false
-          })
-
-        doc.pipe(res)        
+          })            
 
         if(order.boxDetails.length == 0){
             //return res.status(400).send('No Box Details added. Please add Box Details first before generating AWB')
@@ -501,26 +501,25 @@ exports.printawb = async(req, res, next) => {
 
         for(let i = 0; i < order.numberOfBoxes; i++){
             doc.addPage()
-            generateAwb(doc, order) //user   
-        }     
-        //doc.text('page title')   
+            generateAwb(doc, order) //user
+        }               
 
-        //res.setHeader('Content-type', 'application/pdf')
-        //res.set({ 'Content-Disposition': `inline; filename=awb_${order.awbNumber}.pdf` })
+        res.setHeader('Content-type', 'application/pdf')
+        res.set({ 'Content-Disposition': `inline; filename=awb_${order.awbNumber}.pdf` })
         
-        //doc.pipe(res)                                              
-        //res.download(`${order.awbNumber}.png`)
-        doc.end()
+        stream = doc.pipe(res) 
+        stream.on('finish', () => {
+            fs.unlink(`awb_${order.awbNumber}.png`, (err) => {
+                if(err){
+                    next(err)
+                }
+            })
+        })
+        //doc.pipe(res)                                               
+        doc.end()                
         
-        fs.unlinkSync(`${order.awbNumber}.png`) */
-        const doc = new PDFdocument
-        
-        let num = Math.floor(Math.random() * 1000)
-        let file = `abc${num}.pdf`
-        
-        doc.pipe(res)
-        doc.text("Page Title")  
-        doc.end()
+        /* var endTime = performance.now()
+        debug(`Call for this took ${endTime - startTime} ms`) */
     }catch(err){
         next(err)
     }
@@ -528,6 +527,7 @@ exports.printawb = async(req, res, next) => {
 
 exports.packingList = async(req, res, next) => {
     try{
+        /* var startTime = performance.now() */
         let orderId = req.params.orderId
         let userId = req.user.id
 
@@ -670,6 +670,9 @@ exports.packingList = async(req, res, next) => {
         doc.pipe(res)                                              
         doc.end()
 
+        /* var endTime = performance.now()
+        debug(`Call for this took ${endTime - startTime} ms`) */
+
     }catch(err){
         next(err)
     }
@@ -677,6 +680,7 @@ exports.packingList = async(req, res, next) => {
 
 exports.boxSticker = async(req, res, next) => {
     try{
+        /* var startTime = performance.now() */
         let orderId = req.params.orderId
         let userId = req.user.id
 
@@ -692,21 +696,26 @@ exports.boxSticker = async(req, res, next) => {
             return res.render('error', {message: `No Box Details added. Please add Box Details first before generating AWB`, statusCode: '400'})
         }
 
-        /* for(let i = 0; i < order.numberOfBoxes; i++){
+        for(let i = 0; i < order.numberOfBoxes; i++){
             doc.addPage()
             boxstickergenerate(i, doc, order, user)
-        } */
-
-        doc.addPage()
-        boxstickergenerate(0, doc, order, user)//i
+        }
 
         res.setHeader('Content-type', 'application/pdf')
         res.set({ 'Content-Disposition': `inline; filename=boxsticker_${order.awbNumber}.pdf` })
         
-        doc.pipe(res)                                              
-        doc.end()
-        
-        //fs.unlinkSync(`${order.awbNumber}.png`)
+        stream = doc.pipe(res) 
+        stream.on('finish', () => {
+            fs.unlink(`box_${order.awbNumber}.png`, (err) => {
+                if(err){
+                    next(err)
+                }
+            })
+        })                                             
+        doc.end()                
+
+        /* var endTime = performance.now()
+        debug(`Call for this took ${endTime - startTime} ms`) */
 
     }catch(err){
         next(err)
