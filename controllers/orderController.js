@@ -724,9 +724,8 @@ exports.boxSticker = async(req, res, next) => {
                 
                 stream.on('finish', () => {            
                     fs.unlink(`box_${order.awbNumber}.png`, (err) => {
-                        if(err){
-                            next(err)
-                        }
+                        if(err) next(err)                        
+                        logger.info(`deleted png file`)
                     })
                 })
             })
