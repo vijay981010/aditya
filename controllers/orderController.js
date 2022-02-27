@@ -704,30 +704,34 @@ exports.boxSticker = async(req, res, next) => {
 
         JsBarcode(canvas, order.awbNumber)
         const buffer = canvas.toBuffer('image/png')
-        /* canvas.toBuffer((err, buffer) => {
+        canvas.toBuffer((err, buffer) => {
             if(err) next(err)
-            
-        }) */
-        await fsPromises.writeFile(`box_${order.awbNumber}.png`, buffer)
+            fsPromises.writeFile(`box_${order.awbNumber}.png`, buffer)
+            .then(() => {
+                for(let i = 0; i < order.numberOfBoxes; i++){
+                    doc.addPage()
+                    boxstickergenerate(i, doc, order, user)
+                }        
 
-        for(let i = 0; i < order.numberOfBoxes; i++){
-            doc.addPage()
-            boxstickergenerate(i, doc, order, user)
-        }        
-
-        res.setHeader('Content-type', 'application/pdf')
-        res.set({ 'Content-Disposition': `inline; filename=boxsticker_${order.awbNumber}.pdf` })
-        
-        stream = doc.pipe(res)                                                      
-        doc.end()              
-        
-        stream.on('finish', () => {            
-            fs.unlink(`box_${order.awbNumber}.png`, (err) => {
-                if(err){
-                    next(err)
-                }
+                res.setHeader('Content-type', 'application/pdf')
+                res.set({ 'Content-Disposition': `inline; filename=boxsticker_${order.awbNumber}.pdf` })
+                
+                stream = doc.pipe(res)                                                      
+                doc.end()              
+                
+                stream.on('finish', () => {            
+                    fs.unlink(`box_${order.awbNumber}.png`, (err) => {
+                        if(err){
+                            next(err)
+                        }
+                    })
+                })
             })
+            .catch((err) => next(err))
         })
+        //await fsPromises.writeFile(`box_${order.awbNumber}.png`, buffer)
+
+        
 
         /* var endTime = performance.now()
         debug(`Call for this took ${endTime - startTime} ms`) */
