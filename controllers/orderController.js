@@ -16,6 +16,7 @@ let stream = require('stream')
 const fsPromises = require('fs').promises
 const {createCanvas} = require('canvas')
 var JsBarcode = require('jsbarcode')
+const logger = require('../helpers/logger')
 
 const db = mongoose.connection;
 
@@ -707,8 +708,10 @@ exports.boxSticker = async(req, res, next) => {
         canvas.toBuffer((err, buffer) => {
             if(err) next(err)
             fsPromises.writeFile(`box_${order.awbNumber}.png`, buffer)
+            logger.info(`png generated`)
             .then(() => {
                 for(let i = 0; i < order.numberOfBoxes; i++){
+                    logger.info(`Inside for loop`)
                     doc.addPage()
                     boxstickergenerate(i, doc, order, user)
                 }        
