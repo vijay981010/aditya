@@ -13,6 +13,9 @@ const {primarydetails, boxdetails, footerdetails} = require('../pdf/packinglist'
 const fs = require('fs')
 const { validationResult } = require('express-validator')
 let stream = require('stream')
+const fsPromises = require('fs').promises
+const {createCanvas} = require('canvas')
+var JsBarcode = require('jsbarcode')
 
 const db = mongoose.connection;
 
@@ -696,23 +699,35 @@ exports.boxSticker = async(req, res, next) => {
             return res.render('error', {message: `No Box Details added. Please add Box Details first before generating AWB`, statusCode: '400'})
         }
 
+        const canvas = createCanvas()
+        const context = canvas.getContext('2d')
+
+        JsBarcode(canvas, order.awbNumber)
+        const buffer = canvas.toBuffer('image/png')
+        /* canvas.toBuffer((err, buffer) => {
+            if(err) next(err)
+            
+        }) */
+        await fsPromises.writeFile(`box_${order.awbNumber}.png`, buffer)
+
         for(let i = 0; i < order.numberOfBoxes; i++){
             doc.addPage()
             boxstickergenerate(i, doc, order, user)
-        }
+        }        
 
         res.setHeader('Content-type', 'application/pdf')
         res.set({ 'Content-Disposition': `inline; filename=boxsticker_${order.awbNumber}.pdf` })
         
-        stream = doc.pipe(res) 
-        stream.on('finish', () => {
-            /* fs.unlink(`box_${order.awbNumber}.png`, (err) => {
+        stream = doc.pipe(res)                                                      
+        doc.end()              
+        
+        stream.on('finish', () => {            
+            fs.unlink(`box_${order.awbNumber}.png`, (err) => {
                 if(err){
                     next(err)
                 }
-            }) */
-        })                                             
-        doc.end()                
+            })
+        })
 
         /* var endTime = performance.now()
         debug(`Call for this took ${endTime - startTime} ms`) */
@@ -721,4 +736,6 @@ exports.boxSticker = async(req, res, next) => {
         next(err)
     }
 }
+
+
 
