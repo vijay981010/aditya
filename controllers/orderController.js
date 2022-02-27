@@ -700,47 +700,37 @@ exports.boxSticker = async(req, res, next) => {
             return res.render('error', {message: `No Box Details added. Please add Box Details first before generating AWB`, statusCode: '400'})
         }
 
-        //const canvas = createCanvas()
-        //const context = canvas.getContext('2d')
+        const canvas = createCanvas()
+        const context = canvas.getContext('2d')
 
-        //JsBarcode(canvas, order.awbNumber)
+        JsBarcode(canvas, order.awbNumber)
         //const buffer = canvas.toBuffer('image/png')
-        /* canvas.toBuffer((err, buffer) => {
+        canvas.toBuffer((err, buffer) => {
             logger.info(`Inside canvas buffer`)
             if(err) next(err)
             fsPromises.writeFile(`box_${order.awbNumber}.png`, buffer)            
             .then(() => {
-                
+                for(let i = 0; i < order.numberOfBoxes; i++){
+                    logger.info(`Inside for loop`)
+                    doc.addPage()
+                    boxstickergenerate(i, doc, order, user)
+                }
             })
             .catch((err) => next(err))
-        }) */
-        //await fsPromises.writeFile(`box_${order.awbNumber}.png`, buffer)
-        logger.info(order.numberOfBoxes)
-
-        /* for(let i = 0; i < order.numberOfBoxes; i++){
-            logger.info(`Inside for loop`)
-            doc.addPage()
-            boxstickergenerate(i, doc, order, user)
-        } */        
-
-        boxstickergenerate(0, doc, order, user)
-
-        logger.info(`completed box function`)
+        })
+        //await fsPromises.writeFile(`box_${order.awbNumber}.png`, buffer)        
 
         res.setHeader('Content-type', 'application/pdf')
         res.set({ 'Content-Disposition': `inline; filename=boxsticker_${order.awbNumber}.pdf` })
         
         stream = doc.pipe(res)                                                      
-        doc.end()          
+        doc.end()                      
         
-        logger.info(`end of request`)
-        
-        /* stream.on('finish', () => {            
+        stream.on('finish', () => {            
             fs.unlink(`box_${order.awbNumber}.png`, (err) => {
-                if(err) next(err)                        
-                logger.info(`deleted png file`)
+                if(err) next(err)                                        
             })
-        }) */
+        })
         
 
         /* var endTime = performance.now()
