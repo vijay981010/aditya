@@ -715,9 +715,10 @@ exports.boxSticker = async(req, res, next) => {
             .catch((err) => next(err))
         }) */
         //await fsPromises.writeFile(`box_${order.awbNumber}.png`, buffer)
+        logger.info(order.numberOfBoxes)
 
         for(let i = 0; i < order.numberOfBoxes; i++){
-            logger.info(`Inside for loop`, order.numberOfBoxes)
+            logger.info(`Inside for loop`)
             doc.addPage()
             boxstickergenerate(i, doc, order, user)
         }        
