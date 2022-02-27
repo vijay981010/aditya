@@ -7,13 +7,13 @@ const logger = require('../helpers/logger')
 
 exports.boxstickergenerate = (current, doc, order, user) => {
 
-    const canvas = createCanvas()
-    const context = canvas.getContext('2d')
+    //const canvas = createCanvas()
+    //const context = canvas.getContext('2d')
 
-    JsBarcode(canvas, order.awbNumber)
-    const buffer = canvas.toBuffer('image/png')
+    //JsBarcode(canvas, order.awbNumber)
+    //const buffer = canvas.toBuffer('image/png')
 
-    fs.writeFileSync(`box_${order.awbNumber}.png`, buffer)
+    //fs.writeFileSync(`box_${order.awbNumber}.png`, buffer)
     
     doc.info['Title'] = `boxsticker${order.awbNumber}`
 
@@ -80,14 +80,14 @@ exports.boxstickergenerate = (current, doc, order, user) => {
       .text(`NO OF BOX: ${order.numberOfBoxes}`, 40, 470)
       .text(`WAYBILL NO: ${order.awbNumber}`, 300, 450)
 
-      .image(`box_${order.awbNumber}.png`, 265, 490, {width: 80, align:'center'})
+      //.image(`box_${order.awbNumber}.png`, 265, 490, {width: 80, align:'center'}) 
 
       .lineWidth(1.5)
       .moveTo(40, 550)
       .lineTo(560, 550).stroke()
 
       .text('Office Purpose Only', 230, 570, {width: 150, align:'center'})
-      .image(`box_${order.awbNumber}.png`, 265, 590, {width: 80, align:'center'})
+      //.image(`box_${order.awbNumber}.png`, 265, 590, {width: 80, align:'center'}) 
 
       .lineWidth(1.5)
       .moveTo(40, 650)
