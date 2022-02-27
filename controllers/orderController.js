@@ -706,9 +706,9 @@ exports.boxSticker = async(req, res, next) => {
         JsBarcode(canvas, order.awbNumber)
         //const buffer = canvas.toBuffer('image/png')
         canvas.toBuffer((err, buffer) => {
+            logger.info(`Inside canvas buffer`)
             if(err) next(err)
-            fsPromises.writeFile(`box_${order.awbNumber}.png`, buffer)
-            logger.info(`png generated`)
+            fsPromises.writeFile(`box_${order.awbNumber}.png`, buffer)            
             .then(() => {
                 for(let i = 0; i < order.numberOfBoxes; i++){
                     logger.info(`Inside for loop`)
