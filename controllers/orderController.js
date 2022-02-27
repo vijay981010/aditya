@@ -703,7 +703,7 @@ exports.boxSticker = async(req, res, next) => {
         const context = canvas.getContext('2d')
 
         JsBarcode(canvas, order.awbNumber)
-        const buffer = canvas.toBuffer('image/png')
+        //const buffer = canvas.toBuffer('image/png')
         canvas.toBuffer((err, buffer) => {
             if(err) next(err)
             fsPromises.writeFile(`box_${order.awbNumber}.png`, buffer)
