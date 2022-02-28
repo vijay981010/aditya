@@ -512,13 +512,13 @@ exports.printawb = async(req, res, next) => {
         res.set({ 'Content-Disposition': `inline; filename=awb_${order.awbNumber}.pdf` })
         
         stream = doc.pipe(res) 
-        stream.on('finish', () => {
+        /* stream.on('finish', () => {
             fs.unlink(`awb_${order.awbNumber}.png`, (err) => {
                 if(err){
                     next(err)
                 }
             })
-        })
+        }) */
         //doc.pipe(res)                                               
         doc.end()                
         

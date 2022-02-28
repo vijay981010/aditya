@@ -14,13 +14,13 @@ exports.generateAwb = (doc, order, user) => {
         totalActualWeight += box.actualWeight
     })
 
-    const canvas = createCanvas()
-    const context = canvas.getContext('2d')
+    //const canvas = createCanvas()
+    //const context = canvas.getContext('2d')
 
-    JsBarcode(canvas, order.awbNumber)
-    const buffer = canvas.toBuffer('image/png')
+    //JsBarcode(canvas, order.awbNumber)
+    //const buffer = canvas.toBuffer('image/png')
 
-    fs.writeFileSync(`awb_${order.awbNumber}.png`, buffer)
+    //fs.writeFileSync(`awb_${order.awbNumber}.png`, buffer)
 
     doc.info['Title'] = `awb${order.awbNumber}`
 
@@ -166,5 +166,5 @@ exports.generateAwb = (doc, order, user) => {
     .fontSize(12)
     .text('AIRWAY BILL NO', 310, 110)
     .text(order.awbNumber, 310, 125, { width: 100, align: 'center' })
-    .image(`awb_${order.awbNumber}.png`, 455, 105, {width: 90, align:'center'})
+    //.image(`awb_${order.awbNumber}.png`, 455, 105, {width: 90, align:'center'})
 }
