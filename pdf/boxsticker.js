@@ -9,6 +9,7 @@ let stream = require('stream')
 const fsPromises = require('fs').promises
 
 exports.boxstickergenerate = (current, doc, order, user) => {
+  doc.addPage()
   
   doc.info['Title'] = `boxsticker${order.awbNumber}`
 
