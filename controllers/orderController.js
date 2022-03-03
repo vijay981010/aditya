@@ -700,38 +700,40 @@ exports.boxSticker = async(req, res, next) => {
             return res.render('error', {message: `No Box Details added. Please add Box Details first before generating AWB`, statusCode: '400'})
         }
 
-        //const canvas = createCanvas()
-        //const context = canvas.getContext('2d')
+        const canvas = createCanvas()
+        const context = canvas.getContext('2d')
 
-        //JsBarcode(canvas, order.awbNumber)
+        JsBarcode(canvas, order.awbNumber)
         //const buffer = canvas.toBuffer('image/png')
-        /* canvas.toBuffer((err, buffer) => {            
+        canvas.toBuffer((err, buffer) => {            
             if(err) next(err)
-            fsPromises.writeFile(`box_${order.awbNumber}.png`, buffer)            
+            /* fsPromises.writeFile(`box_${order.awbNumber}.png`, buffer)            
             .then(() => {
                 
             })
-            .catch((err) => next(err))
-        }) */
+            .catch((err) => next(err)) */
+            fs.writeFile(`box_${order.awbNumber}.png`, buffer, callback)
+        })
         //await fsPromises.writeFile(`box_${order.awbNumber}.png`, buffer)
         
-        for(let i = 0; i < order.numberOfBoxes; i++){            
-            doc.addPage()
-            boxstickergenerate(i, doc, order, user)
-        }
-
-        res.setHeader('Content-type', 'application/pdf')
-        res.set({ 'Content-Disposition': `inline; filename=boxsticker_${order.awbNumber}.pdf` })
-        
-        stream = doc.pipe(res)                                                      
-        doc.end()                      
-        
-        /* stream.on('finish', () => {            
-            fs.unlink(`box_${order.awbNumber}.png`, (err) => {
-                if(err) next(err)                                        
+        function callback(){
+            for(let i = 0; i < order.numberOfBoxes; i++){            
+                doc.addPage()
+                boxstickergenerate(i, doc, order, user)
+            }
+    
+            res.setHeader('Content-type', 'application/pdf')
+            res.set({ 'Content-Disposition': `inline; filename=boxsticker_${order.awbNumber}.pdf` })
+            
+            stream = doc.pipe(res)                                                      
+            doc.end()                      
+            
+            stream.on('finish', () => {            
+                fs.unlink(`box_${order.awbNumber}.png`, (err) => {
+                    if(err) next(err)                                        
+                })
             })
-        }) */
-        
+        }
 
         /* var endTime = performance.now()
         debug(`Call for this took ${endTime - startTime} ms`) */
