@@ -9,7 +9,7 @@ exports.serviceList = async(req, res, next) => {
         const user = await User.findById(userId)
 
         const serviceList = await Service.find({admin: userId})
-        res.render('servicelist', {user, serviceList}) 
+        res.render('service/list', {user, serviceList}) 
     }catch(err){
         next(err)
     }
@@ -20,7 +20,7 @@ exports.serviceForm = async(req, res, next) => {
         let userId = req.user.id
         const user = await User.findById(userId)
 
-        res.render('addservice', { user, service: new Service() }) 
+        res.render('service/add', { user, service: new Service() }) 
     }catch(err){
         next(err)
     }
@@ -50,7 +50,7 @@ exports.serviceUpdateForm = async(req, res, next) => {
         const user = await User.findById(userId)
         const service = await Service.findById(serviceId)
     
-        res.render('updateservice', { user, service })
+        res.render('service/edit', { user, service })
     }catch(err){
         next(err)
     }

@@ -1,0 +1,102 @@
+<!-- include header -->
+<%- include('../../include/_header') %>
+<!-- /include header -->
+
+<!-- include header -->
+<%- include('../../include/_navbar') %>
+<!-- /include header -->
+<div class="container">
+    <div class="row justify-content-center">                 
+        <div class="col-lg-10">
+          <div class="card shadow-lg border-0 rounded-lg mt-5 mb-5">
+            <form action = '/orders/<%= order._id %>/track?_method=PATCH' method = "post">
+              <div class="card-header">
+                  <h3 class="text-center font-weight-light my-4">Tracking for AWB: <%= order.awbNumber %></h3>
+              </div>
+              <div class="card-body">                  
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input type="hidden" name="awbNumber" value="<%= order.awbNumber %>">
+                                <label for="trackingNumber">Tracking Number<span>*</span></label>                                                                               
+                                <input class="form-control" name = "trackingNumber" value="<%= order.trackingNumber %>" type="text" required/>                            
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="vendor">Vendor<span>*</span></label>                                                                               
+                                <select class="form-select" name = "vendorId" required>
+                                    <% if(typeof order.vendorId != 'undefined' && typeof order.vendorName != 'undefined'){ %>
+                                    <option value='<%= order.vendorId %>'><%= order.vendorName %></option>
+                                    <% }else{ %>
+                                    <option value=''>---Select Vendor---</option>
+                                    <% } %>                                    
+                                    <option value="0">OTHERS</option>
+                                    <% if(user.apiCredit > 0){ %>
+                                    <option value="104">DPD UK</option>
+                                    <option value="12">DHL</option>
+                                    <option value="5">FEDEX</option>
+                                    <option value="22">UPS</option>
+                                    <option value="21">TNT</option>
+                                    <option value="24">SHREE MARUTI</option>                                                                        
+                                    <option value="6">ECOM EXPRESS</option>
+                                    <option value="7">DTDC</option>                                                                        
+                                    <option value="2">DELHIVERY</option>
+                                    <option value="304">CITY LINK EXPRESS</option>
+                                    <option value="1">BLUEDART</option>
+                                    <option value="11">ARAMEX</option>
+                                    <% } %>                                    
+                                </select>
+                            </div>
+                        </div>                                                
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="coforwarder">Co-forwarder</label>                                                                               
+                                <input class="form-control" name = "coforwarder" value="<%= order.coforwarder %>" type="text"/>                            
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="coforwarderAwb">Co-forwarder AWB</label>                                                                                                             
+                                <input class="form-control" name = "coforwarderAwb" value="<%= order.coforwarderAwb %>" type="text"/>                            
+                            </div>
+                        </div>                                          
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="clientNote">Client Note</label>       
+                                <small class="text-muted">(This note will be displayed on tracking page)</small>                                                                        
+                                <textarea class="form-control" name = "clientNote"><%= order.clientNote %></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="selfNote">Self Note</label>
+                                <small class="text-muted">(This note will be not be displayed. For own reference)</small>                                                                             
+                                <textarea class="form-control" name = "selfNote"><%= order.selfNote %></textarea>
+                            </div>
+                        </div>                                          
+                    </div>                  
+              </div> 
+              <div class="card-footer">
+                    <div class="row">
+                        <div class="col-md-12 text-center">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </div>                
+              </div>  
+            </form>             
+          </div>            
+        </div>          
+    </div>
+</div>
+
+
+
+
+<!-- include footer -->
+<%- include('../../include/_footer') %>
+<!-- /include footer -->

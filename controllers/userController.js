@@ -12,19 +12,15 @@ exports.userList = async (req, res, next) => {
         let userId = req.user.id
         let userList
         const user = await User.findById(userId)
+
+        //GET USERS AS PER ROLE//
         if(user.role == "superadmin"){
             userList = await User.find({role: 'admin'})
         }else if(user.role == "admin"){
             userList = await User.find({role: 'client', admin: userId})
         }
-        
-        /* if(clientList.length == 0){
-            res.json({ListOfUsers: 'No Users'})
-        }else{
-                        
-        } */           
-        
-        res.render('user', {userList, user})                       
+                      
+        res.render('user/list', {userList, user})                       
     }catch(err){
         next(err)
     }    
@@ -32,12 +28,11 @@ exports.userList = async (req, res, next) => {
 
 
 exports.createUserPage = async (req, res, next) => {
-    try{
-        //debug(req)
-        //res.send(`Create user page for id: ${req.params.userId}`)
+    try{        
         let userId = req.user.id
         const user = await User.findById(userId)        
-        res.render('adduser', {user})
+        
+        res.render('user/add', {user})
     }catch(err){
         next(err)
     }
@@ -45,27 +40,31 @@ exports.createUserPage = async (req, res, next) => {
 
 exports.createUser = async (req, res, next) => {
     try{        
+    // -------------------------------- VALIDATION -------------------------------- //
         const errors = validationResult(req)
-
-        //validation
+        
         if(!errors.isEmpty()) {            
             let userId = req.user.id
             const user = await User.findById(userId)
 
             const alert = errors.array()                           
-            //debug(alert)            
-            return res.render('adduser', {user, alert})
-            //return res.render('error', {alert, link: '/users/add'})
+            
+            return res.render('user/add', {user, alert})            
         }
 
-        const {role, username, password} = req.body
+    // -------------------------------- PROCESS INPUTS -------------------------------- //
+        const {role, username, password} = req.body //GET FORM DATA
         
-        const hash = await bcrypt.hash(password, 10)
+        const hash = await bcrypt.hash(password, 10) //HASH THE PASSWORD
+        
+        //GENERATE JWT//
         const token = jwt.sign(
             { data: username },
             process.env.ACCESS_TOKEN_SECRET_KEY,
             {expiresIn : '2h'}
-       );
+       )
+
+       //CREATE NEW USER OBJECT//
        const newUser = new User({
             role: role,
             username: username,
@@ -73,20 +72,16 @@ exports.createUser = async (req, res, next) => {
             token: token            
         })
 
-        if(req.body.admin_id){ 
-            newUser.admin = req.body.admin_id                       
-        }
-        //debug(req.user)
-        await newUser.save()        
+        //IF ADMIN CREATING CLIENT USER, ATTACH ADMIN ID REFERENCE//
+        if(req.body.admin_id) newUser.admin = req.body.admin_id           
+                
+        await newUser.save() //WRITE TO DB    
+
         if(req.user.role == "superadmin"){
             res.redirect('/users/adminlist')
         }else if(req.user.role == "admin"){
             res.redirect('/users/clientlist')
-        }
-        /* res.json({
-            message: 'User created successfuly', 
-            data: user
-        }) */
+        }        
         
     }catch(err){
         next(err)
@@ -94,11 +89,10 @@ exports.createUser = async (req, res, next) => {
 }
 
 exports.singleProfile = async (req, res, next) => {
-    try{
-        //res.status(200).send(`Profile Form View and Update of ${req.user.id}`)
+    try{        
         let userId = req.user.id
         const user = await User.findById(userId)
-        //debug(user.token)
+        
         res.render('profile', {user})
     }catch(err){
         next(err)
@@ -107,9 +101,9 @@ exports.singleProfile = async (req, res, next) => {
 
 exports.updateProfile = async (req, res, next) => {
     try{
+    // -------------------------------- VALIDATION -------------------------------- //
         const errors = validationResult(req)
-
-        //validation
+        
         if(!errors.isEmpty()) {            
             let userId = req.user.id
             const user = await User.findById(userId)
@@ -118,28 +112,31 @@ exports.updateProfile = async (req, res, next) => {
             return res.render('profile', {user, alert})            
         }
 
+    // -------------------------------- PROCESS INPUTS -------------------------------- //        
         const {role, username, password,
         companyName, contactName, address, 
-        contactNumber, email, gstNumber, website, admin_id} = req.body
+        contactNumber, email, gstNumber, website, admin_id} = req.body        
 
-        //debug(req.body)
+        //HASH THE PASSWORD//
+        const hash = await bcrypt.hash(password, 10)
 
-        const hash = await bcrypt.hash(password, 10);
+        //CREATE JWT//
         const token = jwt.sign(
             { data: username },
             process.env.ACCESS_TOKEN_SECRET_KEY,
             {expiresIn : '2h'}
-       );
+       )
        
+       //CREATE OBJECT TO BE SAVED TO DB//
        let obj = {role, username, password: hash,
         companyName, contactName, address, contactNumber, 
         email, gstNumber, website}
 
-        if(admin_id){
-            obj.admin = admin_id
-        }
-
+        if(admin_id) obj.admin = admin_id //IF CLIENT USER
+        
+        //WRITE TO DB//
         await User.findByIdAndUpdate(req.user.id, obj, {new: true})
+
         res.redirect('/users/profile')
         
     }catch(err){
@@ -150,19 +147,19 @@ exports.updateProfile = async (req, res, next) => {
 
 exports.settingsPage = async (req, res, next) => {
     try{
-        let subUserId = req.params.userId
-        let userId = req.user.id
+        let subUserId = req.params.userId //GET CLIENT ID (FOR ADMIN), ADMIN ID(FOR SUPERADMIN)
+        let userId = req.user.id //GET CURRENT USER ID (ADMIN/SUPERADMIN)
 
         const user = await User.findById(userId)
         let subUser = await User.findById(subUserId)
+
         let serviceList = await Service.find({ admin: userId })
-        let moduleList = ['services', 'manifest']
-        //debug(subUser.serviceAccess)        
+        
+        let moduleList = ['services', 'manifest']        
             
         if(userId == subUser.admin || user.role == 'superadmin'){
-            res.render('userSettings', {user, subUser, serviceList, moduleList})
-        }else{            
-            //res.status(403).send("Resource Not Authorized")
+            res.render('user/edit', {user, subUser, serviceList, moduleList})
+        }else{                        
             res.render('error', {message: `You aren't authorized to access this resource`, statusCode: '403'})
         }
     }catch(err){
@@ -172,9 +169,9 @@ exports.settingsPage = async (req, res, next) => {
 
 exports.patchSettings = async (req, res, next) => {
     try{
+    // -------------------------------- VALIDATION -------------------------------- //
         const errors = validationResult(req)
-
-        //validation
+        
         if(!errors.isEmpty()) {        
             let subUserId = req.params.userId    
             let userId = req.user.id
@@ -185,52 +182,43 @@ exports.patchSettings = async (req, res, next) => {
             let moduleList = ['services', 'manifest']
 
             const alert = errors.array()                                       
-            return res.render('userSettings', {user, subUser, serviceList, moduleList, alert})            
+            return res.render('user/edit', {user, subUser, serviceList, moduleList, alert})            
         }
 
-        //debug(req.body)
-        let { username, password, apiCredit, serviceAccess, accessRight } = req.body
-        let hash
-        //debug(accessRight)
+    // -------------------------------- PROCESS INPUTS -------------------------------- //
+        let { username, password, displayName, defaultService, 
+            apiCredit, serviceAccess, accessRight } = req.body                 
+        
+        let hash        
 
         //check if password is input
-        if(password){
-            hash = await bcrypt.hash(password, 10)
-        }
+        if(password) hash = await bcrypt.hash(password, 10)
         
         let subUserId = req.params.userId
-        let userId = req.user.id
-
-        //check if username is blank
-        if(!username){
-            res.status(400).send('Username cannot be blank')
-        }
+        let userId = req.user.id                
 
         const user = await User.findById(userId)
         let subUser = await User.findById(subUserId)
         
         //check if it is logged in admin user or superadmin
-        if(userId == subUser.admin || user.role == 'superadmin'){
-            let obj = { username, apiCredit, serviceAccess, accessRight }
+        let userObj = {}
+        if(userId == subUser.admin){
+            userObj = {username}
+        }else if(user.role == 'superadmin'){
+            userObj = {username, displayName, defaultService, apiCredit, serviceAccess, accessRight}
+        }                  
+        
+        //check if password is inputted
+        if(password) userObj.password = hash        
             
-            //check if password is inputted
-            if(password){
-                obj.password = hash
-            }
+        await User.findByIdAndUpdate(subUserId, userObj, {new: true}) 
             
-            //debug(obj)
-            //debug(subUserId)
-            await User.findByIdAndUpdate(subUserId, obj, {new: true}) 
-            //debug(obj)           
-            if(user.role == 'superadmin'){
-                res.redirect('/users/adminlist')
-            }else if(user.role == 'admin'){
-                res.redirect('/users/clientlist')
-            }            
-        }else{            
-            //res.status(403).send("Resource Not Authorized")
-            res.render('error', {message: `You aren't authorized to access this resource`, statusCode: '403'})
-        }
+        if(user.role == 'superadmin'){
+            res.redirect('/users/adminlist')
+        }else if(user.role == 'admin'){
+            res.redirect('/users/clientlist')
+        }            
+
     }catch(err){
         next(err)
     }

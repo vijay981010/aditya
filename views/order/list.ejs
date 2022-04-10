@@ -1,0 +1,113 @@
+<!-- include header -->
+<%- include('../include/_header') %>
+<!-- /include header -->
+
+<!-- include header -->
+<%- include('../include/_navbar') %>
+<!-- /include header -->
+<div class="container-fluid mb-5"> 
+    <div class="container-fluid">
+        <header class="row py-3 mb-4 border-bottom">
+            <div class="col-md-3">                
+                <span class="fs-4 text-dark">List of orders</span>
+            </div>
+            <div class="col-md-6"></div>
+            <div class="col-md-3 d-flex flex-row-reverse">
+                <a href="/orders/add" class="btn btn-primary">Add Order</a>
+            </div>
+        </header>
+    </div> 
+          
+    <table id="myTable" class="display cell-border responsive" width="100%" >
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>AWB</th>
+                <% if(user.role == 'admin'){ %>
+                <th>Current Tracking Status</th>                
+                <th>Client</th>
+                <% } %>
+                <th>Consignor</th>
+                <th>Consignee</th>   
+                <th>Action</th>    
+                <th>Print</th>
+                <th>Origin</th>
+                <th>Destination</th>
+                <th>Box</th>
+                <th>Weight</th>
+                <th>Bill</th>
+                <% if(user.role == 'admin'){ %>
+                <th>Tracking</th>
+                <th>Vendor</th>    
+                <% } %>                  
+            </tr>
+        </thead>
+        <tbody>          
+            <% orderlist.forEach(order => { %> 
+                <tr>
+                    <td><%= moment(order.bookingDate).format(shortDateFormat) %></td>  
+                    <% if(user.role == 'admin'){ %>
+                        <td class="cron"><%= order.awbNumber %></td>
+                    <% }else{ %>
+                        <td><%= order.awbNumber %></td>
+                    <% } %>
+                    <% if(user.role == 'admin'){ %>
+                    <td id="<%= order.awbNumber %>" class="longText"></td>
+                    <% } %>                 
+                    <% if(user.role == 'admin'){ %>
+                    <td><%= order.client.username %></td>
+                    <% } %>
+                    <td><%= order.consignor %></td>
+                    <td><%= order.consignee %></td>
+                    <td>                        
+                        <div class="dropdown">
+                            <button class="btn-sm btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Edit
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" href="<%= order._id %>">Primary Details</a>
+                                <a class="dropdown-item" href="<%= order._id %>/box">Box Details</a>
+                                <% if(user.role == 'admin'){ %>
+                                <a class="dropdown-item" href="<%= order._id %>/track">Tracking Details</a>
+                                <a class="dropdown-item" href="<%= order._id %>/bill">Bill Details</a>
+                                <% } %>                                                                
+                            </div>
+                        </div>                        
+                    </td>
+                    <td>
+                        <div class="dropdown">
+                            <a href="" class="btn-sm btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="text-gradient"><i class="fas fa-print btn-primary-dark"></i></span>
+                            </a>                            
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">                                               
+                                <a class="dropdown-item" href="<%= order._id %>/print/awb" target="_blank">Print AWB</a>
+                                <a class="dropdown-item" href="<%= order._id %>/print/boxsticker" target="_blank">Box Sticker</a>
+                                <a class="dropdown-item" href="<%= order._id %>/print/packinglist" target="_blank">Packing List</a>                
+                            </div>
+                        </div>
+                    </td>
+                    <td><%= order.origin %></td>
+                    <td><%= order.destination %></td>
+                    <td><%= order.numberOfBoxes %></td>
+                    <td><%= order.chargeableWeight %></td>
+                    <td><%= order.totalBill %></td>
+                    <% if(user.role == 'admin'){ %>
+                        <td><%= order.trackingNumber %></td>
+                            <% if(order.vendorName == 'OTHERS'){ %>
+                                <td><a href="/orders/<%= order._id %>/trackingdetails"><%= order.vendorName %></a></td>
+                            <% }else{ %>
+                                <td><%= order.vendorName %></td>
+                            <% }
+                     } %>
+                </tr>
+            <% }) %>                                                                                                           
+        </tbody>
+    </table>       
+</div>
+
+
+<!-- include footer -->
+<%- include('../include/_footer') %>
+<!-- /include footer -->
+
+<script src = "/js/order/currentStatus.js"></script>

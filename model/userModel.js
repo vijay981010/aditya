@@ -67,6 +67,10 @@ const userSchema = new Schema({
     defaultService: {
         type: String,
     },    
+    displayName:{
+        type: String,
+        trim: true
+    },
     apiCredit: {
         type: Number,
     },

@@ -12,15 +12,7 @@ exports.generateAwb = (doc, order, user) => {
     order.boxDetails.forEach(box => {
         totalVolWeight += box.volumetricWeight
         totalActualWeight += box.actualWeight
-    })
-
-    //const canvas = createCanvas()
-    //const context = canvas.getContext('2d')
-
-    //JsBarcode(canvas, order.awbNumber)
-    //const buffer = canvas.toBuffer('image/png')
-
-    //fs.writeFileSync(`awb_${order.awbNumber}.png`, buffer)
+    })    
 
     doc.info['Title'] = `awb${order.awbNumber}`
 
@@ -29,7 +21,7 @@ exports.generateAwb = (doc, order, user) => {
     .fontSize(20)
     .text(`AIRWAY BILL`, 175, 50, {width: 250, align: 'center'})
     .fontSize(15)
-    .text('test', 175, 75, {width: 250, align: 'center'}) //user.username
+    .text(user.displayName, 175, 75, {width: 250, align: 'center'}) //user.username
 
     doc
     .lineWidth(2)
@@ -166,5 +158,5 @@ exports.generateAwb = (doc, order, user) => {
     .fontSize(12)
     .text('AIRWAY BILL NO', 310, 110)
     .text(order.awbNumber, 310, 125, { width: 100, align: 'center' })
-    //.image(`awb_${order.awbNumber}.png`, 455, 105, {width: 90, align:'center'})
+    .image(`awb_${order.awbNumber}.png`, 455, 105, {width: 90, align:'center'})
 }

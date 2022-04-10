@@ -28,13 +28,13 @@
                                 <% } else if(user.role == 'admin') { %> 
                                 <input type="hidden" name="role" value="admin" >
                                 <% } %>                                     
-                                <label for="username">Username<span style="color:red;">*</span></label>                                   
+                                <label for="username">Username<span>*</span></label>                                   
                                 <input class="form-control" name = "username" value = "<%= user.username %>" type="text" required/>                            
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="password">Password<span style="color:red;">*</span></label>
+                                <label for="password">Password<span>*</span></label>
                                 <input class="form-control" name = "password" type="password" required/>                            
                             </div> 
                         </div>

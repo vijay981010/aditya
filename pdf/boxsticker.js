@@ -89,7 +89,7 @@ exports.boxstickergenerate = (current, doc, order, user) => {
     .moveTo(40, 650)
     .lineTo(560, 650).stroke()
 
-    .text(user.username, 230, 670, {width: 150, align:'center'})
+    .text(user.displayName, 230, 670, {width: 150, align:'center'})
         
 }
   

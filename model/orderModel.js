@@ -234,6 +234,14 @@ const orderSchema = new Schema({
         type: String,
         enum: ['active', 'inactive']
     },    
+    baseRate: Number,
+    brGst : Number,
+    chargeDetails: [{
+        title: String,
+        amount: Number,
+        gst: Number
+    }],
+    totalBill: Number,
     client: {
         type: Schema.Types.ObjectId,
         required: true,

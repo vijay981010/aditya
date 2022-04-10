@@ -1,0 +1,183 @@
+<!-- include header -->
+<%- include('../../include/_header') %>
+<!-- /include header -->
+
+<!-- include header -->
+<%- include('../../include/_navbar') %>
+<!-- /include header -->
+<div class="container">
+    <div class="row justify-content-center">                 
+        <div class="col-lg-12">
+          <div class="card shadow-lg border-0 rounded-lg mt-5 mb-5">
+            <form action = '/orders/<%= order._id %>/box?_method=PATCH' method = "post">
+              <div class="card-header">
+                  <h3 class="text-center font-weight-light my-4">Box Details for AWB : <%= order.awbNumber %></h3>
+              </div>
+              <div class="card-body">                  
+                    <div class="row">                                   
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="boxType">Box Type<span>*</span></label>
+                                  <select class="form-select text-center" name = "boxType" required>
+                                      <% if(typeof order.boxType != 'undefined'){ %>
+                                        <option value="<%= order.boxType %>"><%= order.boxType %></option>
+                                    <% }else{ %> 
+                                        <option value="">--Select Box Type--</option>
+                                    <% } %>                                      
+                                      <option value="spx">SPX</option>
+                                      <option value="docx">DOCX</option>
+                                  </select> 
+                            </div>
+                        </div>             
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="chargeableWeight">Chargeable weight</label>                                                                               
+                                <input class="form-control text-center" name = "chargeableWeight" value="<%= order.chargeableWeight %>" id="chargeableWeight" type="number" readonly='readonly'/>                            
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="actionBox">Action</label><br>                                                                         
+                                <button class="btn btn-primary btn-block" id="actionBox">Add Box</button>
+                            </div>
+                        </div>                                                
+                    </div>
+                    <div class="row">                        
+                        <table class="table table-bordered table-responsive-sm" id="myTable">                            
+                                <tr>
+                                    <td><label for='boxLength'>Box Length<span>*</span></label></td>
+                                    <td><label for='boxWidth'>Box Width<span>*</span></label></td>
+                                    <td><label for='boxHeight'>Box Height<span>*</span></label></td>
+                                    <td><label for='volumetricWeight'>Volumetric Weight</label></td>
+                                    <td><label for='ActualWeight'>Actual Weight<span>*</span></label></td>
+                                    <td><label for='BoxRemove'>Action</label></td>
+                                </tr>
+                                <% if(order.boxDetails.length > 0){
+                                    order.boxDetails.forEach((box,i) => { %> 
+                                    <tr id="r<%= i+100 %>">
+                                        <td>
+                                            <input type='number' step='.01' class='form-control text-center' onkeyup="addVol('<%= i+100 %>')" id='boxLength<%= i+100 %>' name='boxLength' value='<%= box.boxLength %>' required>
+                                        </td>
+                                        <td>
+                                            <input type='number' step='.01' class='form-control text-center' onkeyup="addVol('<%= i+100 %>')" id='boxWidth<%= i+100 %>' name='boxWidth' value='<%= box.boxWidth %>' required>
+                                        </td>
+                                        <td>
+                                            <input type='number' step='.01' class='form-control text-center' onkeyup="addVol('<%= i+100 %>')" id='boxHeight<%= i+100 %>' name='boxHeight' value='<%= box.boxHeight %>' required>
+                                        </td>
+                                        <td>
+                                            <input type='number' class='form-control text-center' name='volumetricWeight' id='volumetricWeight<%= i+100 %>' value='<%= box.volumetricWeight %>' readonly='readonly'>
+                                        </td>
+                                        <td>
+                                            <input type='number' step='.01' class='form-control text-center' onkeyup="addVol('<%= i+100 %>')" name='actualWeight' value='<%= box.actualWeight %>' required>
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-danger removeBox"><i class="fa fa-minus-circle"></i></button>
+                                        </td>
+                                    </tr>
+                                <% })  
+                                } %>                           
+                        </table>                    
+                    </div>                                  
+              </div>
+              <div class="row">
+                  <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="text-center font-weight-light my-4">Item Details</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">                                
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="currency">Currency<span>*</span></label>                                                                               
+                                        <select class="form-select text-center" name = "currency" required>
+                                            <% if(typeof order.currency != 'undefined'){ %>
+                                                <option value="<%= order.currency %>"><%= order.currency %></option>
+                                            <% }else{ %> 
+                                                <option value="">--Select Currency--</option>
+                                            <% } %>
+                                            <option value="INR">INR</option>
+                                            <option value="USD">USD</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="totalValue">Invoice Value</label>                                                                               
+                                        <input class="form-control text-center" name = "totalValue" value="<%= order.totalValue %>" id="totalValue" type="number" readonly='readonly'/>                            
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="actionItem">Action</label><br>                                                                         
+                                        <button class="btn btn-primary btn-block" id="actionItem">Add Item</button>
+                                    </div>
+                                </div>
+                            </div>                            
+                            <div class="row">
+                                <table class="table table-bordered table-responsive-sm" id="myTable2">
+                                    <tr>
+                                        <td><label for='boxNumber'>Box Number<span>*</span></label></td>
+                                        <td><label for='itemType'>Item Type<span>*</span></label></td>
+                                        <td><label for='itemName'>Item Name<span>*</span></label></td>
+                                        <td><label for='itemQuantity'>Item Quantity<span>*</span></label></td>
+                                        <td><label for='itemPrice'>Item Price<span>*</span></label></td>
+                                        <td><label for='itemRemove'>Action</label></td>                                        
+                                    </tr>                                     
+                                    <% if(order.boxDetails.length > 0 && order.boxDetails[0].itemDetails.length > 0){ 
+                                        order.boxDetails.forEach((box) => { 
+                                            box.itemDetails.forEach((item, i) => { %>
+                                                <tr id="r<%= i+100 %>">
+                                                    <td>
+                                                        <input type='number' class='form-control text-center' name='boxNumber' value="<%= item.boxNumber %>" required>
+                                                    </td>
+                                                    <td>
+                                                        <select class='form-select text-center' name='itemType' required>
+                                                            <option value='<%= item.itemType %>'><%= item.itemType %></option>
+                                                            <option value='normal'>normal</option>
+                                                            <option value='nonDG'>non-DG</option>
+                                                        </select>
+                                                    </td>
+                                                    <td>
+                                                        <input type='text' class='form-control text-center' name='itemName' value="<%= item.itemName %>" required>
+                                                    </td>
+                                                    <td>
+                                                        <input type='number' step='.01' class='form-control text-center' onkeyup="addInv('<%= i+100 %>')" name='itemQuantity' value='<%= item.itemQuantity %>' required>
+                                                    </td>
+                                                    <td>
+                                                        <input type='number' step='.01' class='form-control text-center' onkeyup="addInv('<%= i+100 %>')" name='itemPrice' value='<%= item.itemPrice %>' required>
+                                                    </td>
+                                                    <td><button class="btn btn-danger removeItem"><i class="fa fa-minus-circle"></i></button></td>
+                                                </tr>
+                                            <% }) 
+                                        })
+                                    } %>                                      
+                                </table>
+                            </div>
+                        </div>
+                  </div>
+                  </div>                                    
+              </div>
+              <div class="card-footer">
+                    <div class="row">
+                        <div class="col-md-12 text-center">
+                            <% if(user.role == 'client'){ %>
+                            <h2>Please contact Admin to update details</h2>
+                            <% }else if(user.role == 'admin'){ %>
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            <% } %>                            
+                        </div>
+                    </div>                
+              </div>  
+            </form>             
+          </div>            
+        </div>          
+    </div>
+</div>
+
+
+
+
+<!-- include footer -->
+<%- include('../../include/_footer') %>
+<!-- /include footer -->

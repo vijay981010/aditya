@@ -1,0 +1,66 @@
+<!-- include header -->
+<%- include('../include/_header') %>
+<!-- /include header -->
+
+<!-- include header -->
+<%- include('../include/_navbar') %>
+<!-- /include header -->
+<div class="container-fluid mb-5"> 
+    <div class="container-fluid">
+        <header class="row py-3 mb-4 border-bottom">
+            <div class="col-md-3">                
+                <span class="fs-4 text-dark">Services List</span>
+            </div>
+            <div class="col-md-6"></div>
+            <div class="col-md-3 d-flex flex-row-reverse">
+                <a href="/services" class="btn btn-primary">Add Service</a>
+            </div>
+        </header>
+    </div> 
+
+    <div class="row">
+        <div class="col-md-9"></div>
+        <div class="col-md-3">
+            <div class="alert alert-success" >
+                <strong>Success!</strong> User Status updated successfully.
+            </div>
+            <div class="alert alert-warning">
+                <strong>Error!</strong> Failed to update user status.
+            </div>
+            <div class="alert alert-danger">
+                <strong>Unknown!</strong> Some unknown error.
+            </div>
+        </div>
+    </div>
+    
+      
+    <table id="myTable" class="display cell-border responsive" width="100%">
+        <thead>
+            <tr>
+                <th>Service Name</th>
+                <th>Display Name</th>
+                <th>Created At</th>
+                <th>Updated At</th>                                      
+                <th>Action</th>                
+            </tr>
+        </thead>
+        <tbody> 
+            <% serviceList.slice().reverse().forEach(service => { %> 
+                <tr>
+                <td><%= service.serviceName %></td>                
+                <td><%= service.displayName %></td>
+                <td><%= service.createdAt %></td>
+                <td><%= service.updatedAt %></td>                
+                <td><a class="btn-sm btn-primary" href="/services/<%= service._id %>">Edit</a></td>
+                </tr>                
+            <% }) %>                                                                                                     
+        </tbody>
+    </table>    
+</div>
+
+       
+
+
+<!-- include footer -->
+<%- include('../include/_footer') %>
+<!-- /include footer -->

@@ -1,0 +1,169 @@
+<!-- include header -->
+<%- include('../include/_header') %>
+<!-- /include header -->
+
+<!-- include header -->
+<%- include('../include/_navbar') %>
+<!-- /include header -->
+<div class="container">
+    <div class="row justify-content-center">                 
+        <div class="col-lg-12">
+          <div class="card shadow-lg border-0 rounded-lg mt-5 mb-5">
+            <form action = '/manifest/<%= manifest._id %>?_method=PUT' method = "post">
+              <div class="card-header">
+                  <h3 class="text-center font-weight-light my-4">Update Manifest</h3>
+              </div>
+              <div class="card-body">                  
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="manifestNumber">Manifest Number<span>*</span></label>    
+                                <input type="hidden" name="admin" value="<%= user._id %>">
+                                <input class="form-control" name = "manifestNumber" type="text" value="<%= manifest.manifestNumber %>" required/>                            
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="manifestDate">Manifest Date<span>*</span></label>                                                                               
+                                <input class="form-control" name = "manifestDate" value="<%= manifest.manifestDate.toISOString().split('T')[0] %>" type="date" id="inputDate" required/>                            
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="dispatchTo">Dispatch To<span>*</span></label>                                                                               
+                                <select class="form-select" name = "dispatchTo">
+                                    <option value = "<%= manifest.dispatchTo %>"><%= manifest.dispatchTo %></option>
+                                    <option value="Rainbow Logistics Ltd">Rainbow Logistics Ltd</option>
+                                    <option value="Rainbow Sky Couriers LLC">Rainbow Sky Couriers LLC</option>
+                                    <option value="Deanshill Logistics Ltd">Deanshill Logistics Ltd</option>
+                                </select>                            
+                            </div>
+                        </div>                                                
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="manifestOrigin">Origin<span>*</span></label>
+                                <select class ="form-select" name = "manifestOrigin" required>
+                                    <option value="<%= manifest.manifestOrigin %>"><%= manifest.manifestOrigin %></option>
+                                    <% countries.forEach(country => { %>
+                                        <option value="<%= country.name %>"><%= country.name %></option>
+                                    <% }) %>                                                    
+                                </select>                                
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="manifestDestination">Destination<span>*</span></label>
+                                <select class ="form-select" name = "manifestDestination" required>
+                                    <option value="<%= manifest.manifestDestination %>"><%= manifest.manifestDestination %></option>
+                                    <% countries.forEach(country => { %>
+                                        <option value="<%= country.name %>"><%= country.name %></option>
+                                    <% }) %>                                                    
+                                </select>                                
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="manifestMode">Mode<span>*</span></label>                                                                               
+                                <select class="form-select" name = "manifestMode">
+                                    <option value = "<%= manifest.manifestMode %>"><%= manifest.manifestMode %></option>
+                                    <option value="International">International</option>                                    
+                                </select>                            
+                            </div>
+                        </div>                 
+                    </div> 
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="mawbNumber">MAWB Number<span>*</span></label>                                                                               
+                                <input class="form-control" name = "mawbNumber" value = "<%= manifest.mawbNumber %>" type="text" required/>                            
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="cdNumber">CD Number<span>*</span></label>                                                                               
+                                <input class="form-control" name = "cdNumber" value = "<%= manifest.cdNumber %>" type="text" required/>                            
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="runNumber">Run Number<span>*</span></label>                                                                               
+                                <input class="form-control" name = "runNumber" value = "<%= manifest.runNumber %>" type="text" required/>                            
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="flightNumber">Flight Number<span>*</span></label>                                                                               
+                                <input class="form-control" name = "flightNumber" value = "<%= manifest.flightNumber %>" type="text" required/>                            
+                            </div>
+                        </div>
+                    </div>                 
+              </div> 
+              <div class="card-header">
+                <h3 class="text-center font-weight-light my-4">Bag Details</h3>
+            </div>
+            <div class="card-body">                  
+                <div class="row">                                   
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="bagNumber">Bag Number</label><br>                                                                         
+                            <input type="text" class="form-control" id="bagNumber">
+                        </div>
+                    </div>             
+                    <div class="col-md-4">                        
+                        <div class="form-group">
+                            <label for="order">Select AWB Number</label><br>                                                                         
+                            <select class="form-select" id="order">
+                                <option value="">---Select AWB Number---</option>
+                                <% orderList.forEach(order => { %>
+                                
+                                <option value="<%= order.awbNumber %>"><%= order.awbNumber %></option>
+                                <% }) %>
+                            </select>                            
+                        </div>    
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="actionBox">Action</label><br>                                                                         
+                            <button class="btn btn-primary btn-block" id="actionBag">Add Bag</button>
+                        </div>
+                    </div>                                                
+                </div>
+                <div class="row">                        
+                    <table class="table table-bordered table-responsive-sm" id="bagTable">                            
+                            <tr>
+                                <td><label for='bagNumber'>Bag Number</label></td>
+                                <td><label for='order'>AWB Number</label></td>                                                                  
+                                <td><label for='bagRemove'>Action</label></td>
+                            </tr>
+                            <% if(manifest.bagDetails.length > 0) {  
+                                manifest.bagDetails.forEach((bag,i) => { %>
+                                <tr id="r<%= i+200 %>">
+                                    <td><input type='text' class='form-control text-center' name='bagNumber[]' value="<%= bag.bagNumber %>" readonly="readonly"></td>
+                                    <td><input type='text' class='form-control text-center' name='order[]' value="<%= awbnumbers[i] %>" readonly="readonly"></td>
+                                    <td><button class="btn btn-danger removeBag"><i class="fa fa-minus-circle"></i></button></td>
+                                </tr>                                
+                             <% })
+                             } %>
+                    </table>                    
+                </div>                                  
+          </div>
+              <div class="card-footer">
+                    <div class="row">
+                        <div class="col-md-12 text-center">
+                            <button type="submit" class="btn btn-primary">Update</button>
+                        </div>
+                    </div>                
+              </div>  
+            </form>             
+          </div>            
+        </div>          
+    </div>
+</div>
+
+
+
+<!-- include footer -->
+<%- include('../include/_footer') %>
+<!-- /include footer -->

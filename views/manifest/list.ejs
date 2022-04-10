@@ -1,0 +1,70 @@
+<!-- include header -->
+<%- include('../include/_header') %>
+<!-- /include header -->
+
+<!-- include header -->
+<%- include('../include/_navbar') %>
+<!-- /include header -->
+<div class="container-fluid mb-5"> 
+    <div class="container-fluid">
+        <header class="row py-3 mb-4 border-bottom">
+            <div class="col-md-3">                
+                <span class="fs-4 text-dark">Manifest List</span>
+            </div>
+            <div class="col-md-6"></div>
+            <div class="col-md-3 d-flex flex-row-reverse">
+                <a href="/manifest" class="btn btn-primary">Generate Manifest</a>
+            </div>
+        </header>
+    </div> 
+      
+    <table id="myTable" class="display cell-border responsive" width="100%">
+        <thead>
+            <tr>
+                <th>Manifest Number</th>
+                <th>Date</th>
+                <th>Vendor</th>
+                <th>Destination</th>
+                <th>Origin</th>
+                <th>AWB Count</th>                        
+                <th>Edit</th>    
+                <th>Excel</th>            
+            </tr>
+        </thead>
+        <tbody> 
+            <% manifestList.slice().reverse().forEach(manifest => { %> 
+                <tr>
+                <td><%= manifest.manifestNumber %></td>                
+                <td><%= moment(manifest.manifestDate).format(shortDateFormat) %></td>
+                <td><%= manifest.dispatchTo %></td>
+                <td><%= manifest.manifestDestination %></td>
+                <td><%= manifest.manifestOrigin %></td>
+                <td><%= manifest.totalAwbs %></td>                        
+                <td>      
+                    <a href="/manifest/<%= manifest._id %>" class="btn-sm btn-primary-dark">
+                        <span class="text-gradient"><i class="fas fa-edit btn-primary-dark"></i></span>
+                    </a>                                  
+                </td>
+                <td>
+                    <div class="dropdown">
+                        <button class="btn-sm btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Excel
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">                            
+                            <a class="dropdown-item" href="/manifest/<%= manifest._id %>/manifestexcel">Manifest Excel</a>                            
+                            <a class="dropdown-item" href="/manifest/<%= manifest._id %>/ediexcel">EDI Excel</a>                                                                        
+                        </div>
+                    </div>
+                </td>
+                </tr>                
+            <% }) %>                                                                                                           
+        </tbody>
+    </table>    
+</div>
+
+       
+
+
+<!-- include footer -->
+<%- include('../include/_footer') %>
+<!-- /include footer -->

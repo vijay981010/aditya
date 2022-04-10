@@ -1,0 +1,83 @@
+<!-- include header -->
+<%- include('../include/_header') %>
+<!-- /include header -->    
+
+    <!-- include footer -->
+<%- include('../include/_navbar') %>
+<!-- /include footer -->
+
+<!-- include order history modal -->
+<%- include('../dashboard/include/_history') %>
+<!-- include order history modal -->
+
+<div class="container-fluid mt-3">
+    
+    <div class="row justify-content-center mb-5">
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-header text-center bg-secondary">
+                    <h5 class="card-title text-white">TOTAL ORDERS</h5>
+                </div>
+                <div class="card-body bg-secondary">                                          
+                    <h5 class="text-center text-white" id="allOrders"><%= totAllOrders %></h5>                                                                                          
+                </div>
+            </div>            
+        </div>
+        <% if(user.role == 'admin'){ %>
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-header text-center bg-info">
+                        <h5 class="card-title text-white" >TOTAL API USED</h5>
+                    </div>
+                    <div class="card-body bg-info">                                          
+                        <h5 class="text-center text-white" id="totalApi"><%= totalApi %></h5>                                                                                          
+                    </div>
+                </div>            
+            </div>
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-header text-center <%= color %>">
+                        <h5 class="card-title text-white">TOTAL API REMAINING</h5>
+                    </div>
+                    <div class="card-body <%= color %>">                                          
+                        <h5 class="text-center text-white" id="apiCredit"><%= apiCredit %></h5>                                                                                          
+                    </div>
+                </div>            
+            </div>
+        <% } %>                               
+    </div>
+           
+    <div class="row justify-content-center mb-5">
+        <div class="col-md-10">
+            <div class="card shadow-lg border-3 rounded-lg">
+                <div class="card-header text-center">  
+                    <h5 class="text-dark d-inline-block">ORDER HISTORY</h5>
+                    <div class="dropdown d-inline-block ml-3">
+                        <button class="btn btn-dark dropdown-toggle" type="button" id="historyFilter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Filter
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="" id="weekHistory">Last 7 days</a>                                                                                
+                            <a class="dropdown-item" href="" id="monthHistory">Last 30 days</a>                                
+                            <a class="dropdown-item" href="" data-toggle="modal" data-target="#historyModal">Date Range</a>                                           
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body" id="histogram">
+                    
+                </div>
+                <div class="card-footer"></div>
+            </div>
+        </div>
+    </div>
+</div>
+       
+    
+<!-- include footer -->
+<%- include('../include/_footer') %>
+<!-- /include footer -->
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script src = "/js/dashboard/historyChart.js"></script>
+<!-- <script src = "/js/dashboard/statusChart.js"></script> -->
+

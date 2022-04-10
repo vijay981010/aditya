@@ -6,7 +6,7 @@ const bagSchema = new Schema({
     bagNumber: {
         type: String,
         trim: true,
-        maxLength: 5
+        maxLength: 30
     },
     order: {
         type: Schema.Types.ObjectId,
@@ -59,6 +59,9 @@ const manifestSchema = new Schema({
         type: String,        
         trim: true,
         maxLength: 15
+    },
+    totalAwbs: {
+        type: Number
     },
     bagDetails: [bagSchema],
     admin: {

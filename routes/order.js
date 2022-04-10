@@ -19,10 +19,6 @@ router.get('/orderlist', verifyToken, authorizeUser, orderController.orderList)
 **/
 router.get('/add', verifyToken, authorizeUser, orderController.createOrderPage)
 
-/**
-* @Acess : Global, Respective
-* @Function : Post order - primary details form data to dB and create new order
-**/
 router.post('/add', verifyToken, authorizeUser, orderController.createOrder)
 
 /**
@@ -31,10 +27,6 @@ router.post('/add', verifyToken, authorizeUser, orderController.createOrder)
 **/
 router.get('/:orderId', verifyToken, authorizeUser, authorizeOrderResource, orderController.singleOrder)
 
-/**
-* @Acess : Superadmin, Respective admin
-* @Function : Update order - primary details data form data to dB
-**/
 router.patch('/:orderId/update', verifyToken, authorizeRole(['admin', 'superadmin']), authorizeUser, authorizeOrderResource, orderController.updateOrder)
 
 
@@ -46,10 +38,6 @@ router.patch('/:orderId/update', verifyToken, authorizeRole(['admin', 'superadmi
 **/
 router.get('/:orderId/box', verifyToken, authorizeUser, authorizeOrderResource, orderController.patchBoxPage)
 
-/**
-* @Acess : Global, Respective
-* @Function : Patch order - box details form data to dB
-**/
 router.patch('/:orderId/box', verifyToken, authorizeUser, authorizeOrderResource, orderController.patchBox)
 
 
@@ -61,11 +49,17 @@ router.patch('/:orderId/box', verifyToken, authorizeUser, authorizeOrderResource
 **/
 router.get('/:orderId/track', verifyToken, authorizeRole(['admin', 'superadmin']), authorizeUser, authorizeOrderResource, orderController.patchTrackPage)
 
+router.patch('/:orderId/track', verifyToken, authorizeRole(['admin', 'superadmin']), authorizeUser, authorizeOrderResource, orderController.patchTrack)
+
+
+
 /**
 * @Acess : Global, Respective
-* @Function : Patch order - tracking details form data to dB
+* @Function : Render patch order - billing details blank form page
 **/
-router.patch('/:orderId/track', verifyToken, authorizeRole(['admin', 'superadmin']), authorizeUser, authorizeOrderResource, orderController.patchTrack)
+router.get('/:orderId/bill', verifyToken, authorizeRole(['admin', 'superadmin']), authorizeUser, authorizeOrderResource, orderController.patchBillPage)
+
+router.patch('/:orderId/bill', verifyToken, authorizeRole(['admin', 'superadmin']), authorizeUser, authorizeOrderResource, orderController.patchBill)
 
 
 
@@ -86,11 +80,14 @@ router.patch('/:orderId/trackingdetails',verifyToken, authorizeRole(['admin', 's
 **/
 //router.delete('/:orderId', verifyToken, authorizeRole(['admin', 'superadmin']), authorizeUser, orderController.deleteOrder)
 
-router.get('/:orderId/print/awb', orderController.printawb) //verifyToken, authorizeUser, authorizeOrderResource
+router.get('/:orderId/print/awb', verifyToken, authorizeUser, authorizeOrderResource, orderController.printawb) 
 
 router.get('/:orderId/print/packinglist', verifyToken, authorizeUser, authorizeOrderResource, orderController.packingList)
 
 router.get('/:orderId/print/boxsticker', verifyToken, authorizeUser, authorizeOrderResource, orderController.boxSticker)
+
+
+router.get('/search/history', verifyToken, authorizeUser, orderController.searchHistory)
 
 
 

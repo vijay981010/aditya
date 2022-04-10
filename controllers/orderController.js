@@ -5,7 +5,7 @@ const debug = require('debug')('dev')
 const axios = require('axios')
 const mongoose = require('mongoose');
 const {vendorArray} = require('../fixedData/vendors')
-const {processRequest, sortBoxItem} = require('../helpers/helpers')
+const {processRequest, sortBoxItem, getDates} = require('../helpers/helpers')
 const PDFdocument = require('pdfkit');
 const {generateAwb} = require('../pdf/awb')
 const {boxstickergenerate} = require('../pdf/boxsticker')
@@ -21,26 +21,20 @@ const logger = require('../helpers/logger')
 const db = mongoose.connection;
 
 exports.orderList = async (req, res, next) => {
-    try{                        
-        //let userId = req.params.userId                        
+    try{                                                  
         let orderlist
+
         let userId = req.user.id
         const user = await User.findById(userId)
-        //let role = await checkRole(userId)         
+        
         if(user.role == 'client'){
-            orderlist = await Order.find({client: userId})            
+            orderlist = await Order.find({client: userId}).sort({bookingDate: 'desc', createdAt: 'desc'}).limit(1000)          
         }else if(user.role == 'admin'){            
-            orderlist = await Order.find().populate('client').exec()            
+            orderlist = await Order.find().populate('client').sort({bookingDate: 'desc', createdAt: 'desc'}).limit(1000).exec()            
             orderlist = orderlist.filter(elem => elem.client.admin == userId)            
-        }/* else{
-            res.send(`No Orders found for id: ${userId}`)
-        } */             
-        /* res.json({
-            message: `Orderlist for id : ${userId}`,
-            orderCount: orderlist.length,
-            data: orderlist
-        }) */               
-        res.render('orderlist', {orderlist, user}) 
+        }
+
+        res.render('order/list', {orderlist, user}) 
     }catch(err){
         next(err)
     }
@@ -50,7 +44,7 @@ exports.orderList = async (req, res, next) => {
 
 exports.createOrderPage = async (req, res, next) => {
     try{
-        //res.send(`Create order page for id: ${req.params.userId}`)
+        
         let userId = req.user.id
         const user = await User.findById(userId)
         
@@ -61,16 +55,11 @@ exports.createOrderPage = async (req, res, next) => {
         //convert servicenames to displaynames
         let displayNames = await Service.find({serviceName: user.serviceAccess})        
         displayNames = displayNames.map(item => item.displayName)
-        //debug(displayNames)
-        //debug(user.admin)
-
+        
         //find admin of client and get accessright of that admin
-        let adminUser = await User.findById(user.admin)
-        //debug(adminUser)
-        /* debug(user)
-        debug(user.defaultService) */
+        let adminUser = await User.findById(user.admin)        
 
-        res.render('addorder', { user, clientlist, countries, serviceList, displayNames, adminUser})
+        res.render('order/add/primary', { user, clientlist, countries, serviceList, displayNames, adminUser})
     }catch(err){
         next(err)
     }
@@ -91,23 +80,26 @@ exports.createOrder = async (req, res, next) => {
             origin, destination, client_id
         } = req.body  
         
-        //debug(bookingDate)
-        
-        //check for mandatory fields
-        if(!bookingDate || !consignor || !consignorContactNumber || !service
-            || !consignorAddress1 || !consignorAddress2 || !consignorPincode
-            || !docType || !docNumber || !consignee || !consigneeContactNumber
-            || !consigneeAddress1 || !consigneeAddress2 || !consigneePincode
-            || !origin || !destination){
-            return res.status(400).json({Error: 'Please enter all fields marked with *'})
-        }
-
         let awbNumber
 
         //generate unique random 7 digit awbNumber
         do{
             awbNumber = Math.floor(Math.random() * 10000000)
         }while(await Order.findOne({awbNumber: awbNumber}))              
+
+        // --- create tracking activity --- //
+        
+        //get time string from bookingDate
+        let time = new Date(bookingDate)
+        time = time.toLocaleTimeString()
+
+        //create tracking details array
+        let trackArr = [{
+            statusDate: bookingDate,
+            statusTime: time,
+            statusActivity: 'shipment received at hub',
+            statusLocation: 'India'
+        }]
 
         let obj = {
             bookingDate, awbNumber, consignor, service,
@@ -118,16 +110,14 @@ exports.createOrder = async (req, res, next) => {
             consigneeContactNumber, consigneeEmail, 
             consigneeAddress1, consigneeAddress2, 
             consigneePincode, consigneeCity, consigneeState,
-            origin, destination, status: 'active', client: client_id
+            origin, destination, status: 'active', client: client_id,
+            trackingDetails: trackArr, apiCount:0
         }
         
         const order = new Order(obj)
-        //debug(obj)
+        
         await order.save()
-        /* res.json({
-            message: 'Order created successfuly', 
-            data: order
-        }) */
+        
         res.redirect('/orders/orderlist')
     }catch(err){
         next(err)
@@ -144,7 +134,7 @@ exports.singleOrder = async (req, res, next) => {
         const countries = await db.collection('countries').find().toArray()
         let order = await Order.findById(orderId).populate('client').exec()
         
-        res.render('updateorder', {order, user, clientlist, countries})
+        res.render('order/edit', {order, user, clientlist, countries})
         
     }catch(err){
         next(err)
@@ -165,17 +155,7 @@ exports.updateOrder = async (req, res, next) => {
             origin, destination, client_id
         } = req.body     
         
-        let orderId = req.params.orderId
-
-        //check for mandatory fields
-        if(!bookingDate || !consignor || !consignorContactNumber || !service
-            || !consignorAddress1 || !consignorAddress2 || !consigneeCity 
-            || !consigneeState || !consignorPincode || !docType || !docNumber 
-            || !consignee || !consigneeContactNumber || !consigneeAddress1 
-            || !consigneeAddress2 || !consigneeCity || !consigneeState 
-            || !consigneePincode || !origin || !destination){
-            return res.status(400).json({Error: 'Please enter all fields marked with *'})
-        }
+        let orderId = req.params.orderId        
 
         let obj = {
             bookingDate, awbNumber, consignor, service,
@@ -190,10 +170,7 @@ exports.updateOrder = async (req, res, next) => {
         }
 
         await Order.findByIdAndUpdate(orderId, obj, {new: true})
-        /* res.status(200).json({
-            message: 'Order-primary details updated successfully',
-            data: obj
-        }) */
+        
         res.redirect('/orders/orderlist')
 
     }catch(err){
@@ -211,7 +188,7 @@ exports.patchBoxPage = async (req, res, next) => {
         const user = await User.findById(userId)
         let order = await Order.findById(orderId).populate('client').exec()        
         
-        res.render('addbox', {user, order})
+        res.render('order/add/box', {user, order})
 
     }catch(err){
         next(err)
@@ -231,8 +208,6 @@ exports.patchBox = async (req, res, next) => {
 
         let numberOfBoxes
         
-        //debug(itemType, boxNumber, itemName, itemQuantity, itemPrice)
-        //debug(req.body)
         let orderId = req.params.orderId
 
         let itemArr = []; let boxArr = [];
@@ -264,10 +239,7 @@ exports.patchBox = async (req, res, next) => {
             chargeableWeight, currency, totalValue }
         
         await Order.findByIdAndUpdate(orderId, obj, {new: true})
-        /* res.status(200).json({
-            message: 'Order patched successfully',
-            data: obj
-        }) */
+    
         res.redirect('/orders/orderlist')
 
     }catch(err){
@@ -285,7 +257,7 @@ exports.patchTrackPage = async (req, res, next) => {
         const user = await User.findById(userId)
         let order = await Order.findById(orderId).populate('client').exec()              
 
-        res.render('addtrack', {user, order})
+        res.render('order/add/track', {user, order})
         
     }catch(err){
         next(err)
@@ -349,12 +321,8 @@ exports.patchTrack = async (req, res, next) => {
                 let response = await axios.post('https://shipway.in/api/PushOrderData', postData)
                 //debug(response.data)
                 /* let response = {data: {status: 'Success'}}  */
-                if(response.data.status == 'Success'){
-                    if(!order.apiCount){
-                        apiCount = 1                                                
-                    }else{
-                        apiCount = order.apiCount + 1
-                    }
+                if(response.data.status == 'Success'){                    
+                    apiCount = order.apiCount + 1 //increment API count                    
                     apiCredit = user.apiCredit - 1 //decrement user API credit
                 }else{
                     return res.status(400).json({Error: 'some API error'})
@@ -384,30 +352,51 @@ exports.patchTrack = async (req, res, next) => {
 }
 
 exports.trackDetails = async(req, res, next) => {
-    try{
-        //debug(req.query)
-        //res.send('yes')
-        let order = await Order.find({awbNumber: req.query.trackingNumber})
-        let postData = {
-            "username":"adinr4",
-            "password":"be57b1d8cbcf5c9cd7fe3d8011233985",
-            "order_id": req.query.trackingNumber || '914325'
-        }
-        let response = await axios.post('https://shipway.in/api/getOrderShipmentDetails', postData)
+    try{        
+        
+    // --------- GET ORDER MANUAL TRACKING DATA FROM DATABASE ----------------- //
+        let trackingNumber = req.query.trackingNumber || req.query.elem
+        let order = await Order.findOne({awbNumber: trackingNumber}).populate('client')        
+        
+        if(order == null) return res.json({status: 'fail'})
 
-        if(response.data.status == "Success"){            
-            response.data.response.date = order.bookingDate || '12/07/2021'
-            response.data.response.consignor = order.consignor || 'naruto'
-            response.data.response.consignee = order.consignee || 'orochimaru'
-            response.data.response.destination = order.destination || 'konoha'
-            response.data.response.note = order.clientNote || 'test'
+    // -------- GET TRACKING DATA FROM API IF VENDOR ID EXISTS -------------------- //
+        
+        if(order.vendorId && order.vendorId != 0 || trackingNumber == '914325'){
+            let postData = {
+                "username":"adinr4",
+                "password":"be57b1d8cbcf5c9cd7fe3d8011233985",
+                "order_id": trackingNumber
+            }
+            let response = await axios.post('https://shipway.in/api/getOrderShipmentDetails', postData)
 
-            debug(order)
-            res.json(response.data)
+            if(response.data.status == "Success"){            
+                let apiData = response.data.response
+                let currentStatus = apiData.current_status
+                //process api scan items and push to order tracking details object
+                apiData.scan.slice().reverse().forEach(item => {
+                    let obj = {} // initiate blank obj
+                    
+                    let d = item.time.split(' ')[0] //get date from item.time
+                    let t = item.time.split(' ')[1] // get time from item.time
+                    obj.statusDate = d 
+                    obj.statusTime = t
+                    obj.statusLocation = item.location
+                    obj.statusActivity = item.status_detail
+
+                    order.trackingDetails.unshift(obj)
+                })
+                //order.trackingStatus = apiData.current_status_code //update to latest status code
+                                
+                res.status(200).json({order, currentStatus, status:'Success'})            
+            }else{
+                //res.status(400).send(`tracking number doesn't exist`)
+                res.json({status: 'fail'})
+            }
         }else{
-            //res.status(400).send(`tracking number doesn't exist`)
-            res.json({status: 'fail'})
+            res.status(200).json({order, status:'Success'})
         }
+        
     }catch(err){
         next(err)
     }
@@ -424,7 +413,7 @@ exports.manualTrackingPage = async(req, res, next) => {
         let order = await Order.findById(orderId).populate('client').exec()              
 
         if(order.client.admin == userId || order.client._id == userId){
-            res.render('addTrackingStatus', {user, order})            
+            res.render('order/track', {user, order})            
         }else{            
             res.status(403).send("Resource Not Authorized")            
         }
@@ -460,7 +449,7 @@ exports.patchManualTracking = async (req, res, next) => {
                 ['statusDate', 'statusTime', 'statusLocation', 'statusActivity'], statusDate.length)
         }
 
-        let obj = { trackingDetails : trackingDetailsArr }
+        let obj = { trackingDetails : trackingDetailsArr.slice().reverse() }
 
         //debug(obj)
         
@@ -471,6 +460,95 @@ exports.patchManualTracking = async (req, res, next) => {
     }catch(err){
         next(err)
     }
+}
+
+// ----------------------------------------------------------------------- //
+
+exports.patchBillPage = async (req, res) => {
+    try{
+        let orderId = req.params.orderId
+        let userId = req.user.id        
+
+        const user = await User.findById(userId)
+        let order = await Order.findById(orderId).populate('client').exec()              
+
+        if(order.client.admin == userId || order.client._id == userId){
+            res.render('order/add/bill', {user, order})            
+        }else{            
+            res.status(403).send("Resource Not Authorized")            
+        }
+    }catch(err){
+        next(err)
+    }
+}
+
+exports.patchBill = async (req, res) => {
+    try{
+        //res.json(req.body)
+        let orderId = req.params.orderId
+
+        let {baseRate, brGst, title, amount, gst, totalBill} = req.body
+
+        let chargeArr = []        
+
+        if(Array.isArray(title)){            
+            chargeArr = processRequest([title, amount, gst], 
+                ['title', 'amount', 'gst'], title.length)
+        }else if(title && amount && gst){
+            chargeArr = [{ 'title': title, 'amount': amount, 'gst': gst}]
+        }
+
+        let patchObj = {baseRate, brGst, chargeDetails: chargeArr, totalBill}
+
+        //res.json(patchObj)
+
+        await Order.findByIdAndUpdate(orderId, patchObj)
+
+        res.redirect('/orders/orderlist')
+
+    }catch(err){
+        next(err)
+    }
+}
+
+exports.searchHistory = async(req, res, next) => {
+    //debug(req.query)    
+    let userId = req.user.id //GET USER ID//
+    let role = req.user.role //GET USER ROLE//
+    let{start, end} = req.query //GET FILTER DATES//
+    
+    let dateArray = getDates(new Date(start), new Date(end)) //GET ARRAY OF DATE RANGE//    
+
+    //INITIALISE FILTERED ORDER VARIABLE//
+    let filteredOrders
+
+    //GET FILTERED ORDERS FOR CLIENT USER//
+    filteredOrders = await Order.find({bookingDate: dateArray, client: userId}).select('bookingDate')
+
+    //GET FILTERED ORDERS FOR ADMIN USER//
+    if(role == 'admin'){
+        filteredOrders = await Order.find({bookingDate: dateArray}).populate('client').select('bookingDate')
+        filteredOrders = filteredOrders.filter(elem => elem.client.admin == userId)
+    }  
+    
+    let totFilteredOrders = filteredOrders.length //GET COUNT OF FILTERED ORDERS//
+    
+    //GET DATEWISE COUNT FOR FILTERED ORDERS//    
+    let histArr = dateArray.map(date => {
+        let count = 0        
+        for(let i = 0; i < filteredOrders.length; i++){ 
+            //debug(orders[i].bookingDate, date)                       
+            if(JSON.stringify(filteredOrders[i].bookingDate) == JSON.stringify(date)){
+                count++
+            }
+            //console.log(count)
+        }
+        return count
+    })
+    
+    let data = {dateArray, histArr, totFilteredOrders} //POPULATE RESPONSE DATA OBJECT    
+    
+    res.status(200).json(data) //SEND RESPONSE TO AJAX REQUEST
 }
 
 // ----------------------------------------------------------------------- //
@@ -487,41 +565,53 @@ exports.patchManualTracking = async (req, res, next) => {
 
 exports.printawb = async(req, res, next) => {
     try{
-        /* var startTime = performance.now() */
+        /* var startTime = performance.now() */        
         let orderId = req.params.orderId
-        //let userId = req.user.id
+        let userId = req.user.id
 
         let order = await Order.findById(orderId).populate('client').exec()
-        //let user = await User.findById(userId)
+        let user = await User.findById(userId)        
 
-        const doc = new PDFdocument({             
-            autoFirstPage: false
-          })            
-
-        if(order.boxDetails.length == 0){
-            //return res.status(400).send('No Box Details added. Please add Box Details first before generating AWB')
+    // ---------------------- CHECK IF BOX DETAILS ADDED --------------------------- //
+        if(order.boxDetails.length == 0){            
             return res.render('error', {message: `No Box Details added. Please add Box Details first before generating AWB`, statusCode: '400'})
         }
 
-        for(let i = 0; i < order.numberOfBoxes; i++){
-            doc.addPage()
-            generateAwb(doc, order) //user
-        }               
+    // ---------------------- INITIALIZE PDF --------------------------- //
+        const doc = new PDFdocument({             
+            autoFirstPage: false
+          })   
 
-        res.setHeader('Content-type', 'application/pdf')
-        res.set({ 'Content-Disposition': `inline; filename=awb_${order.awbNumber}.pdf` })
+    // ---------------------- GENERATE BARCODE --------------------------- //      
+        const canvas = createCanvas()
+        const context = canvas.getContext('2d')
+
+        JsBarcode(canvas, order.awbNumber)
         
-        stream = doc.pipe(res) 
-        /* stream.on('finish', () => {
-            fs.unlink(`awb_${order.awbNumber}.png`, (err) => {
-                if(err){
-                    next(err)
-                }
-            })
-        }) */
-        //doc.pipe(res)                                               
-        doc.end()                
-        
+        canvas.toBuffer((err, buffer) => {
+            if(err) next(err)            
+            fs.writeFile(`awb_${order.awbNumber}.png`, buffer, callback)
+        })
+
+    // ---------------------- CALLBACK TO GENERATE PDF --------------------------- //
+        function callback(){
+            for(let i = 0; i < order.numberOfBoxes; i++){
+                doc.addPage()
+                generateAwb(doc, order, user) 
+            }            
+
+            res.setHeader('Content-type', 'application/pdf')
+            res.set({ 'Content-Disposition': `inline; filename=awb_${order.awbNumber}.pdf` })
+            
+            stream = doc.pipe(res) 
+            doc.end()
+
+            stream.on('finish', () => {
+                fs.unlink(`awb_${order.awbNumber}.png`, (err) => { if(err) next(err) })
+            })            
+            
+        }
+                        
         /* var endTime = performance.now()
         debug(`Call for this took ${endTime - startTime} ms`) */
     }catch(err){
@@ -689,32 +779,28 @@ exports.boxSticker = async(req, res, next) => {
         let userId = req.user.id
 
         let order = await Order.findById(orderId).populate('client').exec()
-        let user = await User.findById(userId)
+        let user = await User.findById(userId)        
 
-        const doc = new PDFdocument({             
-            autoFirstPage: false
-        })
-
-        if(order.boxDetails.length == 0){
-            //return res.status(400).send('No Box Details added. Please add Box Details first before generating AWB')
+    // ---------------------- CHECK IF BOX DETAILS ADDED --------------------------- //
+        if(order.boxDetails.length == 0){            
             return res.render('error', {message: `No Box Details added. Please add Box Details first before generating AWB`, statusCode: '400'})
         }
 
+    // ---------------------- INITIALIZE PDF --------------------------- //
+        const doc = new PDFdocument({             
+            autoFirstPage: false
+          })
+
+    // ---------------------- GENERATE BARCODE --------------------------- //  
         const canvas = createCanvas()
         const context = canvas.getContext('2d')
 
         JsBarcode(canvas, order.awbNumber)
-        //const buffer = canvas.toBuffer('image/png')
+        
         canvas.toBuffer((err, buffer) => {            
-            if(err) next(err)
-            /* fsPromises.writeFile(`box_${order.awbNumber}.png`, buffer)            
-            .then(() => {
-                
-            })
-            .catch((err) => next(err)) */
+            if(err) next(err)            
             fs.writeFile(`box_${order.awbNumber}.png`, buffer, callback)
-        })
-        //await fsPromises.writeFile(`box_${order.awbNumber}.png`, buffer)
+        })        
         
         function callback(){
             for(let i = 0; i < order.numberOfBoxes; i++){                            
@@ -728,9 +814,7 @@ exports.boxSticker = async(req, res, next) => {
             doc.end()                      
             
             stream.on('finish', () => {            
-                fs.unlink(`box_${order.awbNumber}.png`, (err) => {
-                    if(err) next(err)                                        
-                })
+                fs.unlink(`box_${order.awbNumber}.png`, (err) => { if(err) next(err) })
             })
         }
 

@@ -38,13 +38,49 @@ td, th{
     text-align: center;
 }
 
+/*---------------------- DATATABLE STYLING ------------------------- */
+table.dataTable thead tr {
+  /* background-color: rgb(250, 178, 129); */
+  background-color: rgb(42, 42, 72);
+  color: rgb(255, 255, 255);
+}
+
+table.dataTable thead .sorting {
+  background-image: url('http://pebbletech.in/anshika/sort.png');    
+}
+
+table.dataTable{      
+  overflow-y:visible; 
+  overflow-x: visible; 
+  font-size:0.9em
+}
+
+button#dropdownMenuButton {
+  font-size: 0.8em;
+}
+
+a{
+  text-decoration: none;
+}
+
+/*---------------------- FORM MANDATORY STYLING ------------------------- */
+
+label>span{
+  color: red;
+}
+
+/*---------------------- DROPDOWN ARROW IMG ------------------------- */  
+
+.form-select{
+  background-image: url('http://pebbletech.in/anshika/dropdown-arrow.png');
+}
+
 /*---------------------- TOGGLE BUTTON ------------------------- */
 
 .switch {
     position: relative;
     display: inline-block;
-    width: 60px;
-    height: 34px;
+    width: 50px;    
   }
   
   .switch input { 
@@ -68,8 +104,8 @@ td, th{
   .slider:before {
     position: absolute;
     content: "";
-    height: 26px;
-    width: 26px;
+    height: 13px;
+    width: 13px;
     left: 4px;
     bottom: 4px;
     background-color: white;
@@ -100,6 +136,7 @@ td, th{
     border-radius: 50%;
   }
 
+  
   #success, #warning, #danger {
       display: none;
   }
@@ -112,3 +149,18 @@ td, th{
     position: relative !important;    
   }
   
+  body{
+    font-family: Helvetica;
+    font-size: 0.9em;
+  }
+
+  a.btn-sm.btn-primary.dropdown-toggle {
+    font-size: 0.9em;
+}
+
+.longText{
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  max-width: 0;
+}

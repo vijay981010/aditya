@@ -193,3 +193,1074 @@ error: 23-02-2022 18:27:12:
  URL: /orders/6215453a890ba9096c136245/track, 
  HTTP METHOD: GET, 
  IP: ::ffff:49.36.36.56
+error: 08-03-2022 17:15:41: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'awbNumber'), 
+ URL: /manifest/6213c4e1b5d9d2f6e799eb19/manifestexcel, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 08-04-2022 13:11:35: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: C:\Users\Aditya\Dropbox\node_react\courierapp2\views\order\add\box.ejs:2
+    1| <!-- include header -->
+ >> 2| <%- include('.../include/_header') %>
+    3| <!-- /include header -->
+    4| 
+    5| <!-- include header -->
+
+Could not find the include file ".../include/_header", 
+ URL: /orders/624fe7269a580d2e602b71cf/box, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 08-04-2022 13:12:57: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: C:\Users\Aditya\Dropbox\node_react\courierapp2\views\order\add\box.ejs:2
+    1| <!-- include header -->
+ >> 2| <%- include('../include/_header') %>
+    3| <!-- /include header -->
+    4| 
+    5| <!-- include header -->
+
+Could not find the include file "../include/_header", 
+ URL: /orders/624fe7269a580d2e602b71cf/box, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 08-04-2022 13:13:34: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: C:\Users\Aditya\Dropbox\node_react\courierapp2\views\order\add\box.ejs:2
+    1| <!-- include header -->
+ >> 2| <%- include('..../include/_header') %>
+    3| <!-- /include header -->
+    4| 
+    5| <!-- include header -->
+
+Could not find the include file "..../include/_header", 
+ URL: /orders/624fe7269a580d2e602b71cf/box, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 08-04-2022 13:15:03: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: C:\Users\Aditya\Dropbox\node_react\courierapp2\views\order\add\box.ejs:2
+    1| <!-- include header -->
+ >> 2| <%- include('./include/_header') %>
+    3| <!-- /include header -->
+    4| 
+    5| <!-- include header -->
+
+Could not find the include file "./include/_header", 
+ URL: /orders/624fe7269a580d2e602b71cf/box, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 08-04-2022 13:21:04: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: C:\Users\Aditya\Dropbox\node_react\courierapp2\views\order\add\box.ejs:2
+    1| <!-- include header -->
+ >> 2| <%- include('include/_header') %>
+    3| <!-- /include header -->
+    4| 
+    5| <!-- include header -->
+
+Could not find the include file "include/_header", 
+ URL: /orders/624fe7269a580d2e602b71cf/box, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 08-04-2022 13:22:11: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: C:\Users\Aditya\Dropbox\node_react\courierapp2\views\order\add\box.ejs:2
+    1| <!-- include header -->
+ >> 2| <%- include('.../include/_header') %>
+    3| <!-- /include header -->
+    4| 
+    5| <!-- include header -->
+
+Could not find the include file ".../include/_header", 
+ URL: /orders/624fe7269a580d2e602b71cf/box, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 08-04-2022 13:26:40: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Failed to lookup view "order/add/box" in views directory "C:\Users\Aditya\Dropbox\node_react\courierapp2\views", 
+ URL: /orders/624fe7269a580d2e602b71cf/box, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 08-04-2022 13:32:55: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: C:\Users\Aditya\Dropbox\node_react\courierapp2\views\order\add\test.ejs:2
+    1| <!-- include header -->
+ >> 2| <%- include('.../include/_header') %>
+    3| <!-- /include header -->
+    4| 
+    5| <!-- include header -->
+
+Could not find the include file ".../include/_header", 
+ URL: /orders/624fe7269a580d2e602b71cf/box, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 08-04-2022 13:38:10: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: C:\Users\Aditya\Dropbox\node_react\courierapp2\views\order\add\test.ejs:2
+    1| <!-- include header -->
+ >> 2| <%- include('..views/include/_header') %>
+    3| <!-- /include header -->
+    4| 
+    5| <!-- include header -->
+
+Could not find the include file "..views/include/_header", 
+ URL: /orders/624fe7269a580d2e602b71cf/box, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 08-04-2022 13:39:23: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: C:\Users\Aditya\Dropbox\node_react\courierapp2\views\order\add\test.ejs:2
+    1| <!-- include header -->
+ >> 2| <%- include('...../include/_header') %>
+    3| <!-- /include header -->
+    4| 
+    5| <!-- include header -->
+
+Could not find the include file "...../include/_header", 
+ URL: /orders/624fe7269a580d2e602b71cf/box, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 08-04-2022 13:52:05: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: C:\Users\Aditya\Dropbox\node_react\courierapp2\views\order\add\test.ejs:2
+    1| <!-- include header -->
+ >> 2| <%- include('.../include/_header') %>
+    3| <!-- /include header -->
+    4| 
+    5| <!-- include header -->
+
+Could not find the include file ".../include/_header", 
+ URL: /orders/624fe7269a580d2e602b71cf/box, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 08-04-2022 13:53:18: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: C:\Users\Aditya\Dropbox\node_react\courierapp2\views\order\add\test.ejs:2
+    1| <!-- include header -->
+ >> 2| <%- include('../add/include/_header') %>
+    3| <!-- /include header -->
+    4| 
+    5| <!-- include header -->
+
+Could not find the include file "../add/include/_header", 
+ URL: /orders/624fe7269a580d2e602b71cf/box, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 08-04-2022 13:53:59: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: C:\Users\Aditya\Dropbox\node_react\courierapp2\views\order\add\test.ejs:2
+    1| <!-- include header -->
+ >> 2| <%- include('../order/include/_header') %>
+    3| <!-- /include header -->
+    4| 
+    5| <!-- include header -->
+
+Could not find the include file "../order/include/_header", 
+ URL: /orders/624fe7269a580d2e602b71cf/box, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 08-04-2022 13:54:54: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: C:\Users\Aditya\Dropbox\node_react\courierapp2\views\order\add\test.ejs:2
+    1| <!-- include header -->
+ >> 2| <%- include('./views/include/_header') %>
+    3| <!-- /include header -->
+    4| 
+    5| <!-- include header -->
+
+Could not find the include file "./views/include/_header", 
+ URL: /orders/624fe7269a580d2e602b71cf/box, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 08-04-2022 13:56:12: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: C:\Users\Aditya\Dropbox\node_react\courierapp2\views\order\add\test.ejs:2
+    1| <!-- include header -->
+ >> 2| <%- include('./order/add/include/_header') %>
+    3| <!-- /include header -->
+    4| 
+    5| <!-- include header -->
+
+Could not find the include file "./order/add/include/_header", 
+ URL: /orders/624fe7269a580d2e602b71cf/box, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 08-04-2022 13:57:27: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: C:\Users\Aditya\Dropbox\node_react\courierapp2\views\order\add\test.ejs:2
+    1| <!-- include header -->
+ >> 2| <%- include('../add/include/_header') %>
+    3| <!-- /include header -->
+    4| 
+    5| <!-- include header -->
+
+Could not find the include file "../add/include/_header", 
+ URL: /orders/624fe7269a580d2e602b71cf/box, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 08-04-2022 14:24:29: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: C:\Users\Aditya\Dropbox\node_react\courierapp2\views\order\list.ejs:2
+    1| <!-- include header -->
+ >> 2| <%- include('include/_header') %>
+    3| <!-- /include header -->
+    4| 
+    5| <!-- include header -->
+
+Could not find the include file "include/_header", 
+ URL: /orders/orderlist, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 08-04-2022 17:17:08: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: C:\Users\Aditya\Dropbox\node_react\courierapp2\views\order\list.ejs:43
+    41|         </thead>
+    42|         <tbody>          
+ >> 43|             <% orderlist.slice().reverse().forEach(order => { %> 
+    44|                 <tr>
+    45|                     <td><%= moment(order.bookingDate).format(shortDateFormat) %></td>
+    46|                     <% if(order.vendorName == 'OTHERS' && user.role == 'admin'){ %>
+
+Cannot read properties of undefined (reading 'slice'), 
+ URL: /orders/orderlist, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 08-04-2022 17:17:08: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: C:\Users\Aditya\Dropbox\node_react\courierapp2\views\order\list.ejs:43
+    41|         </thead>
+    42|         <tbody>          
+ >> 43|             <% orderlist.slice().reverse().forEach(order => { %> 
+    44|                 <tr>
+    45|                     <td><%= moment(order.bookingDate).format(shortDateFormat) %></td>
+    46|                     <% if(order.vendorName == 'OTHERS' && user.role == 'admin'){ %>
+
+Cannot read properties of undefined (reading 'slice'), 
+ URL: /orders/orderlist, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 08-04-2022 17:17:08: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: C:\Users\Aditya\Dropbox\node_react\courierapp2\views\order\list.ejs:43
+    41|         </thead>
+    42|         <tbody>          
+ >> 43|             <% orderlist.slice().reverse().forEach(order => { %> 
+    44|                 <tr>
+    45|                     <td><%= moment(order.bookingDate).format(shortDateFormat) %></td>
+    46|                     <% if(order.vendorName == 'OTHERS' && user.role == 'admin'){ %>
+
+Cannot read properties of undefined (reading 'slice'), 
+ URL: /orders/orderlist, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 08-04-2022 17:17:08: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: C:\Users\Aditya\Dropbox\node_react\courierapp2\views\order\list.ejs:43
+    41|         </thead>
+    42|         <tbody>          
+ >> 43|             <% orderlist.slice().reverse().forEach(order => { %> 
+    44|                 <tr>
+    45|                     <td><%= moment(order.bookingDate).format(shortDateFormat) %></td>
+    46|                     <% if(order.vendorName == 'OTHERS' && user.role == 'admin'){ %>
+
+Cannot read properties of undefined (reading 'slice'), 
+ URL: /orders/orderlist, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 08-04-2022 17:17:08: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: C:\Users\Aditya\Dropbox\node_react\courierapp2\views\order\list.ejs:43
+    41|         </thead>
+    42|         <tbody>          
+ >> 43|             <% orderlist.slice().reverse().forEach(order => { %> 
+    44|                 <tr>
+    45|                     <td><%= moment(order.bookingDate).format(shortDateFormat) %></td>
+    46|                     <% if(order.vendorName == 'OTHERS' && user.role == 'admin'){ %>
+
+Cannot read properties of undefined (reading 'slice'), 
+ URL: /orders/orderlist, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 08-04-2022 17:17:08: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: C:\Users\Aditya\Dropbox\node_react\courierapp2\views\order\list.ejs:43
+    41|         </thead>
+    42|         <tbody>          
+ >> 43|             <% orderlist.slice().reverse().forEach(order => { %> 
+    44|                 <tr>
+    45|                     <td><%= moment(order.bookingDate).format(shortDateFormat) %></td>
+    46|                     <% if(order.vendorName == 'OTHERS' && user.role == 'admin'){ %>
+
+Cannot read properties of undefined (reading 'slice'), 
+ URL: /orders/orderlist, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 08-04-2022 17:17:08: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: C:\Users\Aditya\Dropbox\node_react\courierapp2\views\order\list.ejs:43
+    41|         </thead>
+    42|         <tbody>          
+ >> 43|             <% orderlist.slice().reverse().forEach(order => { %> 
+    44|                 <tr>
+    45|                     <td><%= moment(order.bookingDate).format(shortDateFormat) %></td>
+    46|                     <% if(order.vendorName == 'OTHERS' && user.role == 'admin'){ %>
+
+Cannot read properties of undefined (reading 'slice'), 
+ URL: /orders/orderlist, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 08-04-2022 17:17:09: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: C:\Users\Aditya\Dropbox\node_react\courierapp2\views\order\list.ejs:43
+    41|         </thead>
+    42|         <tbody>          
+ >> 43|             <% orderlist.slice().reverse().forEach(order => { %> 
+    44|                 <tr>
+    45|                     <td><%= moment(order.bookingDate).format(shortDateFormat) %></td>
+    46|                     <% if(order.vendorName == 'OTHERS' && user.role == 'admin'){ %>
+
+Cannot read properties of undefined (reading 'slice'), 
+ URL: /orders/orderlist, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 08-04-2022 17:17:10: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: C:\Users\Aditya\Dropbox\node_react\courierapp2\views\order\list.ejs:43
+    41|         </thead>
+    42|         <tbody>          
+ >> 43|             <% orderlist.slice().reverse().forEach(order => { %> 
+    44|                 <tr>
+    45|                     <td><%= moment(order.bookingDate).format(shortDateFormat) %></td>
+    46|                     <% if(order.vendorName == 'OTHERS' && user.role == 'admin'){ %>
+
+Cannot read properties of undefined (reading 'slice'), 
+ URL: /orders/orderlist, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 08-04-2022 17:17:10: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: C:\Users\Aditya\Dropbox\node_react\courierapp2\views\order\list.ejs:43
+    41|         </thead>
+    42|         <tbody>          
+ >> 43|             <% orderlist.slice().reverse().forEach(order => { %> 
+    44|                 <tr>
+    45|                     <td><%= moment(order.bookingDate).format(shortDateFormat) %></td>
+    46|                     <% if(order.vendorName == 'OTHERS' && user.role == 'admin'){ %>
+
+Cannot read properties of undefined (reading 'slice'), 
+ URL: /orders/orderlist, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 08-04-2022 17:17:15: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: C:\Users\Aditya\Dropbox\node_react\courierapp2\views\order\list.ejs:43
+    41|         </thead>
+    42|         <tbody>          
+ >> 43|             <% orderlist.slice().reverse().forEach(order => { %> 
+    44|                 <tr>
+    45|                     <td><%= moment(order.bookingDate).format(shortDateFormat) %></td>
+    46|                     <% if(order.vendorName == 'OTHERS' && user.role == 'admin'){ %>
+
+Cannot read properties of undefined (reading 'slice'), 
+ URL: /orders/orderlist, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 08-04-2022 17:17:15: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: C:\Users\Aditya\Dropbox\node_react\courierapp2\views\order\list.ejs:43
+    41|         </thead>
+    42|         <tbody>          
+ >> 43|             <% orderlist.slice().reverse().forEach(order => { %> 
+    44|                 <tr>
+    45|                     <td><%= moment(order.bookingDate).format(shortDateFormat) %></td>
+    46|                     <% if(order.vendorName == 'OTHERS' && user.role == 'admin'){ %>
+
+Cannot read properties of undefined (reading 'slice'), 
+ URL: /orders/orderlist, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 08-04-2022 17:17:15: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: C:\Users\Aditya\Dropbox\node_react\courierapp2\views\order\list.ejs:43
+    41|         </thead>
+    42|         <tbody>          
+ >> 43|             <% orderlist.slice().reverse().forEach(order => { %> 
+    44|                 <tr>
+    45|                     <td><%= moment(order.bookingDate).format(shortDateFormat) %></td>
+    46|                     <% if(order.vendorName == 'OTHERS' && user.role == 'admin'){ %>
+
+Cannot read properties of undefined (reading 'slice'), 
+ URL: /orders/orderlist, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 09-04-2022 00:20:01: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Order validation failed: client: Path `client` is required., 
+ URL: /orders/add, 
+ HTTP METHOD: POST, 
+ IP: ::1
+error: 09-04-2022 01:08:12: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'id'), 
+ URL: /orders/625085cb528fb0bb785bcb58/print/awb, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 09-04-2022 01:08:12: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'id'), 
+ URL: /orders/625085cb528fb0bb785bcb58/print/awb, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 09-04-2022 01:08:12: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'id'), 
+ URL: /orders/625085cb528fb0bb785bcb58/print/awb, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 09-04-2022 01:08:13: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'id'), 
+ URL: /orders/625085cb528fb0bb785bcb58/print/awb, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 09-04-2022 01:08:13: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'id'), 
+ URL: /orders/625085cb528fb0bb785bcb58/print/awb, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 09-04-2022 01:08:13: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'id'), 
+ URL: /orders/625085cb528fb0bb785bcb58/print/awb, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 09-04-2022 01:08:18: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'id'), 
+ URL: /orders/625085cb528fb0bb785bcb58/print/awb, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 09-04-2022 01:08:18: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'id'), 
+ URL: /orders/625085cb528fb0bb785bcb58/print/awb, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 09-04-2022 01:08:18: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'id'), 
+ URL: /orders/625085cb528fb0bb785bcb58/print/awb, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 09-04-2022 01:08:48: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'id'), 
+ URL: /orders/625085cb528fb0bb785bcb58/print/awb, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 09-04-2022 01:08:48: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'id'), 
+ URL: /orders/625085cb528fb0bb785bcb58/print/awb, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 09-04-2022 01:08:48: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'id'), 
+ URL: /orders/625085cb528fb0bb785bcb58/print/awb, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 09-04-2022 19:53:08: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Unexpected token ')' in C:\Users\Aditya\Dropbox\node_react\courierapp2\views\order\list.ejs while compiling ejs
+
+If the above error is not helpful, you may want to try EJS-Lint:
+https://github.com/RyanZim/EJS-Lint
+Or, if you meant to create an async function, pass `async: true` as an option., 
+ URL: /orders/orderlist, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 10-04-2022 02:44:09: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Could not find matching close tag for "<%="., 
+ URL: /orders/625162549c686925558df2fa/bill, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 10-04-2022 02:55:30: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: missing ) after argument list in C:\Users\Aditya\Dropbox\node_react\courierapp2\views\order\add\bill.ejs while compiling ejs
+
+If the above error is not helpful, you may want to try EJS-Lint:
+https://github.com/RyanZim/EJS-Lint
+Or, if you meant to create an async function, pass `async: true` as an option., 
+ URL: /orders/625162549c686925558df2fa/bill, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 10-04-2022 14:42:01: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Failed to lookup view "dashboard" in views directory "C:\Users\Aditya\Dropbox\node_react\courierapp2\views", 
+ URL: /dashboard, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 10-04-2022 14:42:01: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Failed to lookup view "dashboard" in views directory "C:\Users\Aditya\Dropbox\node_react\courierapp2\views", 
+ URL: /dashboard, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 10-04-2022 14:42:01: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Failed to lookup view "dashboard" in views directory "C:\Users\Aditya\Dropbox\node_react\courierapp2\views", 
+ URL: /dashboard, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 10-04-2022 14:42:02: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Failed to lookup view "dashboard" in views directory "C:\Users\Aditya\Dropbox\node_react\courierapp2\views", 
+ URL: /dashboard, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 10-04-2022 14:42:02: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Failed to lookup view "dashboard" in views directory "C:\Users\Aditya\Dropbox\node_react\courierapp2\views", 
+ URL: /dashboard, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 10-04-2022 14:42:02: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Failed to lookup view "dashboard" in views directory "C:\Users\Aditya\Dropbox\node_react\courierapp2\views", 
+ URL: /dashboard, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 10-04-2022 14:42:07: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Failed to lookup view "dashboard" in views directory "C:\Users\Aditya\Dropbox\node_react\courierapp2\views", 
+ URL: /dashboard, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 10-04-2022 14:42:07: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Failed to lookup view "dashboard" in views directory "C:\Users\Aditya\Dropbox\node_react\courierapp2\views", 
+ URL: /dashboard, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 10-04-2022 14:42:07: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Failed to lookup view "dashboard" in views directory "C:\Users\Aditya\Dropbox\node_react\courierapp2\views", 
+ URL: /dashboard, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 10-04-2022 15:12:05: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: C:\Users\Aditya\Dropbox\node_react\courierapp2\views\dashboard\dashboard.ejs:6
+    4| 
+    5|     <!-- include footer -->
+ >> 6| <%- include('../include/_navbar') %>
+    7| <!-- /include footer -->
+    8| 
+    9| <!-- include order history modal -->
+
+C:\Users\Aditya\Dropbox\node_react\courierapp2\views\include\_navbar.ejs:3
+    1| <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-10">
+    2|     <div class="container-fluid">
+ >> 3|       <% if(user.role == 'admin' || user.role == 'superadmin'){ %> 
+    4|         <a class="navbar-brand text-uppercase" href="/dashboard"><%= user.displayName %></a>
+    5|       <% }else{ %>
+    6|         <a class="navbar-brand text-uppercase" href="/dashboard"><%= user.username %></a>
+
+Cannot read properties of null (reading 'role'), 
+ URL: /dashboard, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 10-04-2022 15:12:05: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: C:\Users\Aditya\Dropbox\node_react\courierapp2\views\dashboard\dashboard.ejs:6
+    4| 
+    5|     <!-- include footer -->
+ >> 6| <%- include('../include/_navbar') %>
+    7| <!-- /include footer -->
+    8| 
+    9| <!-- include order history modal -->
+
+C:\Users\Aditya\Dropbox\node_react\courierapp2\views\include\_navbar.ejs:3
+    1| <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-10">
+    2|     <div class="container-fluid">
+ >> 3|       <% if(user.role == 'admin' || user.role == 'superadmin'){ %> 
+    4|         <a class="navbar-brand text-uppercase" href="/dashboard"><%= user.displayName %></a>
+    5|       <% }else{ %>
+    6|         <a class="navbar-brand text-uppercase" href="/dashboard"><%= user.username %></a>
+
+Cannot read properties of null (reading 'role'), 
+ URL: /dashboard, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 10-04-2022 15:12:05: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: C:\Users\Aditya\Dropbox\node_react\courierapp2\views\dashboard\dashboard.ejs:6
+    4| 
+    5|     <!-- include footer -->
+ >> 6| <%- include('../include/_navbar') %>
+    7| <!-- /include footer -->
+    8| 
+    9| <!-- include order history modal -->
+
+C:\Users\Aditya\Dropbox\node_react\courierapp2\views\include\_navbar.ejs:3
+    1| <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-10">
+    2|     <div class="container-fluid">
+ >> 3|       <% if(user.role == 'admin' || user.role == 'superadmin'){ %> 
+    4|         <a class="navbar-brand text-uppercase" href="/dashboard"><%= user.displayName %></a>
+    5|       <% }else{ %>
+    6|         <a class="navbar-brand text-uppercase" href="/dashboard"><%= user.username %></a>
+
+Cannot read properties of null (reading 'role'), 
+ URL: /dashboard, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 10-04-2022 15:12:06: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: C:\Users\Aditya\Dropbox\node_react\courierapp2\views\dashboard\dashboard.ejs:6
+    4| 
+    5|     <!-- include footer -->
+ >> 6| <%- include('../include/_navbar') %>
+    7| <!-- /include footer -->
+    8| 
+    9| <!-- include order history modal -->
+
+C:\Users\Aditya\Dropbox\node_react\courierapp2\views\include\_navbar.ejs:3
+    1| <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-10">
+    2|     <div class="container-fluid">
+ >> 3|       <% if(user.role == 'admin' || user.role == 'superadmin'){ %> 
+    4|         <a class="navbar-brand text-uppercase" href="/dashboard"><%= user.displayName %></a>
+    5|       <% }else{ %>
+    6|         <a class="navbar-brand text-uppercase" href="/dashboard"><%= user.username %></a>
+
+Cannot read properties of null (reading 'role'), 
+ URL: /dashboard, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 10-04-2022 15:12:06: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: C:\Users\Aditya\Dropbox\node_react\courierapp2\views\dashboard\dashboard.ejs:6
+    4| 
+    5|     <!-- include footer -->
+ >> 6| <%- include('../include/_navbar') %>
+    7| <!-- /include footer -->
+    8| 
+    9| <!-- include order history modal -->
+
+C:\Users\Aditya\Dropbox\node_react\courierapp2\views\include\_navbar.ejs:3
+    1| <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-10">
+    2|     <div class="container-fluid">
+ >> 3|       <% if(user.role == 'admin' || user.role == 'superadmin'){ %> 
+    4|         <a class="navbar-brand text-uppercase" href="/dashboard"><%= user.displayName %></a>
+    5|       <% }else{ %>
+    6|         <a class="navbar-brand text-uppercase" href="/dashboard"><%= user.username %></a>
+
+Cannot read properties of null (reading 'role'), 
+ URL: /dashboard, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 10-04-2022 15:12:06: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: C:\Users\Aditya\Dropbox\node_react\courierapp2\views\dashboard\dashboard.ejs:6
+    4| 
+    5|     <!-- include footer -->
+ >> 6| <%- include('../include/_navbar') %>
+    7| <!-- /include footer -->
+    8| 
+    9| <!-- include order history modal -->
+
+C:\Users\Aditya\Dropbox\node_react\courierapp2\views\include\_navbar.ejs:3
+    1| <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-10">
+    2|     <div class="container-fluid">
+ >> 3|       <% if(user.role == 'admin' || user.role == 'superadmin'){ %> 
+    4|         <a class="navbar-brand text-uppercase" href="/dashboard"><%= user.displayName %></a>
+    5|       <% }else{ %>
+    6|         <a class="navbar-brand text-uppercase" href="/dashboard"><%= user.username %></a>
+
+Cannot read properties of null (reading 'role'), 
+ URL: /dashboard, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 10-04-2022 20:02:18: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Order is not defined, 
+ URL: /dashboard, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 10-04-2022 20:02:18: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Order is not defined, 
+ URL: /dashboard, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 10-04-2022 20:02:18: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Order is not defined, 
+ URL: /dashboard, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 10-04-2022 20:02:18: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Order is not defined, 
+ URL: /dashboard, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 10-04-2022 20:02:18: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Order is not defined, 
+ URL: /dashboard, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 10-04-2022 20:02:18: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Order is not defined, 
+ URL: /dashboard, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 10-04-2022 20:02:18: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Order is not defined, 
+ URL: /dashboard, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 10-04-2022 20:02:19: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Order is not defined, 
+ URL: /dashboard, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 10-04-2022 20:02:19: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Order is not defined, 
+ URL: /dashboard, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 10-04-2022 20:02:19: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Order is not defined, 
+ URL: /dashboard, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 10-04-2022 20:02:24: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Order is not defined, 
+ URL: /dashboard, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 10-04-2022 20:02:24: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Order is not defined, 
+ URL: /dashboard, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 10-04-2022 20:02:24: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Order is not defined, 
+ URL: /dashboard, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 10-04-2022 20:02:48: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: role is not defined, 
+ URL: /dashboard, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 10-04-2022 20:02:48: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: role is not defined, 
+ URL: /dashboard, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 10-04-2022 20:02:48: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: role is not defined, 
+ URL: /dashboard, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 10-04-2022 20:02:48: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: role is not defined, 
+ URL: /dashboard, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 10-04-2022 20:02:48: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: role is not defined, 
+ URL: /dashboard, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 10-04-2022 20:02:48: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: role is not defined, 
+ URL: /dashboard, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 10-04-2022 20:02:48: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: role is not defined, 
+ URL: /dashboard, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 10-04-2022 20:02:49: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: role is not defined, 
+ URL: /dashboard, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 10-04-2022 20:02:49: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: role is not defined, 
+ URL: /dashboard, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 10-04-2022 20:02:49: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: role is not defined, 
+ URL: /dashboard, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 10-04-2022 20:02:54: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: role is not defined, 
+ URL: /dashboard, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 10-04-2022 20:02:54: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: role is not defined, 
+ URL: /dashboard, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 10-04-2022 20:02:54: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: role is not defined, 
+ URL: /dashboard, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 10-04-2022 22:02:50: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: C:\Users\Aditya\Dropbox\node_react\courierapp2\views\order\list.ejs:46
+    44|         </thead>
+    45|         <tbody>          
+ >> 46|             <% orderlist.forEach(order => { %> 
+    47|                 <tr>
+    48|                     <td><%= moment(order.bookingDate).format(shortDateFormat) %></td>  
+    49|                     <% if(user.role == 'admin'){ %>
+
+Cannot read properties of undefined (reading 'forEach'), 
+ URL: /orders/orderlist, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 10-04-2022 22:02:50: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: C:\Users\Aditya\Dropbox\node_react\courierapp2\views\order\list.ejs:46
+    44|         </thead>
+    45|         <tbody>          
+ >> 46|             <% orderlist.forEach(order => { %> 
+    47|                 <tr>
+    48|                     <td><%= moment(order.bookingDate).format(shortDateFormat) %></td>  
+    49|                     <% if(user.role == 'admin'){ %>
+
+Cannot read properties of undefined (reading 'forEach'), 
+ URL: /orders/orderlist, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 10-04-2022 22:02:50: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: C:\Users\Aditya\Dropbox\node_react\courierapp2\views\order\list.ejs:46
+    44|         </thead>
+    45|         <tbody>          
+ >> 46|             <% orderlist.forEach(order => { %> 
+    47|                 <tr>
+    48|                     <td><%= moment(order.bookingDate).format(shortDateFormat) %></td>  
+    49|                     <% if(user.role == 'admin'){ %>
+
+Cannot read properties of undefined (reading 'forEach'), 
+ URL: /orders/orderlist, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 10-04-2022 22:02:51: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: C:\Users\Aditya\Dropbox\node_react\courierapp2\views\order\list.ejs:46
+    44|         </thead>
+    45|         <tbody>          
+ >> 46|             <% orderlist.forEach(order => { %> 
+    47|                 <tr>
+    48|                     <td><%= moment(order.bookingDate).format(shortDateFormat) %></td>  
+    49|                     <% if(user.role == 'admin'){ %>
+
+Cannot read properties of undefined (reading 'forEach'), 
+ URL: /orders/orderlist, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 10-04-2022 22:02:51: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: C:\Users\Aditya\Dropbox\node_react\courierapp2\views\order\list.ejs:46
+    44|         </thead>
+    45|         <tbody>          
+ >> 46|             <% orderlist.forEach(order => { %> 
+    47|                 <tr>
+    48|                     <td><%= moment(order.bookingDate).format(shortDateFormat) %></td>  
+    49|                     <% if(user.role == 'admin'){ %>
+
+Cannot read properties of undefined (reading 'forEach'), 
+ URL: /orders/orderlist, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 10-04-2022 22:02:51: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: C:\Users\Aditya\Dropbox\node_react\courierapp2\views\order\list.ejs:46
+    44|         </thead>
+    45|         <tbody>          
+ >> 46|             <% orderlist.forEach(order => { %> 
+    47|                 <tr>
+    48|                     <td><%= moment(order.bookingDate).format(shortDateFormat) %></td>  
+    49|                     <% if(user.role == 'admin'){ %>
+
+Cannot read properties of undefined (reading 'forEach'), 
+ URL: /orders/orderlist, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 10-04-2022 22:02:56: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: C:\Users\Aditya\Dropbox\node_react\courierapp2\views\order\list.ejs:46
+    44|         </thead>
+    45|         <tbody>          
+ >> 46|             <% orderlist.forEach(order => { %> 
+    47|                 <tr>
+    48|                     <td><%= moment(order.bookingDate).format(shortDateFormat) %></td>  
+    49|                     <% if(user.role == 'admin'){ %>
+
+Cannot read properties of undefined (reading 'forEach'), 
+ URL: /orders/orderlist, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 10-04-2022 22:02:56: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: C:\Users\Aditya\Dropbox\node_react\courierapp2\views\order\list.ejs:46
+    44|         </thead>
+    45|         <tbody>          
+ >> 46|             <% orderlist.forEach(order => { %> 
+    47|                 <tr>
+    48|                     <td><%= moment(order.bookingDate).format(shortDateFormat) %></td>  
+    49|                     <% if(user.role == 'admin'){ %>
+
+Cannot read properties of undefined (reading 'forEach'), 
+ URL: /orders/orderlist, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 10-04-2022 22:02:56: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: C:\Users\Aditya\Dropbox\node_react\courierapp2\views\order\list.ejs:46
+    44|         </thead>
+    45|         <tbody>          
+ >> 46|             <% orderlist.forEach(order => { %> 
+    47|                 <tr>
+    48|                     <td><%= moment(order.bookingDate).format(shortDateFormat) %></td>  
+    49|                     <% if(user.role == 'admin'){ %>
+
+Cannot read properties of undefined (reading 'forEach'), 
+ URL: /orders/orderlist, 
+ HTTP METHOD: GET, 
+ IP: ::1

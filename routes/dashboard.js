@@ -1,9 +1,10 @@
 const { Router } = require('express');
 const router = Router();
 const dashboardController = require('../controllers/dashboardController')
+const {verifyToken, authorizeRole, authorizeUser} = require('../helpers/helpers')
 
-router.get('/', dashboardController.index)
+router.get('/', verifyToken, authorizeUser, dashboardController.index)
 
-//router.get('/:id', dashboardController.index)
+
 
 module.exports = router

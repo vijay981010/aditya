@@ -16,7 +16,7 @@ exports.manifestList = async(req, res, next) => {
         let userId = req.user.id
         const user = await User.findById(userId)
         const manifestList = await Manifest.find({admin: userId})
-        res.render('manifestlist', {user, manifestList}) 
+        res.render('manifest/list', {user, manifestList}) 
     }catch(err){
         next(err)
     }
@@ -27,9 +27,9 @@ exports.manifestForm = async(req, res, next) => {
         let userId = req.user.id
         const user = await User.findById(userId)
         const countries = await db.collection('countries').find().toArray()
-        let orderList = await Order.find().populate('client').exec()
+        let orderList = await Order.find().populate('client').sort({bookingDate: 'desc', createdAt: 'desc'}).limit(100)
         orderList = orderList.filter(elem => elem.client.admin == userId)
-        res.render('addmanifest', {user, countries, orderList})
+        res.render('manifest/add', {user, countries, orderList})
     }catch(err){
         next(err)
     }
@@ -57,7 +57,7 @@ exports.manifestGenerate = async(req, res, next) => {
         let obj = { admin, manifestNumber, manifestDate, dispatchTo, 
             manifestOrigin, manifestDestination, manifestMode,
             mawbNumber, cdNumber, runNumber, flightNumber, 
-            bagDetails: bagArr }
+            bagDetails: bagArr, totalAwbs: bagArr.length }
         
         const manifest = new Manifest(obj)
 
@@ -91,7 +91,7 @@ exports.manifestUpdateForm = async(req, res, next) => {
         //debug(awbnumbers)   
         //res.json(awbnumbers)     
 
-        res.render('updatemanifest', {user, countries, orderList, manifest, awbnumbers})
+        res.render('manifest/edit', {user, countries, orderList, manifest, awbnumbers})
     }catch(err){
         next(err)
     }
@@ -120,7 +120,7 @@ exports.manifestUpdate = async(req, res, next) => {
             let obj = { admin, manifestNumber, manifestDate, dispatchTo, 
                 manifestOrigin, manifestDestination, manifestMode,
                 mawbNumber, cdNumber, runNumber, flightNumber, 
-                bagDetails: bagArr }
+                bagDetails: bagArr, totalAwbs: bagArr.length }
                     
             await Manifest.findByIdAndUpdate(manifestId, obj, {new: true})
             

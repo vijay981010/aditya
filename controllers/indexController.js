@@ -30,38 +30,45 @@ exports.logoutPage = (req, res, next) => {
 
 exports.authenticateUser = async (req, res, next) => {        
     try{
+    // ------------------- VALIDATION ------------------- //
         const errors = validationResult(req)
 
-        //validation
+        //RENDER ERRORS//
         if(!errors.isEmpty()) {                        
             const alert = errors.array()                                       
             return res.render('index', {alert})            
         }
 
+    // ------------------- PROCESS INPUT ------------------- //
         let { username, password } = req.body
 
-        const user = await User.findOne({username:req.body.username})
+        const user = await User.findOne({username})
         
-        //password match in dB
+        //CHECK IF PASSWORD IS CORRECT//
         if(user && await bcrypt.compare(password, user.password)){
-            session = req.session;
-            session.data = user._id;
+            //SET SESSION//
+            session = req.session
+            session.data = user._id
+
+            //SET JWT//
             const token = jwt.sign({ 
                 id: user._id,
                 role: user.role
             },
                 process.env.ACCESS_TOKEN_SECRET_KEY,
                 {expiresIn : '2h'}
-            );
-           user.token = token;                 
+            )
+           user.token = token             
                            
+           //SET COOKIE//
            res.cookie('coapp', token, { 
                 maxAge: 1000*60*60*2,  
                 httpOnly: true 
-           });              
+           })
+           
+           //REDIRECT TO DASHBOARD//
            res.redirect('/dashboard')                                                                                                          
-        }else{
-            //res.send('Incorrect username/password')          
+        }else{                      
             res.render('error', {message: `Incorrect Password`, statusCode: '400'})
         }    
     }catch(err){

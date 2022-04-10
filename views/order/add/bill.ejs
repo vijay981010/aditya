@@ -1,0 +1,122 @@
+<!-- include header -->
+<%- include('../../include/_header') %>
+<!-- /include header -->
+
+<!-- include header -->
+<%- include('../../include/_navbar') %>
+<!-- /include header -->
+
+<div class="container">
+    <div class="row justify-content-center">                 
+        <div class="col-lg-12">
+          <div class="card shadow-lg border-0 rounded-lg mt-5 mb-5">
+            <form action = '/orders/<%= order._id %>/bill?_method=PATCH' method = "post">
+              <div class="card-header">
+                  <h3 class="text-center font-weight-light my-4">Bill Details</h3>
+              </div>
+              <div class="card-body">                                                          
+                    <div class="row"> 
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="text-center font-weight-light my-4">Base Rate</h3>
+                                </div>
+                                <div class="card-body">                                
+                                    <div class="row">
+                                        <div class="col-md-5">
+                                            <div class="form-group">                
+                                                <label for="baseRate">Amount<span>*</span></label>                                                                               
+                                                <input class="form-control" name = "baseRate" id="base" type="number" required <%= order.baseRate %> ? value="<%= order.baseRate %>" : value="0"/>                            
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">  
+                                                <label for="brCheck">GST</label>
+                                                <label class="switch">                                               
+                                                    <input type="checkbox" class="total" id="brCheck" <%= order.brGst != 0 ? 'checked' : '' %>> 
+                                                    <span class='slider round'></span>
+                                                </label>                                                                                
+                                            </div>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <div class="form-group">
+                                                <div class="form-group">                
+                                                    <label for="brGst">GST Amount</label>                                                                               
+                                                    <input class="form-control" name = "brGst" id = "brGst" type="number" readonly <%= order.brGst %> != 0 ? value="<%= order.brGst %>" : value="0"/>                            
+                                                </div>                                                
+                                            </div>
+                                        </div>                                        
+                                    </div>                                                                          
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="row">                        
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h3 class="text-center font-weight-light my-4">Charges</h3>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="form-group">                                                                                                                  
+                                                <button class="btn btn-primary btn-block" id="actionCharge">Add Miscallaeneous Charge</button>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <table class="table table-bordered table-responsive-sm" id="chargeTable">
+                                                <tr>
+                                                    <td><label for='title'>Title<span>*</span></label></td>
+                                                    <td><label for='amount'>Amount<span>*</span></label></td>
+                                                    <td><label for='vatCheck'>GST</label></td>
+                                                    <td><label for='vatAmount'>GST Amount</label></td>
+                                                    <td><label for='chargeRemove'>Action</label></td>                                        
+                                                </tr>
+                                                <% if(order.chargeDetails.length > 0){ 
+                                                    order.chargeDetails.forEach((charge, i) => { %>
+                                                        <tr id="r<%= i+100 %>">
+                                                            <td><input type='text' class='form-control text-center' name='title' value='<%= charge.title %>' required></td>
+                                                            <td><input type='number' class='form-control text-center total' name='amount' id="amount<%= i+100 %>"required <%= charge.amount %> ? value="<%= charge.amount %>" : value="0"></td>
+                                                            <td><label class="switch"><input type="checkbox" class="mc" id="<%= i+100 %>" <%= charge.gst != 0 ? 'checked' : '' %>><span class='slider round'></span></label></td>
+                                                            <td><input type='number' class='form-control text-center' name='gst' id="gst<%= i+100 %>" readonly <%= charge.gst %> != 0 ? value="<%= charge.gst %>" : value="0"></td>        
+                                                            <td><button class="btn btn-danger removeCharge"><i class="fa fa-minus-circle"></i></button></td>
+                                                        </tr>
+                                                    <% })
+                                                } %>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>                        
+                            </div>
+                        </div>                                                                                            
+                    </div>  
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="card">                                
+                                <div class="card-body">
+                                    <div class="form-group">                
+                                        <label for="totalBill">Bill Total</label>                                                                               
+                                        <input class="form-control" name = "totalBill" id="totalBill" type="number" readonly <%= order.totalBill %> != 0 ? value="<%= order.totalBill %>" : value="0"/>                            
+                                    </div>
+                                </div>                                
+                            </div>
+                        </div>                                                
+                    </div>                                                                                                                                
+              </div>              
+              <div class="card-footer">
+                    <div class="row">
+                        <div class="col-md-12 text-center">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </div>                
+              </div>  
+            </form>             
+          </div>            
+        </div>          
+    </div>
+</div>
+
+<!-- include footer -->
+<%- include('../../include/_footer') %>
+<!-- /include footer -->
+
+<script src = "/js/order/bill.js"></script>
