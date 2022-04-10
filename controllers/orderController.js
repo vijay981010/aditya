@@ -724,8 +724,8 @@ exports.packingList = async(req, res, next) => {
             }
         }
 
-        function print(start, gap, i, value){  
-            if((value + i) == totalitems) {
+        function print(start, gap, i, value){              
+            if((value + i + 1) == totalitems) {            
               doc
               .text('Total', 425, 685)
               .text(order.currency, 475, 685)
