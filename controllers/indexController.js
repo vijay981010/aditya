@@ -42,7 +42,11 @@ exports.authenticateUser = async (req, res, next) => {
     // ------------------- PROCESS INPUT ------------------- //
         let { username, password } = req.body
 
-        const user = await User.findOne({username})
+        const user = await User.findOne({username}).populate('admin')
+        
+        //CHECK IF ADMIN USER HAS ACCESS TO USERS MODULE//  
+        if(user.role == 'client' && user.admin.accessRight.indexOf('user') == -1) 
+            return res.render('error', {message: `Access Unauthorized`, statusCode: '400'})
         
         //CHECK IF PASSWORD IS CORRECT//
         if(user && await bcrypt.compare(password, user.password)){

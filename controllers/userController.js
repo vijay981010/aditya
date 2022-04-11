@@ -155,7 +155,7 @@ exports.settingsPage = async (req, res, next) => {
 
         let serviceList = await Service.find({ admin: userId })
         
-        let moduleList = ['services', 'manifest']        
+        let moduleList = ['user','services', 'manifest', 'invoice', 'ledger']        
             
         if(userId == subUser.admin || user.role == 'superadmin'){
             res.render('user/edit', {user, subUser, serviceList, moduleList})

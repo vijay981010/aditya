@@ -191,6 +191,10 @@ const orderSchema = new Schema({
         trim: true,
         maxlength: 30
     },
+    trackingStatus: {
+        type: String,
+        trim: true
+    },
     apiCount: {
         type: Number,
     },

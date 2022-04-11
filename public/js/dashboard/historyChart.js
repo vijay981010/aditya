@@ -109,17 +109,7 @@ $(document).ready(function(){
         // Instantiate and draw the chart.
         var chart = new google.visualization.ColumnChart(document.getElementById('histogram'))
         chart.draw(data, options)
-    }
-
-    // -------- GET DATE X DAYS AGO --------- //
-
-    function getDateXDaysAgo(numOfDays, date = new Date()) {
-        const daysAgo = new Date(date.getTime());
-      
-        daysAgo.setDate(date.getDate() - numOfDays);
-      
-        return daysAgo;
-    }
+    }    
     
 })
 

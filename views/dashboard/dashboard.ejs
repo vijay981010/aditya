@@ -10,6 +10,10 @@
 <%- include('../dashboard/include/_history') %>
 <!-- include order history modal -->
 
+<!-- include order status modal -->
+<%- include('../dashboard/include/_status') %>
+<!-- include order status modal -->
+
 <div class="container-fluid mt-3">
     
     <div class="row justify-content-center mb-5">
@@ -70,6 +74,84 @@
             </div>
         </div>
     </div>
+
+    <div class="row justify-content-center mb-5">
+        <div class="col-md-10">
+            <div class="card shadow-lg border-3 rounded-lg">
+                <div class="card-header text-center">  
+                    <h5 class="text-dark d-inline-block">ORDER STATUS</h5>         
+                    <div class="dropdown d-inline-block ml-3">
+                        <button class="btn btn-dark dropdown-toggle" type="button" id="statusFilter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Filter
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="" id="weekStatus">Last 7 days</a>                                                                                
+                            <a class="dropdown-item" href="" id="monthStatus">Last 30 days</a>                                
+                            <a class="dropdown-item" href="" data-toggle="modal" data-target="#statusModal">Date Range</a>                                           
+                        </div>
+                    </div>                               
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="card">
+                                <div class="card-header text-center bg-success">
+                                    <h5 class="card-title text-white">DELIVERED</h5>
+                                </div>
+                                <div class="card-body bg-success">                                          
+                                    <h5 class="text-center text-white" id="del"></h5>                                                                                          
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-header text-center bg-warning">
+                                    <h5 class="card-title text-white" >IN-TRANSIT</h5>
+                                </div>
+                                <div class="card-body bg-warning">                                          
+                                    <h5 class="text-center text-white" id="int"></h5>                                                                                          
+                                </div>
+                            </div>
+                            <div class="card">                        
+                                <div class="card-header text-center bg-primary">
+                                    <h5 class="card-title text-white" >BOOKED</h5>
+                                </div>
+                                <div class="card-body bg-primary">                                          
+                                    <h5 class="text-center text-white" id="sch"></h5>                                                                                          
+                                </div>
+                            </div>
+                            <div class="card">                        
+                                <div class="card-header text-center bg-danger">
+                                    <h5 class="card-title text-white">ISSUE</h5>
+                                </div>
+                                <div class="card-body bg-danger">                                          
+                                    <h5 class="text-center text-white" id="isu"></h5>                                                                                          
+                                </div>
+                            </div>
+                            <div class="card">                        
+                                <div class="card-header text-center bg-dark">
+                                    <h5 class="card-title text-white">RETURN</h5>
+                                </div>
+                                <div class="card-body bg-dark">                                          
+                                    <h5 class="text-center text-white" id="rtn"></h5>                                                                                          
+                                </div>
+                            </div>
+                            <div class="card">                        
+                                <div class="card-header text-center bg-secondary">
+                                    <h5 class="card-title text-white">OTHER</h5>
+                                </div>
+                                <div class="card-body bg-secondary">                                          
+                                    <h5 class="text-center text-white" id="info"></h5>                                                                                          
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-9">                    
+                            <div id="piechart"></div>
+                        </div>                
+                    </div>
+                </div>
+                <div class="card-footer"></div>
+            </div>            
+        </div>                        
+    </div>
 </div>
        
     
@@ -79,5 +161,5 @@
 
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script src = "/js/dashboard/historyChart.js"></script>
-<!-- <script src = "/js/dashboard/statusChart.js"></script> -->
+<script src = "/js/dashboard/statusChart.js"></script>
 

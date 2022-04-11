@@ -31,6 +31,7 @@ const orderRouter = require('./routes/order')
 const userRouter = require('./routes/user')
 const manifestRouter = require('./routes/manifest')
 const serviceRouter = require('./routes/service')
+const invoiceRouter = require('./routes/invoice')
 
 
 //set view and static files
@@ -84,6 +85,7 @@ app.use('/orders', orderRouter)
 app.use('/users', userRouter)
 app.use('/manifest', manifestRouter)
 app.use('/services', serviceRouter)
+app.use('/invoices', invoiceRouter)
 
 
 // Error Handling middleware

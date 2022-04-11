@@ -24,7 +24,7 @@
                 <th>Date</th>
                 <th>AWB</th>
                 <% if(user.role == 'admin'){ %>
-                <th>Current Tracking Status</th>                
+                <th>Status</th>                
                 <th>Client</th>
                 <% } %>
                 <th>Consignor</th>
@@ -47,8 +47,8 @@
                 <tr>
                     <td><%= moment(order.bookingDate).format(shortDateFormat) %></td>  
                     <% if(user.role == 'admin'){ %>
-                        <td class="cron"><%= order.awbNumber %></td>
-                    <% }else{ %>
+                        <td class="cron"><%= order.awbNumber %></td>                        
+                     <% }else{ %>
                         <td><%= order.awbNumber %></td>
                     <% } %>
                     <% if(user.role == 'admin'){ %>

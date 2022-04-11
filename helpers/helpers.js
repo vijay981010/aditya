@@ -3,6 +3,8 @@ const Order = require('../model/orderModel')
 const jwt = require('jsonwebtoken')
 const debug = require('debug')('dev')
 const logger = require('../helpers/logger')
+const Invoice = require('../model/invoiceModel')
+const Manifest = require('../model/manifestModel')
 
 exports.verifyToken = (req, res, next) => {    
     const token = req.cookies.coapp;     
@@ -21,23 +23,21 @@ exports.verifyToken = (req, res, next) => {
     next();
 }
 
+// ----------------------------------------------------------------------------------------------- //
+
 exports.authorizeRole = (role) =>{    
-    return async (req, res, next) => {        
-        /* debug(req.user.role)
-        debug(role) */        
-        if(role.indexOf(req.user.role) == -1){
-            //return res.status(403).json({message: "This page is not availaible for you"})
+    return async (req, res, next) => {                      
+        if(role.indexOf(req.user.role) == -1){            
             return res.render('error', {message: `This page is not availaible for you`, statusCode: '403'})
         }        
         next()
     }
 }
 
+// ----------------------------------------------------------------------------------------------- //
+
 exports.authorizeUser = (req, res, next) => {    
-    //debug(req.user)
-    //debug(req.params)
-    //debug(req)    
-    //debug(req.session)
+    
     if(req.user.role == 'superadmin'){
         return next()
     }else if(req.user.id != req.session.data){
@@ -48,24 +48,47 @@ exports.authorizeUser = (req, res, next) => {
     next()    
 }
 
-exports.authorizeOrderResource = async (req, res, next) => {
-    try{
-        let orderId = req.params.orderId
-        let userId = req.user.id
+// ----------------------------------------------------------------------------------------------- //
 
-        let order = await Order.findById(orderId).populate('client').exec()
+exports.authorizeResource = async (req, res, next) => {                      
+    try{
+        let userId = req.user.id
         let user = await User.findById(userId)
 
-        if(order.client.admin == userId || order.client._id == userId){
-            next()      
-        }else{            
-            //res.status(403).send("Resource Not Authorized") 
-            res.render('error', {message: `Resource Not Authorized`, statusCode: '403'})           
-        }
+        if(req.params.invoiceId){
+            let invoiceId = req.params.invoiceId
+            let invoice = await Invoice.findById(invoiceId)
+            
+            if(invoice.admin == userId){
+                next()      
+            }else{                        
+                res.render('error', {message: `Resource Not Authorized`, statusCode: '403'})           
+            }
+        }else if(req.params.orderId){
+            let orderId = req.params.orderId            
+            let order = await Order.findById(orderId).populate('client').exec()
+            
+            if(order.client.admin == userId || order.client._id == userId){
+                next()      
+            }else{                        
+                res.render('error', {message: `Resource Not Authorized`, statusCode: '403'})           
+            }
+        }else if(req.params.manifestId){
+            let manifestId = req.params.manifestId
+            let manifest = await Manifest.findById(manifestId)
+            
+            if(manifest.admin == userId){
+                next()      
+            }else{                        
+                res.render('error', {message: `Resource Not Authorized`, statusCode: '403'})           
+            }
+        }       
     }catch(err){
         next(err)
-    }
+    }          
 }
+
+// ----------------------------------------------------------------------------------------------- //
 
 exports.processRequest = (valueArray, keyArray, arrayLength) => {
     let arr = []
@@ -78,6 +101,8 @@ exports.processRequest = (valueArray, keyArray, arrayLength) => {
     }
     return arr
 }
+
+// ----------------------------------------------------------------------------------------------- //
 
 exports.sortBoxItem = (box, item, numOfBox) => {
     /* debug(box)

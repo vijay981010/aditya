@@ -111,7 +111,7 @@ exports.createOrder = async (req, res, next) => {
             consigneeAddress1, consigneeAddress2, 
             consigneePincode, consigneeCity, consigneeState,
             origin, destination, status: 'active', client: client_id,
-            trackingDetails: trackArr, apiCount:0
+            trackingDetails: trackArr, apiCount:0, trackingStatus: 'SCH'
         }
         
         const order = new Order(obj)
@@ -362,7 +362,7 @@ exports.trackDetails = async(req, res, next) => {
 
     // -------- GET TRACKING DATA FROM API IF VENDOR ID EXISTS -------------------- //
         
-        if(order.vendorId && order.vendorId != 0 || trackingNumber == '914325'){
+        if(order.vendorId && order.vendorId != 0 || trackingNumber == '920183'){
             let postData = {
                 "username":"adinr4",
                 "password":"be57b1d8cbcf5c9cd7fe3d8011233985",
@@ -386,8 +386,13 @@ exports.trackDetails = async(req, res, next) => {
 
                     order.trackingDetails.unshift(obj)
                 })
-                //order.trackingStatus = apiData.current_status_code //update to latest status code
+                order.trackingStatus = apiData.current_status_code //GET LATEST STATUS CODE//
+
+                //UPDATE ORDER TRACKING STATUS CODE TO DB//
+                let updateObj = {trackingStatus: order.trackingStatus}
+                await Order.findByIdAndUpdate(order._id, updateObj)
                                 
+                //SEND RESPONSE OBJECT TO AJAX REQUEST//
                 res.status(200).json({order, currentStatus, status:'Success'})            
             }else{
                 //res.status(400).send(`tracking number doesn't exist`)
@@ -411,12 +416,9 @@ exports.manualTrackingPage = async(req, res, next) => {
 
         const user = await User.findById(userId)
         let order = await Order.findById(orderId).populate('client').exec()              
-
-        if(order.client.admin == userId || order.client._id == userId){
-            res.render('order/track', {user, order})            
-        }else{            
-            res.status(403).send("Resource Not Authorized")            
-        }
+        
+        res.render('order/track', {user, order})            
+        
     }catch(err){
         next(err)
     }
@@ -424,8 +426,8 @@ exports.manualTrackingPage = async(req, res, next) => {
 
 exports.patchManualTracking = async (req, res, next) => {
     try{
-        //debug(req.body)
-        let { statusDate, statusTime, statusLocation, statusActivity } = req.body
+        debug(req.body)
+        let { statusDate, statusTime, statusLocation, statusActivity, trackingStatus } = req.body
 
         //debug(typeof statusDate, typeof statusTime, typeof  statusLocation)
         let orderId = req.params.orderId            
@@ -449,7 +451,10 @@ exports.patchManualTracking = async (req, res, next) => {
                 ['statusDate', 'statusTime', 'statusLocation', 'statusActivity'], statusDate.length)
         }
 
-        let obj = { trackingDetails : trackingDetailsArr.slice().reverse() }
+        let obj = { 
+            trackingDetails : trackingDetailsArr.slice().reverse(),
+            trackingStatus 
+        }
 
         //debug(obj)
         
@@ -472,11 +477,8 @@ exports.patchBillPage = async (req, res) => {
         const user = await User.findById(userId)
         let order = await Order.findById(orderId).populate('client').exec()              
 
-        if(order.client.admin == userId || order.client._id == userId){
-            res.render('order/add/bill', {user, order})            
-        }else{            
-            res.status(403).send("Resource Not Authorized")            
-        }
+        res.render('order/add/bill', {user, order})            
+        
     }catch(err){
         next(err)
     }
@@ -523,11 +525,11 @@ exports.searchHistory = async(req, res, next) => {
     let filteredOrders
 
     //GET FILTERED ORDERS FOR CLIENT USER//
-    filteredOrders = await Order.find({bookingDate: dateArray, client: userId}).select('bookingDate')
+    filteredOrders = await Order.find({bookingDate: dateArray, client: userId}).select('bookingDate trackingStatus')
 
     //GET FILTERED ORDERS FOR ADMIN USER//
     if(role == 'admin'){
-        filteredOrders = await Order.find({bookingDate: dateArray}).populate('client').select('bookingDate')
+        filteredOrders = await Order.find({bookingDate: dateArray}).populate('client').select('bookingDate trackingStatus')
         filteredOrders = filteredOrders.filter(elem => elem.client.admin == userId)
     }  
     
@@ -545,8 +547,38 @@ exports.searchHistory = async(req, res, next) => {
         }
         return count
     })
+
+//--------------- GET STATUSWISE COUNT FOR FILTERED ORDERS---------------------//
+    let statusArr = filteredOrders.map(order => order.trackingStatus) //GET STATUS CODE OF FILTERED ORDERS//
+
+    //ARRAY OF STATUS CODE//
+    let intArr = ['INT', 'PKP', 'OOD', 'DNB']
+    let isuArr = ['UND', 'CAN', 'ONH', 'NWI', 'NFI', 'ODA', 'OTH', 'SMD', 'CRTA', 'CNA', 'DEX', 'DRE', 'PNR', 'LOST', 'PKF', 'PCAN']
+    let rtnArr = ['RTO', 'RTD', 'RCAN', 'RCLO', 'RDEL', 'RINT', 'ROOP', 'RPKP', 'RPSH', 'RSMD', 'RSCH']
     
-    let data = {dateArray, histArr, totFilteredOrders} //POPULATE RESPONSE DATA OBJECT    
+    //INITIALISE COUNT VARIBALES FOR RESPECTIVE STATUS//
+    let schStat = 0; let intStat = 0; let delStat = 0; let rtnStat = 0; let infoStat = 0; let isuStat = 0
+
+    //GET COUNT FOR EACH STATUS//
+    statusArr.forEach(status => {
+        if(status == 'SCH'){
+            schStat++
+        }else if(status == 'DEL'){
+            delStat++
+        }else if(intArr.indexOf(status) != -1){
+            intStat++
+        }else if(isuArr.indexOf(status) != -1){
+            isuStat++
+        }else if(rtnArr.indexOf(status) != -1){
+            rtnStat++
+        }else{
+            infoStat++
+        }         
+    })
+        
+    let statusObj = {schStat, delStat, intStat, isuStat, rtnStat, infoStat}
+    
+    let data = {dateArray, histArr, totFilteredOrders, statusObj} //POPULATE RESPONSE DATA OBJECT    
     
     res.status(200).json(data) //SEND RESPONSE TO AJAX REQUEST
 }

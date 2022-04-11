@@ -55,7 +55,15 @@
               Manifest
             </a>                
           </li>  
-            <% }        
+            <% }
+            if(user.accessRight.indexOf('invoice') != -1){ %> 
+              <li class="nav-item dropdown" id="invoices">
+                <a class="nav-link" href="/invoices/list">
+                  <span class="text-gradient"><i class="fas fa-receipt"></i></span>
+                  Invoice
+                </a>                
+              </li>  
+            <% }       
            } %>    
         </ul>                        
         <ul class="navbar-nav ml-auto">

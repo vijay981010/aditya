@@ -14,14 +14,21 @@
                   <h3 class="text-center font-weight-light my-4">Tracking Status Details for AWB : <%= order.awbNumber %></h3>
               </div>
               <div class="card-body">                  
-                    <div class="row">                                   
-                        <div class="col-md-4">
-                            
-                        </div>             
-                        <div class="col-md-4">
-                            
+                    <div class="row">                                                                  
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="trackingStatus">Status Code<span>*</span></label>
+                                <select class ="form-select" name = "trackingStatus" required >
+                                    <option value="<%= order.trackingStatus %>"><%= order.trackingStatus %></option>                                    
+                                    <option value="SCH">SCH</option>
+                                    <option value="INT">INT</option>     
+                                    <option value="ISU">ISU</option>
+                                    <option value="DEL">DEL</option>
+                                    <option value="RTN">RTN</option>                                                                          
+                                </select>                                                                                                        
+                            </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="form-group">
                                 <label for="actionBox">Action</label><br>                                                                         
                                 <button class="btn btn-primary btn-block" id="actionStatus">Add Status</button>
@@ -41,16 +48,16 @@
                                     order.trackingDetails.forEach((status,i) => { %>  
                                 <tr id="r<%= i+100 %>"> 
                                     <td>
-                                        <input class='form-control text-center dateStat' name='statusDate' value="<%= moment(status.statusDate.toISOString().split('T')[0]).format(shortDateFormat) %>" required>                                        
+                                        <input class='form-control text-center dateStat' name='statusDate[]' value="<%= moment(status.statusDate.toISOString().split('T')[0]).format(shortDateFormat) %>" required>                                        
                                     </td>
                                     <td>
-                                        <input class='form-control text-center timeStat' name='statusTime' value="<%= status.statusTime %>" required>                                        
+                                        <input class='form-control text-center timeStat' name='statusTime[]' value="<%= status.statusTime %>" required>                                        
                                     </td>
                                     <td>
-                                        <input type='string' class='form-control text-center' name='statusLocation' value="<%= status.statusLocation %>" required>
+                                        <input type='string' class='form-control text-center' name='statusLocation[]' value="<%= status.statusLocation %>" required>
                                     </td>
                                     <td>
-                                        <input type='string' class='form-control text-center' name='statusActivity' value="<%= status.statusActivity %>" required>
+                                        <input type='string' class='form-control text-center' name='statusActivity[]' value="<%= status.statusActivity %>" required>
                                     </td>
                                     <td>
                                         <button class="btn btn-danger removeStatus"><i class="fa fa-minus-circle"></i></button>

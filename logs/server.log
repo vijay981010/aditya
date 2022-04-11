@@ -1264,3 +1264,133 @@ Cannot read properties of undefined (reading 'forEach'),
  URL: /orders/orderlist, 
  HTTP METHOD: GET, 
  IP: ::1
+error: 11-04-2022 12:05:51: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cast to embedded failed for value "{\n' +
+  "  statusDate: 'undefined',\n" +
+  '  statusTime: undefined,\n' +
+  '  statusLocation: undefined,\n' +
+  "  statusActivity: 'r'\n" +
+  '}" (type string) at path "trackingDetails", 
+ URL: /orders/62515eab76c678cf05c1f7e5/trackingdetails?_method=PATCH, 
+ HTTP METHOD: PATCH, 
+ IP: ::1
+error: 11-04-2022 12:07:47: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cast to embedded failed for value "{\n' +
+  "  statusDate: 'undefined',\n" +
+  '  statusTime: undefined,\n' +
+  '  statusLocation: undefined,\n' +
+  "  statusActivity: 'r'\n" +
+  '}" (type string) at path "trackingDetails", 
+ URL: /orders/62515eab76c678cf05c1f7e5/trackingdetails?_method=PATCH, 
+ HTTP METHOD: PATCH, 
+ IP: ::1
+error: 11-04-2022 20:16:22: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: data and hash arguments required, 
+ URL: /, 
+ HTTP METHOD: POST, 
+ IP: ::1
+error: 11-04-2022 20:16:22: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: data and hash arguments required, 
+ URL: /, 
+ HTTP METHOD: POST, 
+ IP: ::1
+error: 11-04-2022 20:16:22: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: data and hash arguments required, 
+ URL: /, 
+ HTTP METHOD: POST, 
+ IP: ::1
+error: 11-04-2022 20:17:07: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: data and hash arguments required, 
+ URL: /, 
+ HTTP METHOD: POST, 
+ IP: ::1
+error: 11-04-2022 20:17:07: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: data and hash arguments required, 
+ URL: /, 
+ HTTP METHOD: POST, 
+ IP: ::1
+error: 11-04-2022 20:17:07: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: data and hash arguments required, 
+ URL: /, 
+ HTTP METHOD: POST, 
+ IP: ::1
+error: 11-04-2022 20:17:36: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: data and hash arguments required, 
+ URL: /, 
+ HTTP METHOD: POST, 
+ IP: ::1
+error: 11-04-2022 20:17:36: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: data and hash arguments required, 
+ URL: /, 
+ HTTP METHOD: POST, 
+ IP: ::1
+error: 11-04-2022 20:45:49: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: test.findById is not a function, 
+ URL: /invoices/list, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 11-04-2022 20:48:09: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: test.findById is not a function, 
+ URL: /invoices/list, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 12-04-2022 00:40:05: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: brGst is not defined, 
+ URL: /invoices/, 
+ HTTP METHOD: POST, 
+ IP: ::1
+error: 12-04-2022 00:45:34: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: brGst is not defined, 
+ URL: /invoices/, 
+ HTTP METHOD: POST, 
+ IP: ::1
+error: 12-04-2022 00:49:34: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'forEach'), 
+ URL: /invoices/, 
+ HTTP METHOD: POST, 
+ IP: ::1
+error: 12-04-2022 02:13:31: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: C:\Users\Aditya\Dropbox\node_react\courierapp2\views\invoice\list.ejs:114
+    112|                     <td><%= invoice.totalWeight %></td>                   
+    113|                     <td><%= invoice.totalAwbs %></td>                   
+ >> 114|                     <td><a class="btn-sm btn-primary" href="/invoices/<%= invoices._id %>/pdf">Download</a></td>
+    115|                     <td><a class="btn-sm btn-primary" href="/invoices/<%= invoices._id %>/delete">Delete</a></td>                    
+    116|                 </tr>
+    117|             <% }) %>                                                                                                           
+
+invoices is not defined, 
+ URL: /invoices/list, 
+ HTTP METHOD: GET, 
+ IP: ::1

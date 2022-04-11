@@ -1,0 +1,127 @@
+<!-- include header -->
+<%- include('../include/_header') %>
+<!-- /include header -->
+
+<!-- include header -->
+<%- include('../include/_navbar') %>
+<!-- /include header -->
+<div class="container-fluid mb-5"> 
+    <div class="container-fluid">
+        <header class="row py-3 mb-4 border-bottom">
+            <div class="col-md-3">                
+                <span class="fs-4 text-dark">List of invoices</span>
+            </div>            
+        </header>
+    </div> 
+
+    <div class="row justify-content-center">
+        <div class="col-lg-12 mb-4">
+            <div class="card">
+                <form action = '/invoices/' method = "post">
+                    <div class="card-header">
+                        <h4 class="text-center font-weight-light">Invoice Statement</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class = "row">
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <input type = 'hidden' name="admin" value="<%= user._id %>">
+                                            <label for="username">Select Customer<span>*</span></label>
+                                            <select class="form-control" name = "client" id="client" required> 
+                                                <option value="">---Select Customer---</option>                   
+                                                <% clientUserList.forEach(user => { %>
+                                                    <option value="<%= user._id %>"><%= user.username %></option>
+                                                <% }) %>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">                
+                                            <label for="invoiceDate">Invoice Date<span>*</span></label>                                                                               
+                                            <input class="form-control inputDate" name = "invoiceDate" required/>                            
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">                
+                                            <label for="invoiceNumber">Invoice Number<span>*</span></label>                                                                               
+                                            <input class="form-control" name = "invoiceNumber" required/>                            
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">                
+                                            <label for="StatementStartDate">Start Date<span>*</span></label>                                                                               
+                                            <input class="form-control inputDate" name = "invoiceStartDate" required/>                            
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">                
+                                            <label for="StatementEndDate">End Date<span>*</span></label>                                                                               
+                                            <input class="form-control inputDate" name = "invoiceEndDate" required/>                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">                
+                                    <label for="note">Additional Note</label>                                                                               
+                                    <textarea rows="5" class="form-control" name="note" ></textarea>
+                                </div>
+                            </div>                                                
+                        </div>
+                    </div>
+                    <div class="card-footer"> 
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                <button type="submit" class="btn btn-primary">Generate</button>
+                            </div>
+                        </div>                                    
+                    </div>
+                </form>                                                
+            </div>            
+        </div>
+    </div>
+  
+    <table id="myTable" class="display cell-border responsive" width="100%" >
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Client</th>
+                <th>Number</th>
+                <th>Start Date</th>                
+                <th>End Date</th>
+                <th>Amount</th>                
+                <th>Total Weight</th>
+                <th>Total Awbs</th>
+                <th>Action</th>                           
+                <th>Action</th>                                
+            </tr>
+        </thead>
+        <tbody>                      
+            <% invoicelist.forEach((invoice,i) => { %> 
+                <tr>
+                    <td><%= moment(invoice.invoiceDate).format(shortDateFormat) %></td>
+                    <td><%= invoice.client.username %></td>                    
+                    <td><%= invoice.invoiceNumber %></td>
+                    <td><%= moment(invoice.invoiceStartDate).format(shortDateFormat) %></td>
+                    <td><%= moment(invoice.invoiceEndDate).format(shortDateFormat) %></td> 
+                    <td><%= invoice.totalAmount %></td></td>                   
+                    <td><%= invoice.totalWeight %></td>                   
+                    <td><%= invoice.totalAwbs %></td>                   
+                    <td><a class="btn-sm btn-primary" href="/invoices/<%= invoice._id %>/pdf">Download</a></td>
+                    <td><a class="btn-sm btn-primary" href="/invoices/<%= invoice._id %>/delete">Delete</a></td>                    
+                </tr>
+            <% }) %>                                                                                                           
+        </tbody>
+    </table>    
+</div>
+
+       
+
+
+<!-- include footer -->
+<%- include('../include/_footer') %>
+<!-- /include footer -->

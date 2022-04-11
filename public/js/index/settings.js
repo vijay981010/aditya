@@ -6,6 +6,8 @@ if(window.location.hostname == 'localhost'){
     environment.baseurl = `https://${window.location.hostname}`
 }
 
+// -------- GET NUMBER ROUNDED TO NEAREST 0.5 OR 1 --------- //
+
 function roundToFive(num){
     let roundNum = Math.floor(num)
     let deciDigit = (num - roundNum).toFixed(1)
@@ -16,6 +18,16 @@ function roundToFive(num){
     }else if(deciDigit > 0.5){  //greater than 0.5
       return Math.ceil(num)
     }
+}
+
+// -------- GET DATE X DAYS AGO --------- //
+
+function getDateXDaysAgo(numOfDays, date = new Date()) {
+  const daysAgo = new Date(date.getTime());
+
+  daysAgo.setDate(date.getDate() - numOfDays);
+
+  return daysAgo;
 }
 
 
