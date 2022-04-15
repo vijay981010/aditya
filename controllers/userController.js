@@ -128,7 +128,7 @@ exports.updateProfile = async (req, res, next) => {
 
     // -------------------------------- PROCESS INPUTS -------------------------------- //        
         const {role, username, password,
-        companyName, contactName, address, 
+        companyName, contactName, address, sacCode,
         contactNumber, email, gstNumber, website, admin_id} = req.body        
 
         //HASH THE PASSWORD//
@@ -144,14 +144,25 @@ exports.updateProfile = async (req, res, next) => {
        //CREATE OBJECT TO BE SAVED TO DB//
        let obj = {role, username, password: hash,
         companyName, contactName, address, contactNumber, 
-        email, gstNumber, website}
+        email, gstNumber, website, sacCode}
 
         if(admin_id) obj.admin = admin_id //IF CLIENT USER
+
+        //IDENTIFY IF A SELF USER IS UPDATING OR A SUPER USER IS UPDATING A SUB USER//
+        let userId = req.user.id
+        debug(userId)
+        if(req.body.subUserUpdate) userId = req.body.subUserUpdate
+        debug(userId)
         
         //WRITE TO DB//
-        await User.findByIdAndUpdate(req.user.id, obj, {new: true})
+        await User.findByIdAndUpdate(userId, obj, {new: true})
 
-        res.redirect('/users/profile')
+        if(req.body.subUserUpdate){
+            res.redirect('/users/clientlist')
+        }else{
+            res.redirect('/users/profile')
+        }
+        
         
     }catch(err){
         next(err)

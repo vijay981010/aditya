@@ -21,13 +21,8 @@
               <div class="card-body">            
                     <div class="row">
                         <div class="col-md-6">
-                            <div class="form-group">                                    
-                                <% if(user.role == 'client'){ %>
-                                <input type="hidden" name="admin_id" value="<%= user.admin %>" >
-                                <input type="hidden" name="role" value="client" >
-                                <% } else if(user.role == 'admin') { %> 
-                                <input type="hidden" name="role" value="admin" >
-                                <% } %>                                     
+                            <div class="form-group">                                                                       
+                                <input type="hidden" name="subUserUpdate" value="<%= clientUser._id %>">
                                 <label for="username">Username<span>*</span></label>                                   
                                 <input class="form-control" name = "username" value = "<%= clientUser.username %>" type="text" required/>                            
                             </div>
