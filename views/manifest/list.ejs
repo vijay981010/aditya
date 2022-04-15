@@ -32,7 +32,7 @@
             </tr>
         </thead>
         <tbody> 
-            <% manifestList.slice().reverse().forEach(manifest => { %> 
+            <% manifestList.forEach(manifest => { %> 
                 <tr>
                 <td><%= manifest.manifestNumber %></td>                
                 <td><%= moment(manifest.manifestDate).format(shortDateFormat) %></td>

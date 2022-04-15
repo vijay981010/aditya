@@ -1394,3 +1394,1116 @@ invoices is not defined,
  URL: /invoices/list, 
  HTTP METHOD: GET, 
  IP: ::1
+error: 14-04-2022 20:39:55: 
+ 	STATUSCODE: 304, 
+ STATUSMESSAGE: Not Modified, 
+ ERROR: Cannot set headers after they are sent to the client, 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 14-04-2022 20:40:00: 
+ 	STATUSCODE: 304, 
+ STATUSMESSAGE: Not Modified, 
+ ERROR: Cannot set headers after they are sent to the client, 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 14-04-2022 20:56:44: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'id'), 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 14-04-2022 20:56:44: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'id'), 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 14-04-2022 20:56:44: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'id'), 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 14-04-2022 20:56:45: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'id'), 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 14-04-2022 20:56:45: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'id'), 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 14-04-2022 20:56:45: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'id'), 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 14-04-2022 20:56:50: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'id'), 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 14-04-2022 20:56:50: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'id'), 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 14-04-2022 20:56:50: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'id'), 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 14-04-2022 20:57:20: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'id'), 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 14-04-2022 20:57:20: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'id'), 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 14-04-2022 20:57:20: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'id'), 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 14-04-2022 20:58:20: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'id'), 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 14-04-2022 20:58:20: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'id'), 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 14-04-2022 20:58:20: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'id'), 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 14-04-2022 20:58:33: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'id'), 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 14-04-2022 20:58:33: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'id'), 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 14-04-2022 20:58:33: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'id'), 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 14-04-2022 20:58:39: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'id'), 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 14-04-2022 20:58:39: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'id'), 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 14-04-2022 20:58:39: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'id'), 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 14-04-2022 20:59:29: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of null (reading 'maxY'), 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 14-04-2022 20:59:29: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of null (reading 'maxY'), 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 14-04-2022 20:59:29: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of null (reading 'maxY'), 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 14-04-2022 21:00:32: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of null (reading 'maxY'), 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 14-04-2022 21:00:32: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of null (reading 'maxY'), 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 14-04-2022 21:00:32: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of null (reading 'maxY'), 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 14-04-2022 21:02:31: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of null (reading 'maxY'), 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 14-04-2022 21:02:31: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of null (reading 'maxY'), 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 14-04-2022 21:02:31: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of null (reading 'maxY'), 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 14-04-2022 21:03:12: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of null (reading 'width'), 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 14-04-2022 21:03:12: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of null (reading 'width'), 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 14-04-2022 21:03:12: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of null (reading 'width'), 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 14-04-2022 21:05:06: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of null (reading 'width'), 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 14-04-2022 21:05:06: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of null (reading 'width'), 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 14-04-2022 21:05:06: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of null (reading 'width'), 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 14-04-2022 21:07:21: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of null (reading 'width'), 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 14-04-2022 21:07:21: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of null (reading 'width'), 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 14-04-2022 21:07:21: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of null (reading 'width'), 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 14-04-2022 21:48:15: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: half is not defined, 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 14-04-2022 21:48:15: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: half is not defined, 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 14-04-2022 21:48:15: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: half is not defined, 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 14-04-2022 21:48:16: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: half is not defined, 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 14-04-2022 21:48:16: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: half is not defined, 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 14-04-2022 21:48:16: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: half is not defined, 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 14-04-2022 21:48:21: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: half is not defined, 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 14-04-2022 21:48:21: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: half is not defined, 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 14-04-2022 21:48:21: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: half is not defined, 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 14-04-2022 23:39:52: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: vertical is not defined, 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 14-04-2022 23:39:52: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: vertical is not defined, 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 14-04-2022 23:39:52: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: vertical is not defined, 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 14-04-2022 23:39:53: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: vertical is not defined, 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 14-04-2022 23:39:53: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: vertical is not defined, 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 14-04-2022 23:39:53: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: vertical is not defined, 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 14-04-2022 23:39:58: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: vertical is not defined, 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 14-04-2022 23:39:58: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: vertical is not defined, 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 14-04-2022 23:39:58: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: vertical is not defined, 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 01:02:59: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'awbNumber'), 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 01:02:59: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'awbNumber'), 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 01:02:59: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'awbNumber'), 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 01:03:00: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'awbNumber'), 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 01:03:00: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'awbNumber'), 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 01:03:00: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'awbNumber'), 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 01:03:05: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'awbNumber'), 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 01:03:05: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'awbNumber'), 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 01:03:05: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'awbNumber'), 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 01:03:35: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'awbNumber'), 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 01:03:35: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'awbNumber'), 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 01:03:35: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'awbNumber'), 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 01:04:35: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'awbNumber'), 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 01:04:35: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'awbNumber'), 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 01:04:35: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'awbNumber'), 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 03:35:21: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'bookingDate'), 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 03:35:21: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'bookingDate'), 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 03:35:21: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'bookingDate'), 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 03:35:22: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'bookingDate'), 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 03:35:22: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'bookingDate'), 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 03:35:22: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'bookingDate'), 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 03:35:27: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'bookingDate'), 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 03:35:27: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'bookingDate'), 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 03:35:27: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'bookingDate'), 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 03:35:57: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'bookingDate'), 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 03:35:57: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'bookingDate'), 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 03:35:58: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'bookingDate'), 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 03:36:58: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'bookingDate'), 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 03:36:58: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'bookingDate'), 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 03:36:58: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'bookingDate'), 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 03:37:15: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'bookingDate'), 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 03:37:15: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'bookingDate'), 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 03:37:15: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'bookingDate'), 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 04:11:10: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: order is not defined, 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 04:11:10: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: order is not defined, 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 04:11:10: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: order is not defined, 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 04:11:12: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: order is not defined, 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 04:11:12: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: order is not defined, 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 04:11:12: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: order is not defined, 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 04:11:17: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: order is not defined, 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 04:11:17: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: order is not defined, 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 04:11:17: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: order is not defined, 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 04:11:41: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: compData is not defined, 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 04:11:41: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: compData is not defined, 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 04:11:41: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: compData is not defined, 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 04:11:41: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: compData is not defined, 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 04:11:41: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: compData is not defined, 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 04:11:42: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: compData is not defined, 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 04:11:42: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: compData is not defined, 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 04:11:42: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: compData is not defined, 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 04:11:47: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: compData is not defined, 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 04:11:47: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: compData is not defined, 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 04:11:47: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: compData is not defined, 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 04:32:15: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'bookingDate'), 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 04:32:15: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'bookingDate'), 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 04:32:15: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'bookingDate'), 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 04:32:16: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'bookingDate'), 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 04:32:16: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'bookingDate'), 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 04:32:16: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'bookingDate'), 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 04:32:21: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'bookingDate'), 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 04:32:21: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'bookingDate'), 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 04:32:21: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'bookingDate'), 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 04:32:51: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'bookingDate'), 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 04:32:51: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'bookingDate'), 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 04:32:51: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'bookingDate'), 
+ URL: /invoices/625492f3072e61057889aaa0/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 04:50:23: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'bookingDate'), 
+ URL: /invoices/6258ab07bc91c90e96e3f43f/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 04:50:23: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'bookingDate'), 
+ URL: /invoices/6258ab07bc91c90e96e3f43f/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 04:50:23: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'bookingDate'), 
+ URL: /invoices/6258ab07bc91c90e96e3f43f/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 04:50:24: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'bookingDate'), 
+ URL: /invoices/6258ab07bc91c90e96e3f43f/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 04:50:24: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'bookingDate'), 
+ URL: /invoices/6258ab07bc91c90e96e3f43f/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 04:50:24: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'bookingDate'), 
+ URL: /invoices/6258ab07bc91c90e96e3f43f/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 04:50:29: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'bookingDate'), 
+ URL: /invoices/6258ab07bc91c90e96e3f43f/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 04:50:29: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'bookingDate'), 
+ URL: /invoices/6258ab07bc91c90e96e3f43f/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 04:50:29: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'bookingDate'), 
+ URL: /invoices/6258ab07bc91c90e96e3f43f/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 04:50:59: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'bookingDate'), 
+ URL: /invoices/6258ab07bc91c90e96e3f43f/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 04:50:59: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'bookingDate'), 
+ URL: /invoices/6258ab07bc91c90e96e3f43f/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 04:50:59: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'bookingDate'), 
+ URL: /invoices/6258ab07bc91c90e96e3f43f/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 04:58:10: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: text is not defined, 
+ URL: /invoices/6258ab07bc91c90e96e3f43f/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 04:58:10: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: text is not defined, 
+ URL: /invoices/6258ab07bc91c90e96e3f43f/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 04:58:10: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: text is not defined, 
+ URL: /invoices/6258ab07bc91c90e96e3f43f/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 04:58:11: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: text is not defined, 
+ URL: /invoices/6258ab07bc91c90e96e3f43f/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 04:58:11: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: text is not defined, 
+ URL: /invoices/6258ab07bc91c90e96e3f43f/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 04:58:12: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: text is not defined, 
+ URL: /invoices/6258ab07bc91c90e96e3f43f/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 04:58:17: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: text is not defined, 
+ URL: /invoices/6258ab07bc91c90e96e3f43f/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 04:58:17: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: text is not defined, 
+ URL: /invoices/6258ab07bc91c90e96e3f43f/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 04:58:17: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: text is not defined, 
+ URL: /invoices/6258ab07bc91c90e96e3f43f/pdf, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 05:22:23: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'slice'), 
+ URL: /orders/track/details?elem=920183&_=1649980342814, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 05:22:23: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'slice'), 
+ URL: /orders/track/details?elem=920183&_=1649980342814, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 05:22:23: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'slice'), 
+ URL: /orders/track/details?elem=920183&_=1649980342814, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 05:22:23: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'slice'), 
+ URL: /orders/track/details?elem=920183&_=1649980342814, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 05:22:23: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'slice'), 
+ URL: /orders/track/details?elem=920183&_=1649980342814, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 05:22:23: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'slice'), 
+ URL: /orders/track/details?elem=920183&_=1649980342814, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 05:22:23: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'slice'), 
+ URL: /orders/track/details?elem=920183&_=1649980342814, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 05:26:28: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'slice'), 
+ URL: /orders/track/details?elem=920183&_=1649980588387, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 05:26:28: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'slice'), 
+ URL: /orders/track/details?elem=920183&_=1649980588387, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 05:26:28: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'slice'), 
+ URL: /orders/track/details?elem=920183&_=1649980588387, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 05:26:29: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'slice'), 
+ URL: /orders/track/details?elem=920183&_=1649980588387, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 05:26:29: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'slice'), 
+ URL: /orders/track/details?elem=920183&_=1649980588387, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 05:26:29: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'slice'), 
+ URL: /orders/track/details?elem=920183&_=1649980588387, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 05:26:29: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'slice'), 
+ URL: /orders/track/details?elem=920183&_=1649980588387, 
+ HTTP METHOD: GET, 
+ IP: ::1

@@ -15,7 +15,7 @@ exports.manifestList = async(req, res, next) => {
     try{
         let userId = req.user.id
         const user = await User.findById(userId)
-        const manifestList = await Manifest.find({admin: userId})
+        const manifestList = await Manifest.find({admin: userId}).sort({bookingDate: 'desc', createdAt: 'desc'}).limit(1000)
         res.render('manifest/list', {user, manifestList}) 
     }catch(err){
         next(err)

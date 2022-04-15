@@ -7,7 +7,7 @@ router.get('/list', verifyToken, authorizeRole(['admin', 'superadmin']), authori
 
 router.post('/', verifyToken, authorizeRole(['admin', 'superadmin']), authorizeUser, invoiceController.invoiceGenerate)
 
-router.get('/:invoiceId/pdf', verifyToken, authorizeRole(['admin', 'superadmin']), authorizeUser, authorizeResource, invoiceController.invoicePdf)
+router.get('/:invoiceId/pdf', invoiceController.invoicePdf) //verifyToken, authorizeRole(['admin', 'superadmin']), authorizeUser, authorizeResource,
 
 router.delete('/:invoiceId/delete', verifyToken, authorizeRole(['admin', 'superadmin']), authorizeUser, authorizeResource, invoiceController.invoiceDelete)
 

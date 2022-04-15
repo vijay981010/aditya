@@ -111,7 +111,7 @@
                     <td><%= invoice.totalAmount %></td></td>                   
                     <td><%= invoice.totalWeight %></td>                   
                     <td><%= invoice.totalAwbs %></td>                   
-                    <td><a class="btn-sm btn-primary" href="/invoices/<%= invoice._id %>/pdf">Download</a></td>
+                    <td><a class="btn-sm btn-primary" target="_blank" href="/invoices/<%= invoice._id %>/pdf">Download</a></td>
                     <td><a class="btn-sm btn-primary" href="/invoices/<%= invoice._id %>/delete">Delete</a></td>                    
                 </tr>
             <% }) %>                                                                                                           

@@ -13,7 +13,7 @@ exports.invoiceList = async(req, res, next) => {
 
         let clientUserList = await User.find({admin: userId})
 
-        let invoicelist = await Invoice.find({admin: userId}).populate({path: 'client', select: 'username'})
+        let invoicelist = await Invoice.find({admin: userId}).populate({path: 'client', select: 'username'}).sort({bookingDate: 'desc', createdAt: 'desc'}).limit(1000)
         res.render('invoice/list', {user, invoicelist, clientUserList})
     }catch(err){
         next(err)
@@ -71,14 +71,18 @@ exports.invoiceGenerate = async(req, res, next) => {
 
 exports.invoicePdf = async(req, res, next) => {
     try{
+        //res.send('hello')
         let invoiceId = req.params.invoiceId
-        //let userId = req.user.id
+        let userId = '623ed3385158ccd06b59f3f8' //req.user.id
+        
         let invoiceFields = 'invoiceNumber invoiceStartDate invoiceEndDate totalAmount invoiceDate note'
-        let invoice = await Invoice.findById(invoiceId).select(invoiceFields)
+        let invoice = await Invoice.findById(invoiceId).populate('client').populate('admin').select(invoiceFields)
+
+        let user = await User.findById(userId)
 
         let dateArray = getDates(new Date(invoice.invoiceStartDate), new Date(invoice.invoiceEndDate))
 
-        let orderFields = 'bookingDate awbNumber destination consignee chargeableWeight baseRate brGst chargeDetails totalBill'
+        let orderFields = 'bookingDate awbNumber destination consignee boxType chargeableWeight baseRate brGst chargeDetails totalBill'
         let orders = await Order.find({bookingDate: dateArray}).select(orderFields)      
         
     // ------------------- CALCULATE DATA -------------------- //        
@@ -98,8 +102,16 @@ exports.invoicePdf = async(req, res, next) => {
             return total
         })
 
+        let totalBillArr = orders.map(order => order.totalBill)
+        let totalBaseRateArr = orders.map(order => order.baseRate)
+
         let totalCharges = chargesArr.reduce((a, b) => a + b, 0) //GET SUM OF ALL CHARGES//
         let totalTax = taxArr.reduce((a, b) => a + b, 0) //GET SUM OF ALL TAX//  
+        let totalBill = totalBillArr.reduce((a, b) => a + b, 0) //GET SUM OF ALL TAX// 
+        let totalBaseRate = totalBaseRateArr.reduce((a, b) => a + b, 0)
+        
+        let compData = {chargesArr, taxArr, totalBillArr, totalCharges, totalTax, totalBill, totalBaseRate}
+
 
     
     // ------------------- GENERATE PDF -------------------------- //
@@ -107,33 +119,16 @@ exports.invoicePdf = async(req, res, next) => {
             size: 'A4',         
             layout: 'landscape',
             autoFirstPage: false  
-        })
-
-        /* let response = await axios({
-            url: 'https://pebbletech.in/anshika/anshika-logo.jpg',
-            method: 'get',
-            responseType: 'stream'
         })        
 
-        response.data.pipe(fs.createWriteStream('detailed-anshika-logo.jpg'))
-        .on('error', (err) => next(err))
-        .once('finish', callback) */
-
-        detailedInvoice(doc, orders, invoice) 
+        detailedInvoice(doc, orders, invoice, user, compData) 
 
         res.setHeader('Content-type', 'application/pdf')
         res.set({ 'Content-Disposition': `inline; filename=invoice_${invoice.invoiceNumber}.pdf` })
         
         stream = doc.pipe(res)                                              
-        doc.end()
+        doc.end() 
         
-        /* stream.on('finish', () => {
-            fs.unlink(`detailed-anshika-logo.jpg`, (err) => { if(err) next(err) })
-        }) */
-
-        /* function callback(){
-            
-        } */ 
     }catch(err){
         next(err)
     }

@@ -6,7 +6,7 @@ const axios = require('axios')
 const mongoose = require('mongoose');
 const {vendorArray} = require('../fixedData/vendors')
 const {processRequest, sortBoxItem, getDates} = require('../helpers/helpers')
-const PDFdocument = require('pdfkit');
+const PDFdocument = require('pdfkit')
 const {generateAwb} = require('../pdf/awb')
 const {boxstickergenerate} = require('../pdf/boxsticker')
 const {primarydetails, boxdetails, footerdetails} = require('../pdf/packinglist')
@@ -288,7 +288,8 @@ exports.patchTrack = async (req, res, next) => {
         
         //if no tracking number or vendor id, show error          
         if(!trackingNumber || !vendorId){
-            return res.status(400).json({Error: 'Please enter tracking number and select a vendor'})
+            //return res.status(400).json({Error: 'Please enter tracking number and select a vendor'})
+            return res.render('error', {message:'Please enter tracking number and select a vendor', statusCode: '400'})            
         }
         let order = await Order.findById(orderId)
         /* if(vendorName != 'OTHERS' ){
@@ -325,7 +326,7 @@ exports.patchTrack = async (req, res, next) => {
                     apiCount = order.apiCount + 1 //increment API count                    
                     apiCredit = user.apiCredit - 1 //decrement user API credit
                 }else{
-                    return res.status(400).json({Error: 'some API error'})
+                    return res.render('error', {message:'Unknown API Error!! Contact Developer', statusCode: '400'})
                 }
             }            
         }                     
@@ -336,13 +337,7 @@ exports.patchTrack = async (req, res, next) => {
         let userObj = { apiCredit }
 
         await Order.findByIdAndUpdate(orderId, obj, {new: true})
-        await User.findByIdAndUpdate(userId, userObj, {new: true})
-        
-        /* res.status(200).json({
-            message: 'Order patched successfully',
-            data: obj,      
-            user: userObj      
-        }) */
+        await User.findByIdAndUpdate(userId, userObj, {new: true})                
 
         res.redirect('/orders/orderlist')
 
@@ -370,22 +365,27 @@ exports.trackDetails = async(req, res, next) => {
             }
             let response = await axios.post('https://shipway.in/api/getOrderShipmentDetails', postData)
 
+            debug(response.data)
+
             if(response.data.status == "Success"){            
                 let apiData = response.data.response
                 let currentStatus = apiData.current_status
                 //process api scan items and push to order tracking details object
-                apiData.scan.slice().reverse().forEach(item => {
-                    let obj = {} // initiate blank obj
-                    
-                    let d = item.time.split(' ')[0] //get date from item.time
-                    let t = item.time.split(' ')[1] // get time from item.time
-                    obj.statusDate = d 
-                    obj.statusTime = t
-                    obj.statusLocation = item.location
-                    obj.statusActivity = item.status_detail
-
-                    order.trackingDetails.unshift(obj)
-                })
+                if(apiData.scan){
+                    apiData.scan.slice().reverse().forEach(item => {
+                        let obj = {} // initiate blank obj
+                        
+                        let d = item.time.split(' ')[0] //get date from item.time
+                        let t = item.time.split(' ')[1] // get time from item.time
+                        obj.statusDate = d 
+                        obj.statusTime = t
+                        obj.statusLocation = item.location
+                        obj.statusActivity = item.status_detail
+    
+                        order.trackingDetails.unshift(obj)
+                    })
+                }
+                
                 order.trackingStatus = apiData.current_status_code //GET LATEST STATUS CODE//
 
                 //UPDATE ORDER TRACKING STATUS CODE TO DB//

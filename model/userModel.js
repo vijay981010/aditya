@@ -74,6 +74,10 @@ const userSchema = new Schema({
     apiCredit: {
         type: Number,
     },
+    sacCode: {
+        type: String,
+        trim: true
+    },
     status: {
         type: String,
         enum: ['active', 'inactive']

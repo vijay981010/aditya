@@ -1,23 +1,51 @@
 const debug = require('debug')('dev')
 var moment = require('moment')
+const { note } = require('pdfkit')
 var shortDateFormat = 'DD-MM-yyyy'
 
-exports.detailedInvoice = (doc, orders, invoice) => {
+exports.detailedInvoice = (doc, orders, invoice, user, compData) => {
 // ---- Calculate Total Number of Pages ------ //
-    let start = 0  
-    let breakpoint = 8
-    let fconst = 8
+    /* let start = 0  
+    let breakpoint = 13//7
+    let fconst = 13//7
+    let len = 24//orders.length
     //debug(orders.length % breakpoint)
-    let totalPages
-    if(orders.length % breakpoint > 0){
-        totalPages = Math.ceil(orders.length / breakpoint)
-    }else if(orders.length % breakpoint == 0){
-        totalPages = orders.length / breakpoint
+    let totalPages */
+    /* if(len % breakpoint > 0){
+        totalPages = Math.ceil(len / breakpoint)
+    }else if(len % breakpoint == 0){
+        totalPages = len / breakpoint
+    } */
+
+    /* if(len % 7 > 0){
+        totalPages = Math.ceil(len / 7)
+    }else if(len % 7 == 0){
+        totalPages = Math.ceil(len / 7)
+    } */
+
+    let start = 0
+    let initialbreakpoint = 7
+    let breakpoint = 14
+    let fconst = 14
+    let len = orders.length
+    let runs = Math.floor((len-7) / breakpoint)    
+
+    // --- total pages and total value computation --- //
+    let totalPages = 0    
+
+    if(len <= 7){
+        totalPages = 1      
+    }else if(len > 7 && len <= 21){
+        totalPages = 2
+    }else{
+        totalPages = runs + 2 
     }
+
+    debug(totalPages)
 
 // ----- In case, there is only one page, then new breakpoint is set
     if(totalPages == 1){
-        breakpoint = orders.length
+        initialbreakpoint = len
     }
 
     //debug(totalPages)
@@ -27,59 +55,168 @@ exports.detailedInvoice = (doc, orders, invoice) => {
         //debug(start, breakpoint)
         doc.addPage()
 
-        //debug(i, start, breakpoint)
-        invoicerDetails(doc)
-        awbTable(doc, orders, start, breakpoint)
+        if(i == 0){
+            invoicerDetails(doc, user)
+            invoiceeDetails(doc, invoice)
+            tabl(doc, orders, compData, start, initialbreakpoint)
+            start = 7
+            if(21 > len){
+                breakpoint = len
+            }else{
+                breakpoint = 21
+            }
+        }
+        if(i > 0){
+            debug(i, start, breakpoint)
+            tabl(doc, orders, compData, start, breakpoint)
+
+            //update the startpoint for next page
+            start = breakpoint
+
+            //update the breakpoint with a condition for last element
+            if((breakpoint + fconst) > len){
+                breakpoint = len
+            }else{
+                breakpoint += fconst
+            }
+        }
+        
+        //awbTable(doc, orders, start, breakpoint)
         footerDetails(doc, i + 1, totalPages)
+
+        //render totals on last page//
         if(i == totalPages - 1){
-            summ(doc, invoice)
+            summ(doc, invoice, compData)
         }
+
+        if(invoice.note) displayNote(doc, invoice.note)
         
-        start = breakpoint //update the startpoint for next page
-        
-        //update the breakpoint with a condition for last element
-        if((breakpoint + fconst) > orders.length){
-            breakpoint = orders.length
-        }else{
-            breakpoint += fconst
-        }
-    }
+         
+    }    
     
 }
 
 // ----------------------------------- FUNCTIONS -------------------------------- //
 
-function invoicerDetails(doc){
-    let x = 410, y = 30, g = 15
-
-    // LOGO
-    /* doc
-    .image('detailed-anshika-logo.jpg', 560, 15, {width: 30, align:'right'})  */
-
-    // COMPANY NAME
+function invoicerDetails(doc, user){    
+    let x = 0, y = 25, g=20, g2 = 15   
+    let vertical = 842
+    let centerAlign = {width: vertical, align: 'center'}
+    
     doc
-    .font('Helvetica-Bold')
-    .fontSize(14)
-    .text('ANSHIKA INTERNATIONAL LTD.', x, y, {width: 400, align: 'right'}) //user.companyName
-    .font('Helvetica')
-    .fontSize(12)    
-
-    // UPPER LINE
-    doc
-    .moveTo(30, 50).lineTo(810, 50).stroke()
-
-    //LOWER LINE
-    doc
-    .moveTo(30, 80).lineTo(810, 80).stroke()
-
-    // DOCUMENT TITLE
-    doc
-    .font('Helvetica-Bold')
-    .fontSize(14)
-    .text('DETAILED INVOICE', 30, 30, {width: 200, align: 'left'})
+    .font('Helvetica-Bold').fontSize(16)    
+    .text(user.displayName, x, y, centerAlign) 
+    .font('Helvetica').fontSize(12)
+    .text(user.address, x, y+g, centerAlign)    
+    .text(`Contact Number: ${user.contactNumber}`, x, y+g+g2, centerAlign)
+    .text(`Email: ${user.email}`, x, y+g+(2*g2), centerAlign)
+    .text(`Website: ${user.website}`, x, y+g+(3*g2), centerAlign)
+    .text(`GST: ${user.gstNumber}`, x, y+g+(4*g2), centerAlign)    
+    .moveTo(x+10, y+g+(5*g2)).lineTo(vertical-10, y+g+(5*g2)).stroke()
 }
 
 // ------------------------------------------------------------------------------- //
+
+function invoiceeDetails(doc, invoice){
+    let x = 0, y = 135, g=20, g2 = 15
+    let x2 = 560, x3 = 630
+    let margin = 30   
+    let onethird = 281, full = 842
+    let leftAlign = {width: onethird, align: 'left'}        
+    let rightAlign = {width: onethird, align: 'right'}    
+    let centerAlign = {width: full, align: 'center'}
+
+    doc
+    .font('Helvetica-Bold').fontSize(16)    
+    .text('Sales Invoice', x, y, centerAlign)
+    
+    doc
+    .font('Helvetica-Bold').fontSize(12)
+    .text(invoice.client.username, x+margin, y+g, leftAlign)
+    .font('Helvetica').fontSize(12)
+    .text(invoice.client.address, x+margin, y+g+g2, leftAlign)
+
+    doc
+    .font('Helvetica').fontSize(12)
+    .text(invoice.invoiceNumber, x2-margin, y+g, rightAlign)
+    .text(moment(invoice.invoiceDate).format(shortDateFormat), x2-margin, y+g+g2, rightAlign)
+    .text(moment(invoice.invoiceStartDate).format(shortDateFormat), x2-margin, y+g+(2*g2), rightAlign)
+    .text(moment(invoice.invoiceEndDate).format(shortDateFormat), x2-margin, y+g+(3*g2), rightAlign)
+    .text(invoice.admin.sacCode, x2-margin, y+g+(4*g2), rightAlign)
+
+    doc
+    .font('Helvetica-Bold').fontSize(12)    
+    .text('Invoice Number', x3-margin, y+g, leftAlign)
+    .text('Invoice Date', x3-margin, y+g+g2, leftAlign)
+    .text('Invoice Start Date', x3-margin, y+g+(2*g2), leftAlign)
+    .text('Invoice End Date', x3-margin, y+g+(3*g2), leftAlign)
+    .text('SAC Code', x3-margin, y+g+(4*g2), leftAlign)
+    
+}
+
+function tabl(doc, orders, compData, start, breakpoint){
+    
+    let x = 30
+    let y
+    breakpoint <= 7 ? y = 255 : y = 45
+    debug(breakpoint, y)
+    
+    let g=30, g2 = 25        
+    let c = 0 // a counter for getting same row distance values on each page
+    
+    let widthArr = [30, 70, 60, 150, 160, 30, 60, 60, 60, 60, 60]
+    let headerArr = ['Sr No', 'Date', 'AWB', 'Destination', 'consignee', 'D/S', 'weight', 'amount', 'charges', 'tax', 'total']
+    let valueArr = [1, '20-04-2022', '1234567', 'United Kingdom', 'Aditya Nair Aditya Nair Aditya Nair', 'spx', 20, 10000, 1000, 1000, 12000]
+    let startArr = [30]    
+    
+    for(let i = 0; i < widthArr.length; i++){
+        let temp =   startArr[i] + widthArr[i]
+        startArr.push(temp)  
+      }    
+
+    doc.rect(10, y-10, 825, 30).fill('#4287f5')
+    
+    doc
+    .font('Helvetica-Bold').fontSize(11).fill('white')    
+
+    for(let i = 0; i < startArr.length; i++){
+        doc
+        .text(headerArr[i], startArr[i], y, {width: widthArr[i], align:'center'})        
+               
+    }
+
+    doc
+    .font('Helvetica').fontSize(11).fill('black')
+    
+    for(let i = start; i < breakpoint; i++){
+        //let s = i+1
+        let s = c + 1
+        let valueArr = [
+            i+1, moment(orders[i].bookingDate).format(shortDateFormat), orders[i].awbNumber, orders[i].destination,
+        orders[i].consignee, orders[i].boxType, orders[i].chargeableWeight, orders[i].baseRate, compData.chargesArr[i], 
+        compData.taxArr[i], compData.totalBillArr[i]
+    ]
+        
+        for(let j = 0; j < startArr.length; j++){
+            doc
+            .text(valueArr[j], startArr[j], y+(s*g), {width: widthArr[j], align:'center'})            
+        }    
+        c++     
+    }
+
+    /* for(let i = start; i < breakpoint; i++){
+        //let s = i+1
+        let s = c + 1
+        let valueArr = [1, '20-04-2022', '1234567', 'United Kingdom', 'Aditya Nair Aditya Nair Aditya Nair', 'spx', 20, 10000, 1000, 1000, 12000]
+        
+        for(let j = 0; j < startArr.length; j++){
+            doc
+            .text(valueArr[j], startArr[j], y+(s*g), {width: widthArr[j], align:'center'})            
+        }      
+        c++   
+    } */    
+
+}
 
 function awbTable(doc, orders, start, breakpoint){
     let x = 20, y = 60, g = 25, dateG = 60, awbG = 160, destG = 270, consG = 420, wG = 630, aG = 700
@@ -118,26 +255,45 @@ function footerDetails(doc, current, total){
     doc
     .fontSize(10)
     //.moveTo(330, 40).lineTo(470, 40).stroke()
-    .text(`Page ${current} of ${total}`, 350, 10, {width: 100, align: 'center'})
+    .text(`Page ${current} of ${total}`, 0, 575, {width: 842, height:15, align: 'center'})
 }
 
-function summ(doc, invoice){
-    let x = 20, consG = 530, wG = 630, aG = 700, y = 515
+function summ(doc, invoice, compData){
+    let widthArr = [30, 70, 60, 150, 160, 30, 60, 60, 60, 60, 60]
+    let valueArr = ['','','','','','','',compData.totalBaseRate, compData.totalCharges, compData.totalTax, compData.totalBill]
+    let startArr = [30]    
+    
+    for(let i = 0; i < widthArr.length; i++){
+        let temp =   startArr[i] + widthArr[i]
+        startArr.push(temp)  
+      }    
+
+    //TOTALS//
+    doc.rect(startArr[7], 530, 180, 30).fill('#4287f5')
+    doc.rect(startArr[10], 530, 60, 30).fill('green')
+
+    doc.rect(startArr[7], 500, 180, 30).fill('gray')
+    doc.rect(startArr[10], 500, 60, 30).fill('black')
 
     doc
-    .moveTo(30, 505).lineTo(810, 505).stroke()
-    .moveTo(30, 535).lineTo(810, 535).stroke()
+    .font('Helvetica-Bold').fontSize(13).fill('white')
+
+    for(let i = 7; i < startArr.length; i++){
+        doc.text(valueArr[i], startArr[i], 540, {width: widthArr[i], height:15, align: 'center'})
+    }
+
+    doc    
+    .text('Sub-Totals', startArr[8], 510, {width: 80, height:15, align: 'center'})
+    .text('Total', startArr[10], 510, {width: 50, height:15, align: 'center'})
+    
+}
+
+function displayNote(doc, note){
     
     doc
-    .fontSize(14)
-    .text(invoice.totalChargeableWeight, x + wG, y, {width: 100, height: 30, align: 'center'})
-    .text(invoice.forwardingCharges, x + aG, y, {width: 100, height: 30, align: 'center'})
-    .font('Helvetica-Bold')
-    .text('Total', x + consG, y, {width: 100, height: 30, align: 'center'})
-
-
-    doc
-    .font('Helvetica')
-    .fontSize(10)
-    .text(`Produced By: RAVI PITTALA on ${invoice.invoiceDate}`, x + 270, 540, {width: 500, height: 30, align: 'right'})
+    .addPage()
+    .font('Helvetica-Bold').fontSize(16).fill('black')    
+    .text('NOTE', 0, 45, {width: 842, align: 'center'}) 
+    .font('Helvetica').fontSize(14)    
+    .text(note, 0, 65, {width: 842, align: 'center'})
 }
