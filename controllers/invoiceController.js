@@ -73,7 +73,7 @@ exports.invoicePdf = async(req, res, next) => {
     try{
         //res.send('hello')
         let invoiceId = req.params.invoiceId
-        let userId = '623ed3385158ccd06b59f3f8' //req.user.id
+        let userId = req.user.id //'623ed3385158ccd06b59f3f8' 
         
         let invoiceFields = 'invoiceNumber invoiceStartDate invoiceEndDate totalAmount invoiceDate note'
         let invoice = await Invoice.findById(invoiceId).populate('client').populate('admin').select(invoiceFields)
