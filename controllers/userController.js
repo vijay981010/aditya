@@ -89,11 +89,25 @@ exports.createUser = async (req, res, next) => {
 }
 
 exports.singleProfile = async (req, res, next) => {
-    try{        
+    try{                
         let userId = req.user.id
         const user = await User.findById(userId)
-        
+                
         res.render('profile', {user})
+    }catch(err){
+        next(err)
+    }
+}
+
+exports.adminEditClientProfile = async(req, res, next) => {
+    try{
+        let clientId = req.params.clientId
+        let userId = req.user.id
+
+        const user = await User.findById(userId)
+        const clientUser = await User.findById(clientId)
+        
+        res.render('profile/edit', {user, clientUser})
     }catch(err){
         next(err)
     }

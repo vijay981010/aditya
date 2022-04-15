@@ -111,7 +111,7 @@ const orderSchema = new Schema({
     },    
     docType: {
         type: String,
-        enum: ['aadhar', 'pan', 'GST']
+        enum: ['Aadhaar Number', 'GSTIN (Normal)', 'PAN Number', 'Passport Number']
     },
     docNumber: {
         type: String,
@@ -182,6 +182,9 @@ const orderSchema = new Schema({
     currency: {
         type: String,
         enum: ['INR', 'USD']      
+    },
+    invoiceType: {
+        type: String,
     },
     totalValue: {
         type: Number

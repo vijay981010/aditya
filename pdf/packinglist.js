@@ -47,7 +47,11 @@ exports.primarydetails = (doc, order) => {
     .text(`FINAL DESTINATION: ${order.destination}`, 43, 265)
 
     .font('Helvetica-Bold')
-    .text('TERMS,UNSOLICITED GIFT FROM INDIVIDUAL TO INDIVIDUAL', 303, 220, {width: 260, align:'left', underline: true})
+    if(order.invoiceType != 'company'){
+      doc.text('TERMS,UNSOLICITED GIFT FROM INDIVIDUAL TO INDIVIDUAL', 303, 220, {width: 260, align:'left', underline: true})
+    }
+    
+    doc
     .font('Helvetica')
     .text(`NO OF BOX: ${order.numberOfBoxes}`, 303, 250)
     .text(`TOTAL WEIGHT: ${order.chargeableWeight}`, 303, 265)
@@ -67,7 +71,10 @@ exports.primarydetails = (doc, order) => {
     .text('QTY', 430, s + 5) //s + 5, 295
     .text('VALUE', 465, s + 5) //s + 5, 295
     .text('TOTAL', 515, s + 5, {width: 50, align: 'left'}) //s + 5, 295
-    .text('TERMS,UNSOLICITED GIFT FROM INDIVIDUAL TO INDIVIDUAL', 178, s + 25, {width: 245, align: 'center'}) //s + 25, 315
+    if(order.invoiceType != 'company'){
+      doc.text('TERMS,UNSOLICITED GIFT FROM INDIVIDUAL TO INDIVIDUAL', 178, s + 25, {width: 245, align: 'center'}) //s + 25, 315
+    }
+    doc
     .text(order.currency, 475, s + 25) // s + 25, 315
     .text(order.currency, 525, s + 25, {width: 50, align:'left'}) // s + 25, 315
 

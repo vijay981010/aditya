@@ -1,0 +1,117 @@
+<!-- include header -->
+<%- include('../include/_header') %>
+<!-- /include header -->
+
+<!-- include header -->
+<%- include('../include/_navbar') %>
+<!-- /include header -->
+<div class="container">
+
+    <!-- include header -->
+    <%- include('../include/_validations') %>
+    <!-- /include header -->
+
+    <div class="row justify-content-center">                 
+        <div class="col-lg-8">
+          <div class="card shadow-lg border-0 rounded-lg mt-5 mb-5">
+            <form action = '/users/profile' method = "post">
+              <div class="card-header">
+                  <h3 class="text-center font-weight-light my-4">Edit Profile</h3>
+              </div>
+              <div class="card-body">            
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">                                    
+                                <% if(user.role == 'client'){ %>
+                                <input type="hidden" name="admin_id" value="<%= user.admin %>" >
+                                <input type="hidden" name="role" value="client" >
+                                <% } else if(user.role == 'admin') { %> 
+                                <input type="hidden" name="role" value="admin" >
+                                <% } %>                                     
+                                <label for="username">Username<span>*</span></label>                                   
+                                <input class="form-control" name = "username" value = "<%= clientUser.username %>" type="text" required/>                            
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="password">Password<span>*</span></label>
+                                <input class="form-control" name = "password" type="password" required/>                            
+                            </div> 
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="companyName">Company Name</label>                                                                               
+                                <input class="form-control" name = "companyName" value = "<%= clientUser.companyName %>" type="text" />                            
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="contactName">Contact Name</label>
+                                <input class="form-control" name = "contactName" value="<%= clientUser.contactName %>" type="text" />                            
+                            </div> 
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="contactNumber">Contact Number</label>                                                                                
+                                <input class="form-control" name = "contactNumber" value = "<%= clientUser.contactNumber %>" type="text" />                            
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input class="form-control" name = "email" value="<%= clientUser.email %>" type="email" />                            
+                            </div> 
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="address">Address</label>                                                                                
+                                <textarea class="form-control" name = "address"><%= clientUser.address %></textarea>
+                            </div>
+                        </div>                            
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="gstNumber">GST Number</label>                                                                                
+                                <input class="form-control" name = "gstNumber" value="<%= clientUser.gstNumber %>" type="text" />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="gstNumber">SAC Number</label>                                                                                
+                                <input class="form-control" name = "sacCode" value="<%= clientUser.sacCode %>" type="text" />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="website">Website</label>
+                                <input class="form-control" name = "website" value="<%= clientUser.website %>" type="text" />                            
+                            </div> 
+                        </div>
+                    </div>
+              </div> 
+              <div class="card-footer">
+                    <div class="row">
+                        <div class="col-md-12 text-center">
+                            <button type="submit" class="btn btn-primary">Update</button>
+                        </div>
+                    </div>                
+              </div>  
+            </form>              
+          </div>            
+        </div>          
+    </div>
+</div>
+
+
+
+
+<!-- include footer -->
+<%- include('../include/_footer') %>
+<!-- /include footer -->

@@ -2507,3 +2507,78 @@ error: 15-04-2022 05:26:29:
  URL: /orders/track/details?elem=920183&_=1649980588387, 
  HTTP METHOD: GET, 
  IP: ::1
+error: 15-04-2022 07:10:43: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: C:\Users\Aditya\Dropbox\node_react\courierapp2\views\profile\edit.ejs:2
+    1| <!-- include header -->
+ >> 2| <%- include('include/_header') %>
+    3| <!-- /include header -->
+    4| 
+    5| <!-- include header -->
+
+Could not find the include file "include/_header", 
+ URL: /users/624fe5a79a580d2e602b71a9/profile/edit, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 07:11:25: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: C:\Users\Aditya\Dropbox\node_react\courierapp2\views\profile\edit.ejs:6
+    4| 
+    5| <!-- include header -->
+ >> 6| <%- include('../include/_navbar') %>
+    7| <!-- /include header -->
+    8| <div class="container">
+    9| 
+
+C:\Users\Aditya\Dropbox\node_react\courierapp2\views\include\_navbar.ejs:3
+    1| <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-10">
+    2|     <div class="container-fluid">
+ >> 3|       <% if(user.role == 'admin' || user.role == 'superadmin'){ %> 
+    4|         <a class="navbar-brand text-uppercase" href="/dashboard"><%= user.displayName %></a>
+    5|       <% }else{ %>
+    6|         <a class="navbar-brand text-uppercase" href="/dashboard"><%= user.username %></a>
+
+Cannot read properties of null (reading 'role'), 
+ URL: /users/624fe5a79a580d2e602b71a9/profile/edit, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 07:13:24: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: C:\Users\Aditya\Dropbox\node_react\courierapp2\views\profile\edit.ejs:6
+    4| 
+    5| <!-- include header -->
+ >> 6| <%- include('../include/_navbar') %>
+    7| <!-- /include header -->
+    8| <div class="container">
+    9| 
+
+C:\Users\Aditya\Dropbox\node_react\courierapp2\views\include\_navbar.ejs:3
+    1| <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-10">
+    2|     <div class="container-fluid">
+ >> 3|       <% if(user.role == 'admin' || user.role == 'superadmin'){ %> 
+    4|         <a class="navbar-brand text-uppercase" href="/dashboard"><%= user.displayName %></a>
+    5|       <% }else{ %>
+    6|         <a class="navbar-brand text-uppercase" href="/dashboard"><%= user.username %></a>
+
+Cannot read properties of null (reading 'role'), 
+ URL: /users/624fe5a79a580d2e602b71a9/profile/edit, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 07:14:04: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: C:\Users\Aditya\Dropbox\node_react\courierapp2\views\profile\edit.ejs:32
+    30|                                 <% } %>                                     
+    31|                                 <label for="username">Username<span>*</span></label>                                   
+ >> 32|                                 <input class="form-control" name = "username" value = "<%= clientUser.username %>" type="text" required/>                            
+    33|                             </div>
+    34|                         </div>
+    35|                         <div class="col-md-6">
+
+Cannot read properties of null (reading 'username'), 
+ URL: /users/624fe5a79a580d2e602b71a9/profile/edit, 
+ HTTP METHOD: GET, 
+ IP: ::1

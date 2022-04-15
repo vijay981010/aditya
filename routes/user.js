@@ -50,6 +50,7 @@ router.patch('/:userId/edit', verifyToken, authorizeRole(['admin', 'superadmin']
 **/
 router.get('/profile', verifyToken, authorizeUser, userController.singleProfile)
 
+router.get('/:clientId/profile/edit', verifyToken, authorizeRole(['admin', 'superadmin']), authorizeUser, userController.adminEditClientProfile)
 /**
 * @Acess : Global, Respective
 * @Function : Update individual profile in dB

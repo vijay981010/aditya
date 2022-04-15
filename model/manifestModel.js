@@ -26,7 +26,7 @@ const manifestSchema = new Schema({
     },
     dispatchTo: {
         type: String,        
-        enum: ['Rainbow Logistics Ltd', 'Rainbow Sky Couriers LLC', 'Deanshill Logistics Ltd']
+        enum: ['Rainbow Logistics Ltd', 'Rainbow Sky Couriers LLC', 'Deanshill Logistics Ltd', 'Skyport Worldwide Ltd']
     },
     manifestOrigin: {
         type: String,        

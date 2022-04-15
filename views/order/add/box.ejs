@@ -87,7 +87,7 @@
                         </div>
                         <div class="card-body">
                             <div class="row">                                
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="currency">Currency<span>*</span></label>                                                                               
                                         <select class="form-select text-center" name = "currency" required>
@@ -98,16 +98,32 @@
                                             <% } %>
                                             <option value="INR">INR</option>
                                             <option value="USD">USD</option>
+                                            <option value="USD">GBP</option>
+                                            <option value="USD">EUR</option>
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="invoiceType">Invoice Type</label>                                                                               
+                                        <select class="form-select text-center" name = "invoiceType">
+                                            <% if(typeof order.invoiceType != 'undefined'){ %>
+                                                <option value="<%= order.invoiceType %>"><%= order.invoiceType %></option>
+                                            <% }else{ %> 
+                                                <option value="">--Select Invoice Type--</option>
+                                            <% } %>
+                                            <option value="individual">Individual</option>
+                                            <option value="company">Company</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="totalValue">Invoice Value</label>                                                                               
                                         <input class="form-control text-center" name = "totalValue" value="<%= order.totalValue %>" id="totalValue" type="number" readonly='readonly'/>                            
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="actionItem">Action</label><br>                                                                         
                                         <button class="btn btn-primary btn-block" id="actionItem">Add Item</button>

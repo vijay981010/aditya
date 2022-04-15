@@ -202,7 +202,7 @@ exports.patchBox = async (req, res, next) => {
             volumetricWeight, actualWeight, 
             boxNumber, itemType, itemName, 
             itemQuantity, itemPrice, chargeableWeight, 
-            currency, totalValue
+            currency, totalValue, invoiceType
         } = req.body    
 
 
@@ -236,7 +236,7 @@ exports.patchBox = async (req, res, next) => {
         boxArr = sortBoxItem(boxArr, itemArr, numberOfBoxes)                  
 
         let obj = { numberOfBoxes, boxType, boxDetails: boxArr,
-            chargeableWeight, currency, totalValue }
+            chargeableWeight, currency, totalValue, invoiceType }
         
         await Order.findByIdAndUpdate(orderId, obj, {new: true})
     
