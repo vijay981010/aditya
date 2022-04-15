@@ -2,13 +2,7 @@
 document.querySelectorAll('.myClass')
     .forEach(item => {
         item.addEventListener('click', () => {     
-            let burl                   
-            if(window.location.hostname == 'localhost'){
-                burl = "http://localhost:3000"
-            }else{
-                burl = "https://nodejs-courierapp.herokuapp.com"
-            }
-            console.log(burl)
+                        
             let id = item.id
             let data = {}
             data.id = id
@@ -18,7 +12,7 @@ document.querySelectorAll('.myClass')
                 data.status = 'inactive'                                
             }
             $.ajax({
-                url: `${burl}/users/userstatus`,
+                url: `${environment.baseurl}/users/userstatus`,
                 method: "PATCH",
                 data: data, 
                 dataType: 'json',
