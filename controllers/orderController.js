@@ -91,7 +91,7 @@ exports.createOrder = async (req, res, next) => {
             consigneeContactNumber, consigneeEmail, 
             consigneeAddress1, consigneeAddress2, 
             consigneePincode, consigneeCity, consigneeState,
-            origin, destination, client_id, awbNumber
+            origin, destination, client_id, awbNumber, miscClients
         } = req.body                  
 
         //GENERATE UNIQUE RANDOM 7 DIGIT AWBNUMBER        
@@ -130,7 +130,8 @@ exports.createOrder = async (req, res, next) => {
             consigneeAddress1, consigneeAddress2, 
             consigneePincode, consigneeCity, consigneeState,
             origin, destination, status: 'active', client: client_id,
-            trackingDetails: trackArr, apiCount:0, trackingStatus: 'SCH'
+            trackingDetails: trackArr, apiCount:0, trackingStatus: 'SCH',
+            miscClients
         }
         
         const order = new Order(obj)        

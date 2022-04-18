@@ -251,6 +251,10 @@ const orderSchema = new Schema({
         type: Schema.Types.ObjectId,
         required: true,
         ref: 'User'
+    },
+    miscClients: {
+        type: String,
+        trim: true
     }
 }, { timestamps: true } )
 

@@ -25,8 +25,8 @@
                 <th>Date</th>
                 <th>AWB</th>                
                 <% if(user.role == 'admin'){ %>
-                <th>Status</th>                
-                <th>Client</th>
+                    <th>Status</th>                           
+                    <th>Client</th>                               
                 <% } %>
                 <th>Consignor</th>
                 <th>Consignee</th>   
@@ -56,7 +56,11 @@
                     <td id="<%= order.awbNumber %>" class="longText"></td>
                     <% } %>                 
                     <% if(user.role == 'admin'){ %>
-                    <td><%= order.client.username %></td>
+                        <% if(order.miscClients){ %>
+                            <td><b>M:</b><%= order.miscClients %></td>                            
+                        <% }else{ %> 
+                            <td><%= order.client.username %></td>
+                        <% } %>                    
                     <% } %>
                     <td><%= order.consignor %></td>
                     <td><%= order.consignee %></td>

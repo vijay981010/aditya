@@ -26,13 +26,19 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="consignorReference">Consignor Reference<span">*</span></label>
-                                <select class ="form-select" name = "client_id" required >
+                                <select class ="form-select" name = "client_id" id="clientId" required >
                                     <option value="<%= order.client._id %>"><%= order.client.username %></option>
                                     <% clientlist.forEach(client => { %>
                                         <option value="<%= client._id %>"><%= client.username %></option>
                                     <% }) %>                                        
                                 </select>                                
                             </div> 
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="miscClients">Miscallaneous Reference</label>                                                                                                                                               
+                                <input class="form-control" name = "miscClients" value="<%= order.miscClients %>" id="miscClients" type="text" required <%= order.miscClients ? '' : 'disabled' %> >                          
+                            </div>
                         </div>
                     <% } %>
                     <% if(user.accessRight.indexOf('services') != -1){ %>
@@ -256,3 +262,5 @@
 <!-- include footer -->
 <%- include('../include/_footer') %>
 <!-- /include footer -->
+
+<script src="/js/order/miscClients.js"></script>

@@ -16,23 +16,29 @@
 
               <div class="card-body">                  
                     <div class="row">
-                        <div class="col-md-4">                            
+                        <div class="col-md-3">                            
                             <div class="form-group">                                                               
                                 <label for="bookingDate">Booking Date<span>*</span></label>                                                                               
                                 <input class="form-control" name = "bookingDate" id="inputDate" required/>                            
                             </div>
                         </div>
                         <% if(user.role == "admin"){ %>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="form-group">                                    
                                     <label for="consignorReference">Consignor Reference<span>*</span></label>
-                                    <select class ="form-select" name = "client_id" required >
-                                        <option value="">---Select Client---</option>
+                                    <select class ="form-select" name = "client_id" id="clientId" required >
+                                        <option value="">---Select Client---</option>                                        
                                         <% clientlist.forEach(client => { %>
                                             <option value="<%= client._id %>"><%= client.username %></option>
                                         <% }) %>                                        
                                     </select>                                
                                 </div> 
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="miscClients">Miscallaneous Reference</label>                                                                                                                                               
+                                    <input class="form-control" name = "miscClients" id="miscClients" type="text" disabled required>                          
+                                </div>
                             </div>
                             <% if(user.accessRight.indexOf('services') != -1) { %>
                                 <div class="col-md-4">
@@ -81,8 +87,9 @@
                                 <input type="hidden" name="service" value="<%= adminUser.defaultService %>">
                             <% }
                         } %>
-                    <% if(user.username == 'eps' || user.username == 'parsol'){ %>
-                        <div class="col-md-4">
+                        
+                    <% if(user.username == 'eps'){ %>                        
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label for="awbNumber">AWB Number (Optional)</label>                                                                               
                                 <input class="form-control" name = "awbNumber" type="text"/>                            
@@ -285,3 +292,5 @@
 <!-- include footer -->
 <%- include('../../include/_footer') %>
 <!-- /include footer -->
+
+<script src="/js/order/miscClients.js"></script>
