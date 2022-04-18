@@ -129,7 +129,7 @@
                                 <option value="">---Select AWB Number---</option>
                                 <% orderList.forEach(order => { %>
                                 
-                                <option value="<%= order.awbNumber %>"><%= order.awbNumber %></option>
+                                <option value="<%= order._id %>" data-awb="<%= order.awbNumber %>"><%= order.awbNumber %></option>
                                 <% }) %>
                             </select>                            
                         </div>    

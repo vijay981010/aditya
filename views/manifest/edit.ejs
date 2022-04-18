@@ -127,8 +127,8 @@
                             <select class="form-select" id="order">
                                 <option value="">---Select AWB Number---</option>
                                 <% orderList.forEach(order => { %>
-                                
-                                <option value="<%= order.awbNumber %>"><%= order.awbNumber %></option>
+                                                                
+                                <option value="<%= order._id %>" data-awb="<%= order.awbNumber %>"><%= order.awbNumber %></option>
                                 <% }) %>
                             </select>                            
                         </div>    
@@ -157,8 +157,11 @@
                             <% if(manifest.bagDetails.length > 0) {  
                                 manifest.bagDetails.forEach((bag,i) => { %>
                                 <tr id="r<%= i+200 %>">
-                                    <td><input type='text' class='form-control text-center' name='bagNumber[]' value="<%= bag.bagNumber %>" readonly="readonly"></td>
-                                    <td><input type='text' class='form-control text-center' name='order[]' value="<%= awbnumbers[i] %>" readonly="readonly"></td>
+                                    <td><input type='text' class='form-control text-center' name='bagNumber[]' value="<%= bag.bagNumber %>" readonly></td>
+                                    <td>
+                                        <input type='text' class='form-control text-center' name='awb[]' value="<%= awbnumbers[i] %>" readonly>
+                                        <input type='hidden' class='form-control text-center' name='order[]' value="<%= bag.order %>">
+                                    </td>
                                     <td><input type='text' class='form-control text-center' name='mhbsNumber[]' value="<%= bag.mhbsNumber %>" readonly></td>
                                     <td><button class="btn btn-danger removeBag"><i class="fa fa-minus-circle"></i></button></td>
                                 </tr>                                

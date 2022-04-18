@@ -69,6 +69,11 @@ const orderSchema = new Schema({
         trim: true,
         maxlength: 20
     },
+    awbRefNumber:{
+        type: String,        
+        trim: true,
+        maxlength: 20
+    },
     consignor: {
         type: String,
         trim: true,

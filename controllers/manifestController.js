@@ -25,10 +25,14 @@ exports.manifestList = async(req, res, next) => {
 exports.manifestForm = async(req, res, next) => {
     try{
         let userId = req.user.id
+        
         const user = await User.findById(userId)
         const countries = await db.collection('countries').find().toArray()
-        let orderList = await Order.find().populate('client').sort({bookingDate: 'desc', createdAt: 'desc'}).limit(300)
+        
+        let orderList = await Order.find().populate({path:'client', select:'admin'}).select('awbNumber').sort({bookingDate: 'desc', createdAt: 'desc'}).limit(300)
+        
         orderList = orderList.filter(elem => elem.client.admin == userId)
+        
         res.render('manifest/add', {user, countries, orderList})
     }catch(err){
         next(err)
@@ -41,11 +45,7 @@ exports.manifestGenerate = async(req, res, next) => {
         let { admin, manifestNumber, manifestDate, dispatchFrom, dispatchTo, 
         manifestOrigin, manifestDestination, manifestMode,
         mawbNumber, cdNumber, runNumber, flightNumber, 
-        bagNumber, order, mhbsNumber} = req.body
-        
-        order = await Order.find({awbNumber: order})
-        order = order.map(item => item._id)
-        //debug(order)                
+        bagNumber, order, mhbsNumber} = req.body                   
 
         let bagArr = []
 
@@ -72,23 +72,28 @@ exports.manifestGenerate = async(req, res, next) => {
 
 exports.manifestUpdateForm = async(req, res, next) => {
     try{
-        let userId = req.user.id
-        let manifestId = req.params.manifestId
+        let userId = req.user.id //GET USER ID//
+        let manifestId = req.params.manifestId //GET MANIFEST ID//
 
         const user = await User.findById(userId)
         const countries = await db.collection('countries').find().toArray()
-
-        let orderList = await Order.find().populate('client').sort({bookingDate: 'desc', createdAt: 'desc'}).limit(300)
+        
+        //GET ORDERLIST OF RESPECTIVE ADMIN//
+        let orderList = await Order.find().populate({path:'client', select:'admin'}).select('awbNumber').sort({bookingDate: 'desc', createdAt: 'desc'}).limit(300)        
         orderList = orderList.filter(elem => elem.client.admin == userId)
+        
 
-        let manifest = await Manifest.findById(manifestId)
-        //res.json(manifest)
+        let manifest = await Manifest.findById(manifestId) //GET MANIFEST ID//    
 
-        //convert the order id to awb numbers
-        let awbnumbers = manifest.bagDetails.map(item => item.order)
-        awbnumbers = await Order.find({_id: awbnumbers})
+        //GET CLIENTLIST OF RESPECTIVE ADMINS//
+        userlist = await User.find({role: 'client', admin: userId})
+        userlist = userlist.map(user => user._id)        
+
+        //CONVERT THE ORDER IDS IN THE BAG OF RESPECTIVE ADMIN TO AWBNUMBERS//
+        let awbnumbers = manifest.bagDetails.map(item => item.order)        
+        awbnumbers = await Order.find({_id: awbnumbers, client: userlist}).select('awbNumber')
         awbnumbers = awbnumbers.map(item => item.awbNumber)
-        //debug(awbnumbers)   
+        
         //res.json(awbnumbers)     
 
         res.render('manifest/edit', {user, countries, orderList, manifest, awbnumbers})
@@ -104,11 +109,7 @@ exports.manifestUpdate = async(req, res, next) => {
             mawbNumber, cdNumber, runNumber, flightNumber, 
             bagNumber, order, mhbsNumber} = req.body
 
-            let manifestId = req.params.manifestId
-            
-            order = await Order.find({awbNumber: order})
-            order = order.map(item => item._id)
-            //debug(order)                
+            let manifestId = req.params.manifestId                               
     
             let bagArr = []
     

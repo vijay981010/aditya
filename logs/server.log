@@ -2792,3 +2792,17 @@ error: 16-04-2022 17:15:20:
  URL: /manifest, 
  HTTP METHOD: POST, 
  IP: ::1
+error: 18-04-2022 19:02:55: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Cannot read properties of undefined (reading 'admin'), 
+ URL: /manifest, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 18-04-2022 19:37:36: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: userlist is not defined, 
+ URL: /manifest/625d643777dc75d2dc31e468, 
+ HTTP METHOD: GET, 
+ IP: ::1

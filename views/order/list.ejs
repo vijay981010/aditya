@@ -23,6 +23,9 @@
             <tr>
                 <th>Date</th>
                 <th>AWB</th>
+                <% if(user.username == 'eps'){ %>
+                <th>AWB Ref</th>
+                <%}%>
                 <% if(user.role == 'admin'){ %>
                 <th>Status</th>                
                 <th>Client</th>
@@ -50,6 +53,9 @@
                         <td class="cron"><%= order.awbNumber %></td>                        
                      <% }else{ %>
                         <td><%= order.awbNumber %></td>
+                    <% } %>
+                    <% if(user.username == 'eps'){ %>
+                    <td><%= order.awbRefNumber %></td>
                     <% } %>
                     <% if(user.role == 'admin'){ %>
                     <td id="<%= order.awbNumber %>" class="longText"></td>
