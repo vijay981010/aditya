@@ -70,7 +70,7 @@ exports.createOrderPage = async (req, res, next) => {
 exports.createOrder = async (req, res, next) => {
     try{
         //debug(req.body)
-        /* let userId = req.user.id
+        let userId = req.user.id
         let role = req.user.role
         
         //GET ALL CLIENTS OF AN ADMIN USER//
@@ -79,7 +79,7 @@ exports.createOrder = async (req, res, next) => {
         if(role == 'admin'){
             userlist = await User.find({role: 'client', admin: userId})
             userlist = userlist.map(user => user._id)            
-        }      */    
+        }         
 
         //GET FORM DATA//
         let {
@@ -91,22 +91,20 @@ exports.createOrder = async (req, res, next) => {
             consigneeContactNumber, consigneeEmail, 
             consigneeAddress1, consigneeAddress2, 
             consigneePincode, consigneeCity, consigneeState,
-            origin, destination, client_id, awbRefNumber
+            origin, destination, client_id, awbNumber
         } = req.body                  
 
-        //GENERATE UNIQUE RANDOM 7 DIGIT AWBNUMBER
-        do{
-            awbNumber = Math.floor(Math.random() * 10000000)
-        }while(await Order.findOne({awbNumber: awbNumber}))
-        
-        /* if(awbNumber.trim() == '' || !awbNumber){
-             
+        //GENERATE UNIQUE RANDOM 7 DIGIT AWBNUMBER        
+        if(awbNumber.trim() == '' || !awbNumber){
+            do{
+                awbNumber = Math.floor(Math.random() * 10000000)
+            }while(await Order.findOne({awbNumber: awbNumber}))
         }else{
             //CHECK DUPLICATE FOR RESPECTIVE ADMIN, IF AWBNUMBER INPUTTED
             let checkAwb = await Order.findOne({awbNumber: awbNumber, client: userlist}) 
             if(checkAwb != null)
                 return res.render('error', {message: 'AWB Number already exists!!', statusCode: '404'})
-        } */
+        }
                     
      // ------------- CREATE TRACKING ACTIVITY ------------ //
         
@@ -123,7 +121,7 @@ exports.createOrder = async (req, res, next) => {
         }]
 
         let obj = {
-            bookingDate, awbNumber, awbRefNumber, consignor, service,
+            bookingDate, awbNumber, consignor, service,
             consignorContactNumber, consignorEmail,
             consignorAddress1, consignorAddress2,
             consignorPincode, consignorCity, consignorState,
@@ -173,7 +171,7 @@ exports.updateOrder = async (req, res, next) => {
             consigneeContactNumber, consigneeEmail, 
             consigneeAddress1, consigneeAddress2, 
             consigneePincode, consigneeCity, consigneeState,
-            origin, destination, client_id, awbRefNumber
+            origin, destination, client_id
         } = req.body     
         
         let orderId = req.params.orderId        
@@ -187,7 +185,7 @@ exports.updateOrder = async (req, res, next) => {
             consigneeContactNumber, consigneeEmail, 
             consigneeAddress1, consigneeAddress2, 
             consigneePincode, consigneeCity, consigneeState,
-            origin, destination, client: client_id, awbRefNumber
+            origin, destination, client: client_id
         }
 
         await Order.findByIdAndUpdate(orderId, obj, {new: true})
@@ -386,12 +384,28 @@ exports.patchTrack = async (req, res, next) => {
     }
 }
 
+exports.checkDuplicateTracking = async(req, res, next) => {
+    try{
+        let {trackingNumber, user} = req.query
+        
+        let order = await Order.find({awbNumber: trackingNumber})
+    }catch(err){
+        next(err)
+    }
+}
+
 exports.trackDetails = async(req, res, next) => {
     try{        
         
     // --------- GET ORDER MANUAL TRACKING DATA FROM DATABASE ----------------- //
-        let trackingNumber = req.query.trackingNumber || req.query.elem
-        let order = await Order.findOne({awbNumber: trackingNumber}).populate('client')        
+        let {trackingNumber, user} = req.query
+
+        //GET CLIENT LIST TO AVOID DUPLICATE TRACKING NUMBER ISSUE//
+        let userId = await User.findOne({username: user}).select('username')
+        userlist = await User.find({role: 'client', admin: userId})
+        userlist = userlist.map(user => user._id)  
+
+        let order = await Order.findOne({awbNumber: trackingNumber, client: userlist}).populate('client')        
         
         if(order == null) return res.json({status: 'fail'})
 
