@@ -37,11 +37,9 @@
                 <th>Weight</th>
                 <% if(user.accessRight.indexOf('invoice') != -1){ %> 
                 <th>Bill</th>
-                <% } %>
-                <% if(user.role == 'admin'){ %>
+                <% } %>                
                 <th>Tracking</th>
-                <th>Vendor</th>    
-                <% } %>                  
+                <th>Vendor</th>                            
             </tr>
         </thead>
         <tbody>          
@@ -96,15 +94,17 @@
                     <td><%= order.chargeableWeight %></td>
                     <% if(user.accessRight.indexOf('invoice') != -1){ %> 
                     <td><%= order.totalBill %></td>
-                    <% } %>
-                    <% if(user.role == 'admin'){ %>
-                        <td><%= order.trackingNumber %></td>
-                            <% if(order.vendorName == 'OTHERS'){ %>
-                                <td><a href="/orders/<%= order._id %>/trackingdetails"><%= order.vendorName %></a></td>
-                            <% }else{ %>
-                                <td><%= order.vendorName %></td>
-                            <% }
-                     } %>
+                    <% } %>                    
+                    <td><%= order.trackingNumber %></td>
+                    <% if(user.role == 'admin'){ 
+                         if(order.vendorName == 'OTHERS'){ %>
+                            <td><a href="/orders/<%= order._id %>/trackingdetails"><%= order.vendorName %></a></td>
+                        <% }else{ %>
+                            <td><%= order.vendorName %></td>
+                        <% } 
+                     }else if(user.role == 'client'){ %>
+                        <td><%= order.vendorName %></td>
+                     <% } %>
                 </tr>
             <% }) %>                                                                                                           
         </tbody>
