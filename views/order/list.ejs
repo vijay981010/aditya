@@ -90,7 +90,9 @@
                     <td><%= order.destination %></td>
                     <td><%= order.numberOfBoxes %></td>
                     <td><%= order.chargeableWeight %></td>
+                    <% if(user.accessRight.indexOf('invoice') != -1){ %> 
                     <td><%= order.totalBill %></td>
+                    <% } %>
                     <% if(user.role == 'admin'){ %>
                         <td><%= order.trackingNumber %></td>
                             <% if(order.vendorName == 'OTHERS'){ %>

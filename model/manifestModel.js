@@ -11,6 +11,10 @@ const bagSchema = new Schema({
     order: {
         type: Schema.Types.ObjectId,
         ref: 'Order',             
+    },
+    mhbsNumber: {
+        type: String,
+        trim: true
     }
 })
 
@@ -24,17 +28,19 @@ const manifestSchema = new Schema({
         type: Date,
         default: Date.now                
     },
+    dispatchFrom: {
+        type: String,        
+        enum: ['Express Parcel Service', 'International Express']
+    },
     dispatchTo: {
         type: String,        
         enum: ['Rainbow Logistics Ltd', 'Rainbow Sky Couriers LLC', 'Deanshill Logistics Ltd', 'Skyport Worldwide Ltd']
     },
     manifestOrigin: {
-        type: String,        
-        maxLength: 15
+        type: String,            
     },
     manifestDestination: {
-        type: String,        
-        maxLength: 15
+        type: String,                
     },
     manifestMode: {
         type: String,        

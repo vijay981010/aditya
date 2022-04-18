@@ -15,20 +15,30 @@
               </div>
               <div class="card-body">                  
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label for="manifestNumber">Manifest Number<span>*</span></label>    
                                 <input type="hidden" name="admin" value="<%= user._id %>">
                                 <input class="form-control" name = "manifestNumber" type="text" required/>                            
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label for="manifestDate">Manifest Date<span>*</span></label>                                                                               
                                 <input class="form-control" name = "manifestDate" type="date" id="inputDate" required/>                            
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="dispatchFrom">Dispatch From<span>*</span></label>                                                                               
+                                <select class="form-select" name = "dispatchFrom">
+                                    <option value = "">---Select Dispatch From---</option>
+                                    <option value="Express Parcel Service">Express Parcel Service</option>
+                                    <option value="International Express">International Express</option>                                    
+                                </select>                            
+                            </div>
+                        </div>
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label for="dispatchTo">Dispatch To<span>*</span></label>                                                                               
                                 <select class="form-select" name = "dispatchTo">
@@ -106,13 +116,13 @@
             </div>
             <div class="card-body">                  
                 <div class="row">                                   
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <div class="form-group">
                             <label for="bagNumber">Bag Number</label><br>                                                                         
                             <input type="text" class="form-control" id="bagNumber">
                         </div>
                     </div>             
-                    <div class="col-md-4">                        
+                    <div class="col-md-3">                        
                         <div class="form-group">
                             <label for="order">Select AWB Number</label><br>                                                                         
                             <select class="form-select" id="order">
@@ -124,7 +134,13 @@
                             </select>                            
                         </div>    
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="mhbsNumber">MHBS Number</label><br>                                                                         
+                            <input type="text" class="form-control" id="mhbsNumber">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
                         <div class="form-group">
                             <label for="actionBox">Action</label><br>                                                                         
                             <button class="btn btn-primary btn-block" id="actionBag">Add Bag</button>
@@ -135,7 +151,8 @@
                     <table class="table table-bordered table-responsive-sm" id="bagTable">                            
                             <tr>
                                 <td><label for='bagNumber'>Bag Number</label></td>
-                                <td><label for='order'>AWB Number</label></td>                                                                  
+                                <td><label for='order'>AWB Number</label></td> 
+                                <td><label for='mhbsNumber'>MHBS Number</label></td>                                                                  
                                 <td><label for='bagRemove'>Action</label></td>
                             </tr>
                                        

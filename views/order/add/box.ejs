@@ -5,6 +5,11 @@
 <!-- include header -->
 <%- include('../../include/_navbar') %>
 <!-- /include header -->
+
+<!-- include validations -->
+<%- include('../../include/_validations') %>
+<!-- /include validations -->
+
 <div class="container">
     <div class="row justify-content-center">                 
         <div class="col-lg-12">
@@ -90,7 +95,7 @@
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="currency">Currency<span>*</span></label>                                                                               
-                                        <select class="form-select text-center" name = "currency" required>
+                                        <select class="form-select text-center" name = "currency" id="currency" required>
                                             <% if(typeof order.currency != 'undefined'){ %>
                                                 <option value="<%= order.currency %>"><%= order.currency %></option>
                                             <% }else{ %> 
@@ -98,8 +103,8 @@
                                             <% } %>
                                             <option value="INR">INR</option>
                                             <option value="USD">USD</option>
-                                            <option value="USD">GBP</option>
-                                            <option value="USD">EUR</option>
+                                            <option value="GBP">GBP</option>
+                                            <option value="EUR">EUR</option>
                                         </select>
                                     </div>
                                 </div>

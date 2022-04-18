@@ -160,13 +160,11 @@ const orderSchema = new Schema({
     },    
     origin: {
         type: String,
-        trim: true,
-        maxlength: 15
+        trim: true,        
     },
     destination: {
         type: String,
-        trim: true,
-        maxlength: 15
+        trim: true,        
     },
     numberOfBoxes: {
         type: Number
@@ -181,7 +179,7 @@ const orderSchema = new Schema({
     },
     currency: {
         type: String,
-        enum: ['INR', 'USD']      
+        enum: ['INR', 'USD', 'GBP', 'EUR']      
     },
     invoiceType: {
         type: String,

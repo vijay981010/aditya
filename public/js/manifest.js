@@ -7,12 +7,14 @@ $(document).ready(function(){
     function addBagRow(e){
         e.preventDefault()
         let bagnumber = document.getElementById('bagNumber').value
-        let awbnumber = document.getElementById('order').value    
+        let awbnumber = document.getElementById('order').value  
+        let mhbsnumber = document.getElementById('mhbsNumber').value    
         
         $('#bagTable')
         .append(`<tr id="r${bagId++}">
-            <td><input type='text' class='form-control text-center' name='bagNumber[]' value="${bagnumber}" readonly="readonly"></td>            
-            <td><input type='text' class='form-control text-center' name='order[]' value="${awbnumber}" readonly="readonly"></td>                    
+            <td><input type='text' class='form-control text-center' name='bagNumber[]' value="${bagnumber}" readonly></td>            
+            <td><input type='text' class='form-control text-center' name='order[]' value="${awbnumber}" readonly></td>
+            <td><input type='text' class='form-control text-center' name='mhbsNumber[]' value="${mhbsnumber}" readonly></td>                    
             <td><button class="btn btn-danger removeBag"><i class="fa fa-minus-circle"></i></button></td>
             </tr>`)                 
     }

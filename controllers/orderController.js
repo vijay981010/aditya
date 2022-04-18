@@ -34,6 +34,8 @@ exports.orderList = async (req, res, next) => {
             orderlist = orderlist.filter(elem => elem.client.admin == userId)            
         }
 
+        if(!orderlist) return res.render('error', {message:'Some unknown error.Couldnt get orderlist. Please try again', status: '500'})
+
         res.render('order/list', {orderlist, user}) 
     }catch(err){
         next(err)
@@ -205,11 +207,30 @@ exports.patchBox = async (req, res, next) => {
             currency, totalValue, invoiceType
         } = req.body    
 
+        //debug(typeof totalValue)
+
+        totalValue = parseFloat(totalValue)
 
         let numberOfBoxes
         
         let orderId = req.params.orderId
+        let userId = req.user.id
 
+        let order = await Order.findById(orderId).populate('client').exec()
+        let user = await User.findById(userId)
+
+    // ----------------- VALIDATE INVOICE TOTAL VALUE -------------------- //
+        let invoiceTotal = totalValue
+        if(currency != 'INR'){
+            invoiceTotal = await getExchange(currency, totalValue)            
+        }
+        debug(invoiceTotal)
+        if(invoiceTotal > 24000){
+            let alert = [{msg: 'Invoice Total cannot exceed 24000 INR!!'}]
+            return res.render('order/add/box', {user, order, alert})
+        }
+
+    // ----------------- PROCESS ORDER -------------------- //
         let itemArr = []; let boxArr = [];
 
         if(Array.isArray(itemType) && boxNumber && itemType && itemName && itemQuantity && itemPrice){            
@@ -365,7 +386,7 @@ exports.trackDetails = async(req, res, next) => {
             }
             let response = await axios.post('https://shipway.in/api/getOrderShipmentDetails', postData)
 
-            debug(response.data)
+            //debug(response.data)
 
             if(response.data.status == "Success"){            
                 let apiData = response.data.response
@@ -855,6 +876,17 @@ exports.boxSticker = async(req, res, next) => {
 
     }catch(err){
         next(err)
+    }
+}
+
+async function getExchange(currency, amount){
+    try{
+        let response = await axios.get(`https://api.exchangerate-api.com/v4/latest/${currency}`)
+        let exchangeRate = response.data.rates.INR
+        debug(currency, exchangeRate)
+        return amount * exchangeRate        
+    }catch(err){
+        debug(err)
     }
 }
 

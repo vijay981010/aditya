@@ -27,7 +27,7 @@ exports.manifestForm = async(req, res, next) => {
         let userId = req.user.id
         const user = await User.findById(userId)
         const countries = await db.collection('countries').find().toArray()
-        let orderList = await Order.find().populate('client').sort({bookingDate: 'desc', createdAt: 'desc'}).limit(100)
+        let orderList = await Order.find().populate('client').sort({bookingDate: 'desc', createdAt: 'desc'}).limit(300)
         orderList = orderList.filter(elem => elem.client.admin == userId)
         res.render('manifest/add', {user, countries, orderList})
     }catch(err){
@@ -38,10 +38,10 @@ exports.manifestForm = async(req, res, next) => {
 exports.manifestGenerate = async(req, res, next) => {
     try{
         //debug(req.body)
-        let { admin, manifestNumber, manifestDate, dispatchTo, 
+        let { admin, manifestNumber, manifestDate, dispatchFrom, dispatchTo, 
         manifestOrigin, manifestDestination, manifestMode,
         mawbNumber, cdNumber, runNumber, flightNumber, 
-        bagNumber, order} = req.body
+        bagNumber, order, mhbsNumber} = req.body
         
         order = await Order.find({awbNumber: order})
         order = order.map(item => item._id)
@@ -50,11 +50,11 @@ exports.manifestGenerate = async(req, res, next) => {
         let bagArr = []
 
         if(bagNumber && order){            
-            bagArr = processRequest([bagNumber, order], ['bagNumber', 'order'], bagNumber.length)            
+            bagArr = processRequest([bagNumber, order, mhbsNumber], ['bagNumber', 'order', 'mhbsNumber'], bagNumber.length)            
         }
         //debug(bagArr)
 
-        let obj = { admin, manifestNumber, manifestDate, dispatchTo, 
+        let obj = { admin, manifestNumber, manifestDate, dispatchFrom, dispatchTo, 
             manifestOrigin, manifestDestination, manifestMode,
             mawbNumber, cdNumber, runNumber, flightNumber, 
             bagDetails: bagArr, totalAwbs: bagArr.length }
@@ -78,7 +78,7 @@ exports.manifestUpdateForm = async(req, res, next) => {
         const user = await User.findById(userId)
         const countries = await db.collection('countries').find().toArray()
 
-        let orderList = await Order.find().populate('client').exec()
+        let orderList = await Order.find().populate('client').sort({bookingDate: 'desc', createdAt: 'desc'}).limit(300)
         orderList = orderList.filter(elem => elem.client.admin == userId)
 
         let manifest = await Manifest.findById(manifestId)
@@ -99,10 +99,10 @@ exports.manifestUpdateForm = async(req, res, next) => {
 
 exports.manifestUpdate = async(req, res, next) => {
     try{
-        let { admin, manifestNumber, manifestDate, dispatchTo, 
+        let { admin, manifestNumber, manifestDate, dispatchFrom, dispatchTo, 
             manifestOrigin, manifestDestination, manifestMode,
             mawbNumber, cdNumber, runNumber, flightNumber, 
-            bagNumber, order} = req.body
+            bagNumber, order, mhbsNumber} = req.body
 
             let manifestId = req.params.manifestId
             
@@ -113,11 +113,11 @@ exports.manifestUpdate = async(req, res, next) => {
             let bagArr = []
     
             if(bagNumber && order){            
-                bagArr = processRequest([bagNumber, order], ['bagNumber', 'order'], bagNumber.length)            
+                bagArr = processRequest([bagNumber, order, mhbsNumber], ['bagNumber', 'order', 'mhbsNumber'], bagNumber.length)            
             }
             //debug(bagArr)
     
-            let obj = { admin, manifestNumber, manifestDate, dispatchTo, 
+            let obj = { admin, manifestNumber, manifestDate, dispatchFrom, dispatchTo, 
                 manifestOrigin, manifestDestination, manifestMode,
                 mawbNumber, cdNumber, runNumber, flightNumber, 
                 bagDetails: bagArr, totalAwbs: bagArr.length }
@@ -289,7 +289,7 @@ exports.manifestExcel = async(req, res, next) => {
         }
 
         sheet.mergeCells('A6: C6')    
-        sheet.getCell('A6').value = user.username
+        sheet.getCell('A6').value = manifest.dispatchFrom
         
         sheet.getCell('D6').value = manifest.dispatchTo
 
@@ -820,7 +820,11 @@ exports.ediExcel = async(req, res, next) => {
 
         sheet.getRow(i + 2).getCell(30).value = orders[i].docType
 
+        sheet.getRow(i + 2).getCell(31).value = bag.mhbsNumber
+
         sheet.getRow(i + 2).getCell(32).value = 'Y'
+
+        sheet.getRow(i + 2).getCell(33).value = `${orders[i].awbNumber};${bag.mhbsNumber}`
 
         sheet.getRow(i + 2).getCell(34).value = orders[i].totalValue
 

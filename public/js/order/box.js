@@ -3,7 +3,7 @@ $(document).ready(function(){
     var volId = 0            
 
     $('#actionBox').on('click', addBoxRow)
-    $(document).on('click', '.removeBox', removeBoxRow)
+    $(document).on('click', '.removeBox', removeBoxRow)    
     
     function addBoxRow(e){
         e.preventDefault()
@@ -97,11 +97,33 @@ function addVol(id){
 }
 
 function addInv(id){
-    let totval = 0  
+    let totval = 0      
+        
     var itemqty = $("input[name='itemQuantity']").map(function(){return $(this).val();}).get()
     var itemprice = $("input[name='itemPrice']").map(function(){return $(this).val();}).get()
     for(let i = 0; i < itemqty.length; i++){
         totval = parseFloat(totval) + (parseFloat(itemqty[i])*parseFloat(itemprice[i]))
     }
-    $('#totalValue').val(totval);   
+    $('#totalValue').val(totval)
+
+    /* let currency = $('#currency').val()
+    //CHECK INVOICE TOTAL > 24000 INR//
+    if(currency && currency != 'INR'){
+        let amount = getExchange(currency)   
+    } */
 }
+
+/* function getExchange(currency){
+    $.ajax({
+        url: `https://api.exchangerate-api.com/v4/latest/${currency}`,
+        method: 'GET',
+        error: function(xhr, status, error){
+            alert('Some Unknown Error')
+            console.log(xhr, status, error)
+        },
+        success: function(response){
+            console.log(response)
+            //return response
+        }
+    })
+} */

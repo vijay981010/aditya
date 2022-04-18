@@ -2582,3 +2582,213 @@ Cannot read properties of null (reading 'username'),
  URL: /users/624fe5a79a580d2e602b71a9/profile/edit, 
  HTTP METHOD: GET, 
  IP: ::1
+error: 15-04-2022 19:45:01: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: C:\Users\Aditya\Dropbox\node_react\courierapp2\views\order\list.ejs:46
+    44|         </thead>
+    45|         <tbody>          
+ >> 46|             <% orderlist.forEach(order => { %> 
+    47|                 <tr>
+    48|                     <td><%= moment(order.bookingDate).format(shortDateFormat) %></td>  
+    49|                     <% if(user.role == 'admin'){ %>
+
+Cannot read properties of undefined (reading 'forEach'), 
+ URL: /orders/orderlist, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 19:45:01: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: C:\Users\Aditya\Dropbox\node_react\courierapp2\views\order\list.ejs:46
+    44|         </thead>
+    45|         <tbody>          
+ >> 46|             <% orderlist.forEach(order => { %> 
+    47|                 <tr>
+    48|                     <td><%= moment(order.bookingDate).format(shortDateFormat) %></td>  
+    49|                     <% if(user.role == 'admin'){ %>
+
+Cannot read properties of undefined (reading 'forEach'), 
+ URL: /orders/orderlist, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 19:45:01: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: C:\Users\Aditya\Dropbox\node_react\courierapp2\views\order\list.ejs:46
+    44|         </thead>
+    45|         <tbody>          
+ >> 46|             <% orderlist.forEach(order => { %> 
+    47|                 <tr>
+    48|                     <td><%= moment(order.bookingDate).format(shortDateFormat) %></td>  
+    49|                     <% if(user.role == 'admin'){ %>
+
+Cannot read properties of undefined (reading 'forEach'), 
+ URL: /orders/orderlist, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 19:45:02: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: C:\Users\Aditya\Dropbox\node_react\courierapp2\views\order\list.ejs:46
+    44|         </thead>
+    45|         <tbody>          
+ >> 46|             <% orderlist.forEach(order => { %> 
+    47|                 <tr>
+    48|                     <td><%= moment(order.bookingDate).format(shortDateFormat) %></td>  
+    49|                     <% if(user.role == 'admin'){ %>
+
+Cannot read properties of undefined (reading 'forEach'), 
+ URL: /orders/orderlist, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 19:45:02: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: C:\Users\Aditya\Dropbox\node_react\courierapp2\views\order\list.ejs:46
+    44|         </thead>
+    45|         <tbody>          
+ >> 46|             <% orderlist.forEach(order => { %> 
+    47|                 <tr>
+    48|                     <td><%= moment(order.bookingDate).format(shortDateFormat) %></td>  
+    49|                     <% if(user.role == 'admin'){ %>
+
+Cannot read properties of undefined (reading 'forEach'), 
+ URL: /orders/orderlist, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 19:45:02: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: C:\Users\Aditya\Dropbox\node_react\courierapp2\views\order\list.ejs:46
+    44|         </thead>
+    45|         <tbody>          
+ >> 46|             <% orderlist.forEach(order => { %> 
+    47|                 <tr>
+    48|                     <td><%= moment(order.bookingDate).format(shortDateFormat) %></td>  
+    49|                     <% if(user.role == 'admin'){ %>
+
+Cannot read properties of undefined (reading 'forEach'), 
+ URL: /orders/orderlist, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 19:45:07: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: C:\Users\Aditya\Dropbox\node_react\courierapp2\views\order\list.ejs:46
+    44|         </thead>
+    45|         <tbody>          
+ >> 46|             <% orderlist.forEach(order => { %> 
+    47|                 <tr>
+    48|                     <td><%= moment(order.bookingDate).format(shortDateFormat) %></td>  
+    49|                     <% if(user.role == 'admin'){ %>
+
+Cannot read properties of undefined (reading 'forEach'), 
+ URL: /orders/orderlist, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 19:45:07: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: C:\Users\Aditya\Dropbox\node_react\courierapp2\views\order\list.ejs:46
+    44|         </thead>
+    45|         <tbody>          
+ >> 46|             <% orderlist.forEach(order => { %> 
+    47|                 <tr>
+    48|                     <td><%= moment(order.bookingDate).format(shortDateFormat) %></td>  
+    49|                     <% if(user.role == 'admin'){ %>
+
+Cannot read properties of undefined (reading 'forEach'), 
+ URL: /orders/orderlist, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 19:45:07: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: C:\Users\Aditya\Dropbox\node_react\courierapp2\views\order\list.ejs:46
+    44|         </thead>
+    45|         <tbody>          
+ >> 46|             <% orderlist.forEach(order => { %> 
+    47|                 <tr>
+    48|                     <td><%= moment(order.bookingDate).format(shortDateFormat) %></td>  
+    49|                     <% if(user.role == 'admin'){ %>
+
+Cannot read properties of undefined (reading 'forEach'), 
+ URL: /orders/orderlist, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 19:45:37: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: C:\Users\Aditya\Dropbox\node_react\courierapp2\views\order\list.ejs:46
+    44|         </thead>
+    45|         <tbody>          
+ >> 46|             <% orderlist.forEach(order => { %> 
+    47|                 <tr>
+    48|                     <td><%= moment(order.bookingDate).format(shortDateFormat) %></td>  
+    49|                     <% if(user.role == 'admin'){ %>
+
+Cannot read properties of undefined (reading 'forEach'), 
+ URL: /orders/orderlist, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 19:45:37: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: C:\Users\Aditya\Dropbox\node_react\courierapp2\views\order\list.ejs:46
+    44|         </thead>
+    45|         <tbody>          
+ >> 46|             <% orderlist.forEach(order => { %> 
+    47|                 <tr>
+    48|                     <td><%= moment(order.bookingDate).format(shortDateFormat) %></td>  
+    49|                     <% if(user.role == 'admin'){ %>
+
+Cannot read properties of undefined (reading 'forEach'), 
+ URL: /orders/orderlist, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 19:45:37: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: C:\Users\Aditya\Dropbox\node_react\courierapp2\views\order\list.ejs:46
+    44|         </thead>
+    45|         <tbody>          
+ >> 46|             <% orderlist.forEach(order => { %> 
+    47|                 <tr>
+    48|                     <td><%= moment(order.bookingDate).format(shortDateFormat) %></td>  
+    49|                     <% if(user.role == 'admin'){ %>
+
+Cannot read properties of undefined (reading 'forEach'), 
+ URL: /orders/orderlist, 
+ HTTP METHOD: GET, 
+ IP: ::1
+error: 15-04-2022 22:41:39: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: C:\Users\Aditya\Dropbox\node_react\courierapp2\views\order\add\box.ejs:10
+    8| 
+    9| <!-- include validations -->
+ >> 10| <%- include('../../include/_validations') %>
+    11| <!-- /include validations -->
+    12| 
+    13| <div class="container">
+
+C:\Users\Aditya\Dropbox\node_react\courierapp2\views\include\_validations.ejs:4
+    2|     <div class="row justify-content-center">        
+    3|         <div class="col-md-6 mt-3">   
+ >> 4|             <% alert.forEach(error => { %> 
+    5|                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
+    6|                     <%= error.msg %>
+    7|                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+
+alert.forEach is not a function, 
+ URL: /orders/6258c8df40adb66cc492a412/box?_method=PATCH, 
+ HTTP METHOD: PATCH, 
+ IP: ::1
+error: 16-04-2022 17:15:20: 
+ 	STATUSCODE: 200, 
+ STATUSMESSAGE: OK, 
+ ERROR: Manifest validation failed: manifestDestination: Path `manifestDestination` (`United Arab Emirates`) is longer than the maximum allowed length (15)., 
+ URL: /manifest, 
+ HTTP METHOD: POST, 
+ IP: ::1
