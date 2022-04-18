@@ -35,7 +35,9 @@
                 <th>Destination</th>
                 <th>Box</th>
                 <th>Weight</th>
+                <% if(user.accessRight.indexOf('invoice') != -1){ %> 
                 <th>Bill</th>
+                <% } %>
                 <% if(user.role == 'admin'){ %>
                 <th>Tracking</th>
                 <th>Vendor</th>    
@@ -69,7 +71,9 @@
                                 <a class="dropdown-item" href="<%= order._id %>/box">Box Details</a>
                                 <% if(user.role == 'admin'){ %>
                                 <a class="dropdown-item" href="<%= order._id %>/track">Tracking Details</a>
+                                <% if(user.accessRight.indexOf('invoice') != -1){ %> 
                                 <a class="dropdown-item" href="<%= order._id %>/bill">Bill Details</a>
+                                <% } %>
                                 <% } %>                                                                
                             </div>
                         </div>                        
