@@ -48,7 +48,7 @@ exports.createOrderPage = async (req, res, next) => {
     try{
         
         let userId = req.user.id
-        const user = await User.findById(userId)
+        const user = await User.findById(userId).populate('admin').exec()
         
         const clientlist = await User.find({role: 'client', admin: userId})
         const countries = await db.collection('countries').find().toArray()
@@ -70,6 +70,18 @@ exports.createOrderPage = async (req, res, next) => {
 exports.createOrder = async (req, res, next) => {
     try{
         //debug(req.body)
+        let userId = req.user.id
+        let role = req.user.role
+        
+        //GET ALL CLIENTS OF AN ADMIN USER//
+        let userlist
+
+        if(role == 'admin'){
+            userlist = await User.find({role: 'client', admin: userId})
+            userlist = userlist.map(user => user._id)            
+        }         
+
+        //GET FORM DATA//
         let {
             bookingDate, consignor, service,
             consignorContactNumber, consignorEmail,
@@ -79,17 +91,22 @@ exports.createOrder = async (req, res, next) => {
             consigneeContactNumber, consigneeEmail, 
             consigneeAddress1, consigneeAddress2, 
             consigneePincode, consigneeCity, consigneeState,
-            origin, destination, client_id
-        } = req.body  
-        
-        let awbNumber
+            origin, destination, client_id, awbNumber
+        } = req.body                  
 
-        //generate unique random 7 digit awbNumber
-        do{
-            awbNumber = Math.floor(Math.random() * 10000000)
-        }while(await Order.findOne({awbNumber: awbNumber}))              
-
-        // --- create tracking activity --- //
+        //GENERATE UNIQUE RANDOM 7 DIGIT AWBNUMBER, IF NO AWBNUMBER INPUTTED
+        if(awbNumber.trim() == '' || !awbNumber){
+            do{
+                awbNumber = Math.floor(Math.random() * 10000000)
+            }while(await Order.findOne({awbNumber: awbNumber})) 
+        }else{
+            //CHECK DUPLICATE FOR RESPECTIVE ADMIN, IF AWBNUMBER INPUTTED
+            let checkAwb = await Order.findOne({awbNumber: awbNumber, client: userlist}) 
+            if(checkAwb != null)
+                return res.render('error', {message: 'AWB Number already exists!!', statusCode: '404'})
+        }
+                    
+     // ------------- CREATE TRACKING ACTIVITY ------------ //
         
         //get time string from bookingDate
         let time = new Date(bookingDate)
@@ -116,7 +133,7 @@ exports.createOrder = async (req, res, next) => {
             trackingDetails: trackArr, apiCount:0, trackingStatus: 'SCH'
         }
         
-        const order = new Order(obj)
+        const order = new Order(obj)        
         
         await order.save()
         
