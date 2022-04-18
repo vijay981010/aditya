@@ -5,17 +5,18 @@ $(document).ready(function(){
     function runCron(){            
         let x = []
         let statCron = []
+        let user = $('#username').val()
 
         document.querySelectorAll('.cron').forEach(item => {
             x.push(item.innerHTML)
         })
 
-        x.forEach((elem,i) => {       
+        x.forEach((trackingNumber,i) => {       
                 
             $.ajax({
                 url: `${environment.baseurl}/orders/track/details`,
                 method: 'GET',
-                data: {elem},
+                data: {trackingNumber, user},
                 dataType: 'json',
                 cache: false,
                 error: function(xhr, status, error){

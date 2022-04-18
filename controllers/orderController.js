@@ -103,7 +103,7 @@ exports.createOrder = async (req, res, next) => {
             //CHECK DUPLICATE FOR RESPECTIVE ADMIN, IF AWBNUMBER INPUTTED
             let checkAwb = await Order.findOne({awbNumber: awbNumber, client: userlist}) 
             if(checkAwb != null)
-                return res.render('error', {message: 'AWB Number already exists!!', statusCode: '404'})
+                return res.render('error', {message: 'AWB Number already exists!!', statusCode: '404'})                
         }
                     
      // ------------- CREATE TRACKING ACTIVITY ------------ //
@@ -411,7 +411,7 @@ exports.trackDetails = async(req, res, next) => {
 
     // -------- GET TRACKING DATA FROM API IF VENDOR ID EXISTS -------------------- //
         
-        if(order.vendorId && order.vendorId != 0 || trackingNumber == '920183'){
+        if(order.vendorId && order.vendorId != 0){
             let postData = {
                 "username":"adinr4",
                 "password":"be57b1d8cbcf5c9cd7fe3d8011233985",
