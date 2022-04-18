@@ -1,6 +1,7 @@
 const User = require('../model/userModel')
 const Order = require('../model/orderModel')
 const Service = require('../model/serviceModel')
+const Walkin = require('../model/walkinModel')
 const debug = require('debug')('dev')
 const axios = require('axios')
 const mongoose = require('mongoose');
@@ -54,6 +55,9 @@ exports.createOrderPage = async (req, res, next) => {
         const countries = await db.collection('countries').find().toArray()
         const serviceList = await Service.find({admin: userId})
 
+        const consignorList = await Walkin.find({role: 'consignor'}).select('name')
+        const consigneeList = await Walkin.find({role: 'consignee'}).select('name')
+
         //convert servicenames to displaynames
         let displayNames = await Service.find({serviceName: user.serviceAccess})        
         displayNames = displayNames.map(item => item.displayName)
@@ -61,7 +65,11 @@ exports.createOrderPage = async (req, res, next) => {
         //find admin of client and get accessright of that admin
         let adminUser = await User.findById(user.admin)        
 
-        res.render('order/add/primary', { user, clientlist, countries, serviceList, displayNames, adminUser})
+        res.render('order/add/primary', { 
+            user, clientlist, countries, 
+            serviceList, displayNames, adminUser, 
+            consignorList, consigneeList
+        })
     }catch(err){
         next(err)
     }
@@ -120,6 +128,7 @@ exports.createOrder = async (req, res, next) => {
             statusLocation: 'India'
         }]
 
+    // -------------- CREATE FINAL ORDER OBJECT ------------------ //        
         let obj = {
             bookingDate, awbNumber, consignor, service,
             consignorContactNumber, consignorEmail,
@@ -132,6 +141,44 @@ exports.createOrder = async (req, res, next) => {
             origin, destination, status: 'active', client: client_id,
             trackingDetails: trackArr, apiCount:0, trackingStatus: 'SCH',
             miscClients
+        }
+
+    // ---- CREATE AND SAVE CONSIGNOR WALKIN OBJECT IF IT DOESNT'T EXIST ---- // 
+        let consignorwalkinlist = await Walkin.find({role: 'consignor'})
+        consignorwalkinlist = consignorwalkinlist.map(item => item.name)
+        
+        if(consignorwalkinlist.indexOf(consignor) == -1){
+            let consignorObj = {
+                role: 'consignor', name: consignor, contactNumber: consignorContactNumber,
+                email: consignorEmail, address1: consignorAddress1, address2: consignorAddress2,
+                pincode: consignorPincode, city: consignorCity, state: consignorState, 
+                country: origin, docType, docNumber
+            }
+
+            //debug(consignorObj)
+
+            const walkinConsignor = new Walkin(consignorObj)
+            await walkinConsignor.save()
+        }
+        
+
+    // ---- create and save consignee walkin object if it doesn't exist ---- // 
+        let consigneewalkinlist = await Walkin.find({role: 'consignee'})
+        consigneewalkinlist = consigneewalkinlist.map(item => item.name)        
+
+        if(consigneewalkinlist.indexOf(consignee) == -1){
+            let consigneeObj = {
+                role: 'consignee', name: consignee, contactNumber: consigneeContactNumber,
+                email: consigneeEmail, address1: consigneeAddress1, address2: consigneeAddress2, 
+                city: consigneeCity, pincode: consigneePincode, state: consigneeState,
+                country: destination
+            }
+
+            //debug(consigneeObj)
+
+            //res.json(consigneeObj)
+            const walkinConsignee = new Walkin(consigneeObj)
+            await walkinConsignee.save()
         }
         
         const order = new Order(obj)        

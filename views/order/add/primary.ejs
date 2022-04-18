@@ -107,14 +107,24 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="consignor">Name<span>*</span></label>                                                                               
-                                                <input class="form-control" name = "consignor" type="text" required/>                            
+                                                <label for="consignor">Name<span>*</span></label>                     
+                                                <%if(user.role=='client'){ %>
+                                                    <input class="form-control" name = "consignor" type="text" required/> 
+                                                <%}else if(user.role=='admin'){%>
+                                                    <input class ="form-select" name = "consignor" list="consignorlist" id="consignor" required>
+                                                    <datalist id="consignorlist">
+                                                        <% consignorList.forEach(consignor => { %>
+                                                            <option value="<%= consignor.name %>"><%= consignor.name %></option>
+                                                        <% }) %>                                                         
+                                                    </datalist>
+                                                <%}%>                                                
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
+                                                <input type="hidden" name="origin" id="hOri" disabled>
                                                 <label for="origin">Origin<span>*</span></label>
-                                                <select class ="form-select" name = "origin" required>
+                                                <select class ="form-select" name = "origin" id="origin" required>
                                                     <option value="">---Select Origin---</option>
                                                     <% countries.forEach(country => { %>
                                                         <option value="<%= country.name %>"><%= country.name %></option>
@@ -127,13 +137,13 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="consignorContactNumber">Contact Number<span>*</span></label>                                                                               
-                                                <input class="form-control" name = "consignorContactNumber" type="text" required/>                            
+                                                <input class="form-control" name="consignorContactNumber" id="consignorContactNumber" type="text" required/>                            
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="consignorEmail">Email</label>
-                                                <input class="form-control" name = "consignorEmail" type="text" />                                                      
+                                                <input class="form-control" name="consignorEmail" id="consignorEmail" type="text" />                                                      
                                             </div>
                                         </div>
                                     </div>
@@ -141,13 +151,13 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="consignorAddress1">Address 1<span>*</span></label>                                                                                                                 
-                                                <textarea class="form-control" name="consignorAddress1" required></textarea>                          
+                                                <textarea class="form-control" name="consignorAddress1" id="consignorAddress1" required></textarea>                          
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="consignorAddress2">Address 2<span>*</span></label>
-                                                <textarea class="form-control" name="consignorAddress2" required></textarea>                                                      
+                                                <textarea class="form-control" name="consignorAddress2" id="consignorAddress2" required></textarea>                                                      
                                             </div>
                                         </div>
                                     </div>
@@ -155,27 +165,28 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="consignorPincode">Pincode<span>*</span></label>                                                                                                                 
-                                                <input class="form-control" name="consignorPincode" type="text" required/>                         
+                                                <input class="form-control" name="consignorPincode" id="consignorPincode" type="text" required/>                         
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="consignorCity">City<span>*</span></label>
-                                                <input class="form-control" name="consignorCity" type="text" required/>                                                      
+                                                <input class="form-control" name="consignorCity" id="consignorCity" type="text" required/>                                                      
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="consignorCity">State<span>*</span></label>
-                                                <input class="form-control" name="consignorState" type="text" required/>                                                      
+                                                <input class="form-control" name="consignorState" id="consignorState" type="text" required/>                                                      
                                             </div>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
+                                                <input type="hidden" name="docType" id="hDT" disabled>
                                                 <label for="docType">Document Type<span>*</span></label>                                                                                                                 
-                                                <select class="form-select" name="docType" required>
+                                                <select class="form-select" name="docType" id="docType" required>
                                                     <option value="">---Select Document Type---</option>
                                                     <option value="Aadhaar Number">Aadhaar Number</option>
                                                     <option value="GSTIN (Normal)">GSTIN (Normal)</option>
@@ -187,7 +198,7 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="docNumber">Document Number<span>*</span></label>
-                                                <input class="form-control" name="docNumber" type="text" required>                                                    
+                                                <input class="form-control" name="docNumber" id="docNumber" type="text" required>                                                    
                                             </div>
                                         </div>
                                     </div>
@@ -197,20 +208,30 @@
                         <div class="col-md-6">
                             <div class="card">
                                 <div class="card-header">
-                                    <h3 class="text-center font-weight-light my-4">Consginee</h3>
+                                    <h3 class="text-center font-weight-light my-4">Consignee</h3>
                                 </div>
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="consignee">Name<span>*</span></label>                                                                               
-                                                <input class="form-control" name = "consignee" type="text" required/>                            
+                                                <label for="consignee">Name<span>*</span></label> 
+                                                <%if(user.role=='client'){%>
+                                                    <input class="form-control" name="consignee" type="text" required/>
+                                                <%}else if(user.role=='admin'){%>
+                                                    <input class ="form-select" name="consignee" id="consignee" list="consigneelist" required>
+                                                    <datalist id="consigneelist">
+                                                        <% consigneeList.forEach(consignee => { %>
+                                                            <option value="<%= consignee.name %>"><%= consignee.name %></option>
+                                                        <% }) %>                                                         
+                                                    </datalist>
+                                                <%}%>                                                                        
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
+                                                <input type="hidden" name="destination" id="hDest" disabled>
                                                 <label for="destination">Destination<span>*</span></label>
-                                                <select class ="form-select" name = "destination" required>
+                                                <select class ="form-select" name = "destination" id="destination" required>
                                                     <option value="">---Select Destination---</option>
                                                     <% countries.forEach(country => { %>
                                                         <option value="<%= country.name %>"><%= country.name %></option>
@@ -223,13 +244,13 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="consigneeContactNumber">Contact Number<span>*</span></label>                                                                               
-                                                <input class="form-control" name = "consigneeContactNumber" type="text" required/>                            
+                                                <input class="form-control" name="consigneeContactNumber" id="consigneeContactNumber" type="text" required/>                            
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="consigneeEmail">Email</label>
-                                                <input class="form-control" name = "consigneeEmail" type="text" />                                                      
+                                                <input class="form-control" name="consigneeEmail" id="consigneeEmail" type="text" />                                                      
                                             </div>
                                         </div>
                                     </div>
@@ -237,13 +258,13 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="consigneeAddress1">Address 1<span>*</span></label>                                                                                                                 
-                                                <textarea class="form-control" name="consigneeAddress1" required></textarea>                          
+                                                <textarea class="form-control" name="consigneeAddress1" id="consigneeAddress1" required></textarea>                          
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="consigneeAddress2">Address 2<span>*</span></label>
-                                                <textarea class="form-control" name="consigneeAddress2" required></textarea>                                                      
+                                                <textarea class="form-control" name="consigneeAddress2" id="consigneeAddress2" required></textarea>                                                      
                                             </div>
                                         </div>
                                     </div>
@@ -251,19 +272,19 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="consigneePincode">Pincode<span>*</span></label>                                                                                                                 
-                                                <input class="form-control" name="consigneePincode" type="text" required/>                         
+                                                <input class="form-control" name="consigneePincode" id="consigneePincode" type="text" required/>                         
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="consigneeCity">City<span>*</span></label>
-                                                <input class="form-control" name="consigneeCity" type="text" required/>                                                      
+                                                <input class="form-control" name="consigneeCity" value="London" id="consigneeCity" type="text" required/>                                                      
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="consigneeCity">State<span>*</span></label>
-                                                <input class="form-control" name="consigneeState" type="text" required/>                                                      
+                                                <input class="form-control" name="consigneeState" value="UK" id="consigneeState" type="text" required/>                                                      
                                             </div>
                                         </div>
                                     </div>                                    
@@ -294,3 +315,4 @@
 <!-- /include footer -->
 
 <script src="/js/order/miscClients.js"></script>
+<script src="/js/order/walkinData.js"></script>
