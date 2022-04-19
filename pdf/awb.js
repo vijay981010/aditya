@@ -96,7 +96,12 @@ exports.generateAwb = (doc, order, user) => {
     doc
     .font('Helvetica')
     .fontSize(9)
-    .text(order.client.username, 65, 130, {width: 60, align:'left'})
+    if(order.client.username != 'Miscellaneous'){
+      doc.text(order.client.username, 65, 130, {width: 60, align:'left'})
+    }else{
+      doc.text(order.miscClients, 65, 130, {width: 60, align:'left'})
+    }    
+    doc
     .text(order.origin, 160, 130, {width: 60, align:'left'})
     .text(order.destination, 200, 130, {width: 60, align:'left'})
     

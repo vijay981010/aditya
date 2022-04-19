@@ -24,7 +24,12 @@ exports.primarydetails = (doc, order) => {
     .text(order.origin, 43, 155)
     .font('Helvetica')
     .text(`Tel No: ${order.consignorContactNumber}`, 43, 170)
-    .text(`Reference: ${order.client.username}`, 43, 185)
+    if(order.client.username != 'Miscellaneous'){
+      doc.text(`Reference: ${order.client.username}`, 43, 185)
+    }else{
+      doc.text(`Reference: ${order.miscClients}`, 43, 185)
+    }
+    doc
     .text(`${order.docType}: ${order.docNumber}`, 43, 200)
 
     .font('Helvetica-Bold')

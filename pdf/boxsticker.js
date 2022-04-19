@@ -50,8 +50,12 @@ exports.boxstickergenerate = (current, doc, order, user) => {
     .rect(440, 210, 115, 30).fill()
     .fillColor('white')
     .fontSize(11)
-    .text(order.client.username, 445, 165)
-    .text(order.service, 445, 215)
+    if(order.client.username != 'Miscellaneous'){
+      doc.text(order.client.username, 445, 165)
+    }else{
+      doc.text(order.miscClients, 445, 165)      
+    }
+    doc.text(order.service, 445, 215)
 
     .fillColor('black')
     .font('Helvetica-Bold')
@@ -89,7 +93,9 @@ exports.boxstickergenerate = (current, doc, order, user) => {
     .moveTo(40, 650)
     .lineTo(560, 650).stroke()
 
-    .text(user.displayName, 230, 670, {width: 150, align:'center'})
+    if(user.username != 'eps'){
+    doc.text(user.displayName, 230, 670, {width: 150, align:'center'})
+    }
         
 }
   
