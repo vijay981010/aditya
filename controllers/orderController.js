@@ -147,6 +147,7 @@ exports.createOrder = async (req, res, next) => {
     // ---- CREATE AND SAVE CONSIGNOR WALKIN OBJECT IF IT DOESNT'T EXIST ---- // 
         let consignorwalkinlist = await Walkin.find({role: 'consignor', admin: userId})
         consignorwalkinlist = consignorwalkinlist.map(item => item.name)
+        debug(consignorwalkinlist.indexOf(consignor) == -1)
         
         if(consignorwalkinlist.indexOf(consignor) == -1){
             let consignorObj = {
@@ -156,7 +157,7 @@ exports.createOrder = async (req, res, next) => {
                 country: origin, docType, docNumber, admin
             }
 
-            debug(consignorObj)
+            //debug(consignorObj)
 
             const walkinConsignor = new Walkin(consignorObj)
             await walkinConsignor.save()
@@ -165,7 +166,9 @@ exports.createOrder = async (req, res, next) => {
 
     // ---- create and save consignee walkin object if it doesn't exist ---- // 
         let consigneewalkinlist = await Walkin.find({role: 'consignee', admin: userId})
-        consigneewalkinlist = consigneewalkinlist.map(item => item.name)        
+        consigneewalkinlist = consigneewalkinlist.map(item => item.name)   
+        
+        debug(consigneewalkinlist.indexOf(consignee) == -1)
 
         if(consigneewalkinlist.indexOf(consignee) == -1){
             let consigneeObj = {
@@ -175,7 +178,7 @@ exports.createOrder = async (req, res, next) => {
                 country: destination, admin
             }
 
-            debug(consigneeObj)
+            //debug(consigneeObj)
 
             //res.json(consigneeObj)
             const walkinConsignee = new Walkin(consigneeObj)

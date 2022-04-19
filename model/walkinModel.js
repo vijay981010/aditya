@@ -10,63 +10,51 @@ const walkinSchema = new Schema({
     name: {
         type: String,
         required: true,
-        trim: true,
-        maxlength: 40
+        trim: true,        
     },
     contactNumber: {
         type: String,        
-        trim: true,
-        maxlength: 30        
+        trim: true,              
     },
     email: {
         type: String,
-        trim: true,
-        maxlength: 30
+        trim: true,        
     },    
     address1: {
         type: String,
-        trim: true,
-        maxlength: 200
+        trim: true,        
     },
     address2: {
         type: String,
-        trim: true,
-        maxlength: 200
+        trim: true,        
     },
     address3: {
         type: String,
-        trim: true,
-        maxlength: 200
+        trim: true,        
     },
     pincode: {
         type: String,
-        trim: true,
-        maxlength: 20
+        trim: true,        
     },
     city: {
         type: String,
-        trim: true,
-        maxlength: 30
+        trim: true,        
     },
     state: {
         type: String,
-        trim: true,
-        maxlength: 30
+        trim: true,        
     },
     country: {
         type: String,
-        trim: true,
-        maxlength: 30
+        trim: true,        
     },
     docType: {
         type: String,
-        trim: true,
-        maxlength: 30
+        trim: true,        
     },
     docNumber: {
         type: String,
-        trim: true,
-        maxlength: 30
+        trim: true,        
     },
     admin: {
         type: Schema.Types.ObjectId,        

@@ -27,8 +27,7 @@ const itemSchema = new Schema({
     },
     itemName: {
         type: String,
-        trim: true,
-        maxlength: 30
+        trim: true,        
     },
     itemQuantity: {
         type: Number
@@ -66,48 +65,39 @@ const orderSchema = new Schema({
     awbNumber:{
         type: String,
         required: true,
-        trim: true,
-        maxlength: 20
+        trim: true,        
     },    
     consignor: {
         type: String,
-        trim: true,
-        maxlength: 30
+        trim: true,        
     },
     consignorContactNumber: {
         type: String,
-        trim: true,
-        maxlength: 50       
+        trim: true,           
     },
     consignorEmail:{
         type: String,
-        trim: true,
-        maxlength: 50
+        trim: true,        
     },
     consignorAddress1: {
         type: String,
-        trim: true,
-        maxlength: 100
+        trim: true,        
     },
     consignorAddress2: {
         type: String,
-        trim: true,
-        maxlength: 100
+        trim: true,        
     },
     consignorPincode: {
         type: String,
-        trim: true,
-        maxlength: 15
+        trim: true,        
     },
     consignorCity: {
         type: String,
-        trim: true,
-        maxlength: 15
+        trim: true,        
     },
     consignorState: {
         type: String,
-        trim: true,
-        maxlength: 15
+        trim: true,        
     },    
     docType: {
         type: String,
@@ -115,48 +105,39 @@ const orderSchema = new Schema({
     },
     docNumber: {
         type: String,
-        trim: true,
-        maxlength: 30
+        trim: true,        
     },
     consignee: {
         type: String,
-        trim: true,
-        maxlength: 30
+        trim: true,        
     },
     consigneeContactNumber: {
         type: String,
-        trim: true,
-        maxlength: 50     
+        trim: true,           
     },
     consigneeEmail:{
         type: String,
-        trim: true,
-        maxlength: 50
+        trim: true,        
     },
     consigneeAddress1: {
         type: String,
-        trim: true,
-        maxlength: 100
+        trim: true,        
     },
     consigneeAddress2: {
         type: String,
-        trim: true,
-        maxlength: 100
+        trim: true,        
     },
     consigneePincode: {
         type: String,
-        trim: true,
-        maxlength: 15
+        trim: true,        
     },
     consigneeCity: {
         type: String,
-        trim: true,
-        maxlength: 15
+        trim: true,        
     },
     consigneeState: {
         type: String,
-        trim: true,
-        maxlength: 15
+        trim: true,        
     },    
     origin: {
         type: String,
@@ -189,8 +170,7 @@ const orderSchema = new Schema({
     },
     trackingNumber: {
         type: String,
-        trim: true,
-        maxlength: 30
+        trim: true,        
     },
     trackingStatus: {
         type: String,
@@ -211,29 +191,24 @@ const orderSchema = new Schema({
     },
     coforwarder: {
         type: String,
-        trim: true,
-        maxlength: 30
+        trim: true,        
     },
     coforwarderAwb: {
         type: String,
-        trim: true,
-        maxlength: 30
+        trim: true,        
     },
     clientNote: {
         type: String,
-        trim: true,
-        maxlength: 200
+        trim: true,        
     },
     selfNote: {
         type: String,
-        trim: true,
-        maxlength: 200
+        trim: true,        
     },
     trackingDetails: [trackingSchema],
     service: {
         type: String,
-        trim: true,
-        maxLength: 30        
+        trim: true,             
     },
     status: {
         type: String,

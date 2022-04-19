@@ -5,8 +5,7 @@ const Schema = mongoose.Schema
 const bagSchema = new Schema({
     bagNumber: {
         type: String,
-        trim: true,
-        maxLength: 30
+        trim: true,        
     },
     order: {
         type: Schema.Types.ObjectId,
@@ -21,8 +20,7 @@ const bagSchema = new Schema({
 const manifestSchema = new Schema({
     manifestNumber: {
         type: String,
-        trim: true,
-        maxLength: 15        
+        trim: true,            
     },
     manifestDate: {
         type: Date,
@@ -48,23 +46,19 @@ const manifestSchema = new Schema({
     },
     mawbNumber: {
         type: String,        
-        trim: true,
-        maxLength: 20
+        trim: true,        
     },
     cdNumber: {
         type: String,        
-        trim: true,
-        maxLength: 15
+        trim: true,        
     },
     runNumber: {
         type: String,        
-        trim: true,
-        maxLength: 15
+        trim: true,        
     },
     flightNumber: {
         type: String,        
-        trim: true,
-        maxLength: 15
+        trim: true,        
     },
     totalAwbs: {
         type: Number
