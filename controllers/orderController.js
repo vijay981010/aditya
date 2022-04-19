@@ -465,7 +465,13 @@ exports.trackDetails = async(req, res, next) => {
     // -------- GET TRACKING DATA FROM API IF VENDOR ID EXISTS -------------------- //
     
         if(order.vendorId && order.vendorId != 0){
-            let order_id = `${userId.trackingId}${trackingNumber}`
+            let excludeArr = ['914653', '9146530', '920193', '557740445', '1614352', '3779137', '3734458', '4570177', '3106960',
+            '527471', '3981373', '3431059', '3250406', '6172115', '8265503']
+        
+            let order_id = trackingNumber
+
+            if(excludeArr.indexOf(trackingNumber) == -1)
+                order_id = `${userId.trackingId}${trackingNumber}`
     
             let postData = {
                 "username":"adinr4",
