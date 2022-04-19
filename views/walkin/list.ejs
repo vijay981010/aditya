@@ -1,0 +1,59 @@
+<!-- include header -->
+<%- include('../include/_header') %>
+<!-- /include header -->
+
+<!-- include header -->
+<%- include('../include/_navbar') %>
+<!-- /include header -->
+<div class="container-fluid mb-5"> 
+    <div class="container-fluid">
+        <header class="row py-3 mb-4 border-bottom">
+            <div class="col-md-3">                
+                <span class="fs-4 text-dark">List of Consignors/Consignees</span>
+            </div>
+            <!-- <div class="col-md-6"></div>
+            <div class="col-md-3 d-flex flex-row-reverse">                
+                <a href="/walkins/add" class="btn btn-primary-dark">Add Walk-Ins</a>
+            </div> -->
+        </header>
+    </div>        
+      
+    <table id="myTable" class="display cell-border responsive myTable" width="100%">
+        <thead>
+            <tr>
+                <th>Type</th>
+                <th>Name</th>                
+                <th>Contact</th>
+                <th>Email</th>   
+                <th>Pincode</th>   
+                <th>Country</th>    
+                <th>Action</th>                                  
+            </tr>
+        </thead>
+        <tbody>     
+            <% walkinlist.forEach(walkin => { %> 
+                <tr>
+                    <% if(walkin.role == 'consignor'){ %>                         
+                        <td><h6><span class="badge badge-info"><%= walkin.role %></span></h6></td>
+                    <% } else if(walkin.role == 'consignee'){ %>                        
+                        <td><h6><span class="badge badge-warning"><%= walkin.role %></span></h6></td>
+                    <% } %>                    
+                    <td><%= walkin.name %></td>
+                    <td><%= walkin.contactNumber %></td>
+                    <td><%= walkin.email %></td>
+                    <td><%= walkin.pincode %></td>
+                    <td><%= walkin.country %></td>
+                    <td>                                                
+                        <a class="btn-sm btn-primary" href="/walkins/<%= walkin._id %>/edit">Edit</a>
+                    </td>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>       
+</div>
+
+
+<!-- include footer -->
+<%- include('../include/_footer') %>
+<!-- /include footer -->
+

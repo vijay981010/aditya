@@ -1,0 +1,129 @@
+<!-- include header -->
+<%- include('../include/_header') %>
+<!-- /include header -->
+
+<!-- include header -->
+<%- include('../include/_navbar') %>
+<!-- /include header -->
+<div class="container">
+    <div class="row justify-content-center">                 
+        <div class="col-lg-10">
+          <div class="card shadow-lg border-0 rounded-lg mt-5 mb-5">
+            <form action = '/walkins/<%= walkin._id %>/edit' method = "post">
+              <div class="card-header">
+                  <h3 class="text-center font-weight-light my-2">Edit <%= walkin.role %></h3>
+              </div>
+              <div class="card-body">            
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">                                                                                                       
+                                <input type="hidden" name="role" value="<%= walkin.role %>" >
+                                <label for="name">Name<span>*</span></label>                                   
+                                <input class="form-control" name = "name" value = "<%= walkin.name %>" type="text" required/>                            
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="contactNumber">Contact Number<span>*</span></label>
+                                <input class="form-control" name = "contactNumber" type="text" value="<%= walkin.contactNumber %>" required/>                            
+                            </div> 
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input class="form-control" name = "email" type="email" value="<%= walkin.email %>"/>                            
+                            </div> 
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="address1">Address 1<span>*</span></label>                                                                                                               
+                                <textarea class="form-control" name = "address1" required><%= walkin.address1 %></textarea>                          
+                            </div>
+                        </div>                        
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="address2">Address 2<span>*</span></label>                                                                               
+                                <textarea class="form-control" name = "address2" required><%= walkin.address2 %></textarea>                            
+                            </div> 
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="city">City<span>*</span></label>
+                                <input class="form-control" name = "city" value="<%= walkin.city %>" type="text" required/>                            
+                            </div> 
+                        </div>
+                                               
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="pincode">Pincode<span>*</span></label>                                                                                
+                                <input class="form-control" name = "pincode" value = "<%= walkin.pincode %>" type="text" required/>                            
+                            </div>
+                        </div>
+                        
+                            
+                        
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="state">State<span>*</span></label>
+                                    <input class="form-control" name = "state" value="<%= walkin.state %>" type="text" required/>                            
+                                </div> 
+                            </div>
+                                               
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="country">Country<span>*</span></label>                                 
+                                <select class ="form-select" name = "country" required>
+                                    <option value="<%= walkin.country %>"><%= walkin.country %></option>
+                                    <% countries.forEach(country => { %>
+                                        <option value="<%= country.name %>"><%= country.name %></option>
+                                    <% }) %>
+                                </select>                         
+                            </div> 
+                        </div>
+                    </div>   
+                    <% if(walkin.role == 'consignor'){ %> 
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="docType">Document Type<span>*</span></label>                                                                                                                 
+                                <select class="form-select" name="docType" required>
+                                    <option value="<%= walkin.docType %>"><%= walkin.docType %></option>
+                                    <option value="aadhar">Aadhar</option>
+                                    <option value="pan">PAN</option>
+                                    <option value="passport">Passport</option>
+                                    <option value="driving license">Driving License</option>
+                                </select>                            
+                            </div> 
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="docNumber">Document Number<span>*</span></label>
+                                <input class="form-control" name = "docNumber" value="<%= walkin.docNumber %>" type="text" required/>                            
+                            </div>
+                        </div>
+                    </div>
+                    <% } %>
+              </div> 
+              <div class="card-footer">
+                    <div class="row">
+                        <div class="col-md-12 text-center">
+                            <button type="submit" class="btn btn-primary">Update</button>
+                        </div>
+                    </div>                
+              </div>  
+            </form>              
+          </div>            
+        </div>          
+    </div>
+</div>
+
+
+
+
+<!-- include footer -->
+<%- include('../include/_footer') %>
+<!-- /include footer -->
