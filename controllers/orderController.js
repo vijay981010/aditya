@@ -55,8 +55,8 @@ exports.createOrderPage = async (req, res, next) => {
         const countries = await db.collection('countries').find().toArray()
         const serviceList = await Service.find({admin: userId})
 
-        const consignorList = await Walkin.find({role: 'consignor'}).select('name')
-        const consigneeList = await Walkin.find({role: 'consignee'}).select('name')
+        const consignorList = await Walkin.find({role: 'consignor', admin: userId}).select('name')
+        const consigneeList = await Walkin.find({role: 'consignee', admin: userId}).select('name')
 
         //convert servicenames to displaynames
         let displayNames = await Service.find({serviceName: user.serviceAccess})        
@@ -156,7 +156,7 @@ exports.createOrder = async (req, res, next) => {
                 country: origin, docType, docNumber, admin
             }
 
-            //debug(consignorObj)
+            debug(consignorObj)
 
             const walkinConsignor = new Walkin(consignorObj)
             await walkinConsignor.save()
@@ -175,7 +175,7 @@ exports.createOrder = async (req, res, next) => {
                 country: destination, admin
             }
 
-            //debug(consigneeObj)
+            debug(consigneeObj)
 
             //res.json(consigneeObj)
             const walkinConsignee = new Walkin(consigneeObj)
