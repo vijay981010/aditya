@@ -10,7 +10,7 @@ exports.list = async(req, res, next) => {
         let userId = req.user.id
         const user = await User.findById(userId)
 
-        const walkinlist = await Walkin.find().sort({updatedAt: 'desc'})
+        const walkinlist = await Walkin.find({admin: userId}).sort({updatedAt: 'desc'})
 
         res.render('walkin/list', {user, walkinlist})
     }catch(err){
