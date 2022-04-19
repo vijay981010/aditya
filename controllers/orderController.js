@@ -363,7 +363,7 @@ exports.patchTrack = async (req, res, next) => {
         let apiCount
         let apiCredit
 
-        let user = await User.findById(userId)        
+        let user = await User.findById(userId).select('apiCredit trackingId')   
         
         //get respective vendor name from vendor id
         vendorArray.forEach(elem => {
@@ -390,12 +390,16 @@ exports.patchTrack = async (req, res, next) => {
         //check if new tracking number or new vendorName, then increment
         if(vendorName != 'OTHERS' ){
             if(order.trackingNumber != trackingNumber || order.vendorName != vendorName){
+                //CREATE PREFIXED TRACKING NUMBER TO AVOID DUPLICATES//
+                let order_id = `${user.trackingId}${awbNumber}`                
+
+                //CREATE POSTDATA FOR SHIPWAY//
                 let postData = {
                     "username":"adinr4",
                     "password":"be57b1d8cbcf5c9cd7fe3d8011233985",
                     "carrier_id":vendorId,
                     "awb": trackingNumber,
-                    "order_id": awbNumber,
+                    "order_id": order_id,
                     "first_name":"N/A",
                     "last_name":"N/A",
                     "email":"N/A",
@@ -449,21 +453,24 @@ exports.trackDetails = async(req, res, next) => {
         let {trackingNumber, user} = req.query
 
         //GET CLIENT LIST TO AVOID DUPLICATE TRACKING NUMBER ISSUE//
-        let userId = await User.findOne({username: user}).select('username')
-        userlist = await User.find({role: 'client', admin: userId})
+        let userId = await User.findOne({username: user}).select('username trackingId')        
+        userlist = await User.find({role: 'client', admin: userId})        
         userlist = userlist.map(user => user._id)  
 
+        //FILTER OUT THE UNIQUE TRACKING NUMBER FOR RESPECTIVE ADMIN//
         let order = await Order.findOne({awbNumber: trackingNumber, client: userlist}).populate('client')        
         
         if(order == null) return res.json({status: 'fail'})
 
     // -------- GET TRACKING DATA FROM API IF VENDOR ID EXISTS -------------------- //
-        
+    
         if(order.vendorId && order.vendorId != 0){
+            let order_id = `${userId.trackingId}${trackingNumber}`
+    
             let postData = {
                 "username":"adinr4",
                 "password":"be57b1d8cbcf5c9cd7fe3d8011233985",
-                "order_id": trackingNumber
+                "order_id": order_id
             }
             let response = await axios.post('https://shipway.in/api/getOrderShipmentDetails', postData)
 
