@@ -101,10 +101,10 @@ exports.createOrder = async (req, res, next) => {
             consigneePincode, consigneeCity, consigneeState,
             origin, destination, client_id, awbNumber, 
             miscClients, admin
-        } = req.body                  
+        } = req.body                           
 
-        //GENERATE UNIQUE RANDOM 7 DIGIT AWBNUMBER        
-        if(awbNumber.trim() == '' || !awbNumber){
+        //GENERATE UNIQUE RANDOM 7 DIGIT AWBNUMBER                
+        if(!awbNumber || awbNumber.trim() == ''){
             do{
                 awbNumber = Math.floor(Math.random() * 10000000)
             }while(await Order.findOne({awbNumber: awbNumber}))
@@ -145,7 +145,7 @@ exports.createOrder = async (req, res, next) => {
         }
 
     // ---- CREATE AND SAVE CONSIGNOR WALKIN OBJECT IF IT DOESNT'T EXIST ---- // 
-        let consignorwalkinlist = await Walkin.find({role: 'consignor'})
+        let consignorwalkinlist = await Walkin.find({role: 'consignor', admin: userId})
         consignorwalkinlist = consignorwalkinlist.map(item => item.name)
         
         if(consignorwalkinlist.indexOf(consignor) == -1){
@@ -164,7 +164,7 @@ exports.createOrder = async (req, res, next) => {
         
 
     // ---- create and save consignee walkin object if it doesn't exist ---- // 
-        let consigneewalkinlist = await Walkin.find({role: 'consignee'})
+        let consigneewalkinlist = await Walkin.find({role: 'consignee', admin: userId})
         consigneewalkinlist = consigneewalkinlist.map(item => item.name)        
 
         if(consigneewalkinlist.indexOf(consignee) == -1){
