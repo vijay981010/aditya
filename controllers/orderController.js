@@ -99,7 +99,8 @@ exports.createOrder = async (req, res, next) => {
             consigneeContactNumber, consigneeEmail, 
             consigneeAddress1, consigneeAddress2, 
             consigneePincode, consigneeCity, consigneeState,
-            origin, destination, client_id, awbNumber, miscClients
+            origin, destination, client_id, awbNumber, 
+            miscClients, admin
         } = req.body                  
 
         //GENERATE UNIQUE RANDOM 7 DIGIT AWBNUMBER        
@@ -152,7 +153,7 @@ exports.createOrder = async (req, res, next) => {
                 role: 'consignor', name: consignor, contactNumber: consignorContactNumber,
                 email: consignorEmail, address1: consignorAddress1, address2: consignorAddress2,
                 pincode: consignorPincode, city: consignorCity, state: consignorState, 
-                country: origin, docType, docNumber
+                country: origin, docType, docNumber, admin
             }
 
             //debug(consignorObj)
@@ -171,7 +172,7 @@ exports.createOrder = async (req, res, next) => {
                 role: 'consignee', name: consignee, contactNumber: consigneeContactNumber,
                 email: consigneeEmail, address1: consigneeAddress1, address2: consigneeAddress2, 
                 city: consigneeCity, pincode: consigneePincode, state: consigneeState,
-                country: destination
+                country: destination, admin
             }
 
             //debug(consigneeObj)
@@ -469,10 +470,10 @@ exports.trackDetails = async(req, res, next) => {
             '527471', '3981373', '3431059', '3250406', '6172115', '8265503']
         
             let order_id = trackingNumber
-
+            debug(excludeArr.indexOf(trackingNumber) == -1)
             if(excludeArr.indexOf(trackingNumber) == -1)
                 order_id = `${userId.trackingId}${trackingNumber}`
-    
+            debug(order_id)
             let postData = {
                 "username":"adinr4",
                 "password":"be57b1d8cbcf5c9cd7fe3d8011233985",

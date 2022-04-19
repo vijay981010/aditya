@@ -67,7 +67,11 @@ const walkinSchema = new Schema({
         type: String,
         trim: true,
         maxlength: 30
-    }        
+    },
+    admin: {
+        type: Schema.Types.ObjectId,        
+        ref: 'User',    
+    }
 }, { timestamps: true })
 
 const Walkin = mongoose.model('Walkin', walkinSchema)

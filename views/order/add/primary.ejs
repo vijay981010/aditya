@@ -17,14 +17,15 @@
               <div class="card-body">                  
                     <div class="row">
                         <div class="col-md-3">                            
-                            <div class="form-group">                                                               
+                            <div class="form-group">                                                                                               
                                 <label for="bookingDate">Booking Date<span>*</span></label>                                                                               
                                 <input class="form-control" name = "bookingDate" id="inputDate" required/>                            
                             </div>
                         </div>
                         <% if(user.role == "admin"){ %>
                             <div class="col-md-3">
-                                <div class="form-group">                                    
+                                <div class="form-group">  
+                                    <input type="hidden" name="admin" value="<%= user._id %>">
                                     <label for="consignorReference">Consignor Reference<span>*</span></label>
                                     <select class ="form-select" name = "client_id" id="clientId" required >
                                         <option value="">---Select Client---</option>                                        
