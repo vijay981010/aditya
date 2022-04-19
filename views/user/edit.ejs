@@ -19,10 +19,22 @@
                   <h3 class="text-center font-weight-light my-4">User Settings</h3>
               </div>
               <div class="card-body">   
-                <div class="form-group">                                                                                              
-                    <label for="username">Username<span>*</span></label>
-                    <input class="form-control" name = "username" value = "<%= subUser.username %>" type="text" required/>                            
-                </div>
+                  <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group">                                                                                              
+                            <label for="username">Username<span>*</span></label>
+                            <input class="form-control" name="username" value="<%= subUser.username %>" type="text" required/>                            
+                        </div>
+                      </div>
+                      <% if(user.role=='superadmin'){ %>
+                        <div class="col-md-6">
+                            <div class="form-group">                                                                                              
+                                <label for="trackingId">Tracking ID<span>*</span></label>
+                                <input class="form-control" name="trackingId" value="<%= subUser.trackingId %>" type="text" required/>                            
+                            </div>
+                        </div>                    
+                    <%}%>                      
+                  </div>                
                 <% if(user.role == 'superadmin'){%> 
                   <div class="row">                                          
                     <div class="col-md-6">

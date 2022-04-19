@@ -74,6 +74,10 @@ const userSchema = new Schema({
     apiCredit: {
         type: Number,
     },
+    trackingId:{
+        type: String,
+        trim: true
+    },
     sacCode: {
         type: String,
         trim: true

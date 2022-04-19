@@ -212,9 +212,9 @@ exports.patchSettings = async (req, res, next) => {
 
     // -------------------------------- PROCESS INPUTS -------------------------------- //
         let { username, password, displayName, defaultService, 
-            apiCredit, serviceAccess, accessRight } = req.body                 
+            apiCredit, serviceAccess, accessRight, trackingId } = req.body                 
         
-        let hash        
+        let hash                
 
         //check if password is input
         if(password) hash = await bcrypt.hash(password, 10)
@@ -224,13 +224,23 @@ exports.patchSettings = async (req, res, next) => {
 
         const user = await User.findById(userId)
         let subUser = await User.findById(subUserId)
+
+        //CHECK FOR DUPLICATE TRACKING ID FOR SUPERADMIN//
+        if(user.role=='superadmin'){
+            //GET TRACKING IDS OF ALL ADMIN USERS
+            let userlist = await User.find({role: 'admin'}).select('trackingId') 
+            trackingIdArr = userlist.map(user => user.trackingId)
+            if(trackingIdArr.indexOf(trackingId) != -1){
+                return res.render('error', {message: 'Tracking ID already exists!!', statusCode: '400'})
+            }
+        }
         
         //check if it is logged in admin user or superadmin
         let userObj = {}
         if(userId == subUser.admin){
             userObj = {username}
         }else if(user.role == 'superadmin'){
-            userObj = {username, displayName, defaultService, apiCredit, serviceAccess, accessRight}
+            userObj = {username, displayName, defaultService, apiCredit, serviceAccess, accessRight, trackingId}
         }                  
         
         //check if password is inputted
