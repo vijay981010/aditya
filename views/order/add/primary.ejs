@@ -172,13 +172,31 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="consignorCity">City<span>*</span></label>
-                                                <input class="form-control" name="consignorCity" id="consignorCity" type="text" required/>                                                      
+                                                <%if(user.username != 'eps'){ %>
+                                                <input class="form-control" name="consignorCity" id="consignorCity" type="text" required/>
+                                                <%}else{%>
+                                                <input class="form-select" name="consignorCity" list="consignorCitylist" id="consignorCity" required>
+                                                <datalist id="consignorCitylist">       
+                                                    <% cityList.forEach(city => { %>
+                                                    <option value="<%= city %>"><%= city %></option>
+                                                    <% }) %>                                                                             
+                                                </datalist>                                                      
+                                                <%}%>                                                                                                
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="consignorCity">State<span>*</span></label>
-                                                <input class="form-control" name="consignorState" id="consignorState" type="text" required/>                                                      
+                                                <%if(user.username != 'eps'){ %>
+                                                <input class="form-control" name="consignorState" id="consignorState" type="text" required/>
+                                                <%}else{%>   
+                                                <input class="form-select" name="consignorState" list="consignorStatelist" id="consignorState" required>
+                                                <datalist id="consignorStatelist">       
+                                                    <% stateList.forEach(state => { %>
+                                                    <option value="<%= state %>"><%= state %></option>
+                                                    <% }) %>                                                                             
+                                                </datalist>                                                      
+                                                <%}%>                                                   
                                             </div>
                                         </div>
                                     </div>
@@ -279,13 +297,21 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="consigneeCity">City<span>*</span></label>
-                                                <input class="form-control" name="consigneeCity" value="London" id="consigneeCity" type="text" required/>                                                      
+                                                <%if(user.username=='eps'){%>
+                                                <input class="form-control" name="consigneeCity" value="London" id="consigneeCity" type="text" required/>
+                                                <%}else{%>
+                                                <input class="form-control" name="consigneeCity" id="consigneeCity" type="text" required/>
+                                                <%}%>                                                                                                      
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="consigneeCity">State<span>*</span></label>
-                                                <input class="form-control" name="consigneeState" value="UK" id="consigneeState" type="text" required/>                                                      
+                                                <%if(user.username=='eps'){%>
+                                                <input class="form-control" name="consigneeState" value="UK" id="consigneeState" type="text" required/>
+                                                <%}else{%>                     
+                                                <input class="form-control" name="consigneeState" id="consigneeState" type="text" required/>
+                                                <%}%>                                        
                                             </div>
                                         </div>
                                     </div>                                    

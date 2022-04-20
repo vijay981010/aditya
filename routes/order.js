@@ -8,7 +8,7 @@ const {primaryDetailsValidator} = require('../validations/orderValidation')
 * @Acess : Global, Respective
 * @Function : Fetch all orders and render orders list page
 **/
-router.get('/orderlist', verifyToken, authorizeUser, orderController.orderList)
+router.get('/orderlist', verifyToken, orderController.orderList) //authorizeUser
 
 
 
@@ -17,17 +17,17 @@ router.get('/orderlist', verifyToken, authorizeUser, orderController.orderList)
 * @Acess : Global, Respective
 * @Function : Render create order - primary details blank form page
 **/
-router.get('/add', verifyToken, authorizeUser, orderController.createOrderPage)
+router.get('/add', verifyToken, orderController.createOrderPage) //authorizeUser
 
-router.post('/add', verifyToken, authorizeUser, orderController.createOrder)
+router.post('/add', verifyToken, orderController.createOrder) //authorizeUser
 
 /**
 * @Acess : Global, Respective
 * @Function : Fetch single order - primary details data and render order update form
 **/
-router.get('/:orderId', verifyToken, authorizeUser, authorizeResource, orderController.singleOrder)
+router.get('/:orderId', verifyToken, authorizeResource, orderController.singleOrder) //authorizeUser
 
-router.patch('/:orderId/update', verifyToken, authorizeRole(['admin', 'superadmin']), authorizeUser, authorizeResource, orderController.updateOrder)
+router.patch('/:orderId/update', verifyToken, authorizeRole(['admin', 'superadmin']), authorizeResource, orderController.updateOrder) //authorizeUser
 
 
 
@@ -36,9 +36,9 @@ router.patch('/:orderId/update', verifyToken, authorizeRole(['admin', 'superadmi
 * @Acess : Global, Respective
 * @Function : Render patch order - box details blank form page
 **/
-router.get('/:orderId/box', verifyToken, authorizeUser, authorizeResource, orderController.patchBoxPage)
+router.get('/:orderId/box', verifyToken, authorizeResource, orderController.patchBoxPage) //authorizeUser
 
-router.patch('/:orderId/box', verifyToken, authorizeUser, authorizeResource, orderController.patchBox)
+router.patch('/:orderId/box', verifyToken, authorizeResource, orderController.patchBox) //authorizeUser
 
 
 
@@ -47,9 +47,9 @@ router.patch('/:orderId/box', verifyToken, authorizeUser, authorizeResource, ord
 * @Acess : Global, Respective
 * @Function : Render patch order - tracking details blank form page
 **/
-router.get('/:orderId/track', verifyToken, authorizeRole(['admin', 'superadmin']), authorizeUser, authorizeResource, orderController.patchTrackPage)
+router.get('/:orderId/track', verifyToken, authorizeRole(['admin', 'superadmin']), authorizeResource, orderController.patchTrackPage) //authorizeUser
 
-router.patch('/:orderId/track', verifyToken, authorizeRole(['admin', 'superadmin']), authorizeUser, authorizeResource, orderController.patchTrack)
+router.patch('/:orderId/track', verifyToken, authorizeRole(['admin', 'superadmin']), authorizeResource, orderController.patchTrack) //authorizeUser
 
 
 
@@ -57,9 +57,9 @@ router.patch('/:orderId/track', verifyToken, authorizeRole(['admin', 'superadmin
 * @Acess : Global, Respective
 * @Function : Render patch order - billing details blank form page
 **/
-router.get('/:orderId/bill', verifyToken, authorizeRole(['admin', 'superadmin']), authorizeUser, authorizeResource, orderController.patchBillPage)
+router.get('/:orderId/bill', verifyToken, authorizeRole(['admin', 'superadmin']), authorizeResource, orderController.patchBillPage) //authorizeUser
 
-router.patch('/:orderId/bill', verifyToken, authorizeRole(['admin', 'superadmin']), authorizeUser, authorizeResource, orderController.patchBill)
+router.patch('/:orderId/bill', verifyToken, authorizeRole(['admin', 'superadmin']), authorizeResource, orderController.patchBill) //authorizeUser
 
 
 
@@ -69,9 +69,9 @@ router.get('/track/details', orderController.trackDetails)
 
 
 
-router.get('/:orderId/trackingdetails',verifyToken, authorizeRole(['admin', 'superadmin']), authorizeUser, authorizeResource, orderController.manualTrackingPage)
+router.get('/:orderId/trackingdetails',verifyToken, authorizeRole(['admin', 'superadmin']), authorizeResource, orderController.manualTrackingPage) //authorizeUser
 
-router.patch('/:orderId/trackingdetails',verifyToken, authorizeRole(['admin', 'superadmin']), authorizeUser, authorizeResource, orderController.patchManualTracking)
+router.patch('/:orderId/trackingdetails',verifyToken, authorizeRole(['admin', 'superadmin']), authorizeResource, orderController.patchManualTracking) //authorizeUser
 
 
 /**
@@ -80,14 +80,14 @@ router.patch('/:orderId/trackingdetails',verifyToken, authorizeRole(['admin', 's
 **/
 //router.delete('/:orderId', verifyToken, authorizeRole(['admin', 'superadmin']), authorizeUser, orderController.deleteOrder)
 
-router.get('/:orderId/print/awb', verifyToken, authorizeUser, authorizeResource, orderController.printawb) 
+router.get('/:orderId/print/awb', verifyToken, authorizeResource, orderController.printawb) //authorizeUser
 
-router.get('/:orderId/print/packinglist', verifyToken, authorizeUser, authorizeResource, orderController.packingList)
+router.get('/:orderId/print/packinglist', verifyToken, authorizeResource, orderController.packingList) //authorizeUser
 
-router.get('/:orderId/print/boxsticker', verifyToken, authorizeUser, authorizeResource, orderController.boxSticker)
+router.get('/:orderId/print/boxsticker', verifyToken, authorizeResource, orderController.boxSticker) //authorizeUser
 
 
-router.get('/search/history', verifyToken, authorizeUser, orderController.searchHistory)
+router.get('/search/history', verifyToken, orderController.searchHistory) //authorizeUser
 
 
 

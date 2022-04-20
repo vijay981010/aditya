@@ -12,3 +12,11 @@ exports.vendorArray = [
     {id: '304', name: 'CITY LINK EXPRESS'},
     {id: '1', name: 'BLUEDART'}, 
     {id: '11', name: 'ARAMEX'}]
+
+exports.cityList = [
+    'Mumbai', 'Pune', 'Nashik', 'Aurangabad', 'Ratnagiri', 'Latur', 
+    'Kolhapur', 'Satara', 'Nagpur', 'Surat', 'Gandhinagar', 'Vadodara', 'Bharuch', 'Navsari', 
+    'Ahmedabad', 'Rajkot'
+]
+
+exports.stateList = ['Maharashtra', 'Gujarat']

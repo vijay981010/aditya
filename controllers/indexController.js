@@ -5,14 +5,17 @@ const bcrypt = require('bcrypt')
 const { validationResult } = require('express-validator')
 
 exports.loginPage = (req, res, next) => { 
-    try{
-        session = req.session
-        //debug(session)
-        if(session.data){
-            res.redirect('/dashboard')      
-        }else{        
+    try{             
+        
+        //let session = req.session
+        let token = req.cookies.coapp
+        
+        if(token){                                        
+            res.redirect('/dashboard')            
+        }else{
             res.render('index')
         }
+
     }catch(err){
         next(err)
     }    
@@ -21,12 +24,12 @@ exports.loginPage = (req, res, next) => {
 exports.logoutPage = (req, res, next) => {
     try{
         req.session.destroy()
+        res.clearCookie('coapp')
         res.redirect('/')
     }catch(err){
         next(err)
     }
 }
-
 
 exports.authenticateUser = async (req, res, next) => {        
     try{
@@ -51,8 +54,8 @@ exports.authenticateUser = async (req, res, next) => {
         //CHECK IF PASSWORD IS CORRECT//
         if(user && await bcrypt.compare(password, user.password)){
             //SET SESSION//
-            session = req.session
-            session.data = user._id
+            let session = req.session
+            session.data = user._id            
 
             //SET JWT//
             const token = jwt.sign({ 
@@ -60,13 +63,13 @@ exports.authenticateUser = async (req, res, next) => {
                 role: user.role
             },
                 process.env.ACCESS_TOKEN_SECRET_KEY,
-                {expiresIn : '2h'}
+                {expiresIn : '24h'}
             )
            user.token = token             
                            
            //SET COOKIE//
            res.cookie('coapp', token, { 
-                maxAge: 1000*60*60*2,  
+                maxAge: 1000*60*60*24,  
                 httpOnly: true 
            })
            

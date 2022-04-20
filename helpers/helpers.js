@@ -5,22 +5,24 @@ const debug = require('debug')('dev')
 const logger = require('../helpers/logger')
 const Invoice = require('../model/invoiceModel')
 const Manifest = require('../model/manifestModel')
+const Walkin = require('../model/walkinModel')
 
 exports.verifyToken = (req, res, next) => {    
-    const token = req.cookies.coapp;     
+    const token = req.cookies.coapp     
+    
     //logger.info(`verifyToken invoked on URL: ${req.originalUrl}`)   
     if (!token) {
         //return res.status(403).json({message: "A token is required for authentication"})          
         return res.render('error', {message: `A token is required for authentication`, statusCode: '403'})            
     }    
     try{
-        const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET_KEY);        
-        req.user = decoded;
+        const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET_KEY) 
+        req.user = decoded
     }catch(err){        
         //return res.status(401).json({Message: "Invalid Token"})
         return res.render('error', {message: `Invalid Token`, statusCode: '401'})        
     }
-    next();
+    next()
 }
 
 // ----------------------------------------------------------------------------------------------- //
@@ -36,17 +38,17 @@ exports.authorizeRole = (role) =>{
 
 // ----------------------------------------------------------------------------------------------- //
 
-exports.authorizeUser = (req, res, next) => {    
+/* exports.authorizeUser = (req, res, next) => {    
     
     if(req.user.role == 'superadmin'){
         return next()
-    }else if(req.user.id != req.session.data){
+    }else if(req.user.id != req.user.id){
         //return res.status(403).json({message: "Not Authorized"})
         return res.render('error', {message: `Sorry, you have been logged out or you aren't the authorized User`, statusCode: '403'})
     }
     //debug('passed')
     next()    
-}
+} */
 
 // ----------------------------------------------------------------------------------------------- //
 
@@ -78,6 +80,15 @@ exports.authorizeResource = async (req, res, next) => {
             let manifest = await Manifest.findById(manifestId)
             
             if(manifest.admin == userId){
+                next()      
+            }else{                        
+                res.render('error', {message: `Resource Not Authorized`, statusCode: '403'})           
+            }
+        }else if(req.params.walkinId){
+            let walkinId = req.params.walkinId
+            let walkin = await Walkin.findById(walkinId)
+            
+            if(walkin.admin == userId){
                 next()      
             }else{                        
                 res.render('error', {message: `Resource Not Authorized`, statusCode: '403'})           

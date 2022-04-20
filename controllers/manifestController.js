@@ -88,8 +88,7 @@ exports.manifestUpdateForm = async(req, res, next) => {
             model: 'Order', populate:{path: 'order', select:'awbNumber'}
         })  
         
-        let awbnumbers = manifest.bagDetails.map(bag => bag.order.awbNumber)
-        debug(awbnumbers)        
+        let awbnumbers = manifest.bagDetails.map(bag => bag.order.awbNumber)        
 
         res.render('manifest/edit', {user, countries, orderList, manifest, awbnumbers})
     }catch(err){
@@ -102,7 +101,7 @@ exports.manifestUpdate = async(req, res, next) => {
         let { admin, manifestNumber, manifestDate, dispatchFrom, dispatchTo, 
             manifestOrigin, manifestDestination, manifestMode,
             mawbNumber, cdNumber, runNumber, flightNumber, 
-            bagNumber, order, mhbsNumber} = req.body
+            bagNumber, order, mhbsNumber} = req.body            
 
             let manifestId = req.params.manifestId                               
     

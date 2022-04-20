@@ -5,7 +5,7 @@ const Walkin = require('../model/walkinModel')
 const debug = require('debug')('dev')
 const axios = require('axios')
 const mongoose = require('mongoose');
-const {vendorArray} = require('../fixedData/vendors')
+const {vendorArray, stateList, cityList} = require('../fixedData/vendors')
 const {processRequest, sortBoxItem, getDates} = require('../helpers/helpers')
 const PDFdocument = require('pdfkit')
 const {generateAwb} = require('../pdf/awb')
@@ -68,7 +68,8 @@ exports.createOrderPage = async (req, res, next) => {
         res.render('order/add/primary', { 
             user, clientlist, countries, 
             serviceList, displayNames, adminUser, 
-            consignorList, consigneeList
+            consignorList, consigneeList,
+            stateList, cityList
         })
     }catch(err){
         next(err)
@@ -288,16 +289,18 @@ exports.patchBox = async (req, res, next) => {
         let order = await Order.findById(orderId).populate('client').exec()
         let user = await User.findById(userId)
 
-    // ----------------- VALIDATE INVOICE TOTAL VALUE -------------------- //
-        let invoiceTotal = totalValue
-        if(currency != 'INR'){
-            invoiceTotal = await getExchange(currency, totalValue)            
-        }
-        debug(invoiceTotal)
-        if(invoiceTotal > 24000){
-            let alert = [{msg: 'Invoice Total cannot exceed 24000 INR!!'}]
-            return res.render('order/add/box', {user, order, alert})
-        }
+    // ----------------- VALIDATE INVOICE TOTAL VALUE FOR EPS-------------------- //
+        if(user.username=='eps'){
+            let invoiceTotal = totalValue
+            if(currency != 'INR'){
+                invoiceTotal = await getExchange(currency, totalValue)            
+            }
+            debug(invoiceTotal)
+            if(invoiceTotal > 24000){
+                let alert = [{msg: 'Invoice Total cannot exceed 24000 INR!!'}]
+                return res.render('order/add/box', {user, order, alert})
+            }
+        }        
 
     // ----------------- PROCESS ORDER -------------------- //
         let itemArr = []; let boxArr = [];
@@ -473,10 +476,10 @@ exports.trackDetails = async(req, res, next) => {
             '527471', '3981373', '3431059', '3250406', '6172115', '8265503']
         
             let order_id = trackingNumber
-            debug(excludeArr.indexOf(trackingNumber) == -1)
+            
             if(excludeArr.indexOf(trackingNumber) == -1)
                 order_id = `${userId.trackingId}${trackingNumber}`
-            debug(order_id)
+            
             let postData = {
                 "username":"adinr4",
                 "password":"be57b1d8cbcf5c9cd7fe3d8011233985",

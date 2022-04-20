@@ -3,7 +3,7 @@ const User = require('../model/userModel')
 const Order = require('../model/orderModel')
 
 exports.index = async (req, res, next) => {
-    try{
+    try{        
         
         let userId = req.user.id
         let role = req.user.role
