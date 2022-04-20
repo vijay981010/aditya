@@ -160,7 +160,7 @@
                                     <td><input type='text' class='form-control text-center' name='bagNumber[]' value="<%= bag.bagNumber %>" readonly></td>
                                     <td>
                                         <input type='text' class='form-control text-center' name='awb[]' value="<%= awbnumbers[i] %>" readonly>
-                                        <input type='hidden' class='form-control text-center' name='order[]' value="<%= bag.order %>">
+                                        <input type='hidden' class='form-control text-center' name='order[]' value="<%= bag.order._id %>">
                                     </td>
                                     <td><input type='text' class='form-control text-center' name='mhbsNumber[]' value="<%= bag.mhbsNumber %>" readonly></td>
                                     <td><button class="btn btn-danger removeBag"><i class="fa fa-minus-circle"></i></button></td>
