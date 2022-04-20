@@ -80,21 +80,16 @@ exports.manifestUpdateForm = async(req, res, next) => {
         
         //GET ORDERLIST OF RESPECTIVE ADMIN//
         let orderList = await Order.find().populate({path:'client', select:'admin'}).select('awbNumber').sort({bookingDate: 'desc', createdAt: 'desc'}).limit(300)        
-        orderList = orderList.filter(elem => elem.client.admin == userId)
+        orderList = orderList.filter(elem => elem.client.admin == userId)        
+
+        //GET MANIFEST DETAILS//
+        let manifest = await Manifest.findById(manifestId).populate({
+            path: 'bagDetails', 
+            model: 'Order', populate:{path: 'order', select:'awbNumber'}
+        })  
         
-
-        let manifest = await Manifest.findById(manifestId) //GET MANIFEST ID//    
-
-        //GET CLIENTLIST OF RESPECTIVE ADMINS//
-        userlist = await User.find({role: 'client', admin: userId})
-        userlist = userlist.map(user => user._id)        
-
-        //CONVERT THE ORDER IDS IN THE BAG OF RESPECTIVE ADMIN TO AWBNUMBERS//
-        let awbnumbers = manifest.bagDetails.map(item => item.order)        
-        awbnumbers = await Order.find({_id: awbnumbers, client: userlist}).select('awbNumber')
-        awbnumbers = awbnumbers.map(item => item.awbNumber)
-        
-        //res.json(awbnumbers)     
+        let awbnumbers = manifest.bagDetails.map(bag => bag.order.awbNumber)
+        debug(awbnumbers)        
 
         res.render('manifest/edit', {user, countries, orderList, manifest, awbnumbers})
     }catch(err){
@@ -139,8 +134,12 @@ exports.manifestExcel = async(req, res, next) => {
         let manifest = await Manifest.findById(manifestId)
         let user = await User.findById(userId)
 
-        let orders = manifest.bagDetails.map(item => item.order)
-        orders = await Order.find({_id: orders})
+        let orders = await Manifest.findById(manifestId).populate({
+            path: 'bagDetails', 
+            model: 'Order', populate:{path: 'order'}
+        })
+
+        orders = orders.bagDetails.map(bag => bag.order)
 
         const workbook = new ExcelJs.Workbook()
 
@@ -685,9 +684,13 @@ exports.ediExcel = async(req, res, next) => {
 
         let manifest = await Manifest.findById(manifestId)
         let user = await User.findById(userId)
+        
+        let orders = await Manifest.findById(manifestId).populate({
+            path: 'bagDetails', 
+            model: 'Order', populate:{path: 'order'}
+        })
 
-        let orders = manifest.bagDetails.map(item => item.order)
-        orders = await Order.find({_id: orders})
+        orders = orders.bagDetails.map(bag => bag.order)
 
         // -------------------------- item serialization computation ------------------ //
 
