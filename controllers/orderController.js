@@ -224,10 +224,10 @@ exports.updateOrder = async (req, res, next) => {
             consigneeContactNumber, consigneeEmail, 
             consigneeAddress1, consigneeAddress2, 
             consigneePincode, consigneeCity, consigneeState,
-            origin, destination, client_id
+            origin, destination, client_id, miscClients
         } = req.body     
         
-        let orderId = req.params.orderId        
+        let orderId = req.params.orderId         
 
         let obj = {
             bookingDate, awbNumber, consignor, service,
@@ -238,7 +238,7 @@ exports.updateOrder = async (req, res, next) => {
             consigneeContactNumber, consigneeEmail, 
             consigneeAddress1, consigneeAddress2, 
             consigneePincode, consigneeCity, consigneeState,
-            origin, destination, client: client_id
+            origin, destination, client: client_id, miscClients
         }
 
         await Order.findByIdAndUpdate(orderId, obj, {new: true})

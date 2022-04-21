@@ -55,11 +55,11 @@
                     <% if(user.role == 'admin'){ %>
                     <td id="<%= order.awbNumber %>" class="longText"></td>
                     <% } %>                 
-                    <% if(user.role == 'admin'){ %>
-                        <% if(order.miscClients){ %>
-                            <td><b>M:</b><%= order.miscClients %></td>                            
+                    <% if(user.role == 'admin'){ %>                        
+                        <%if(order.miscClients=='' || !order.miscClients){%>
+                            <td><%= order.client.username %></td>                                                    
                         <% }else{ %> 
-                            <td><%= order.client.username %></td>
+                            <td><b>M:</b><%= order.miscClients %></td>    
                         <% } %>                    
                     <% } %>
                     <td><%= order.consignor %></td>
