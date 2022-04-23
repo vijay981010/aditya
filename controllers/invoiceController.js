@@ -28,12 +28,11 @@ exports.invoiceGenerate = async(req, res, next) => {
         let userId = req.user.Id
         
         //GET ARRAY OF DATE RANGE//
-        let dateArray = getDates(new Date(invoiceStartDate), new Date(invoiceEndDate)) 
-        //debug(dateArray)
+        let dateArray = getDates(new Date(invoiceStartDate), new Date(invoiceEndDate))         
 
         let orderFields = 'bookingDate awbNumber destination consignee chargeableWeight baseRate brGst chargeDetails totalBill'        
 
-        let orders = await Order.find({bookingDate: dateArray}).select(orderFields)
+        let orders = await Order.find({bookingDate: dateArray, client: userId}).select(orderFields)
 
         //CHECK IF ALL ORDERS HAVE BILL AND WEIGHT ADDED//
         let count = 0
