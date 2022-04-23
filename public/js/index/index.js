@@ -32,6 +32,18 @@ $(document).ready( function () {
     
   $('.mult').select2()
 
+// ------------------ TEXTAREA ENTER PREVENT NEXT LINE ------------------ // 
+
+  $("textarea").keydown(function(e){
+    if (e.keyCode == 13 && !e.shiftKey)
+    {
+      // prevent default behavior
+      e.preventDefault();
+      //alert("ok");
+      return false;
+      }
+    })
+
 });
 
   
