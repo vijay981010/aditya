@@ -27,12 +27,16 @@ exports.invoiceGenerate = async(req, res, next) => {
 
         let userId = req.user.Id
         
+        //GET LIST OF ALL CLIENT USERS OF THIS ADMIN//
+        userlist = await User.find({role: 'client', admin: userId})
+        userlist = userlist.map(user => user._id)
+        
         //GET ARRAY OF DATE RANGE//
         let dateArray = getDates(new Date(invoiceStartDate), new Date(invoiceEndDate))         
 
         let orderFields = 'bookingDate awbNumber destination consignee chargeableWeight baseRate brGst chargeDetails totalBill'        
 
-        let orders = await Order.find({bookingDate: dateArray, client: userId}).select(orderFields)
+        let orders = await Order.find({bookingDate: dateArray, client: userlist}).select(orderFields)
 
         //CHECK IF ALL ORDERS HAVE BILL AND WEIGHT ADDED//
         let count = 0
@@ -73,16 +77,24 @@ exports.invoicePdf = async(req, res, next) => {
         //res.send('hello')
         let invoiceId = req.params.invoiceId
         let userId = req.user.id //'623ed3385158ccd06b59f3f8' 
+
+        //GET LIST OF ALL CLIENT USERS OF THIS ADMIN//
+        userlist = await User.find({role: 'client', admin: userId})
+        userlist = userlist.map(user => user._id)
         
+        //GET INVOICE DETAILS//
         let invoiceFields = 'invoiceNumber invoiceStartDate invoiceEndDate totalAmount invoiceDate note'
         let invoice = await Invoice.findById(invoiceId).populate('client').populate('admin').select(invoiceFields)
 
+        //GET USER DETAILS//
         let user = await User.findById(userId)
 
+        //GET DATE RANGE BETWEEN START AND END//
         let dateArray = getDates(new Date(invoice.invoiceStartDate), new Date(invoice.invoiceEndDate))
 
+        //GET ORDERS BETWEEN THAT DATE RANGE FOR THAT ADMIN//
         let orderFields = 'bookingDate awbNumber destination consignee boxType chargeableWeight baseRate brGst chargeDetails totalBill'
-        let orders = await Order.find({bookingDate: dateArray}).select(orderFields)      
+        let orders = await Order.find({bookingDate: dateArray, client: userlist}).select(orderFields)      
         
     // ------------------- CALCULATE DATA -------------------- //        
         let chargesArr = orders.map(order => {
