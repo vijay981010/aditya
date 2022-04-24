@@ -1,6 +1,9 @@
 $(document).ready(function(){
     //setInterval(runCron, 5000)
     runCron()
+    $('.paginate_button').click(function(){
+        runCron()
+    })
 
     function runCron(){            
         let x = []
@@ -12,6 +15,7 @@ $(document).ready(function(){
         })
 
         x.forEach((trackingNumber,i) => {       
+            console.log(trackingNumber)
                 
             $.ajax({
                 url: `${environment.baseurl}/orders/track/details`,
