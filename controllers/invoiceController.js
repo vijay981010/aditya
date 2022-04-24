@@ -93,10 +93,10 @@ exports.invoicePdf = async(req, res, next) => {
         let dateArray = getDates(new Date(invoice.invoiceStartDate), new Date(invoice.invoiceEndDate))
 
         //GET ORDERS BETWEEN THAT DATE RANGE FOR THAT ADMIN//
-        let orderFields = 'bookingDate awbNumber destination consignee boxType chargeableWeight baseRate brGst chargeDetails totalBill'
+        let orderFields = 'bookingDate awbNumber destination consignee boxType chargeableWeight baseRate brGst fuelSurcharge fsGst chargeDetails totalBill'
         let orders = await Order.find({bookingDate: dateArray, client: userlist}).select(orderFields)      
         
-    // ------------------- CALCULATE DATA -------------------- //        
+    // ------------------- CALCULATE DATA -------------------- //                
         let chargesArr = orders.map(order => {
             let total = 0
             order.chargeDetails.forEach(charge => {
@@ -106,13 +106,14 @@ exports.invoicePdf = async(req, res, next) => {
         })
 
         let taxArr = orders.map(order => {
-            let total = order.brGst
+            let total = order.brGst + order.fsGst
             order.chargeDetails.forEach(charge => {
                 total += charge.gst
             })
             return total
         })
 
+        let totalFscArr = orders.map(order => order.fuelSurcharge)
         let totalBillArr = orders.map(order => order.totalBill)
         let totalBaseRateArr = orders.map(order => order.baseRate)
 
@@ -120,8 +121,9 @@ exports.invoicePdf = async(req, res, next) => {
         let totalTax = taxArr.reduce((a, b) => a + b, 0) //GET SUM OF ALL TAX//  
         let totalBill = totalBillArr.reduce((a, b) => a + b, 0) //GET SUM OF ALL TAX// 
         let totalBaseRate = totalBaseRateArr.reduce((a, b) => a + b, 0)
+        let totalFsc = totalFscArr.reduce((a, b) => a + b, 0)
         
-        let compData = {chargesArr, taxArr, totalBillArr, totalCharges, totalTax, totalBill, totalBaseRate}
+        let compData = {chargesArr, taxArr, totalBillArr, totalCharges, totalFsc, totalTax, totalBill, totalBaseRate}
 
 
     

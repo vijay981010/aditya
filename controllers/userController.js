@@ -204,7 +204,7 @@ exports.patchSettings = async (req, res, next) => {
             const user = await User.findById(userId)
             let subUser = await User.findById(subUserId)
             let serviceList = await Service.find({ admin: userId })
-            let moduleList = ['services', 'manifest']
+            let moduleList = ['user','services', 'manifest', 'invoice', 'ledger']
 
             const alert = errors.array()                                       
             return res.render('user/edit', {user, subUser, serviceList, moduleList, alert})            
@@ -225,7 +225,7 @@ exports.patchSettings = async (req, res, next) => {
         const user = await User.findById(userId)
         let subUser = await User.findById(subUserId)
 
-        //CHECK FOR DUPLICATE TRACKING ID FOR SUPERADMIN//
+        /* //CHECK FOR DUPLICATE TRACKING ID FOR SUPERADMIN//
         if(user.role=='superadmin'){
             //GET TRACKING IDS OF ALL ADMIN USERS
             let userlist = await User.find({role: 'admin'}).select('trackingId') 
@@ -233,7 +233,7 @@ exports.patchSettings = async (req, res, next) => {
             if(trackingIdArr.indexOf(trackingId) != -1){
                 return res.render('error', {message: 'Tracking ID already exists!!', statusCode: '400'})
             }
-        }
+        } */
         
         //check if it is logged in admin user or superadmin
         let userObj = {}

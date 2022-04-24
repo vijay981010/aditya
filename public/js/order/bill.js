@@ -1,6 +1,7 @@
 $(document).ready(function(){    
         
     $('#base').on('input', getTotal)
+    $('#fuel').on('input', getTotal)
 // ------------------- BASIC CHARGES  ------------------------ //
     
     $('#brCheck').change(function(){   
@@ -19,7 +20,25 @@ $(document).ready(function(){
             $('#brGst').attr('value', 0)
             $('#base').attr('readonly', false)
         }            
-    })       
+    })
+    
+    $('#fsCheck').change(function(){   
+             
+        if($(this).is(':checked') == true){
+            let fs = parseFloat($('#fuel').val())    
+            if(fs){
+                let fsgst = (fs * 0.18).toFixed(1)                                
+                $('#fsGst').attr('value', fsgst)
+                $('#fuel').attr('readonly', true)                                
+            }else{
+                alert('Please enter fuel surcharge')
+                $(this).prop('checked', false)
+            }
+        }else{
+            $('#fsGst').attr('value', 0)
+            $('#fuel').attr('readonly', false)
+        }            
+    })
 
 // ------------------- MISCALLANEOUS CHARGES TABLE ------------------------ //
 
@@ -41,9 +60,12 @@ $(document).ready(function(){
         let mvatAmount = $("input[name='gst']").map(function(){return $(this).val();}).get()                 
         
         let baseAmount = parseFloat($('#base').val())
-        let brgstAmount = parseFloat($('#brGst').val())        
+        let brgstAmount = parseFloat($('#brGst').val())
         
-        totalAmount = totalAmount + baseAmount + brgstAmount
+        let fuelAmount = parseFloat($('#fuel').val())
+        let fsgstAmount = parseFloat($('#fsGst').val())
+        
+        totalAmount = totalAmount + baseAmount + brgstAmount + fuelAmount + fsgstAmount
 
         for(let i = 0; i < miscAmount.length; i++){
             totalAmount = totalAmount + parseFloat(miscAmount[i]) + parseFloat(mvatAmount[i])

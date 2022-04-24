@@ -135,6 +135,7 @@ function invoiceeDetails(doc, invoice){
     .text(invoice.client.username, x+margin, y+g, leftAlign)
     .font('Helvetica').fontSize(12)
     .text(invoice.client.address, x+margin, y+g+g2, leftAlign)
+    .text(`GST: ${invoice.client.gstNumber}`, x+margin, y+g+(4*g2), leftAlign)
 
     doc
     .font('Helvetica').fontSize(12)
@@ -164,8 +165,8 @@ function tabl(doc, orders, compData, start, breakpoint){
     let g=30, g2 = 25        
     let c = 0 // a counter for getting same row distance values on each page
     
-    let widthArr = [30, 70, 60, 150, 160, 30, 60, 60, 60, 60, 60]
-    let headerArr = ['Sr No', 'Date', 'AWB', 'Destination', 'consignee', 'D/S', 'weight', 'amount', 'charges', 'tax', 'total']
+    let widthArr = [30, 70, 60, 130, 170, 30, 50, 50, 50, 50, 50, 50]
+    let headerArr = ['Sr No', 'Date', 'AWB', 'Destination', 'consignee', 'D/S', 'weight', 'amount', 'FSC', 'charges', 'tax', 'total']
     let valueArr = [1, '20-04-2022', '1234567', 'United Kingdom', 'Aditya Nair Aditya Nair Aditya Nair', 'spx', 20, 10000, 1000, 1000, 12000]
     let startArr = [30]    
     
@@ -193,8 +194,8 @@ function tabl(doc, orders, compData, start, breakpoint){
         let s = c + 1
         let valueArr = [
             i+1, moment(orders[i].bookingDate).format(shortDateFormat), orders[i].awbNumber, orders[i].destination,
-        orders[i].consignee, orders[i].boxType, orders[i].chargeableWeight, orders[i].baseRate, compData.chargesArr[i], 
-        compData.taxArr[i], compData.totalBillArr[i]
+        orders[i].consignee, orders[i].boxType, orders[i].chargeableWeight, orders[i].baseRate, orders[i].fuelSurcharge, 
+        compData.chargesArr[i], compData.taxArr[i], compData.totalBillArr[i]
     ]
         
         for(let j = 0; j < startArr.length; j++){
@@ -259,7 +260,13 @@ function footerDetails(doc, current, total){
 }
 
 function summ(doc, invoice, compData){
-    let widthArr = [30, 70, 60, 150, 160, 30, 60, 60, 60, 60, 60]
+    let x3 = 680, x2 = 560, y = 510
+    let margin = 30, g=18
+    let onethird = 281, full = 842
+    let leftAlign = {width: onethird, height:15, align: 'left'}
+    let rightAlign = {width: onethird, height:15, align: 'right'}
+    let subTotal = compData.totalBaseRate + compData.totalCharges + compData.totalFsc    
+    /* let widthArr = [30, 70, 60, 150, 160, 30, 60, 60, 60, 60, 60]
     let valueArr = ['','','','','','','',compData.totalBaseRate, compData.totalCharges, compData.totalTax, compData.totalBill]
     let startArr = [30]    
     
@@ -284,7 +291,24 @@ function summ(doc, invoice, compData){
 
     doc    
     .text('Sub-Totals', startArr[8], 510, {width: 80, height:15, align: 'center'})
-    .text('Total', startArr[10], 510, {width: 50, height:15, align: 'center'})
+    .text('Total', startArr[10], 510, {width: 50, height:15, align: 'center'}) */
+    doc.rect(640, 560, 195, 18).fill('#4287f5')
+
+    doc
+    .font('Helvetica-Bold').fontSize(12).fill('black')    
+    .text('Sub-Total', x3-margin, y+g, leftAlign)
+    .text('Igst(@18%)', x3-margin, y+(2*g), leftAlign)
+    
+    .font('Helvetica-Bold').fontSize(12).fill('white') 
+    .text('Total', x3-margin, y+(3*g), leftAlign)
+
+    doc
+    .font('Helvetica').fontSize(12).fill('black')    
+    .text(subTotal.toFixed(2), x2-margin, y+g, rightAlign)
+    .text(compData.totalTax.toFixed(2), x2-margin, y+(2*g), rightAlign)
+
+    .font('Helvetica-Bold').fontSize(12).fill('white')
+    .text(compData.totalBill.toFixed(2), x2-margin, y+(3*g), rightAlign)
     
 }
 

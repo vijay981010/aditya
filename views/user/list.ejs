@@ -44,6 +44,7 @@
                 <th>Access</th>
                 <th>Api Credit</th>
                 <th>Tracking Id</th>
+                <th>Display Name</th>
                 <% } %>        
 
                 <% if(user.role == 'admin'){ %>
@@ -71,6 +72,7 @@
                     <td><%= client.accessRight %></td>
                     <td><%= client.apiCredit %></td>
                     <td><%= client.trackingId %></td>
+                    <td><%= client.displayName %></td>
                     <% } %>
                 
                     <% if(user.role == 'admin'){ %>

@@ -60,6 +60,45 @@
                                                 </div>                                                
                                             </div>
                                         </div>                                        
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-5">
+                                            <div class="form-group">                
+                                                <label for="fuelSurcharge">Fuel Surcharge</label>    
+                                                <% if(order.fuelSurcharge){ %>
+                                                    <input class="form-control" name="fuelSurcharge" id="fuel" type="number" value="<%= order.fuelSurcharge %>" >                            
+                                                <% }else{ %>
+                                                    <input class="form-control" name="fuelSurcharge" id="fuel" type="number" value="0" >
+                                                <% } %>
+                                                
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">  
+                                                <label for="brCheck">GST</label>
+                                                <label class="switch">                        
+                                                    <% if(order.fsGst){ %>
+                                                        <input type="checkbox" class="total" id="fsCheck" checked> 
+                                                        <span class='slider round'></span>
+                                                    <% }else{ %>
+                                                        <input type="checkbox" class="total" id="fsCheck"> 
+                                                        <span class='slider round'></span>
+                                                    <% } %>                                                                                                        
+                                                </label>                                                                                
+                                            </div>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <div class="form-group">
+                                                <div class="form-group">                
+                                                    <label for="fsGst">GST Amount</label> 
+                                                    <% if(order.fsGst){ %>
+                                                        <input class="form-control" name="fsGst" id="fsGst" type="number" value="<%= order.fsGst %>" readonly>
+                                                    <% }else{ %>
+                                                        <input class="form-control" name="fsGst" id="fsGst" type="number" value="0" readonly>
+                                                    <% } %>                                                                                
+                                                </div>                                                
+                                            </div>
+                                        </div>                                        
                                     </div>                                                                          
                                 </div>
                             </div>
