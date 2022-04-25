@@ -25,18 +25,18 @@ exports.invoiceGenerate = async(req, res, next) => {
         let {admin, client, invoiceNumber, invoiceDate,
         invoiceStartDate, invoiceEndDate, note} = req.body
 
-        let userId = req.user.Id
+        let userId = req.user.id        
         
         //GET LIST OF ALL CLIENT USERS OF THIS ADMIN//
         userlist = await User.find({role: 'client', admin: userId})
-        userlist = userlist.map(user => user._id)
+        userlist = userlist.map(user => user._id)        
         
         //GET ARRAY OF DATE RANGE//
         let dateArray = getDates(new Date(invoiceStartDate), new Date(invoiceEndDate))         
 
         let orderFields = 'bookingDate awbNumber destination consignee chargeableWeight baseRate brGst chargeDetails totalBill'        
 
-        let orders = await Order.find({bookingDate: dateArray, client: userlist}).select(orderFields)
+        let orders = await Order.find({bookingDate: dateArray, client: userlist}).select(orderFields)        
 
         //CHECK IF ALL ORDERS HAVE BILL AND WEIGHT ADDED//
         let count = 0
@@ -51,7 +51,7 @@ exports.invoiceGenerate = async(req, res, next) => {
     //---- CALCULATE TOTAL BILL, WEIGHT---- //            
 
         let totalBillArr = orders.map(order => order.totalBill)
-        let weightArr = orders.map(order => order.chargeableWeight)
+        let weightArr = orders.map(order => order.chargeableWeight)        
 
         let totalAmount = totalBillArr.reduce((a,b) => a + b, 0) //GET SUM OF ALL BASE RATES//        
         let totalWeight = weightArr.reduce((a, b) => a + b, 0) //GET TOTAL WEIGHT//        
