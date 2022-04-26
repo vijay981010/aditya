@@ -40,7 +40,7 @@ exports.primarydetails = (doc, order) => {
     .font('Helvetica-Bold')
     .text(order.destination, 303, 155)
     .font('Helvetica')  
-    .text(`Tel No: ${order.consignorContactNumber}`, 303, 170)
+    .text(`Tel No: ${order.consigneeContactNumber}`, 303, 170)
     
 
     .moveTo(40, 215).lineTo(560, 215).stroke() //3rd horizontal line
