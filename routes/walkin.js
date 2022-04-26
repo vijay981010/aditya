@@ -1,17 +1,17 @@
-const { Router } = require('express');
+const { Router } = require('express')
 const router = Router();
 const walkinController = require('../controllers/walkinController')
-const {verifyToken, authorizeRole, authorizeUser, authorizeResource} = require('../helpers/helpers')
+const {verifyToken, authorizeRole, authorizeResource} = require('../helpers/helpers')
 
-router.get('/list', verifyToken, authorizeRole(['admin']), walkinController.list) //authorizeUser
+router.get('/list', verifyToken, authorizeRole(['admin', 'client']), walkinController.list) //authorizeUser
 
-router.get('/:walkinId/edit', verifyToken, authorizeRole(['admin']), authorizeResource, walkinController.view) //authorizeUser
+router.get('/:walkinId/edit', verifyToken, authorizeRole(['admin', 'client']), authorizeResource, walkinController.view) //authorizeUser
 
-router.post('/:walkinId/edit', verifyToken, authorizeRole(['admin']), authorizeResource, walkinController.edit) //authorizeUser
+router.post('/:walkinId/edit', verifyToken, authorizeRole(['admin', 'client']), authorizeResource, walkinController.edit) //authorizeUser
 
 
 
-router.get('/search', verifyToken, authorizeRole(['admin']), walkinController.search) //authorizeUser
+router.get('/search', verifyToken, authorizeRole(['admin', 'client']), walkinController.search) //authorizeUser
 
 
 

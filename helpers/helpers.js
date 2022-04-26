@@ -88,7 +88,7 @@ exports.authorizeResource = async (req, res, next) => {
             let walkinId = req.params.walkinId
             let walkin = await Walkin.findById(walkinId)
             
-            if(walkin.admin == userId){
+            if(walkin.admin == userId || walkin.client == userId){
                 next()      
             }else{                        
                 res.render('error', {message: `Resource Not Authorized`, statusCode: '403'})           

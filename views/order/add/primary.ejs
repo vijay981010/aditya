@@ -25,7 +25,7 @@
                         <% if(user.role == "admin"){ %>
                             <div class="col-md-3">
                                 <div class="form-group">  
-                                    <input type="hidden" name="admin" value="<%= user._id %>">
+                                    <input type="hidden" name="admin" id="admin" value="<%= user._id %>">
                                     <label for="consignorReference">Consignor Reference<span>*</span></label>
                                     <select class ="form-select" name = "client_id" id="clientId" required >
                                         <option value="">---Select Client---</option>                                        
@@ -64,7 +64,7 @@
                                 <input type="hidden" name="service" value="<%= user.defaultService %>">
                             <% } %>
                         <% }else if(user.role == "client"){ %>
-                            <input type="hidden" name="client_id" value="<%= user._id %>">
+                            <input type="hidden" name="client_id" id="client" value="<%= user._id %>">
                             <% if(adminUser.accessRight.indexOf('services') != -1) { %>
                                 <div class="col-md-4">
                                     <div class="form-group">
@@ -108,17 +108,13 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="consignor">Name<span>*</span></label>                     
-                                                <%if(user.role=='client'){ %>
-                                                    <input class="form-control" name = "consignor" type="text" required/> 
-                                                <%}else if(user.role=='admin'){%>
-                                                    <input class ="form-select" name = "consignor" list="consignorlist" id="consignor" required>
-                                                    <datalist id="consignorlist">
-                                                        <% consignorList.forEach(consignor => { %>
-                                                            <option value="<%= consignor.name %>"><%= consignor.name %></option>
-                                                        <% }) %>                                                         
-                                                    </datalist>
-                                                <%}%>                                                
+                                                <label for="consignor">Name<span>*</span></label>                                                                     
+                                                <input class ="form-select" name="consignor" list="consignorlist" id="consignor" required>
+                                                <datalist id="consignorlist">
+                                                    <% consignorList.forEach(consignor => { %>
+                                                        <option value="<%= consignor.name %>"><%= consignor.name %></option>
+                                                    <% }) %>                                                         
+                                                </datalist>                                                
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -234,17 +230,13 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="consignee">Name<span>*</span></label> 
-                                                <%if(user.role=='client'){%>
-                                                    <input class="form-control" name="consignee" type="text" required/>
-                                                <%}else if(user.role=='admin'){%>
-                                                    <input class ="form-select" name="consignee" id="consignee" list="consigneelist" required>
-                                                    <datalist id="consigneelist">
-                                                        <% consigneeList.forEach(consignee => { %>
-                                                            <option value="<%= consignee.name %>"><%= consignee.name %></option>
-                                                        <% }) %>                                                         
-                                                    </datalist>
-                                                <%}%>                                                                        
+                                                <label for="consignee">Name<span>*</span></label>                                                 
+                                                <input class ="form-select" name="consignee" id="consignee" list="consigneelist" required>
+                                                <datalist id="consigneelist">
+                                                    <% consigneeList.forEach(consignee => { %>
+                                                        <option value="<%= consignee.name %>"><%= consignee.name %></option>
+                                                    <% }) %>                                                         
+                                                </datalist>                                                
                                             </div>
                                         </div>
                                         <div class="col-md-6">

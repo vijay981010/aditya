@@ -59,6 +59,10 @@ const walkinSchema = new Schema({
     admin: {
         type: Schema.Types.ObjectId,        
         ref: 'User',    
+    },
+    client: {
+        type: Schema.Types.ObjectId,        
+        ref: 'User',    
     }
 }, { timestamps: true })
 
