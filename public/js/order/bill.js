@@ -71,7 +71,7 @@ $(document).ready(function(){
             totalAmount = totalAmount + parseFloat(miscAmount[i]) + parseFloat(mvatAmount[i])
         }
         
-        //console.log(totalAmount)
+        totalAmount = totalAmount.toFixed(2)
         $('#totalBill').val(totalAmount)
 
     }
