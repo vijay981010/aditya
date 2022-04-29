@@ -14,3 +14,11 @@ $('#clientId').change(function(){
 
     console.log($('#miscClients').val())
 })
+
+$('#docType').change(function(){
+    if($('#docType').val() == 'Document'){
+        $('#docNumber').val('000000')
+    }else{
+        $('#docNumber').val('')
+    }
+})

@@ -147,3 +147,13 @@ exports.getDates = (startDate, endDate) => {
     }
     return dates
   }
+
+  // --------------------------------------------- UPPERCASE REGEX CHECK ----------------------------------------- //
+
+  exports.regexUpperCase = (arr, value) => {
+    let checkArr = arr.map(item => {
+      let regex = new RegExp(item,'i')
+      return regex.test(value)
+    })
+    return checkArr
+  }

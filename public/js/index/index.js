@@ -34,7 +34,7 @@ $(document).ready( function () {
 
 // ------------------ TEXTAREA ENTER PREVENT NEXT LINE ------------------ // 
 
-  $("textarea").keydown(function(e){
+  $(".noEnter").keydown(function(e){
     if (e.keyCode == 13 && !e.shiftKey)
     {
       // prevent default behavior

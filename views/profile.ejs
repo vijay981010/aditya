@@ -71,7 +71,7 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label for="address">Address</label>                                                                                
-                                <textarea class="form-control" name = "address"><%= user.address %></textarea>
+                                <textarea class="form-control noEnter" name = "address"><%= user.address %></textarea>
                             </div>
                         </div>                            
                     </div>
@@ -94,6 +94,12 @@
                                 <input class="form-control" name = "website" value="<%= user.website %>" type="text" />                            
                             </div> 
                         </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="invoiceDefaultNote">Invoice Default Note</label>
+                            <textarea class="form-control" name="invoiceDefaultNote"><%= user.invoiceDefaultNote %></textarea>     
+                        </div> 
                     </div>
               </div> 
               <div class="card-footer">

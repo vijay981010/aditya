@@ -129,7 +129,8 @@ exports.updateProfile = async (req, res, next) => {
     // -------------------------------- PROCESS INPUTS -------------------------------- //        
         const {role, username, password,
         companyName, contactName, address, sacCode,
-        contactNumber, email, gstNumber, website, admin_id} = req.body        
+        contactNumber, email, gstNumber, website, 
+        admin_id, invoiceDefaultNote} = req.body        
 
         //HASH THE PASSWORD//
         const hash = await bcrypt.hash(password, 10)
@@ -144,7 +145,7 @@ exports.updateProfile = async (req, res, next) => {
        //CREATE OBJECT TO BE SAVED TO DB//
        let obj = {role, username, password: hash,
         companyName, contactName, address, contactNumber, 
-        email, gstNumber, website, sacCode}
+        email, gstNumber, website, sacCode, invoiceDefaultNote}
 
         if(admin_id) obj.admin = admin_id //IF CLIENT USER
 

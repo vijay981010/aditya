@@ -1,7 +1,7 @@
 const debug = require('debug')('dev')
 var moment = require('moment')
-const { note } = require('pdfkit')
 var shortDateFormat = 'DD-MM-yyyy'
+var converter = require('number-to-words')
 
 exports.detailedInvoice = (doc, orders, invoice, user, compData) => {
 // ---- Calculate Total Number of Pages ------ //
@@ -89,7 +89,7 @@ exports.detailedInvoice = (doc, orders, invoice, user, compData) => {
             summ(doc, invoice, compData)
         }
 
-        if(invoice.note) displayNote(doc, invoice.note)
+        if(user.invoiceDefaultNote || invoice.note) displayNote(doc, invoice.note, user.invoiceDefaultNote)
         
          
     }    
@@ -260,64 +260,89 @@ function footerDetails(doc, current, total){
 }
 
 function summ(doc, invoice, compData){
-    let x3 = 680, x2 = 560, y = 510
+    let x3 = 680, x2 = 560, y = 490
     let margin = 30, g=18
     let onethird = 281, full = 842
     let leftAlign = {width: onethird, height:15, align: 'left'}
     let rightAlign = {width: onethird, height:15, align: 'right'}
-    let subTotal = compData.totalBaseRate + compData.totalCharges + compData.totalFsc    
-    /* let widthArr = [30, 70, 60, 150, 160, 30, 60, 60, 60, 60, 60]
-    let valueArr = ['','','','','','','',compData.totalBaseRate, compData.totalCharges, compData.totalTax, compData.totalBill]
-    let startArr = [30]    
+    let subTotal = compData.totalBaseRate + compData.totalCharges + compData.totalFsc  
     
-    for(let i = 0; i < widthArr.length; i++){
-        let temp =   startArr[i] + widthArr[i]
-        startArr.push(temp)  
-      }    
+    //COMPUTE BILL FROM FIGURES TO WORDS//
+    let billInStrings = compData.totalBill.toString() //CONVERT TO STRING//
+    let rupeeComp = billInStrings.split('.')[0] //GET RUPEE COMPONENT//
+    let paisaComp = billInStrings.split('.')[1] //GET PAISA COMPONENT//
+    
+    let rupeeCompInWords = converter.toWords(rupeeComp) //GET RUPEE COMPONENT IN WORDS
+    let paisaCompInWords = converter.toWords(paisaComp) //GET PAISA COMPONENT IN WORDS
+    
+    //debug(rupeeComp, paisaComp)
+    
+    let totalBillInWords = `${rupeeCompInWords} rupees and ${paisaCompInWords} paise` //GET FINAL INVOICE BILL IN WORDS//
+    
+    //debug(totalBillInWords)
+    
+    doc.rect(640, 540, 195, 18).fill('#4287f5') //HIGHLIGHT FOR TOTAL AMOUNT IN FIGURES//
+    doc.rect(10, 540, 155+(totalBillInWords.length*7) , 18).fill('#4287f5') //HIGHLIGHT FOR TOTAL AMOUNT IN WORDS//    
 
-    //TOTALS//
-    doc.rect(startArr[7], 530, 180, 30).fill('#4287f5')
-    doc.rect(startArr[10], 530, 60, 30).fill('green')
-
-    doc.rect(startArr[7], 500, 180, 30).fill('gray')
-    doc.rect(startArr[10], 500, 60, 30).fill('black')
-
-    doc
-    .font('Helvetica-Bold').fontSize(13).fill('white')
-
-    for(let i = 7; i < startArr.length; i++){
-        doc.text(valueArr[i], startArr[i], 540, {width: widthArr[i], height:15, align: 'center'})
-    }
-
-    doc    
-    .text('Sub-Totals', startArr[8], 510, {width: 80, height:15, align: 'center'})
-    .text('Total', startArr[10], 510, {width: 50, height:15, align: 'center'}) */
-    doc.rect(640, 560, 195, 18).fill('#4287f5')
-
+    //TITLES OF TOTAL AMOUNT IN FIGURES//
     doc
     .font('Helvetica-Bold').fontSize(12).fill('black')    
     .text('Sub-Total', x3-margin, y+g, leftAlign)
     .text('Igst(@18%)', x3-margin, y+(2*g), leftAlign)
-    
+        
     .font('Helvetica-Bold').fontSize(12).fill('white') 
     .text('Total', x3-margin, y+(3*g), leftAlign)
 
+    //TOTAL AMOUNT IN WORDS//     
+    .text(`Total Amount(in Words): ${totalBillInWords}`, 30, y+(3*g), {width: 842, height:15, align: 'left'})
+
+    //VALUES OF TOTAL AMOUNT IN FIGURES//
     doc
     .font('Helvetica').fontSize(12).fill('black')    
     .text(subTotal.toFixed(2), x2-margin, y+g, rightAlign)
     .text(compData.totalTax.toFixed(2), x2-margin, y+(2*g), rightAlign)
 
     .font('Helvetica-Bold').fontSize(12).fill('white')
-    .text(compData.totalBill.toFixed(2), x2-margin, y+(3*g), rightAlign)
+    .text(compData.totalBill, x2-margin, y+(3*g), rightAlign)
     
 }
 
-function displayNote(doc, note){
+function displayNote(doc, addNote, defaultNote){
     
+    let x = 30, y = 65, g = 15
+    let leftAlign = {width: 842, align: 'left'}
+    
+    //RENDER NOTE ALWAYS ON NEW PAGE WITH FOLLOWING DEFAULTS//
     doc
-    .addPage()
+    .addPage() 
     .font('Helvetica-Bold').fontSize(16).fill('black')    
-    .text('NOTE', 0, 45, {width: 842, align: 'center'}) 
+    .text('Note', 30, 45, leftAlign) 
     .font('Helvetica').fontSize(14)    
-    .text(note, 0, 65, {width: 842, align: 'center'})
+    
+    let defaultNoteSplit 
+
+    if(defaultNote){
+        defaultNoteSplit = defaultNote.split('\r') //SPLIT TEXT AREA VALUE//            
+
+        //RENDER TEXT AREA ARRAY//
+        defaultNoteSplit.forEach((line,i) => {        
+            doc.text(line, x, y+(i*g), leftAlign)
+        })        
+    }    
+    
+    if(addNote){                
+        let addNoteSplit = addNote.split('\r')  
+        
+        //GET STARTING POINT FOR ADDITIONAL NOTE
+        let l
+        defaultNote ? l = defaultNoteSplit.length+2 : l = 0
+         
+        //RENDER TEXT AREA ARRAY//
+        //THE FIRST LINE IS RENDERED SEPARATELY BECAUSE FOR SOME REASON, THERE IS A GAP OF TWO AFTER FIRST LINE//
+        doc.text(addNoteSplit[0], x, y+(l*g), leftAlign)
+
+        for(let i = 0; i < addNoteSplit.length; i++){
+            doc.text(addNoteSplit[i+1], x, y+((l+i)*g), leftAlign)
+        }
+    }
 }

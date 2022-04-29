@@ -86,6 +86,9 @@ const userSchema = new Schema({
         type: String,
         enum: ['active', 'inactive']
     },
+    invoiceDefaultNote:{
+        type: String,
+    },
     admin: {
         type: Schema.Types.ObjectId,
         ref: 'User',             

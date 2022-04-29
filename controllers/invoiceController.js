@@ -53,7 +53,9 @@ exports.invoiceGenerate = async(req, res, next) => {
         let totalBillArr = orders.map(order => order.totalBill)
         let weightArr = orders.map(order => order.chargeableWeight)        
 
-        let totalAmount = totalBillArr.reduce((a,b) => a + b, 0) //GET SUM OF ALL BASE RATES//        
+        let totalAmount = totalBillArr.reduce((a,b) => a + b, 0) //GET SUM OF TOTAL BILL OF ALL ORDERS//        
+        totalAmount = totalAmount.toFixed(2) //CLIP IT TO TWO DECIMAL PLACES//
+
         let totalWeight = weightArr.reduce((a, b) => a + b, 0) //GET TOTAL WEIGHT//        
         
         //CREATE INVOICE OBJECT TO WRITE TO DB//
@@ -119,7 +121,10 @@ exports.invoicePdf = async(req, res, next) => {
 
         let totalCharges = chargesArr.reduce((a, b) => a + b, 0) //GET SUM OF ALL CHARGES//
         let totalTax = taxArr.reduce((a, b) => a + b, 0) //GET SUM OF ALL TAX//  
-        let totalBill = totalBillArr.reduce((a, b) => a + b, 0) //GET SUM OF ALL TAX// 
+        
+        let totalBill = totalBillArr.reduce((a, b) => a + b, 0) //GET SUM OF ALL ORDERS FINAL BILL// 
+        totalBill = totalBill.toFixed(2) //CLIP IT TO TWO DECIMAL PLACES//
+
         let totalBaseRate = totalBaseRateArr.reduce((a, b) => a + b, 0)
         let totalFsc = totalFscArr.reduce((a, b) => a + b, 0)
         
