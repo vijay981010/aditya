@@ -1,0 +1,92 @@
+<!-- include header -->
+<%- include('../include/_header') %>
+<!-- /include header -->
+
+<!-- include header -->
+<%- include('../include/_navbar') %>
+<!-- /include header -->
+
+
+<div class="container">
+    <div class="row justify-content-center">                 
+        <div class="col-lg-10">
+          <div class="card shadow-lg border-0 rounded-lg mt-5 mb-5">
+            <form action = '/ledger/<%= txn._id %>/edit' method = "post">
+              <div class="card-header">
+                  <h3 class="text-center font-weight-light my-2">Edit Transcation Record</h3>
+              </div>
+              <div class="card-body">            
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">                                                                                                       
+                                <input type="hidden" name="admin" value="<%= user._id %>" >
+                                <label for="client">Customer<span>*</span></label>                                   
+                                <select class="form-select" name = "client" id="client" required> 
+                                    <option value="<%= txn.client._id %>"><%= txn.client.username %></option>                   
+                                    <% clientUserList.forEach(user => { %>
+                                        <option value="<%= user._id %>"><%= user.username %></option>
+                                    <% }) %>
+                                </select>                            
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">                
+                                <label for="txnDate">Transaction Date<span>*</span></label>                                                                               
+                                <input class="form-control inputDate" name="date" value="<%= txn.date.toISOString().split('T')[0] %>" required/>                            
+                            </div> 
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="txnAmount">Amount<span>*</span></label>
+                                <input class="form-control" name="amount" value="<%= txn.amount %>" type="number" required/>                            
+                            </div> 
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="txnType">Type<span>*</span></label>
+                                <select class="form-select" name="type" required>
+                                    <option value="<%= txn.type %>"><%= txn.type %></option>
+                                    <option value="credit">Credit</option>
+                                    <option value="debit">Debit</option>
+                                </select>                                                               
+                            </div> 
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="txnDescription">Description</label>
+                                <input class="form-control" name="description" value="<%= txn.description %>" type="text"/>                            
+                            </div>
+                        </div>                        
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="txnReference">Reference</label>
+                                <input class="form-control" name="reference" value="<%= txn.reference %>" type="text"/>                            
+                            </div> 
+                        </div>                                                                      
+                    </div>    
+                    <div class="row">                        
+                        <div class="form-group">
+                            <label for="txnNote">Extra Note</label>
+                            <input class="form-control" name="note" value="<%= txn.note %>" type="text"/>                            
+                        </div>                         
+                    </div>                                    
+              </div> 
+              <div class="card-footer">
+                    <div class="row">
+                        <div class="col-md-12 text-center">
+                            <button type="submit" class="btn btn-primary">Update</button>
+                        </div>
+                    </div>                
+              </div>  
+            </form>              
+          </div>            
+        </div>          
+    </div>
+</div>
+
+
+<!-- include footer -->
+<%- include('../include/_footer') %>
+<!-- /include footer -->

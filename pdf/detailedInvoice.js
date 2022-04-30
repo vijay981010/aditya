@@ -2,6 +2,7 @@ const debug = require('debug')('dev')
 var moment = require('moment')
 var shortDateFormat = 'DD-MM-yyyy'
 var converter = require('number-to-words')
+const {toTitleCase} = require('../helpers/helpers')
 
 exports.detailedInvoice = (doc, orders, invoice, user, compData) => {
 // ---- Calculate Total Number of Pages ------ //
@@ -278,6 +279,7 @@ function summ(doc, invoice, compData){
     //debug(rupeeComp, paisaComp)
     
     let totalBillInWords = `${rupeeCompInWords} rupees and ${paisaCompInWords} paise` //GET FINAL INVOICE BILL IN WORDS//
+    totalBillInWords = toTitleCase(totalBillInWords)
     
     //debug(totalBillInWords)
     

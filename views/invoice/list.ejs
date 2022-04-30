@@ -28,8 +28,8 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <input type = 'hidden' name="admin" value="<%= user._id %>">
-                                            <label for="username">Select Customer<span>*</span></label>
-                                            <select class="form-control" name = "client" id="client" required> 
+                                            <label for="username">Customer<span>*</span></label>
+                                            <select class="form-select" name="client" id="client" required> 
                                                 <option value="">---Select Customer---</option>                   
                                                 <% clientUserList.forEach(user => { %>
                                                     <option value="<%= user._id %>"><%= user.username %></option>
@@ -40,7 +40,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">                
                                             <label for="invoiceDate">Invoice Date<span>*</span></label>                                                                               
-                                            <input class="form-control inputDate" name = "invoiceDate" required/>                            
+                                            <input class="form-control inputDate" name="invoiceDate" required/>                            
                                         </div>
                                     </div>
                                 </div>

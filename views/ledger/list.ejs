@@ -1,0 +1,112 @@
+<!-- include header -->
+<%- include('../include/_header') %>
+<!-- /include header -->
+
+<!-- include header -->
+<%- include('../include/_navbar') %>
+<!-- /include header -->
+<div class="container-fluid mb-5"> 
+    <div class="container-fluid">
+        <header class="row py-3 mb-4 border-bottom">
+            <div class="col-md-3">                
+                <span class="fs-4 text-dark">List of Transactions</span>
+            </div> 
+            <div class="col-md-6"></div>
+            <div class="col-md-3 d-flex flex-row-reverse">
+                <a href="/ledger/add" class="btn btn-primary">Add Transaction</a>
+            </div>           
+        </header>
+    </div> 
+    
+    <div class="row justify-content-center">
+        <div class="col-md-2">
+            <div class="form-group">                
+                <label for="totalOrders">Filter Customer</label>                                                                               
+                <select class="form-select" name = "client" id="client" required> 
+                    <option value="">All Customers</option>                   
+                    <% clientUserList.forEach(user => { %>
+                        <option value="<%= user._id %>"><%= user.username %></option>
+                    <% }) %>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">                
+                <label for="totalOrders">Total Orders</label>                                                                               
+                <input class="form-control" id="totalOrders" readonly/>                            
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">                
+                <label for="billedOrders">Billed Orders</label>                                                                               
+                <input class="form-control" id="billedOrders" readonly/>                            
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">                
+                <label for="totalReceivables">Total Receivables</label>                                                                               
+                <input class="form-control" id="totalReceivables" readonly/>                            
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">                
+                <label for="amountReceived">Amount Received</label>                                                                               
+                <input class="form-control" id="amountReceived" readonly/>                            
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">                
+                <label for="amountPending">Amount Pending</label>                                                                               
+                <input class="form-control" id="amountPending" readonly/>                            
+            </div>
+        </div>
+    </div>
+  
+    <table id="myTable" class="display cell-border responsive" width="100%" >
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Client</th>
+                <th>Credit</th>
+                <th>Debit</th>                
+                <th>Description</th>
+                <th>Reference</th>                
+                <th>Extra Note</th>
+                <th>Action</th>
+                <th>Action</th>                                           
+            </tr>
+        </thead>
+        <tbody>                      
+            <% ledgerlist.forEach((txn,i) => { %> 
+                <tr>
+                    <td><%= moment(txn.date).format(shortDateFormat) %></td>
+                    <td><%= txn.client.username %></td>  
+                    <%if(txn.type=='credit'){%>
+                    <td><%= txn.amount %></td>
+                    <%}else{%>
+                    <td></td>
+                    <%}%>
+                    <%if(txn.type=='debit'){%>
+                    <td><%= txn.amount %></td>
+                    <%}else{%>
+                    <td></td>
+                    <%}%>
+                    <td><%= txn.description %></td>
+                    <td><%= txn.reference %></td>
+                    <td><%= txn.note %></td>                                        
+                    <td><a class="btn-sm btn-primary" href="/ledger/<%= txn._id %>/edit">Edit</a></td>
+                    <td><a class="btn-sm btn-primary" href="/ledger/<%= txn._id %>/delete">Delete</a></td>                    
+                </tr>
+            <% }) %>                                                                                                           
+        </tbody>
+    </table>    
+</div>
+
+       
+
+
+<!-- include footer -->
+<%- include('../include/_footer') %>
+<!-- /include footer -->
+
+<script src="/js/ledger/filterData.js"></script>

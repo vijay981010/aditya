@@ -72,7 +72,15 @@
                   Invoice
                 </a>                
               </li>  
-            <% }       
+            <% } 
+            if(user.accessRight.indexOf('ledger') != -1){ %> 
+              <li class="nav-item dropdown" id="ledger">
+                <a class="nav-link" href="/ledger/list">
+                  <span class="text-gradient"><i class="fas fa-coins"></i></span>
+                  Ledger
+                </a>                
+              </li>  
+            <% }      
            } %>    
         </ul>                        
         <ul class="navbar-nav ml-auto">

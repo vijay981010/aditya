@@ -157,3 +157,7 @@ exports.getDates = (startDate, endDate) => {
     })
     return checkArr
   }
+
+  // ------------------------------------------ FIRST CHARACTER OF EVERY WORD CAPITALIZED -------------------------- //
+
+  exports.toTitleCase = str => str.replace(/(^\w|\s\w|[,]\w)/g, m => m.toUpperCase())

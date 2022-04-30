@@ -18,6 +18,9 @@ const ledgerSchema = new Schema({
         type: String,
         enum: ['credit', 'debit']
     },
+    amount: {
+        type: Number,
+    },
     description: {
         type: String,
         trim: true
@@ -36,4 +39,4 @@ const ledgerSchema = new Schema({
 
 const Ledger = mongoose.model('Ledger', ledgerSchema)
 
-module.exports = Manifest
+module.exports = Ledger
