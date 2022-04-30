@@ -13,7 +13,9 @@ exports.invoiceList = async(req, res, next) => {
 
         let clientUserList = await User.find({admin: userId})
 
-        let invoicelist = await Invoice.find({admin: userId}).populate({path: 'client', select: 'username'}).sort({bookingDate: 'desc', createdAt: 'desc'}).limit(1000)
+        let invoicelist = await Invoice.find({admin: userId}).populate({path: 'client', select: 'username'})
+        .sort({invoiceDate: 'desc', createdAt: 'desc'}).limit(1000)
+
         res.render('invoice/list', {user, invoicelist, clientUserList})
     }catch(err){
         next(err)
@@ -23,20 +25,14 @@ exports.invoiceList = async(req, res, next) => {
 exports.invoiceGenerate = async(req, res, next) => {
     try{
         let {admin, client, invoiceNumber, invoiceDate,
-        invoiceStartDate, invoiceEndDate, note} = req.body
-
-        let userId = req.user.id        
-        
-        //GET LIST OF ALL CLIENT USERS OF THIS ADMIN//
-        userlist = await User.find({role: 'client', admin: userId})
-        userlist = userlist.map(user => user._id)        
+        invoiceStartDate, invoiceEndDate, note} = req.body                     
         
         //GET ARRAY OF DATE RANGE//
         let dateArray = getDates(new Date(invoiceStartDate), new Date(invoiceEndDate))         
 
+        //GET ORDERS FOR THE SPECIFIED DATE RANGE AND CLIENT//
         let orderFields = 'bookingDate awbNumber destination consignee chargeableWeight baseRate brGst chargeDetails totalBill'        
-
-        let orders = await Order.find({bookingDate: dateArray, client: userlist}).select(orderFields)        
+        let orders = await Order.find({bookingDate: dateArray, client}).select(orderFields)        
 
         //CHECK IF ALL ORDERS HAVE BILL AND WEIGHT ADDED//
         let count = 0
@@ -50,13 +46,17 @@ exports.invoiceGenerate = async(req, res, next) => {
 
     //---- CALCULATE TOTAL BILL, WEIGHT---- //            
 
+        //SERIALIZE TOTALBILL AND WEIGHTS OF FILTERED ORDERS//
         let totalBillArr = orders.map(order => order.totalBill)
         let weightArr = orders.map(order => order.chargeableWeight)        
 
-        let totalAmount = totalBillArr.reduce((a,b) => a + b, 0) //GET SUM OF TOTAL BILL OF ALL ORDERS//        
-        totalAmount = totalAmount.toFixed(2) //CLIP IT TO TWO DECIMAL PLACES//
+        //GET SUM OF TOTAL BILL OF ALL ORDERS//
+        let totalAmount = totalBillArr.reduce((a,b) => a + b, 0)         
+        totalAmount = totalAmount.toFixed(2) 
 
-        let totalWeight = weightArr.reduce((a, b) => a + b, 0) //GET TOTAL WEIGHT//        
+        //GET TOTAL WEIGHT// 
+        let totalWeight = weightArr.reduce((a, b) => a + b, 0) 
+        totalWeight = totalWeight.toFixed(2)       
         
         //CREATE INVOICE OBJECT TO WRITE TO DB//
         let invoiceObj = {
@@ -76,13 +76,9 @@ exports.invoiceGenerate = async(req, res, next) => {
 
 exports.invoicePdf = async(req, res, next) => {
     try{
-        //res.send('hello')
+        
         let invoiceId = req.params.invoiceId
-        let userId = req.user.id //'623ed3385158ccd06b59f3f8' 
-
-        //GET LIST OF ALL CLIENT USERS OF THIS ADMIN//
-        userlist = await User.find({role: 'client', admin: userId})
-        userlist = userlist.map(user => user._id)
+        let userId = req.user.id //
         
         //GET INVOICE DETAILS//
         let invoiceFields = 'invoiceNumber invoiceStartDate invoiceEndDate totalAmount invoiceDate note'
@@ -96,7 +92,7 @@ exports.invoicePdf = async(req, res, next) => {
 
         //GET ORDERS BETWEEN THAT DATE RANGE FOR THAT ADMIN//
         let orderFields = 'bookingDate awbNumber destination consignee boxType chargeableWeight baseRate brGst fuelSurcharge fsGst chargeDetails totalBill'
-        let orders = await Order.find({bookingDate: dateArray, client: userlist}).select(orderFields)      
+        let orders = await Order.find({bookingDate: dateArray, client: invoice.client}).select(orderFields)      
         
     // ------------------- CALCULATE DATA -------------------- //                
         let chargesArr = orders.map(order => {

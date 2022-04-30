@@ -1,8 +1,7 @@
 const debug = require('debug')('dev')
 var moment = require('moment')
 var shortDateFormat = 'DD-MM-yyyy'
-var converter = require('number-to-words')
-const {toTitleCase} = require('../helpers/helpers')
+const { ToWords } = require('to-words')
 
 exports.detailedInvoice = (doc, orders, invoice, user, compData) => {
 // ---- Calculate Total Number of Pages ------ //
@@ -83,16 +82,14 @@ exports.detailedInvoice = (doc, orders, invoice, user, compData) => {
         }
         
         //awbTable(doc, orders, start, breakpoint)
-        footerDetails(doc, i + 1, totalPages)
+        footerDetails(doc, i + 1, totalPages+1)
 
         //render totals on last page//
         if(i == totalPages - 1){
             summ(doc, invoice, compData)
+            if(user.invoiceDefaultNote || invoice.note) displayNote(doc, invoice.note, user.invoiceDefaultNote,totalPages+1)
         }
 
-        if(user.invoiceDefaultNote || invoice.note) displayNote(doc, invoice.note, user.invoiceDefaultNote)
-        
-         
     }    
     
 }
@@ -195,8 +192,9 @@ function tabl(doc, orders, compData, start, breakpoint){
         let s = c + 1
         let valueArr = [
             i+1, moment(orders[i].bookingDate).format(shortDateFormat), orders[i].awbNumber, orders[i].destination,
-        orders[i].consignee, orders[i].boxType, orders[i].chargeableWeight, orders[i].baseRate, orders[i].fuelSurcharge, 
-        compData.chargesArr[i], compData.taxArr[i], compData.totalBillArr[i]
+        orders[i].consignee, orders[i].boxType, orders[i].chargeableWeight.toFixed(2), orders[i].baseRate.toFixed(2), 
+        orders[i].fuelSurcharge.toFixed(2), compData.chargesArr[i].toFixed(2), compData.taxArr[i].toFixed(2), 
+        compData.totalBillArr[i].toFixed(2)
     ]
         
         for(let j = 0; j < startArr.length; j++){
@@ -267,36 +265,39 @@ function summ(doc, invoice, compData){
     let leftAlign = {width: onethird, height:15, align: 'left'}
     let rightAlign = {width: onethird, height:15, align: 'right'}
     let subTotal = compData.totalBaseRate + compData.totalCharges + compData.totalFsc  
+
+    //NUMBER TO WORDS CONFIG//
+    const toWords = new ToWords({
+        localeCode: 'en-IN',
+        converterOptions: {
+          currency: true,
+          ignoreDecimal: false,
+          ignoreZeroCurrency: false,
+          doNotAddOnly: false,
+        }
+      })
     
     //COMPUTE BILL FROM FIGURES TO WORDS//
     let billInStrings = compData.totalBill.toString() //CONVERT TO STRING//
-    let rupeeComp = billInStrings.split('.')[0] //GET RUPEE COMPONENT//
-    let paisaComp = billInStrings.split('.')[1] //GET PAISA COMPONENT//
-    
-    let rupeeCompInWords = converter.toWords(rupeeComp) //GET RUPEE COMPONENT IN WORDS
-    let paisaCompInWords = converter.toWords(paisaComp) //GET PAISA COMPONENT IN WORDS
-    
-    //debug(rupeeComp, paisaComp)
-    
-    let totalBillInWords = `${rupeeCompInWords} rupees and ${paisaCompInWords} paise` //GET FINAL INVOICE BILL IN WORDS//
-    totalBillInWords = toTitleCase(totalBillInWords)
-    
-    //debug(totalBillInWords)
+    let words = toWords.convert(billInStrings)
+
+    debug(words)
     
     doc.rect(640, 540, 195, 18).fill('#4287f5') //HIGHLIGHT FOR TOTAL AMOUNT IN FIGURES//
-    doc.rect(10, 540, 155+(totalBillInWords.length*7) , 18).fill('#4287f5') //HIGHLIGHT FOR TOTAL AMOUNT IN WORDS//    
+    doc.rect(10, 540, 155+(words.length*7) , 18).fill('#4287f5') //HIGHLIGHT FOR TOTAL AMOUNT IN WORDS//    
 
     //TITLES OF TOTAL AMOUNT IN FIGURES//
     doc
     .font('Helvetica-Bold').fontSize(12).fill('black')    
     .text('Sub-Total', x3-margin, y+g, leftAlign)
     .text('Igst(@18%)', x3-margin, y+(2*g), leftAlign)
+    .text('Total Amount(in Words)', 30, y+(2*g), {width: 842, height:15, align: 'left'})
         
     .font('Helvetica-Bold').fontSize(12).fill('white') 
     .text('Total', x3-margin, y+(3*g), leftAlign)
 
-    //TOTAL AMOUNT IN WORDS//     
-    .text(`Total Amount(in Words): ${totalBillInWords}`, 30, y+(3*g), {width: 842, height:15, align: 'left'})
+    //TOTAL AMOUNT IN WORDS//             
+    .text(words, 30, y+(3*g), {width: 842, height:15, align: 'left'})
 
     //VALUES OF TOTAL AMOUNT IN FIGURES//
     doc
@@ -309,10 +310,10 @@ function summ(doc, invoice, compData){
     
 }
 
-function displayNote(doc, addNote, defaultNote){
+function displayNote(doc, addNote, defaultNote, total){
     
     let x = 30, y = 65, g = 15
-    let leftAlign = {width: 842, align: 'left'}
+    let leftAlign = {width: 842, align: 'left'}    
     
     //RENDER NOTE ALWAYS ON NEW PAGE WITH FOLLOWING DEFAULTS//
     doc
@@ -347,4 +348,9 @@ function displayNote(doc, addNote, defaultNote){
             doc.text(addNoteSplit[i+1], x, y+((l+i)*g), leftAlign)
         }
     }
+
+    //PAGE NUMBER//
+    doc
+    .fontSize(10)    
+    .text(`Page ${total} of ${total}`, 0, 575, {width: 842, height:15, align: 'center'})
 }

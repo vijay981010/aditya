@@ -40,8 +40,8 @@ const invoiceSchema = new Schema({
     admin:{
         type: Schema.Types.ObjectId,
         ref: 'User',
-    },
-})
+    }
+},{ timestamps: true })
 
 const Invoice = mongoose.model('Invoice', invoiceSchema)
 
