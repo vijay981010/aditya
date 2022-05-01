@@ -1,9 +1,17 @@
 $(document).ready(function(){
     //setInterval(runCron, 5000)
-    runCron()
     $('.paginate_button').click(function(){
+        console.log('clicked')
         runCron()
     })
+
+    $("input[type='search']").on('input', function(){
+        console.log('inputted')
+        runCron()
+    })
+    
+    runCron()
+    
 
     function runCron(){            
         let x = []
@@ -14,8 +22,7 @@ $(document).ready(function(){
             x.push(item.innerHTML)
         })
 
-        x.forEach((trackingNumber,i) => {       
-            console.log(trackingNumber)
+        x.forEach((trackingNumber,i) => {                   
                 
             $.ajax({
                 url: `${environment.baseurl}/orders/track/details`,
@@ -30,6 +37,7 @@ $(document).ready(function(){
                 success: function(response){
                     let awb = response.order.awbNumber //GET AWB NUMBER//
                     let statusCode = response.order.trackingStatus //GET TRACKING STATUS//
+                    console.log(trackingNumber, statusCode)
                     
                 // -------- GET COLOR CODE -------- //
                     let color = 'badge badge-secondary' //DEFAULT COLOR CODE

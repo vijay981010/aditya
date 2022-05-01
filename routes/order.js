@@ -90,6 +90,8 @@ router.post('/client/flatmanifest', verifyToken, orderController.flatManifestPdf
 
 //router.get('/:date/:clientId/print/flatmanifest', verifyToken, orderController.downloadFlatManifest)
 
+router.get('/:orderId/print/excel/packinglist', verifyToken, authorizeResource, orderController.excelPackingList)
+
 
 router.get('/search/history', verifyToken, orderController.searchHistory) //authorizeUser
 

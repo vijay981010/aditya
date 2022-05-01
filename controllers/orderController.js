@@ -19,6 +19,8 @@ const fsPromises = require('fs').promises
 const {createCanvas} = require('canvas')
 var JsBarcode = require('jsbarcode')
 const logger = require('../helpers/logger')
+const ExcelJs = require('exceljs')
+const {generatePackingList} = require('../excel/packingList')
 
 const db = mongoose.connection;
 
@@ -972,6 +974,75 @@ exports.packingList = async(req, res, next) => {
 
         /* var endTime = performance.now()
         debug(`Call for this took ${endTime - startTime} ms`) */
+
+    }catch(err){
+        next(err)
+    }
+}
+
+exports.excelPackingList = async(req, res, next) => {
+    try{
+        let orderId = req.params.orderId
+        let userId = req.user.id
+
+        let order = await Order.findById(orderId).populate('client').exec()
+        let boxDetails = order.boxDetails
+
+        //CHECK IF BOX DETAILS ADDED//
+        if(boxDetails.length == 0)            
+            return res.render('error', {message: `No Box Details added. Please add Box Details first before generating AWB`, statusCode: '400'})
+        
+    // ---------------------- CALCULATE VALUES --------------------- //
+        let itemArray = []
+        let qtyArray = []
+        let priceArray = []
+        let lengthArray = [0]
+        let boxNumberArray = ['Box1']
+        let dimensionArray = [`(${boxDetails[0].boxLength}x${boxDetails[0].boxWidth}x${boxDetails[0].boxHeight})`]             
+        
+        boxDetails.forEach(box => {
+            lengthArray.push(box.itemDetails.length)
+            box.itemDetails.forEach(item => {
+                itemArray.push(item.itemName)
+                qtyArray.push(item.itemQuantity)
+                priceArray.push(item.itemPrice)                   
+            })        
+        })
+
+        let totalitems = itemArray.length
+        let totalArray = qtyArray.map((elem,i) => (elem * priceArray[i]).toFixed(1))      
+
+        //BOX NUMBER ARRAY COMPUTATION//
+        lengthArray.pop()
+        
+        let count = 2
+
+        lengthArray.forEach(item => {
+            for(let i = 1; i <= item; i++){
+                if(item != i){
+                    boxNumberArray.push('')
+                    dimensionArray.push('')                    
+                }else{
+                    boxNumberArray.push(`Box${count}`)            
+                    dimensionArray.push(`(${boxDetails[count-1].boxLength}x${boxDetails[count-1].boxWidth}x${boxDetails[count-1].boxHeight})`)                    
+                    count++
+                }
+            }
+        })
+        
+        let compData = {itemArray, qtyArray, priceArray, boxNumberArray, dimensionArray, totalArray}
+
+    // ------------------------ EXCEL SECTION ------------------------- //
+        const workbook = new ExcelJs.Workbook()        
+
+        generatePackingList(workbook, order, compData)
+
+        res.setHeader("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+        res.setHeader("Content-Disposition",`attachment; filename=packinglist_${order.awbNumber}.xlsx`)
+
+        return workbook.xlsx.write(res).then(function (){
+            res.status(200).end();
+        })
 
     }catch(err){
         next(err)

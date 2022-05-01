@@ -96,7 +96,10 @@
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">                                               
                                 <a class="dropdown-item" href="<%= order._id %>/print/awb" target="_blank">Print AWB</a>
                                 <a class="dropdown-item" href="<%= order._id %>/print/boxsticker" target="_blank">Box Sticker</a>
-                                <a class="dropdown-item" href="<%= order._id %>/print/packinglist" target="_blank">Packing List</a>                
+                                <a class="dropdown-item" href="<%= order._id %>/print/packinglist" target="_blank">Packing List</a>
+                                <%if(user.username=="parcel solution"){%>
+                                <a class="dropdown-item" href="<%= order._id %>/print/excel/packinglist" >Excel</a>                
+                                <%}%>                                
                             </div>
                         </div>
                     </td>
