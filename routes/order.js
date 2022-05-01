@@ -86,6 +86,10 @@ router.get('/:orderId/print/packinglist', verifyToken, authorizeResource, orderC
 
 router.get('/:orderId/print/boxsticker', verifyToken, authorizeResource, orderController.boxSticker) //authorizeUser
 
+router.post('/client/flatmanifest', verifyToken, orderController.flatManifestPdf)
+
+//router.get('/:date/:clientId/print/flatmanifest', verifyToken, orderController.downloadFlatManifest)
+
 
 router.get('/search/history', verifyToken, orderController.searchHistory) //authorizeUser
 

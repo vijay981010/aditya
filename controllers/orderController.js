@@ -11,6 +11,7 @@ const PDFdocument = require('pdfkit')
 const {generateAwb} = require('../pdf/awb')
 const {boxstickergenerate} = require('../pdf/boxsticker')
 const {primarydetails, boxdetails, footerdetails} = require('../pdf/packinglist')
+const {generateFlatManifest} = require('../pdf/flatManifest')
 const fs = require('fs')
 const { validationResult } = require('express-validator')
 let stream = require('stream')
@@ -35,7 +36,7 @@ exports.orderList = async (req, res, next) => {
             orderlist = orderlist.filter(elem => elem.client.admin == userId)            
         }
 
-        if(!orderlist) return res.render('error', {message:'Some unknown error.Couldnt get orderlist. Please try again', status: '500'})
+        if(!orderlist) return res.render('error', {message:'Some unknown error.Couldnt get orderlist. Please try again', statusCode: '500'})
 
         res.render('order/list', {orderlist, user}) 
     }catch(err){
@@ -1030,6 +1031,76 @@ exports.boxSticker = async(req, res, next) => {
         next(err)
     }
 }
+
+exports.flatManifestPdf = async(req, res, next) => {
+    try{
+        //res.json(req.query)
+        debug(req.body)
+        let {manifestDate, client} = req.body //gET FORM DATA//     
+
+        //GET FILTERED ORDERLIST//
+        let orderFields = 'awbNumber consignee chargeableWeight destination numberOfBoxes'
+        let orderlist = await Order.find({bookingDate:manifestDate, client}).select(orderFields)
+        
+        //CHECK IF ORDER EXISTS FOR GIVEN DATE//
+        if(orderlist.length == 0)
+            return res.render('error', {message:'No Order exists for the inputted date!!', statusCode: '400'})
+        
+        //CHECK IF BOX DETAILS ADDED//
+        let boxesArr = orderlist.map(order => order.numberOfBoxes)           
+        if(boxesArr.includes(undefined)) 
+            return res.render('error', {message:'Some Orders are missing Box Details. Kindly add Box details!!', statusCode: '400'})
+
+    // -------------- PDF SECTION --------------------- //
+        let user = await User.findById(client).populate({path:'admin', select:'displayName'}).select('username')
+
+        //INITIALIZE PDF//
+        const doc = new PDFdocument({    
+            size: 'A4',         
+            autoFirstPage: false
+        })
+
+        //PDF CONTENTS//
+        generateFlatManifest(doc, orderlist, user, manifestDate)        
+        
+        //SAVE TO FILE AND SEND RESPONSE TO AJAX//
+        stream = doc.pipe(fs.createWriteStream(`flatmanifest_${user.username}_${manifestDate}.pdf`))                                  
+        stream.on('finish', () => {
+            res.download(`flatmanifest_${user.username}_${manifestDate}.pdf`, (err) => {
+                if(err) next(err)
+                fs.unlink(`flatmanifest_${user.username}_${manifestDate}.pdf`, (err) => {
+                    if(err) next(err)
+                    debug('pdf file removed')
+                })
+            })
+        })         
+
+        //END PDF//
+        doc.end()
+        
+    }catch(err){
+        next(err)
+    }
+}
+
+/* exports.downloadFlatManifest = async (req, res, next) => {
+    try{
+        let {date, clientId} = req.params
+
+        let user = await User.findById(clientId).select('username')
+
+        //DOWNLOAD AND REMOVE PDF FILE//
+        res.download(`flatmanifest_${user.username}_${date}.pdf`, (err) => {
+            if(err) next(err)
+            fs.unlink(`flatmanifest_${user.username}_${date}.pdf`, (err) => {
+                if(err) next(err)
+                debug('pdf file removed')
+            })
+        })
+    }catch(err){
+        next(err)
+    }            
+} */
 
 async function getExchange(currency, amount){
     try{

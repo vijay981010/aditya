@@ -6,16 +6,23 @@
 <%- include('../include/_navbar') %>
 <!-- /include header -->
 
+<!-- include flat Manifest modal -->
+<%- include('../order/modal/flatManifest') %>
+<!-- include flat Manifest modal -->
+
 <div class="container-fluid mb-5"> 
     <div class="container-fluid">
         <header class="row py-3 mb-4 border-bottom">
             <div class="col-md-3">                
                 <span class="fs-4 text-dark">List of orders</span>
             </div>
-            <div class="col-md-6"></div>
-            <div class="col-md-3 d-flex flex-row-reverse">
+            <div class="col-md-3"></div>
+            <div class="col-md-6 d-flex flex-row-reverse">
                 <a href="/orders/add" class="btn btn-primary">Add Order</a>
-            </div>
+                <%if(user.role=='client'){%>                       
+                <button id="flatManifest" class="btn btn-primary mr-3">Manifest</button>            
+                <%}%>
+            </div>            
         </header>
     </div> 
           
@@ -122,3 +129,5 @@
 <!-- /include footer -->
 
 <script src = "/js/order/currentStatus.js"></script>
+<script src = "/js/order/flatManifest.js"></script>
+
