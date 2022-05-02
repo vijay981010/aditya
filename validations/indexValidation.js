@@ -9,6 +9,8 @@ exports.autheticateUserValidator = [
             return Promise.reject('User doesnt exist')
         }else if(user.status == 'inactive'){
             return Promise.reject('Your subscription has expired. Kindly renew or contact your service provider')
+        }else if(user.username == 'Miscellaneous'){
+            return Promise.reject('This user is not permitted to login!!')
         }
     }),    
     check('password', 'Please enter Password').notEmpty()
