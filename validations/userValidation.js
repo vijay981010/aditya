@@ -1,12 +1,16 @@
 const { check } = require('express-validator')
 const User = require('../model/userModel')
 const {regexUpperCase} = require('../helpers/helpers')
+const debug = require('debug')('dev')
 
 exports.createUserValidator = [
     check('username', 'Please enter Username').notEmpty(),
-    check('username').custom(async value => {
-        //GET ARRAY OF ALL USERNAMES//
-        let userlist = await User.find().select('username') 
+    check('username').custom(async (value, req) => {
+        //GET ADMIN ID//
+        //debug(req.req.user.id)
+        let userId = req.req.user.id        
+        //GET ARRAY OF ALL USERNAMES FOR RESPECTIVE ADMIN//
+        let userlist = await User.find({admin:userId}).select('username') //
         userlist = userlist.map(user => user.username)
 
         //GET BOOLEAN ARR OF MATCHED USERNAMES//
