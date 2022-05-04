@@ -66,15 +66,15 @@ exports.edit = async(req, res, next) => {
         let walkinId = req.params.walkinId
 
         let {
-            role, name, contactNumber, email, address1, 
-            address2, address3, pincode, city, state, 
-            country, docType, docNumber
+            role, name, companyName, contactNumber, email, 
+            address1, address2, address3, pincode, city, 
+            state, country, docType, docNumber
         } = req.body
 
         let obj = {
-            role, name, contactNumber, email, address1, 
-            address2, address3, pincode, city, state, 
-            country, docType, docNumber
+            role, name, companyName, contactNumber, email, 
+            address1, address2, address3, pincode, city, 
+            state, country, docType, docNumber
         }
 
         await Walkin.findByIdAndUpdate(walkinId, obj, {new: true})

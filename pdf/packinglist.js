@@ -17,9 +17,19 @@ exports.primarydetails = (doc, order) => {
     .moveTo(40, 60).lineTo(560, 60).stroke() //2nd horizontal line       
 
     .text('SHIPPER:', 43, 65, {underline: true})
-    .text(order.consignor, 43, 80)
-    .font('Helvetica')
-    .text(`${order.consignorAddress1}, ${order.consignorAddress2}, ${order.consignorCity}, ${order.consignorState}, ${order.consignorPincode}`, 43, 95, {width: 250, align:'left'})
+    if(order.consignorCompanyName){
+      doc
+      .text(order.consignorCompanyName, 43, 80)
+      .text(order.consignor, 43, 95)
+      .font('Helvetica')
+      .text(`${order.consignorAddress1}, ${order.consignorAddress2}, ${order.consignorCity}, ${order.consignorState}, ${order.consignorPincode}`, 43, 110, {width: 250, align:'left'})
+    }else{
+      doc
+      .text(order.consignor, 43, 80)
+      .font('Helvetica')
+      .text(`${order.consignorAddress1}, ${order.consignorAddress2}, ${order.consignorCity}, ${order.consignorState}, ${order.consignorPincode}`, 43, 95, {width: 250, align:'left'})
+    }    
+    doc
     .font('Helvetica-Bold')
     .text(order.origin, 43, 155)
     .font('Helvetica')
@@ -34,9 +44,19 @@ exports.primarydetails = (doc, order) => {
 
     .font('Helvetica-Bold')
     .text('CONSIGNEE:', 303, 65, {underline: true})
-    .text(order.consignee, 303, 80)
-    .font('Helvetica')        
-    .text(`${order.consigneeAddress1}, ${order.consigneeAddress2}, ${order.consigneeCity}, ${order.consigneeState}, ${order.consigneePincode}`, 303, 95, {width: 250, align:'left'})        
+    if(order.consigneeCompanyName){
+      doc
+      .text(order.consigneeCompanyName, 303, 80)
+      .text(order.consignee, 303, 95)
+      .font('Helvetica')
+      .text(`${order.consigneeAddress1}, ${order.consigneeAddress2}, ${order.consigneeCity}, ${order.consigneeState}, ${order.consigneePincode}`, 303, 110, {width: 250, align:'left'})        
+    }else{
+      doc
+      .text(order.consignee, 303, 80)
+      .font('Helvetica')
+      .text(`${order.consigneeAddress1}, ${order.consigneeAddress2}, ${order.consigneeCity}, ${order.consigneeState}, ${order.consigneePincode}`, 303, 95, {width: 250, align:'left'})        
+    }
+    doc            
     .font('Helvetica-Bold')
     .text(order.destination, 303, 155)
     .font('Helvetica')  

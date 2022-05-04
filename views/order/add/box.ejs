@@ -15,8 +15,8 @@
         <div class="col-lg-12">
           <div class="card shadow-lg border-0 rounded-lg mt-5 mb-5">
             <form action = '/orders/<%= order._id %>/box?_method=PATCH' method = "post">
-              <div class="card-header">
-                  <h3 class="text-center font-weight-light my-4">Box Details for AWB : <%= order.awbNumber %></h3>
+              <div class="card-header bg-dark">
+                  <h5 class="text-center text-white">Box Details for AWB : <%= order.awbNumber %></h5>
               </div>
               <div class="card-body">                  
                     <div class="row">                                   
@@ -87,8 +87,8 @@
               <div class="row">
                   <div class="col-md-12">
                     <div class="card">
-                        <div class="card-header">
-                            <h3 class="text-center font-weight-light my-4">Item Details</h3>
+                        <div class="card-header bg-dark">
+                            <h5 class="text-center text-white">Item Details</h5>
                         </div>
                         <div class="card-body">
                             <div class="row">                                

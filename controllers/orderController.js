@@ -106,11 +106,11 @@ exports.createOrder = async (req, res, next) => {
 
         //GET FORM DATA//
         let {
-            bookingDate, consignor, service,
+            bookingDate, consignor, consignorCompanyName, service,
             consignorContactNumber, consignorEmail,
             consignorAddress1, consignorAddress2,
             consignorPincode, consignorCity, consignorState,
-            docType, docNumber, consignee, 
+            docType, docNumber, consignee, consigneeCompanyName,
             consigneeContactNumber, consigneeEmail, 
             consigneeAddress1, consigneeAddress2, 
             consigneePincode, consigneeCity, consigneeState,
@@ -150,11 +150,11 @@ exports.createOrder = async (req, res, next) => {
 
     // -------------- CREATE FINAL ORDER OBJECT ------------------ //        
         let obj = {
-            bookingDate, awbNumber, consignor, service,
+            bookingDate, awbNumber, consignor, consignorCompanyName, service,
             consignorContactNumber, consignorEmail,
             consignorAddress1, consignorAddress2,
             consignorPincode, consignorCity, consignorState,
-            docType, docNumber, consignee, 
+            docType, docNumber, consignee, consigneeCompanyName,
             consigneeContactNumber, consigneeEmail, 
             consigneeAddress1, consigneeAddress2, 
             consigneePincode, consigneeCity, consigneeState,
@@ -169,18 +169,18 @@ exports.createOrder = async (req, res, next) => {
 
         //INITIALIZE GENERAL CONSIGNOR OBJ//
         let consignorObj = {
-            role: 'consignor', name: consignor, contactNumber: consignorContactNumber,
-            email: consignorEmail, address1: consignorAddress1, address2: consignorAddress2,
-            pincode: consignorPincode, city: consignorCity, state: consignorState, 
-            country: origin, docType, docNumber
+            role: 'consignor', name: consignor, companyName: consignorCompanyName, 
+            contactNumber: consignorContactNumber, email: consignorEmail, address1: consignorAddress1, 
+            address2: consignorAddress2, pincode: consignorPincode, city: consignorCity, 
+            state: consignorState, country: origin, docType, docNumber
         }
 
         //INITIALIZE GENERAL CONSIGNEE OBJ//
         let consigneeObj = {
-            role: 'consignee', name: consignee, contactNumber: consigneeContactNumber,
-            email: consigneeEmail, address1: consigneeAddress1, address2: consigneeAddress2, 
-            city: consigneeCity, pincode: consigneePincode, state: consigneeState,
-            country: destination
+            role: 'consignee', name: consignee, companyName: consigneeCompanyName, 
+            contactNumber: consigneeContactNumber, email: consigneeEmail, address1: consigneeAddress1, 
+            address2: consigneeAddress2, city: consigneeCity, pincode: consigneePincode, 
+            state: consigneeState, country: destination
         }
 
         //GET CONSIGNORWALKIN LIST OF ADMIN OR CLIENT USER//
@@ -263,11 +263,11 @@ exports.updateOrder = async (req, res, next) => {
 
         //GET FORM DATA//
         let {
-            bookingDate, awbNumber, hiddenAwbNumber, consignor, service,
-            consignorContactNumber, consignorEmail,
+            bookingDate, awbNumber, hiddenAwbNumber, consignor, consignorCompanyName,
+            service, consignorContactNumber, consignorEmail,
             consignorAddress1, consignorAddress2,
             consignorPincode, consignorCity, consignorState,
-            docType, docNumber, consignee, 
+            docType, docNumber, consignee, consigneeCompanyName,
             consigneeContactNumber, consigneeEmail, 
             consigneeAddress1, consigneeAddress2, 
             consigneePincode, consigneeCity, consigneeState,
@@ -284,11 +284,11 @@ exports.updateOrder = async (req, res, next) => {
         }
 
         let obj = {
-            bookingDate, awbNumber, consignor, service,
-            consignorContactNumber, consignorEmail,
+            bookingDate, awbNumber, consignor, consignorCompanyName,
+            service, consignorContactNumber, consignorEmail,
             consignorAddress1, consignorAddress2,
             consignorPincode, consignorCity, consignorState,
-            docType, docNumber, consignee, 
+            docType, docNumber, consignee, consigneeCompanyName,
             consigneeContactNumber, consigneeEmail, 
             consigneeAddress1, consigneeAddress2, 
             consigneePincode, consigneeCity, consigneeState,

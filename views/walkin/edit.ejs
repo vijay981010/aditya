@@ -24,18 +24,24 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
+                                <label for="companyName">Company Name</label>
+                                <input class="form-control" name = "companyName" type="text" value="<%= walkin.companyName %>"/>                            
+                            </div> 
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
                                 <label for="contactNumber">Contact Number<span>*</span></label>
                                 <input class="form-control" name = "contactNumber" type="text" value="<%= walkin.contactNumber %>" required/>                            
                             </div> 
-                        </div>
+                        </div>                        
+                    </div>
+                    <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="email">Email</label>
                                 <input class="form-control" name = "email" type="email" value="<%= walkin.email %>"/>                            
                             </div> 
                         </div>
-                    </div>
-                    <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="address1">Address 1<span>*</span></label>                                                                                                               
@@ -47,33 +53,28 @@
                                 <label for="address2">Address 2<span>*</span></label>                                                                               
                                 <textarea class="form-control" name = "address2" required><%= walkin.address2 %></textarea>                            
                             </div> 
-                        </div>
-                        <div class="col-md-4">
+                        </div>                                                                       
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label for="city">City<span>*</span></label>
                                 <input class="form-control" name = "city" value="<%= walkin.city %>" type="text" required/>                            
                             </div> 
                         </div>
-                                               
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label for="pincode">Pincode<span>*</span></label>                                                                                
                                 <input class="form-control" name = "pincode" value = "<%= walkin.pincode %>" type="text" required/>                            
                             </div>
+                        </div>                                                    
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="state">State<span>*</span></label>
+                                <input class="form-control" name = "state" value="<%= walkin.state %>" type="text" required/>                            
+                            </div> 
                         </div>
-                        
-                            
-                        
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="state">State<span>*</span></label>
-                                    <input class="form-control" name = "state" value="<%= walkin.state %>" type="text" required/>                            
-                                </div> 
-                            </div>
-                                               
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label for="country">Country<span>*</span></label>                                 
                                 <select class ="form-select" name = "country" required>

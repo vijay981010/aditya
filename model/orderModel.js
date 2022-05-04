@@ -71,6 +71,10 @@ const orderSchema = new Schema({
         type: String,
         trim: true,        
     },    
+    consignorCompanyName:{
+        type: String,
+        trim: true,        
+    },
     consignorContactNumber: {
         type: String,
         trim: true,           
@@ -108,6 +112,10 @@ const orderSchema = new Schema({
         trim: true,        
     },
     consignee: {
+        type: String,
+        trim: true,        
+    },
+    consigneeCompanyName:{
         type: String,
         trim: true,        
     },

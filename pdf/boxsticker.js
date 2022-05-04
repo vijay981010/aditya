@@ -32,8 +32,19 @@ exports.boxstickergenerate = (current, doc, order, user) => {
     .fontSize(11)
     .text('FROM', 40, 140)
     .font('Helvetica')
-    .text(order.consignor, 40, 155)
-    .text(`${order.consignorAddress1}, ${order.consignorAddress2}, ${order.consignorCity}, ${order.consignorState}, ${order.consignorPincode}`, 40, 170, {width: 350, align:'left'})    
+    
+    if(order.consignorCompanyName){
+      doc
+      .text(order.consignorCompanyName, 40, 155)
+      .text(order.consignor, 40, 170)
+      .text(`${order.consignorAddress1}, ${order.consignorAddress2}, ${order.consignorCity}, ${order.consignorState}, ${order.consignorPincode}`, 40, 185, {width: 350, align:'left'})    
+    }else{
+      doc
+      .text(order.consignor, 40, 155)
+      .text(`${order.consignorAddress1}, ${order.consignorAddress2}, ${order.consignorCity}, ${order.consignorState}, ${order.consignorPincode}`, 40, 170, {width: 350, align:'left'})    
+    }
+    
+    doc
     .font('Helvetica-Bold')
     .text(order.origin, 40, 215)
     .font('Helvetica')
@@ -62,8 +73,19 @@ exports.boxstickergenerate = (current, doc, order, user) => {
     .fontSize(16)
     .text('TO', 40, 270)
     .font('Helvetica')
-    .text(order.consignee, 40, 290)
-    .text(`${order.consigneeAddress1}, ${order.consigneeAddress2}, ${order.consigneeCity}, ${order.consigneeState}, ${order.consigneePincode}`, 40, 310, {width: 450, align:'left'})
+
+    if(order.consigneeCompanyName){
+      doc
+      .text(order.consigneeCompanyName, 40, 290)
+      .text(order.consignee, 40, 310)
+      .text(`${order.consigneeAddress1}, ${order.consigneeAddress2}, ${order.consigneeCity}, ${order.consigneeState}, ${order.consigneePincode}`, 40, 330, {width: 450, align:'left'})
+    }else{
+      doc
+      .text(order.consignee, 40, 290)
+      .text(`${order.consigneeAddress1}, ${order.consigneeAddress2}, ${order.consigneeCity}, ${order.consigneeState}, ${order.consigneePincode}`, 40, 310, {width: 450, align:'left'})
+    }
+    
+    doc
     .font('Helvetica-Bold')
     .text(order.destination, 40, 370)
     .font('Helvetica')

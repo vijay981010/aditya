@@ -46,7 +46,7 @@ function fetchData(role, name, id){
             success: function(response){
                 if(role == 'consignor'){
                     
-                    let idArr = ['consignorContactNumber','consignorEmail','consignorAddress1','consignorAddress2',
+                    let idArr = ['consignorCompanyName','consignorContactNumber','consignorEmail','consignorAddress1','consignorAddress2',
                     'consignorPincode','consignorCity','consignorState','docNumber']                                        
 
                     if(response == null){
@@ -61,7 +61,7 @@ function fetchData(role, name, id){
                             $(`#${id}`).attr('readonly', false)
                         })                       
                     }else{
-                        let valArr = [response.contactNumber,response.email,response.address1,response.address2,
+                        let valArr = [response.companyName, response.contactNumber,response.email,response.address1,response.address2,
                         response.pincode,response.city,response.state,response.docNumber]
 
                         $('#origin').val(response.country)
@@ -81,7 +81,7 @@ function fetchData(role, name, id){
                     }
                 }else if(role == 'consignee'){
 
-                    let idArr = ['consigneeContactNumber','consigneeEmail','consigneeAddress1','consigneeAddress2',
+                    let idArr = ['consigneeCompanyName', 'consigneeContactNumber','consigneeEmail','consigneeAddress1','consigneeAddress2',
                     'consigneePincode','consigneeCity','consigneeState']                    
 
                     if(response == null){
@@ -93,7 +93,7 @@ function fetchData(role, name, id){
                             $(`#${id}`).attr('readonly', false)
                         })                      
                     }else{
-                        let valArr = [response.contactNumber,response.email,response.address1,response.address2,
+                        let valArr = [response.companyName,response.contactNumber,response.email,response.address1,response.address2,
                         response.pincode,response.city,response.state]
 
                         $('#destination').val(response.country)

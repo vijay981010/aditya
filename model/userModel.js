@@ -89,6 +89,9 @@ const userSchema = new Schema({
     invoiceDefaultNote:{
         type: String,
     },
+    settings:{
+        isCompanyName: Boolean,
+    },
     admin: {
         type: Schema.Types.ObjectId,
         ref: 'User',             

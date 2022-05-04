@@ -12,6 +12,10 @@ const walkinSchema = new Schema({
         required: true,
         trim: true,        
     },
+    companyName:{
+        type: String,        
+        trim: true,    
+    },
     contactNumber: {
         type: String,        
         trim: true,              

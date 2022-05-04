@@ -71,9 +71,29 @@ exports.generateAwb = (doc, order, user) => {
     .text('ORIGIN', 150, 110)
     .text('DESTINATION', 205, 110)
     .text('SHIPPER', 45, 155)
-    .text(order.consignor, 45, 165)
+    if(order.consignorCompanyName){
+      doc
+      .text(order.consignorCompanyName, 45, 165)
+      .text(order.consignor, 45, 175)
+      .text('ATTN:NAME/DEPT:', 45, 185)
+    }else{
+      doc
+      .text(order.consignor, 45, 165)
+      .text('ATTN:NAME/DEPT:', 45, 175)
+    }
+    doc
     .text('CONSIGNEE', 275, 155)
-    .text(order.consignee, 275, 165)
+    if(order.consigneeCompanyName){
+      doc
+      .text(order.consigneeCompanyName, 275, 165)
+      .text(order.consignee, 275, 175)
+      .text('ATTN:NAME/DEPT:', 275, 185)
+    }else{
+      doc
+      .text(order.consignee, 275, 165)
+      .text('ATTN:NAME/DEPT:', 275, 175)
+    }
+    doc
     .text('NO. OF BOX', 445, 185)
 
     .text('SHIPPER ADDRESS', 45, 205)
@@ -104,9 +124,7 @@ exports.generateAwb = (doc, order, user) => {
     doc
     .text(order.origin, 160, 130, {width: 60, align:'left'})
     .text(order.destination, 200, 130, {width: 60, align:'left'})
-    
-    .text('ATTN:NAME/DEPT:', 45, 175)
-    .text('ATTN:NAME/DEPT:', 275, 175)
+        
     .text(order.numberOfBoxes, 530, 185)
     
     .text(order.consignorAddress1, 45, 215, {width: 220, align:'left'})
