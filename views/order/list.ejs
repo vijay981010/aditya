@@ -10,6 +10,10 @@
 <%- include('../order/modal/flatManifest') %>
 <!-- include flat Manifest modal -->
 
+<!-- include flat Manifest modal -->
+<%- include('../order/modal/cashInvoice') %>
+<!-- include flat Manifest modal -->
+
 <div class="container-fluid mb-5"> 
     <div class="container-fluid">
         <header class="row py-3 mb-4 border-bottom">
@@ -97,9 +101,12 @@
                                 <a class="dropdown-item" href="<%= order._id %>/print/awb" target="_blank">Print AWB</a>
                                 <a class="dropdown-item" href="<%= order._id %>/print/boxsticker" target="_blank">Box Sticker</a>
                                 <a class="dropdown-item" href="<%= order._id %>/print/packinglist" target="_blank">Packing List</a>
-                                <%if(user.username=="parcel solution"){%>
+                                <%if(user.settings.packingListExcel==true){%>
                                 <a class="dropdown-item" href="<%= order._id %>/print/excel/packinglist" >Excel</a>                
-                                <%}%>                                
+                                <%}%>       
+                                <%if(user.settings.cashInvoice==true && order.miscClients){%>
+                                <button class="dropdown-item" data-cashorder="<%= order._id %>" data-misc="<%= order.miscClients %>" id="cashInvoice">Cash Invoice</button>
+                                <%}%>
                             </div>
                         </div>
                     </td>
@@ -133,4 +140,5 @@
 
 <script src = "/js/order/currentStatus.js"></script>
 <script src = "/js/order/flatManifest.js"></script>
+<script src = "/js/order/cashInvoice.js"></script>
 

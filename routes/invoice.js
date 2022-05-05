@@ -11,6 +11,6 @@ router.get('/:invoiceId/pdf', verifyToken, authorizeRole(['admin', 'superadmin']
 
 router.delete('/:invoiceId/delete', verifyToken, authorizeRole(['admin', 'superadmin']), authorizeResource, invoiceController.invoiceDelete) //authorizeUser
 
-
+router.post('/cashinvoice', verifyToken, authorizeRole(['admin', 'superadmin']), invoiceController.cashInvoicePdf)
 
 module.exports = router

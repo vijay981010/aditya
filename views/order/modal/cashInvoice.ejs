@@ -1,0 +1,38 @@
+<!-- Modal -->
+<div class="modal" id="cashInvoiceModal">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="cashInvoiceModalLabel">Enter Invoice Details</h5>
+          <button type="button" id="cashInvoiceCloseModal" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form action="/invoices/cashinvoice" method="POST">   
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="miscClients">Client</label>                                 
+                    <input class="form-control" type="text" id="modalMiscClient" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="invoiceDate">Invoice Date<span>*</span></label>
+                    <input type="hidden" name="admin" value="<%= user._id %>"> 
+                    <input type="hidden" name="orderId" id="cashOrder">
+                    <input class="form-control inputDate" name="invoiceDate" required>
+                </div>
+                <div class="form-group">
+                    <label for="invoiceNumber">Invoice Number<span>*</span></label>                                 
+                    <input class="form-control" name="invoiceNumber" type="text" required>
+                </div>
+                <div class="form-group">
+                    <label for="note">Additional Note</label>                                                     
+                    <textarea class="form-control" name="note"></textarea>
+                </div>          
+            </div>
+            <div class="modal-footer">          
+                <input type="submit" value="Generate Invoice" class="btn btn-primary" id="cashInvoiceSubmit">
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>

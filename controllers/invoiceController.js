@@ -35,12 +35,7 @@ exports.invoiceGenerate = async(req, res, next) => {
         let orders = await Order.find({bookingDate: dateArray, client}).select(orderFields)        
 
         //CHECK IF ALL ORDERS HAVE BILL AND WEIGHT ADDED//
-        let count = 0
-        orders.forEach(order => {
-            if(!order.baseRate) count++
-            if(!order.chargeableWeight) count++
-        })
-
+        let count = checkOrderBillWeight(orders)
         if(count > 0) return res.render('error', {message: `Some Orders don't have bill/weight added. Please check`, statusCode: '400'})
         
 
@@ -94,40 +89,9 @@ exports.invoicePdf = async(req, res, next) => {
         let orderFields = 'bookingDate awbNumber destination consignee boxType chargeableWeight baseRate brGst fuelSurcharge fsGst chargeDetails totalBill'
         let orders = await Order.find({bookingDate: dateArray, client: invoice.client}).select(orderFields)      
         
-    // ------------------- CALCULATE DATA -------------------- //                
-        let chargesArr = orders.map(order => {
-            let total = 0
-            order.chargeDetails.forEach(charge => {
-                total += charge.amount
-            })
-            return total
-        })
+        //CALCULATE DATA//  
+        let compData = getCompData(orders)              
 
-        let taxArr = orders.map(order => {
-            let total = order.brGst + order.fsGst
-            order.chargeDetails.forEach(charge => {
-                total += charge.gst
-            })
-            return total
-        })
-
-        let totalFscArr = orders.map(order => order.fuelSurcharge)
-        let totalBillArr = orders.map(order => order.totalBill)
-        let totalBaseRateArr = orders.map(order => order.baseRate)
-
-        let totalCharges = chargesArr.reduce((a, b) => a + b, 0) //GET SUM OF ALL CHARGES//
-        let totalTax = taxArr.reduce((a, b) => a + b, 0) //GET SUM OF ALL TAX//  
-        
-        let totalBill = totalBillArr.reduce((a, b) => a + b, 0) //GET SUM OF ALL ORDERS FINAL BILL// 
-        totalBill = totalBill.toFixed(2) //CLIP IT TO TWO DECIMAL PLACES//
-
-        let totalBaseRate = totalBaseRateArr.reduce((a, b) => a + b, 0)
-        let totalFsc = totalFscArr.reduce((a, b) => a + b, 0)
-        
-        let compData = {chargesArr, taxArr, totalBillArr, totalCharges, totalFsc, totalTax, totalBill, totalBaseRate}
-
-
-    
     // ------------------- GENERATE PDF -------------------------- //
         const doc = new PDFdocument({          
             size: 'A4',         
@@ -154,4 +118,102 @@ exports.invoiceDelete = async(req, res, next) => {
     }catch(err){
         next(err)
     }
+}
+
+exports.cashInvoicePdf = async(req, res, next) => {
+    try{
+        //res.json(req.body)
+        let {admin, orderId, invoiceDate, invoiceNumber, note} = req.body
+
+        let userId = req.user.id
+
+        //GET USER DETAILS//
+        let user = await User.findById(userId)
+
+        //GET ORDER//
+        let orderFields = 'bookingDate miscClients awbNumber destination consignee boxType chargeableWeight baseRate brGst fuelSurcharge fsGst chargeDetails totalBill'
+        let orders = await Order.find({_id: orderId}).select(orderFields)        
+
+        //CHECK IF ALL ORDERS HAVE BILL AND WEIGHT ADDED//
+        let count = checkOrderBillWeight(orders)
+        if(count > 0) return res.render('error', {message: `Some Orders don't have bill/weight added. Please check`, statusCode: '400'})
+
+        let invoice = {
+            client:{
+                username: orders[0].miscClients,
+                gstNumber: 'N/A'
+            },
+            admin:user,
+            invoiceNumber,
+            invoiceStartDate: orders.bookingDate,
+            invoiceEndDate: orders.bookingDate,
+            totalAmount: orders.totalBill,
+            invoiceDate,
+            note
+        }
+
+        let compData = getCompData(orders)           
+
+    // ------------------- GENERATE PDF -------------------------- //
+        const doc = new PDFdocument({          
+            size: 'A4',         
+            layout: 'landscape',
+            autoFirstPage: false  
+        })        
+
+        detailedInvoice(doc, orders, invoice, user, compData) 
+
+        res.setHeader('Content-type', 'application/pdf')
+        res.set({ 'Content-Disposition': `inline; filename=invoice_${invoice.invoiceNumber}.pdf` })
+        
+        stream = doc.pipe(res)                                              
+        doc.end() 
+
+    }catch(err){
+        next(err)
+    }
+}
+
+// ------------------------------------------ //
+
+function getCompData(orders){
+    let chargesArr = orders.map(order => {
+        let total = 0
+        order.chargeDetails.forEach(charge => {
+            total += charge.amount
+        })
+        return total
+    })
+
+    let taxArr = orders.map(order => {
+        let total = order.brGst + order.fsGst
+        order.chargeDetails.forEach(charge => {
+            total += charge.gst
+        })
+        return total
+    })
+
+    let totalFscArr = orders.map(order => order.fuelSurcharge)
+    let totalBillArr = orders.map(order => order.totalBill)
+    let totalBaseRateArr = orders.map(order => order.baseRate)
+
+    let totalCharges = chargesArr.reduce((a, b) => a + b, 0) //GET SUM OF ALL CHARGES//
+    let totalTax = taxArr.reduce((a, b) => a + b, 0) //GET SUM OF ALL TAX//  
+    
+    let totalBill = totalBillArr.reduce((a, b) => a + b, 0) //GET SUM OF ALL ORDERS FINAL BILL// 
+    totalBill = totalBill.toFixed(2) //CLIP IT TO TWO DECIMAL PLACES//
+
+    let totalBaseRate = totalBaseRateArr.reduce((a, b) => a + b, 0)
+    let totalFsc = totalFscArr.reduce((a, b) => a + b, 0)
+    
+    return compData = {chargesArr, taxArr, totalBillArr, totalCharges, totalFsc, totalTax, totalBill, totalBaseRate}
+}
+
+function checkOrderBillWeight(orders){
+    let count = 0
+    orders.forEach(order => {
+        if(!order.baseRate) count++
+        if(!order.chargeableWeight) count++
+    })
+    return count
 }
