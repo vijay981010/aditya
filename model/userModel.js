@@ -90,7 +90,7 @@ const userSchema = new Schema({
         type: String,
     },
     settings:{
-        isCompanyName: Boolean,
+        manualAwbOption: Boolean,
     },
     admin: {
         type: Schema.Types.ObjectId,
