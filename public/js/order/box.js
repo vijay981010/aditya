@@ -93,7 +93,7 @@ function addVol(id){
         if(parseFloat(totvolweight) > parseFloat(totactualweight)){
             $('#chargeableWeight').val(totvolweight.toFixed(2));                    
         }else{
-            $('#chargeableWeight').val(totactualweight);                    
+            $('#chargeableWeight').val(totactualweight.toFixed(2));                    
         }                                               
 }
 
