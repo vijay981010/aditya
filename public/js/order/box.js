@@ -45,12 +45,13 @@ $(document).ready(function(){
     function addItemRow(event){
         event.preventDefault()
         $('#myTable2').append(`<tr id="r${itemId++}">
-            <td><input type='number' class='form-control text-center' name='boxNumber' required></td>
-            <td><select class='form-select text-center' name='itemType' required><option value=''>--Select item type--</option><option value='normal'>normal</option><option value='nonDG'>non-DG</option></select></td>
-            <td><input type='text' class='form-control text-center' name='itemName' required></td>
-            <td><input type='number' class='form-control text-center' onkeyup='addInv(${invId})' name='itemQuantity' step='.01' required></td>
-            <td><input type='number' class='form-control text-center' onkeyup='addInv(${invId})' name='itemPrice' step='.01' required></td>
-            <td><button class="btn btn-danger removeItem"><i class="fa fa-minus-circle"></i></button></td>
+            <td class="col-sm-1"><input type='number' class='form-control text-center' name='boxNumber' required></td>
+            <td class="col-sm-2"><select class='form-select text-center' name='itemType' required><option value=''>--Select item type--</option><option value='normal'>normal</option><option value='nonDG'>non-DG</option></select></td>
+            <td class="col-sm-4"><input type='text' class='form-control text-center' name='itemName' required></td>
+            <td class="col-sm-2"><input type='text' class='form-control text-center' name='hsnCode'></td>
+            <td class="col-sm-1"><input type='number' class='form-control text-center' onkeyup='addInv(${invId})' name='itemQuantity' step='.01' required></td>
+            <td class="col-sm-1"><input type='number' class='form-control text-center' onkeyup='addInv(${invId})' name='itemPrice' step='.01' required></td>
+            <td class="col-sm-1"><button class="btn btn-danger removeItem"><i class="fa fa-minus-circle"></i></button></td>
             </tr>`)
             invId++
     }
@@ -79,7 +80,7 @@ function addVol(id){
     let totalvolweight = 0
     if(length != '' && width != '' && height != ''){                
         let volweight = (length*width*height)/5000                
-        $(`#volumetricWeight${id}`).val(volweight)                                        
+        $(`#volumetricWeight${id}`).val(volweight.toFixed(2))                                        
     }         
     let totvolweight = 0
     let totactualweight = 0  
@@ -90,7 +91,7 @@ function addVol(id){
             totactualweight = parseFloat(totactualweight) + parseFloat(actualweight[i])
         }
         if(parseFloat(totvolweight) > parseFloat(totactualweight)){
-            $('#chargeableWeight').val(totvolweight);                    
+            $('#chargeableWeight').val(totvolweight.toFixed(2));                    
         }else{
             $('#chargeableWeight').val(totactualweight);                    
         }                                               

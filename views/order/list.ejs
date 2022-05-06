@@ -99,10 +99,13 @@
                             </a>                            
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">                                               
                                 <a class="dropdown-item" href="<%= order._id %>/print/awb" target="_blank">Print AWB</a>
+                                <%if(user.settings.awbOfficeCopy==true){%>
+                                <a class="dropdown-item" href="<%= order._id %>/print/awb/office" target="_blank">Print AWB Office Copy</a>
+                                <%}%>
                                 <a class="dropdown-item" href="<%= order._id %>/print/boxsticker" target="_blank">Box Sticker</a>
                                 <a class="dropdown-item" href="<%= order._id %>/print/packinglist" target="_blank">Packing List</a>
                                 <%if(user.settings.packingListExcel==true){%>
-                                <a class="dropdown-item" href="<%= order._id %>/print/excel/packinglist" >Excel</a>                
+                                <a class="dropdown-item" href="<%= order._id %>/print/excel/packinglist" >Packing List Excel</a>                
                                 <%}%>       
                                 <%if(user.settings.cashInvoice==true && order.miscClients){%>
                                 <button class="dropdown-item" data-cashorder="<%= order._id %>" data-misc="<%= order.miscClients %>" id="cashInvoice">Cash Invoice</button>

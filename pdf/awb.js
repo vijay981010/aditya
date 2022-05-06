@@ -1,11 +1,10 @@
-const {createCanvas} = require('canvas')
-var JsBarcode = require('jsbarcode')
-const fs = require('fs')
+
 var moment = require('moment')
 var shortDateFormat = 'DD-MM-yyyy'
+const debug = require('debug')('dev')
 
-exports.generateAwb = (doc, order, user) => {
-
+exports.generateAwb = (doc, order, user, office) => {
+    debug(office)
     let totalVolWeight = 0
     let totalActualWeight = 0
 
@@ -144,11 +143,14 @@ exports.generateAwb = (doc, order, user) => {
     .text(order.consigneePincode, 325, 295, {width: 220, align:'left'})
     .text(order.consigneeContactNumber, 315, 305, {width: 220, align:'left'})    
 
-    .text(order.chargeableWeight, 455, 240, {align: 'center'})
+    if(!office){
+      doc
+      .text(order.chargeableWeight, 455, 240, {align: 'center'})
+      .text(totalVolWeight, 175, 335)
+      .text(totalActualWeight, 450, 335)
+    } 
+    doc
     .text(order.boxType, 485, 300)
-
-    .text(totalVolWeight, 175, 335)
-    .text(totalActualWeight, 450, 335)
 
     .text(order.service, 345, 360, {width: 75, align: 'center'})
 

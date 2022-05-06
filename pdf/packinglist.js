@@ -1,5 +1,6 @@
 var moment = require('moment')
 var shortDateFormat = 'DD-MM-yyyy'
+const debug = require('debug')('dev')
 
 exports.primarydetails = (doc, order) => {
 
@@ -83,21 +84,22 @@ exports.primarydetails = (doc, order) => {
     .text(`INVOICE NO & DATE: ${order.awbNumber}`, 303, 280)
   }
 
-  exports.boxdetails = (s, doc, order) => {
-
+exports.boxdetails = (s, doc, order) => {    
+    
     doc
     .moveTo(40, s).lineTo(560, s).stroke() //4th horizontal line
 
     .moveTo(40, s + 20).lineTo(560, s + 20).stroke() //5th horizontal line
 
     .font('Helvetica-Bold')
-    .text('BOX NO', 80, s + 5) //s + 5, 295
-    .text('DESCRIPTION', 250, s + 5) //s + 5, 295
+    .text('BOX NO', 70, s + 5) //s + 5, 295
+    .text('DESCRIPTION', 215, s + 5) //s + 5, 295
+    .text('HSN', 380, s + 5) //s + 5, 295
     .text('QTY', 430, s + 5) //s + 5, 295
     .text('VALUE', 465, s + 5) //s + 5, 295
     .text('TOTAL', 515, s + 5, {width: 50, align: 'left'}) //s + 5, 295
     if(order.invoiceType != 'company'){
-      doc.text('TERMS,UNSOLICITED GIFT FROM INDIVIDUAL TO INDIVIDUAL', 178, s + 25, {width: 245, align: 'center'}) //s + 25, 315
+      doc.text('TERMS,UNSOLICITED GIFT FROM INDIVIDUAL TO INDIVIDUAL', 133, s + 25, {width: 245, align: 'center'}) //s + 25, 315
     }
     doc
     .text(order.currency, 475, s + 25) // s + 25, 315
@@ -105,7 +107,8 @@ exports.primarydetails = (doc, order) => {
 
     .moveTo(40, s + 50).lineTo(560, s + 50).stroke() //5th horizontal line // s + 50, 340
 
-    .moveTo(175, s).lineTo(175, 680).stroke() //bottom 2nd vertical line //s, 290
+    .moveTo(145, s).lineTo(145, 680).stroke() //bottom 2nd vertical line //s, 290
+    .moveTo(360, s).lineTo(360, 680).stroke() //bottom 2nd vertical line //s, 290
     .moveTo(420, s).lineTo(420, 750).stroke() //bottom 3rd vertical line //s, 290
     .moveTo(460, s).lineTo(460, 700).stroke() //bottom 4th vertical line //s, 290
     .moveTo(510, s).lineTo(510, 700).stroke() //bottom 5th vertical line //s, 290
@@ -118,7 +121,7 @@ exports.footerdetails = (page, totalPages, doc, order) => {
     .moveTo(40, 750).lineTo(560, 750).stroke() //bottom horizontal line
     .text('WE HERE BY CONFIRM THAT THE PARCEL DOES NOT INVOLVE ANY COMMERCIAL TRANSACTION. THE VALUE IS DECLARED FOR CUSTOMS PURPOSE ONLY.', 43, 705, {width: 380, height: 300, align:'left'})
     .font('Helvetica')
-    .text(order.consignor, 422, 705, {width: 200, height:100, align:'left'})
+    .text(order.consignor, 422, 705, {width: 140, height:100, align:'left'}) //
     .font('Helvetica-Bold')
     .text('AUTHORISED SIGNATORY', 421, 740, {width: 200, height: 50, align:'left'})
     .font('Helvetica')

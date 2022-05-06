@@ -29,6 +29,10 @@ const itemSchema = new Schema({
         type: String,
         trim: true,        
     },
+    hsnCode: {
+        type: String,
+        trim: true,        
+    },
     itemQuantity: {
         type: Number
     },

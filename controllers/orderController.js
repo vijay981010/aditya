@@ -326,7 +326,7 @@ exports.patchBox = async (req, res, next) => {
         let { 
             boxType, boxLength, boxWidth, boxHeight, 
             volumetricWeight, actualWeight, 
-            boxNumber, itemType, itemName, 
+            boxNumber, itemType, itemName, hsnCode,
             itemQuantity, itemPrice, chargeableWeight, 
             currency, totalValue, invoiceType
         } = req.body    
@@ -359,11 +359,11 @@ exports.patchBox = async (req, res, next) => {
     // ----------------- PROCESS ORDER -------------------- //
         let itemArr = []; let boxArr = [];
 
-        if(Array.isArray(itemType) && boxNumber && itemType && itemName && itemQuantity && itemPrice){            
-            itemArr = processRequest([boxNumber, itemType, itemName, itemQuantity, itemPrice], 
-                ['boxNumber', 'itemType', 'itemName', 'itemQuantity', 'itemPrice'], itemType.length)
-        }else if(boxNumber && itemType && itemName && itemQuantity && itemPrice){
-            itemArr = [{ 'boxNumber': boxNumber, 'itemType': itemType, 'itemName': itemName, 
+        if(Array.isArray(itemType) && boxNumber && itemType && itemName && hsnCode && itemQuantity && itemPrice){            
+            itemArr = processRequest([boxNumber, itemType, itemName, hsnCode, itemQuantity, itemPrice], 
+                ['boxNumber', 'itemType', 'itemName', 'hsnCode', 'itemQuantity', 'itemPrice'], itemType.length)
+        }else if(boxNumber && itemType && itemName && hsnCode && itemQuantity && itemPrice){
+            itemArr = [{ 'boxNumber': boxNumber, 'itemType': itemType, 'itemName': itemName, 'hsnCode': hsnCode,
             'itemQuantity': itemQuantity, 'itemPrice': itemPrice}]
         }
         //debug(itemArr)             
@@ -776,9 +776,10 @@ exports.printawb = async(req, res, next) => {
         /* var startTime = performance.now() */        
         let orderId = req.params.orderId
         let userId = req.user.id
+        let office = req.params.officeId //FLAG FOR OFFICE COPY//
 
         let order = await Order.findById(orderId).populate('client').exec()
-        let user = await User.findById(userId)        
+        let user = await User.findById(userId)                   
 
     // ---------------------- CHECK IF BOX DETAILS ADDED --------------------------- //
         if(order.boxDetails.length == 0){            
@@ -805,7 +806,7 @@ exports.printawb = async(req, res, next) => {
         function callback(){
             for(let i = 0; i < order.numberOfBoxes; i++){
                 doc.addPage()
-                generateAwb(doc, order, user) 
+                office ? generateAwb(doc, order, user, true) : generateAwb(doc, order, user, false)                 
             }            
 
             res.setHeader('Content-type', 'application/pdf')
@@ -837,13 +838,15 @@ exports.packingList = async(req, res, next) => {
         let user = await User.findById(userId)
         let boxDetails = order.boxDetails
 
-        //if no boxDetails display error
+        //CHECK IF BOXDETAILS ADDED//
         if(boxDetails.length == 0){
             //return res.status(400).send('No Box Details added. Please add Box Details first before generating Packing List')
             return res.render('error', {message: `No Box Details added. Please add Box Details first before generating AWB`, statusCode: '400'})
         }
         
+    // ---------------------------- GET ARRAYS OF EACH TABLE COLUMN --------------- //
         let itemArray = []
+        let hsnArr = []
         let qtyArray = []
         let priceArray = []
         let lengthArray = [0]
@@ -855,6 +858,7 @@ exports.packingList = async(req, res, next) => {
             lengthArray.push(box.itemDetails.length)
             box.itemDetails.forEach(item => {
             itemArray.push(item.itemName)
+            hsnArr.push(item.hsnCode)
             qtyArray.push(item.itemQuantity)
             priceArray.push(item.itemPrice)                   
             })        
@@ -863,7 +867,7 @@ exports.packingList = async(req, res, next) => {
         let totalitems = itemArray.length
         let totalArray = qtyArray.map((elem,i) => (elem * priceArray[i]).toFixed(1))      
 
-        // --- boxNumberArray computation --- //
+        //BOXNUMBER ARRAY COMPUTATION//
         lengthArray.pop()
         
         let count = 2
@@ -882,24 +886,23 @@ exports.packingList = async(req, res, next) => {
                 }
             }
         }) 
+        debug(totalitems)
+        let breakpoint = 10
+        let breakpoint2 = 17
+        let runs = Math.floor((totalitems-breakpoint) / breakpoint2)    
 
-        let breakpoint = 22
-        let breakpoint2 = 37
-        let runs = Math.floor((totalitems-22) / breakpoint2)    
-
-        // --- total pages and total value computation --- //
+    // ----------- CALCULATE TOTAL PAGES ----------- //
         let totalPages = 0    
 
-        if(totalitems <= 22){
+        if(totalitems <= breakpoint){
             totalPages = 1      
-        }else if(totalitems > 22 && totalitems <= 59){
+        }else if(totalitems > breakpoint && totalitems <= (breakpoint+breakpoint2)){
             totalPages = 2
         }else{
             totalPages = runs + 2 
-        }
-        // --- total pages computation --- //
-
-        // ---------------------------------------------------- //
+        }        
+        debug(totalPages)
+    // ----------------- GENERATE PDF ---------------------------- //
 
         const doc = new PDFdocument
 
@@ -939,16 +942,22 @@ exports.packingList = async(req, res, next) => {
               .text(order.currency, 475, 685)
               .text(order.totalValue, 520, 685, {width: 50, align:'left'})            
             }
-                            
+            
             doc
-            .font('Helvetica')              
-            .text(boxNumberArray[value + i], 43, start + (gap * i))
-            .text(dimensionArray[value + i], 68, start + (gap * i))  
+            .font('Helvetica').fontSize(11)   
+            if(boxNumberArray[value + i]){
+                doc
+                .text(boxNumberArray[value + i], 43, start + ((2*gap) * i), {width:90, align:'left'})
+                .text(dimensionArray[value + i], 43, start + ((2*gap) * i) + 15, {width:90, align:'left'})
+            }
+            doc
+            //.text(dimensionArray[value + i], 68, start + ((2*gap) * i))  
             //.text(actualWeightArray[value + i], 43, start + (gap * i) + 15)
-            .text(itemArray[value + i], 180, start + (gap * i)) 
-            .text(qtyArray[value + i], 440, start + (gap *i))
-            .text(priceArray[value + i], 485, start + (gap *i))
-            .text(totalArray[value + i], 520, start + (gap *i), {width: 50, align:'left'}) 
+            .text(itemArray[value + i], 150, start + ((2*gap) * i), {width: 200, align:'left'})
+            .text(hsnArr[value + i], 365, start + ((2*gap) * i), {width:50, align:'center'}) 
+            .text(qtyArray[value + i], 440, start + ((2*gap) *i))
+            .text(priceArray[value + i], 485, start + ((2*gap) *i))
+            .text(totalArray[value + i], 520, start + ((2*gap) *i), {width: 50, align:'left'}) 
                     
         }
 
@@ -956,8 +965,8 @@ exports.packingList = async(req, res, next) => {
             doc.addPage()   
             .moveTo(40, 40).lineTo(40, 750).stroke() //left vertical line
             .moveTo(560, 40).lineTo(560, 750).stroke() //right vertical line     
-            boxdetails(40)
-            footerdetails(page + 2, totalPages)            
+            boxdetails(40, doc, order)
+            footerdetails(page + 2, totalPages, doc, order)            
                 for(let x = 0; x < totalitems - i; x++){
                     if(x <= breakpoint2){
                         print(100, 15, x, value)

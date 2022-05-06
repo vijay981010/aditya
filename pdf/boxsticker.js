@@ -98,7 +98,10 @@ exports.boxstickergenerate = (current, doc, order, user) => {
     .fontSize(14)
     .text(`SHIPMENT DATE:`, 40, 430) 
     .text(moment(order.bookingDate).format(shortDateFormat), 160, 430)
-    .text(`SHIPMENT WEIGHT: ${order.chargeableWeight}`, 40, 450)
+
+    if(!user.settings.boxStickerWeightVisibility) doc.text(`SHIPMENT WEIGHT: ${order.chargeableWeight}`, 40, 450)
+    
+    doc
     .text(`NO OF BOX: ${order.numberOfBoxes}`, 40, 470)
     .text(`WAYBILL NO: ${order.awbNumber}`, 300, 450)
 

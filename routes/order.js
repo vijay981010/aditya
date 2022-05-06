@@ -82,6 +82,8 @@ router.patch('/:orderId/trackingdetails',verifyToken, authorizeRole(['admin', 's
 
 router.get('/:orderId/print/awb', verifyToken, authorizeResource, orderController.printawb) //authorizeUser
 
+router.get('/:orderId/print/awb/:officeId', verifyToken, authorizeResource, orderController.printawb)
+
 router.get('/:orderId/print/packinglist', verifyToken, authorizeResource, orderController.packingList) //authorizeUser
 
 router.get('/:orderId/print/boxsticker', verifyToken, authorizeResource, orderController.boxSticker) //authorizeUser

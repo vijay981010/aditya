@@ -138,20 +138,19 @@
                             <div class="row">
                                 <table class="table table-bordered table-responsive-sm" id="myTable2">
                                     <tr>
-                                        <td><label for='boxNumber'>Box Number<span>*</span></label></td>
-                                        <td><label for='itemType'>Item Type<span>*</span></label></td>
-                                        <td><label for='itemName'>Item Name<span>*</span></label></td>
-                                        <td><label for='itemQuantity'>Item Quantity<span>*</span></label></td>
-                                        <td><label for='itemPrice'>Item Price<span>*</span></label></td>
-                                        <td><label for='itemRemove'>Action</label></td>                                        
+                                        <td class="col-sm-1"><label for='boxNumber'>Box Number<span>*</span></label></td>
+                                        <td class="col-sm-2"><label for='itemType'>Item Type<span>*</span></label></td>
+                                        <td class="col-sm-4"><label for='itemName'>Item Name<span>*</span></label></td>
+                                        <td class="col-sm-2"><label for='hsnCode'>HSN Code</label></td>
+                                        <td class="col-sm-1"><label for='itemQuantity'>Item Quantity<span>*</span></label></td>
+                                        <td class="col-sm-1"><label for='itemPrice'>Item Price<span>*</span></label></td>
+                                        <td class="col-sm-1"><label for='itemRemove'>Action</label></td>                                        
                                     </tr>                                     
                                     <% if(order.boxDetails.length > 0 && order.boxDetails[0].itemDetails.length > 0){ 
                                         order.boxDetails.forEach((box) => { 
                                             box.itemDetails.forEach((item, i) => { %>
                                                 <tr id="r<%= i+100 %>">
-                                                    <td>
-                                                        <input type='number' class='form-control text-center' name='boxNumber' value="<%= item.boxNumber %>" required>
-                                                    </td>
+                                                    <td><input type='number' class='form-control text-center' name='boxNumber' value="<%= item.boxNumber %>" required></td>
                                                     <td>
                                                         <select class='form-select text-center' name='itemType' required>
                                                             <option value='<%= item.itemType %>'><%= item.itemType %></option>
@@ -159,9 +158,8 @@
                                                             <option value='nonDG'>non-DG</option>
                                                         </select>
                                                     </td>
-                                                    <td>
-                                                        <input type='text' class='form-control text-center' name='itemName' value="<%= item.itemName %>" required>
-                                                    </td>
+                                                    <td><input type='text' class='form-control text-center' name='itemName' value="<%= item.itemName %>" required></td>
+                                                    <td><input type='text' class='form-control text-center' name='hsnCode' value="<%= item.hsnCode %>"></td>
                                                     <td>
                                                         <input type='number' step='.01' class='form-control text-center' onkeyup="addInv('<%= i+100 %>')" name='itemQuantity' value='<%= item.itemQuantity %>' required>
                                                     </td>

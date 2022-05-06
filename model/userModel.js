@@ -92,7 +92,9 @@ const userSchema = new Schema({
     settings:{
         manualAwbOption: Boolean,
         cashInvoice: Boolean,
-        packingListExcel: Boolean
+        packingListExcel: Boolean,
+        awbOfficeCopy: Boolean,
+        boxStickerWeightVisibility: Boolean
     },
     admin: {
         type: Schema.Types.ObjectId,
