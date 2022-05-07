@@ -312,9 +312,11 @@ exports.patchBoxPage = async (req, res, next) => {
         let userId = req.user.id
         
         const user = await User.findById(userId)
-        let order = await Order.findById(orderId).populate('client').exec()        
+        let order = await Order.findById(orderId).populate('client').exec()    
         
-        res.render('order/add/box', {user, order})
+        let itemList = ['abc', 'xyz']
+        
+        res.render('order/add/box', {user, order, itemList})
 
     }catch(err){
         next(err)
@@ -329,9 +331,7 @@ exports.patchBox = async (req, res, next) => {
             boxNumber, itemType, itemName, hsnCode,
             itemQuantity, itemPrice, chargeableWeight, 
             currency, totalValue, invoiceType
-        } = req.body    
-
-        //debug(typeof totalValue)
+        } = req.body                          
 
         totalValue = parseFloat(totalValue)
 
@@ -349,33 +349,36 @@ exports.patchBox = async (req, res, next) => {
             if(currency != 'INR'){
                 invoiceTotal = await getExchange(currency, totalValue)            
             }
-            debug(invoiceTotal)
+            
             if(invoiceTotal > 24000){
                 let alert = [{msg: 'Invoice Total cannot exceed 24000 INR!!'}]
                 return res.render('order/add/box', {user, order, alert})
             }
         }        
 
-    // ----------------- PROCESS ORDER -------------------- //
+    // ------------------------------ PROCESS ORDER ------------------------------ //
+        
         let itemArr = []; let boxArr = [];
 
-        if(Array.isArray(itemType) && boxNumber && itemType && itemName && hsnCode && itemQuantity && itemPrice){            
-            itemArr = processRequest([boxNumber, itemType, itemName, hsnCode, itemQuantity, itemPrice], 
-                ['boxNumber', 'itemType', 'itemName', 'hsnCode', 'itemQuantity', 'itemPrice'], itemType.length)
-        }else if(boxNumber && itemType && itemName && hsnCode && itemQuantity && itemPrice){
-            itemArr = [{ 'boxNumber': boxNumber, 'itemType': itemType, 'itemName': itemName, 'hsnCode': hsnCode,
-            'itemQuantity': itemQuantity, 'itemPrice': itemPrice}]
-        }
-        //debug(itemArr)             
-
-        if(Array.isArray(boxLength) && boxLength && boxWidth && boxHeight && volumetricWeight && actualWeight){
-            boxArr = processRequest([boxLength, boxWidth, boxHeight, volumetricWeight, actualWeight],
-                ['boxLength', 'boxWidth', 'boxHeight', 'volumetricWeight', 'actualWeight'],
-                boxLength.length)
+        let itemValArr = [boxNumber, itemType, itemName, hsnCode, itemQuantity, itemPrice]
+        let itemKeyArr = ['boxNumber', 'itemType', 'itemName', 'hsnCode', 'itemQuantity', 'itemPrice']
+        
+        let boxValArr = [boxLength, boxWidth, boxHeight, volumetricWeight, actualWeight]
+        let boxKeyArr = ['boxLength', 'boxWidth', 'boxHeight', 'volumetricWeight', 'actualWeight']
+        
+        //PROCESS ITEMS//
+        if(Array.isArray(itemType)){            
+            itemArr = processRequest(itemValArr, itemKeyArr, itemType.length)
+        }else{
+            itemArr = processSingleRow(itemValArr, itemKeyArr)            
+        }        
+               
+        //PROCESS BOX//        
+        if(Array.isArray(boxLength)){
+            boxArr = processRequest(boxValArr, boxKeyArr, boxLength.length)
             numberOfBoxes = boxLength.length
-        }else if(boxLength && boxWidth && boxHeight && volumetricWeight && actualWeight){
-            boxArr = [{ 'boxLength': boxLength, 'boxWidth': boxWidth, 'boxHeight': boxHeight, 
-            'volumetricWeight': volumetricWeight, 'actualWeight': actualWeight}]
+        }else{
+            boxArr = processSingleRow(boxValArr, boxKeyArr)
             numberOfBoxes = 1
         }
         //debug(boxArr)
@@ -1193,5 +1196,12 @@ async function getExchange(currency, amount){
     }
 }
 
-
+function processSingleRow(valArr, keyArr){    
+    let arr = []
+    let obj = {}
+    keyArr.forEach((item,i) => obj[item] = valArr[i])
+    
+    arr.push(obj)
+    return arr
+}
 

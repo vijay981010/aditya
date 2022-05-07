@@ -152,7 +152,7 @@ exports.getDates = (startDate, endDate) => {
 
   exports.regexUpperCase = (arr, value) => {
     let checkArr = arr.map(item => {
-      let regex = new RegExp(item,'i')
+      let regex = new RegExp(`(?:^|\W)${item}(?:$|\W)`,'i')
       return regex.test(value)
     })
     return checkArr
