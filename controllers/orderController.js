@@ -405,10 +405,9 @@ exports.patchTrackPage = async (req, res, next) => {
         let userId = req.user.id        
 
         const user = await User.findById(userId)
-        let order = await Order.findById(orderId).populate('client').exec()    
+        let order = await Order.findById(orderId).populate('client').exec()
         
-        let apiVendors = vendorArray
-        apiVendors.shift()
+        let apiVendors = vendorArray.slice(1)                        
 
         res.render('order/add/track', {user, order, apiVendors})
         
@@ -432,18 +431,13 @@ exports.patchTrack = async (req, res, next) => {
 
         let user = await User.findById(userId).select('apiCredit trackingId')   
         
-        //get respective vendor name from vendor id
+        //GET VENDOR NAME//        
         vendorArray.forEach(elem => {
             if(elem.id == vendorId){
                 vendorName = elem.name
             }
-        })
-        
-        //if no tracking number or vendor id, show error          
-        if(!trackingNumber || !vendorId){
-            //return res.status(400).json({Error: 'Please enter tracking number and select a vendor'})
-            return res.render('error', {message:'Please enter tracking number and select a vendor', statusCode: '400'})            
-        }
+        })        
+                
         let order = await Order.findById(orderId)
         /* if(vendorName != 'OTHERS' ){
             if(order.trackingNumber != trackingNumber || order.vendorName != vendorName){

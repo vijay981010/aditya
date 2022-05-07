@@ -1,5 +1,6 @@
-exports.vendorArray = [
-    {id: '0', name: 'OTHERS'}, 
+
+exports.vendorArray = [ 
+    {id: '0', name: 'OTHERS'},
     {id: '104', name: 'DPD UK'},
     {id: '55', name: 'DPD REST OF WORLD'},
     {id: '501', name: 'DPD IRELAND'},
