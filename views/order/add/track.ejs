@@ -32,20 +32,11 @@
                                     <option value=''>---Select Vendor---</option>
                                     <% } %>                                    
                                     <option value="0">OTHERS</option>
-                                    <% if(user.apiCredit > 0){ %>
-                                    <option value="104">DPD UK</option>
-                                    <option value="12">DHL</option>
-                                    <option value="5">FEDEX</option>
-                                    <option value="22">UPS</option>
-                                    <option value="21">TNT</option>
-                                    <option value="24">SHREE MARUTI</option>                                                                        
-                                    <option value="6">ECOM EXPRESS</option>
-                                    <option value="7">DTDC</option>                                                                        
-                                    <option value="2">DELHIVERY</option>
-                                    <option value="304">CITY LINK EXPRESS</option>
-                                    <option value="1">BLUEDART</option>
-                                    <option value="11">ARAMEX</option>
-                                    <% } %>                                    
+                                    <% if(user.apiCredit > 0){ 
+                                        apiVendors.forEach(vendor => { %>
+                                        <option value="<%= vendor.id %>"><%= vendor.name %></option>
+                                    <% })
+                                    } %>                                    
                                 </select>
                             </div>
                         </div>                                                

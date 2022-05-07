@@ -405,9 +405,12 @@ exports.patchTrackPage = async (req, res, next) => {
         let userId = req.user.id        
 
         const user = await User.findById(userId)
-        let order = await Order.findById(orderId).populate('client').exec()              
+        let order = await Order.findById(orderId).populate('client').exec()    
+        
+        let apiVendors = vendorArray
+        apiVendors.shift()
 
-        res.render('order/add/track', {user, order})
+        res.render('order/add/track', {user, order, apiVendors})
         
     }catch(err){
         next(err)

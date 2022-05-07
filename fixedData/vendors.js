@@ -1,6 +1,9 @@
 exports.vendorArray = [
     {id: '0', name: 'OTHERS'}, 
     {id: '104', name: 'DPD UK'},
+    {id: '55', name: 'DPD REST OF WORLD'},
+    {id: '501', name: 'DPD IRELAND'},
+    {id: '228', name: 'DPD HONG KONG'},
     {id: '12', name: 'DHL'}, 
     {id: '5', name: 'FEDEX'}, 
     {id: '22', name: 'UPS'},
