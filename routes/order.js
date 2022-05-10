@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const router = Router();
 const orderController = require('../controllers/orderController')
-const {verifyToken, authorizeRole, authorizeUser, authorizeResource} = require('../helpers/helpers')
+const {verifyToken, authorizeRole, authorizeResource, authorizeAddOn} = require('../helpers/helpers')
 const {primaryDetailsValidator} = require('../validations/orderValidation')
 
 /**
@@ -39,6 +39,25 @@ router.patch('/:orderId/update', verifyToken, authorizeRole(['admin', 'superadmi
 router.get('/:orderId/box', verifyToken, authorizeResource, orderController.patchBoxPage) //authorizeUser
 
 router.patch('/:orderId/box', verifyToken, authorizeResource, orderController.patchBox) //authorizeUser
+
+
+
+/**
+* @Acess : Global, Respective
+* @Function : Render patch order - tracking details blank form page
+**/
+router.get('/hsn/list', verifyToken, authorizeAddOn('autoHsn'), orderController.hsnListPage)
+
+router.post('/hsn/add', verifyToken, orderController.addHsn)
+
+router.get('/api/hsn', verifyToken, authorizeAddOn('autoHsn'), orderController.getHsnList)
+
+router.get('/api/:itemId/hsn', verifyToken, authorizeAddOn('autoHsn'), orderController.getHsnCode)
+
+router.get('/hsn/:hsnId/edit', verifyToken, authorizeRole(['admin']), authorizeAddOn('autoHsn'), orderController.hsnEditPage)
+
+router.post('/hsn/:hsnId/edit', verifyToken, authorizeRole(['admin']), authorizeAddOn('autoHsn'), orderController.editHsn)
+
 
 
 
@@ -80,9 +99,9 @@ router.patch('/:orderId/trackingdetails',verifyToken, authorizeRole(['admin', 's
 **/
 //router.delete('/:orderId', verifyToken, authorizeRole(['admin', 'superadmin']), authorizeUser, orderController.deleteOrder)
 
-router.get('/:orderId/print/awb', verifyToken, authorizeResource, orderController.printawb) //authorizeUser
+router.get('/:orderId/print/awb', verifyToken, authorizeResource, orderController.getLogo, orderController.printawb) //authorizeUser
 
-router.get('/:orderId/print/awb/:officeId', verifyToken, authorizeResource, orderController.printawb)
+router.get('/:orderId/print/awb/:consigneeId', verifyToken, authorizeResource, orderController.printawb)
 
 router.get('/:orderId/print/packinglist', verifyToken, authorizeResource, orderController.packingList) //authorizeUser
 

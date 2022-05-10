@@ -99,7 +99,7 @@ exports.boxdetails = (s, doc, order) => {
     .text('VALUE', 465, s + 5) //s + 5, 295
     .text('TOTAL', 515, s + 5, {width: 50, align: 'left'}) //s + 5, 295
     if(order.invoiceType != 'company'){
-      doc.text('TERMS,UNSOLICITED GIFT FROM INDIVIDUAL TO INDIVIDUAL', 133, s + 25, {width: 245, align: 'center'}) //s + 25, 315
+      doc.text('TERMS,UNSOLICITED GIFT FROM INDIVIDUAL TO INDIVIDUAL', 140, s + 25, {width: 200, align: 'center'}) //s + 25, 315
     }
     doc
     .text(order.currency, 475, s + 25) // s + 25, 315

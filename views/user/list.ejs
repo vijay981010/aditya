@@ -49,8 +49,10 @@
 
                 <% if(user.role == 'admin'){ %>
                 <!-- <th>Services</th> -->
-                <% } %>                
-
+                <% } %>    
+                <% if(user.role == 'superadmin'){ %>            
+                <th>Action</th>
+                <%}%>
                 <th>Action</th> 
                 <th>Action</th>                               
             </tr>
@@ -75,13 +77,11 @@
                     <td><%= client.displayName %></td>
                     <% } %>
                 
-                    <% if(user.role == 'admin'){ %>
-                    <!-- <td></td> -->
+                    <% if(user.role == 'superadmin'){ %>
+                    <td><a class="btn-sm btn-primary" href="/users/<%= client._id %>/addons">Add Ons</a></td>
                     <% } %>
-
-                    <td>                                                
-                        <a class="btn-sm btn-primary" href="/users/<%= client._id %>/edit">Edit</a>
-                    </td>     
+                    
+                    <td><a class="btn-sm btn-primary" href="/users/<%= client._id %>/edit">Edit</a></td>     
                     <td><a class="btn-sm btn-primary" href="/users/<%= client._id %>/profile/edit">Profile</a></td>               
                 </tr>
             <% }) %>                                                                                                           

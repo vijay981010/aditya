@@ -1,0 +1,42 @@
+<!-- include header -->
+<%- include('../../include/_header') %>
+<!-- /include header -->
+
+<!-- include header -->
+<%- include('../../include/_navbar') %>
+
+<div class="container">         
+    <div class="row justify-content-center">                 
+        <div class="col-lg-6">
+          <div class="card shadow-lg border-0 rounded-lg mt-5">
+            <form action = '/orders/hsn/<%= hsn._id %>/edit' method = "post">
+              <div class="card-header bg-dark">
+                  <h5 class="text-center text-white">Edit HSN Details</h5>
+              </div>
+              <div class="card-body">                  
+                <div class="form-group">
+                    <input type="hidden" name="hiddenItem" value="<%= hsn.item %>">
+                    <label for="item">Item Name<span>*</span></label>
+                    <input type="text" class="form-control" name="item" value="<%= hsn.item %>" required>
+                </div>
+                <div class="form-group">
+                    <label for="hsnCode">HSN Code<span>*</span></label>
+                    <input class="form-control" type="text" name="hsnCode" value="<%= hsn.hsnCode %>" required>
+                </div>                
+              </div>               
+              <div class="card-footer">
+                    <div class="col-md-12 text-center">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>                                 
+              </div> 
+            </form>               
+          </div>            
+        </div>          
+    </div>
+</div>
+
+
+
+<!-- include footer -->
+<%- include('../../include/_footer') %>
+<!-- /include footer -->

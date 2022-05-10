@@ -1,0 +1,73 @@
+<!-- include header -->
+<%- include('../include/_header') %>
+<!-- /include header -->
+
+<!-- include header -->
+<%- include('../include/_navbar') %>
+<!-- /include header -->
+
+<div class="container-fluid mb-5"> 
+    <div class="container-fluid">
+        <header class="row py-3 mb-4 border-bottom">
+            <div class="col-md-3">                
+                <span class="fs-4 text-dark">List of Add Ons for <%= customer.username %></span>
+            </div>
+            <div class="col-md-6"></div>
+            <div class="col-md-3 d-flex flex-row-reverse">
+                <input type="hidden" value="<%= customer._id %>" id="clientId">
+                <a href="/users/add" class="btn btn-primary">Add Add-On</a>
+            </div>
+        </header>
+    </div> 
+
+    <div class="row justify-content-center">        
+        <div class="col-md-6">
+            <div class="alert alert-success" role="alert" id="success"> 
+                <strong>Success!</strong> User status updated successfully.                               
+            </div>            
+            <div class="alert alert-warning" id="warning">
+                <strong>Error!</strong> Failed to update user status.
+            </div>
+            <div class="alert alert-danger" id="danger">
+                <strong>Unknown!</strong> Some unknown error.
+            </div>
+        </div>
+    </div>
+  
+    <table id="myTable" class="display cell-border responsive" width="100%" >
+        <thead>
+            <tr>                
+                <th>Add-On</th>
+                <th>Admin</th>
+                <th>Client</th>                                                                       
+            </tr>
+        </thead>
+        <tbody>                      
+            <% settingKeys.forEach((setting,i) => { %>
+            <tr>
+                <td><%= setting %></td>                
+                <td>
+                    <label class="switch">
+                        <input class="myClass2" type="checkbox" name="<%= setting %>" <%= settingVals[i] ? 'checked' : '' %> >
+                        <span class='slider round'></span>
+                    </label> 
+                </td>                            
+                <td>
+                    <label class="switch">
+                        <input class="myClass3" type="checkbox" name="<%= setting %>" <%= clientSettingVals[i] ? 'checked' : '' %> >
+                        <span class='slider round'></span>
+                    </label>
+                </td>                
+            </tr>
+            <% }) %>
+        </tbody>
+    </table>    
+</div>
+
+
+
+<!-- include footer -->
+<%- include('../include/_footer') %>
+<!-- /include footer -->
+
+<script src="/js/user/addOn.js"></script>

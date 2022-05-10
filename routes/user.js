@@ -59,7 +59,9 @@ router.post('/profile', verifyToken, profileValidator, userController.updateProf
 
 
 
+router.get('/:clientId/addons', verifyToken, authorizeRole(['superadmin']), userController.addOns)
 
+router.post('/:clientId/addons', verifyToken, authorizeRole(['superadmin']), userController.toggleAddOns)
 
 
 

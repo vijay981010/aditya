@@ -1,0 +1,47 @@
+<!-- include header -->
+<%- include('../include/_header') %>
+<!-- /include header -->
+
+<!-- include header -->
+<%- include('../include/_navbar') %>
+<!-- /include header -->
+<div class="container-fluid mb-5"> 
+    <div class="container-fluid">
+        <header class="row py-3 mb-4 border-bottom">
+            <div class="col-md-3">                
+                <span class="fs-4 text-dark">List of Settings</span>
+            </div>
+            <div class="col-md-6"></div>
+            <div class="col-md-3 d-flex flex-row-reverse">
+                <a href="/users/add" class="btn btn-primary">Add Setting</a>
+            </div>
+        </header>
+    </div> 
+      
+    <table id="myTable" class="display cell-border responsive" width="100%" >
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Action</th>                                              
+            </tr>
+        </thead>
+        <tbody>      
+            <%settingVals.forEach((setting,i) => { %>
+                <tr>
+                    <%if(setting){ %>
+                        <td><%= settingKeys[i] %></td>
+                        <td><a class="btn-sm btn-primary" href="/settings/hsncodes">Edit</a></td> 
+                    <%}%>                                           
+                </tr>                                                                                                     
+            <%})%>
+            
+        </tbody>
+    </table>    
+</div>
+
+       
+
+
+<!-- include footer -->
+<%- include('../include/_footer') %>
+<!-- /include footer -->

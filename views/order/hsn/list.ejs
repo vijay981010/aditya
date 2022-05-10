@@ -1,0 +1,79 @@
+<!-- include header -->
+<%- include('../../include/_header') %>
+<!-- /include header -->
+
+<!-- include header -->
+<%- include('../../include/_navbar') %>
+
+
+<div class="container-fluid mb-5"> 
+    <div class="container-fluid">
+        <header class="row py-3 mb-4 border-bottom">
+            <div class="col-md-3">                
+                <span class="fs-4 text-dark">List of HSN Codes</span>
+            </div>            
+        </header>
+    </div> 
+
+    <div class="row justify-content-center">
+        <div class="col-lg-8 mb-4">
+            <div class="card">
+                <form action = '/orders/hsn/add' method="post">
+                    <div class="card-header bg-dark">
+                        <h5 class="text-center text-white">HSN Code</h5>
+                    </div>
+                    <div class="card-body">    
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="item">Item Name<span>*</span></label>
+                                    <input type="text" class="form-control" name="item" required>
+                                </div>                
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="hsnCode">HSN Code<span>*</span></label>
+                                    <input class="form-control" type="text" name="hsnCode" required>
+                                </div>                
+                            </div>
+                        </div>                                                           
+                    </div>
+                    <div class="card-footer">                   
+                        <div class="col-md-12 text-center">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>                              
+                    </div>
+                </form>                
+            </div>            
+        </div>
+    </div>    
+      
+    <table id="myTable" class="display cell-border responsive" width="100%" >
+        <thead>
+            <tr>
+                <th>Item</th>
+                <th>Hsn Code</th>    
+                <%if(user.role=='admin'){%>
+                <th>Action</th>                                              
+                <%}%>                
+            </tr>
+        </thead>
+        <tbody>      
+            <% hsnList.forEach((hsn,i) => { %>
+                <tr>                    
+                    <td><%= hsn.item %></td>
+                    <td><%= hsn.hsnCode %></td>
+                    <%if(user.role=='admin'){%>
+                    <td><a class="btn-sm btn-primary" href="/orders/hsn/<%= hsn._id %>/edit">Edit</a></td>                                                 
+                    <%}%>         
+                </tr>                                                                                                     
+            <%})%>
+            
+        </tbody>
+    </table>    
+</div>
+
+
+<!-- include footer -->
+<%- include('../../include/_footer') %>
+<!-- /include footer -->

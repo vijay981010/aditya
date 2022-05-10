@@ -200,3 +200,10 @@
 <!-- include footer -->
 <%- include('../../include/_footer') %>
 <!-- /include footer -->
+
+<%if(user.role=='admin' && user.settings.autoHsn==true || user.role=='client' && user.admin.clientSettings.autoHsn==true){%>
+<script src = "/js/order/autoHsnItem.js"></script>
+<%}else{%>
+<script src = "/js/order/item.js"></script>
+<%}%>
+

@@ -89,12 +89,27 @@ const userSchema = new Schema({
     invoiceDefaultNote:{
         type: String,
     },
+    logo:{
+        type: String,
+        trim: true
+    },
     settings:{
         manualAwbOption: Boolean,
         cashInvoice: Boolean,
-        packingListExcel: Boolean,
-        awbOfficeCopy: Boolean,
-        boxStickerWeightVisibility: Boolean
+        packingListExcel: Boolean, 
+        boxStickerWeightVisibility: Boolean,               
+        autoHsn: Boolean,            
+        awbPrintBranding: Boolean,
+        displayNoName: Boolean    
+    },    
+    clientSettings:{
+        manualAwbOption: Boolean,
+        cashInvoice: Boolean,
+        packingListExcel: Boolean, 
+        boxStickerWeightVisibility: Boolean,               
+        autoHsn: Boolean,      
+        awbPrintBranding: Boolean,
+        displayNoName: Boolean        
     },
     admin: {
         type: Schema.Types.ObjectId,

@@ -26,6 +26,9 @@
                 <%if(user.role=='client'){%>                       
                 <button id="flatManifest" class="btn btn-primary mr-3">Manifest</button>            
                 <%}%>
+                <%if(user.role=='admin' && user.settings.autoHsn==true || user.role=='client' && user.admin.clientSettings.autoHsn==true){%>
+                <a href="/orders/hsn/list" class="btn btn-primary mr-3">HSN Codes</a>
+                <%}%>
             </div>            
         </header>
     </div> 
@@ -98,10 +101,8 @@
                                 <span class="text-gradient"><i class="fas fa-print btn-primary-dark"></i></span>
                             </a>                            
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">                                               
-                                <a class="dropdown-item" href="<%= order._id %>/print/awb" target="_blank">Print AWB</a>
-                                <%if(user.settings.awbOfficeCopy==true){%>
-                                <a class="dropdown-item" href="<%= order._id %>/print/awb/office" target="_blank">Print AWB Office Copy</a>
-                                <%}%>
+                                <a class="dropdown-item" href="<%= order._id %>/print/awb" target="_blank">Accounts/Consignor AWB Copy</a>                                
+                                <a class="dropdown-item" href="<%= order._id %>/print/awb/consignee" target="_blank">Consignee AWB Copy</a>                                
                                 <a class="dropdown-item" href="<%= order._id %>/print/boxsticker" target="_blank">Box Sticker</a>
                                 <a class="dropdown-item" href="<%= order._id %>/print/packinglist" target="_blank">Packing List</a>
                                 <%if(user.settings.packingListExcel==true){%>

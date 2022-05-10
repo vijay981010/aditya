@@ -277,3 +277,53 @@ exports.userstatus = async (req, res, next) => {
         next(err)
     }
 }
+
+exports.addOns = async(req, res, next) => {
+    try{
+        let {clientId} = req.params
+        let userId = req.user.id
+
+        let user = await User.findById(userId)
+        let customer = await User.findById(clientId)
+        
+        let settingKeys = Object.keys(customer.settings)
+        let settingVals = Object.values(customer.settings)
+        let clientSettingVals = Object.values(customer.clientSettings)        
+        
+        res.render('user/addons', {user, customer, settingKeys, settingVals, clientSettingVals})
+    }catch(err){
+        next(err)
+    }
+}
+
+exports.toggleAddOns = async(req, res, next) => {
+    try{        
+        let {clientId} = req.params
+        let clientUser = await User.findById(clientId).select('settings clientSettings')
+
+        let {addOn, status, role} = req.body //GET DATA FROM AJAX
+
+        let settings = clientUser.settings
+        let clientSettings = clientUser.clientSettings
+        let updateObj = {}
+        if(role == 'admin'){
+            settings[addOn] = JSON.parse(status)
+            updateObj = {settings}
+        }else{
+            clientSettings[addOn] = JSON.parse(status)
+            updateObj = {clientSettings}
+        }
+
+        debug(updateObj)
+        let response = await User.findByIdAndUpdate(clientId, updateObj,{new:true})
+        
+        if(response){
+            res.status(200).json({message: 'success'})
+        }else{
+            res.status(400).json({message: 'error'})
+        }
+        
+    }catch(err){
+        next(err)
+    }
+}

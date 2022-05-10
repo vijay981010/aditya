@@ -44,6 +44,11 @@ $(document).ready( function () {
       }
     })
 
+// ------------------ GOBACK ------------------ //   
+  $('#goBack').on('click', function(){
+      history.back()
+  })
+
 });
 
   

@@ -36,19 +36,24 @@ exports.authorizeRole = (role) =>{
     }
 }
 
-// ----------------------------------------------------------------------------------------------- //
+// ------------------------------------------------------------------------------------------------ //
 
-/* exports.authorizeUser = (req, res, next) => {    
-    
-    if(req.user.role == 'superadmin'){
-        return next()
-    }else if(req.user.id != req.user.id){
-        //return res.status(403).json({message: "Not Authorized"})
-        return res.render('error', {message: `Sorry, you have been logged out or you aren't the authorized User`, statusCode: '403'})
+exports.authorizeAddOn = (addOn) => {
+    return async(req, res, next) =>{
+        try{
+            let userId = req.user.id
+            let user = await User.findById(userId).populate('admin').exec()
+
+            if(user.role=='admin' && user.settings[addOn] || user.role=='client' && user.admin.clientSettings[addOn]){
+                next()
+            }else{
+                return res.render('error', {message: `You have not purchased this addon: ${addOn}`, statusCode: '403'})
+            }
+        }catch(err){
+            next(err)
+        }
     }
-    //debug('passed')
-    next()    
-} */
+}
 
 // ----------------------------------------------------------------------------------------------- //
 
@@ -161,3 +166,21 @@ exports.getDates = (startDate, endDate) => {
   // ------------------------------------------ FIRST CHARACTER OF EVERY WORD CAPITALIZED -------------------------- //
 
   exports.toTitleCase = str => str.replace(/(^\w|\s\w|[,]\w)/g, m => m.toUpperCase())
+
+  // ---------------------------------------- GET AWB PREFIX ----------------------------------------- //
+
+  exports.getPrefix = (d) => {    
+    d =  new Date(d)
+
+    let m = d.getMonth() + 1 // get current month in number
+    m = JSON.stringify(m)
+    if(m.length == 1) m = 0 + m        
+
+    let y = JSON.stringify(d.getFullYear()) // get current year in number
+    y = y.substring(2,4)
+
+    let date = JSON.stringify(d.getDate()) // get current day in number
+    if(date.length == 1) date = 0 + date
+
+    return prefix = 'A' + date + m + y    
+}
