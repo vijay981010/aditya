@@ -17,6 +17,9 @@ exports.generateAwb = (doc, order, user, consignee) => {
         totalActualWeight += box.actualWeight
     })    
     
+    totalVolWeight = totalVolWeight.toFixed(2)
+    totalActualWeight = totalActualWeight.toFixed(2)
+
     doc.info['Title'] = `awb${order.awbNumber}` //TITLE TO PDF//
     
     //ACCORDING TO COPY TYPE RENDER PDFS//
@@ -171,7 +174,7 @@ function awbCopy(doc, user, order, consignee, totalVolWeight, totalActualWeight,
     
 
     .text('CONSIGNEE ADDRESS', 275, y+105)
-    .text('PINCODE:', 275, y+195, {width: 220, align:'left'})
+    .text('ZIPCODE:', 275, y+195, {width: 220, align:'left'})
     .text('TEL NO:', 275, y+205, {width: 220, align:'left'})    
 
     .text('CHARGEABLE WEIGHT (KG)', 440, y+105, {width: 120, align: 'center'})

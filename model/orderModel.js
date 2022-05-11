@@ -163,8 +163,7 @@ const orderSchema = new Schema({
         type: Number
     },
     boxType: {
-        type: String,
-        enum: ['spx', 'docx']
+        type: String,        
     },    
     boxDetails: [boxSchema],
     chargeableWeight: {
