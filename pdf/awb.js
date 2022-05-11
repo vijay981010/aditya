@@ -64,7 +64,10 @@ exports.generateAwb = (doc, order, user, consignee) => {
 }
 
 function awbTitle(doc, user, x, y){  
-  
+  //GET LOGO FILE PREFIX//
+  let filePrefix = user.trackingId
+  if(user.role == 'client') filePrefix = user.admin.trackingId
+
   //MAIN TITLE//
   doc
   .font('Helvetica-Bold').fontSize(20)
@@ -78,8 +81,8 @@ function awbTitle(doc, user, x, y){
   }
   
   //CHECK FOR LOGO//
-  if(user.role=='admin' && user.settings.awbPrintBranding || user.role=='client' && user.clientSettings.awbPrintBranding){
-      doc.image(`${user.trackingId}-logo.png`, x+40, y-20, {width: 60, align:'left'})
+  if(user.role=='admin' && user.settings.awbPrintBranding || user.role=='client' && user.admin.clientSettings.awbPrintBranding){
+      doc.image(`${filePrefix}-logo.png`, x+40, y-20, {width: 60, align:'left'})
   }
 }
 

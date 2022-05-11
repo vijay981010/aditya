@@ -913,7 +913,7 @@ exports.printawb = async(req, res, next) => {
         let consignee = req.params.consigneeId //FLAG FOR CONSIGNEE COPY//
 
         let order = await Order.findById(orderId).populate('client').exec()
-        let user = await User.findById(userId)                   
+        let user = await User.findById(userId).populate('admin').exec()
 
     // ---------------------- CHECK IF BOX DETAILS ADDED --------------------------- //
         if(order.boxDetails.length == 0){            
@@ -961,10 +961,15 @@ exports.printawb = async(req, res, next) => {
             function callback2(){
                 fs.unlink(`awb_${order.awbNumber}.png`, (err) => { 
                     if(err) return next(err)
-                    
-                    fs.unlink(`${user.trackingId}-logo.png`, (err) => {
-                        if(err) return next(err)
-                    })                
+                    if(user.role=='admin' && user.settings.awbPrintBranding || user.role=='client'&& user.admin.clientSettings.awbPrintBranding){
+                        //GET FILE PREFIX//
+                        let filePrefix = user.trackingId
+                        if(user.role=='client') filePrefix = user.admin.trackingId
+
+                        fs.unlink(`${filePrefix}-logo.png`, (err) => {
+                            if(err) return next(err)
+                        })
+                    }                                    
                 })
             }    
                         
@@ -977,16 +982,24 @@ exports.printawb = async(req, res, next) => {
 exports.getLogo = async(req, res, next) => {
     try{
         let userId = req.user.id
-        let user = await User.findById(userId).select('settings logo trackingId')
+        let user = await User.findById(userId).populate({path:'admin'}).exec()
         // --------------------- GET LOGO IF ADDON ENABLED ----------------- //
-        if(user.logo && user.settings.awbPrintBranding){
+        if(user.role=='admin' && user.settings.awbPrintBranding || user.role=='client'&& user.admin.clientSettings.awbPrintBranding){
+            //GET LOGO PATH AND FILE PREFIX ACCORDING TO USER ROLE//
+            let logoPath = user.logo
+            let filePrefix = user.trackingId
+            if(user.role=='client'){
+                logoPath = user.admin.logo
+                filePrefix = user.admin.trackingId
+            } 
+
             let response = await axios({
-                url: user.logo,
+                url: logoPath,
                 method: 'get',
                 responseType: 'stream'
             })  
 
-            let fileName = `${user.trackingId}-logo.png`
+            let fileName = `${filePrefix}-logo.png`
     
             response.data.pipe(fs.createWriteStream(fileName))
             .on('error', (err) => next(err))
