@@ -962,6 +962,7 @@ exports.printawb = async(req, res, next) => {
                 fs.unlink(`awb_${order.awbNumber}.png`, (err) => { 
                     if(err) return next(err)
                     if(user.role=='admin' && user.settings.awbPrintBranding || user.role=='client'&& user.admin.clientSettings.awbPrintBranding){
+                        debug('starting to unlink logo')
                         //GET FILE PREFIX//
                         let filePrefix = user.trackingId
                         if(user.role=='client') filePrefix = user.admin.trackingId
@@ -981,10 +982,12 @@ exports.printawb = async(req, res, next) => {
 
 exports.getLogo = async(req, res, next) => {
     try{
+        debug('entered get Logo')
         let userId = req.user.id
         let user = await User.findById(userId).populate({path:'admin'}).exec()
         // --------------------- GET LOGO IF ADDON ENABLED ----------------- //
         if(user.role=='admin' && user.settings.awbPrintBranding || user.role=='client'&& user.admin.clientSettings.awbPrintBranding){
+            debug('starting to get logo')
             //GET LOGO PATH AND FILE PREFIX ACCORDING TO USER ROLE//
             let logoPath = user.logo
             let filePrefix = user.trackingId
