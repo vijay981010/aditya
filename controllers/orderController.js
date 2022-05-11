@@ -337,7 +337,9 @@ exports.patchBox = async (req, res, next) => {
         } = req.body      
         //res.json(req.body)                    
 
-        totalValue = parseFloat(totalValue)
+        //CHECK IF TOTAL VALUE IS COMING FROM FORM//
+        totalValue ? totalValue = parseFloat(totalValue) : totalValue = 0
+        
 
         let numberOfBoxes
         
@@ -1342,24 +1344,6 @@ exports.flatManifestPdf = async(req, res, next) => {
     }
 }
 
-/* exports.downloadFlatManifest = async (req, res, next) => {
-    try{
-        let {date, clientId} = req.params
-
-        let user = await User.findById(clientId).select('username')
-
-        //DOWNLOAD AND REMOVE PDF FILE//
-        res.download(`flatmanifest_${user.username}_${date}.pdf`, (err) => {
-            if(err) next(err)
-            fs.unlink(`flatmanifest_${user.username}_${date}.pdf`, (err) => {
-                if(err) next(err)
-                debug('pdf file removed')
-            })
-        })
-    }catch(err){
-        next(err)
-    }            
-} */
 
 async function getExchange(currency, amount){
     try{

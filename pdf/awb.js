@@ -130,7 +130,7 @@ function awbCopy(doc, user, order, consignee, totalVolWeight, totalActualWeight,
     .font('Helvetica-Bold').fontSize(12)
     .text('AIRWAY BILL NO', 275, y+10, {width: 160, align:'center'})
     .text(order.awbNumber, 275, y+25, { width: 160, align: 'center' })
-    .image(`awb_${order.awbNumber}.png`, 455, y+5, {width: 90, align:'center'})
+    .image(`awb_${order.awbNumber}.png`, 455, y+5, {width: 90, height: 65, align:'center'})
 
   //TITLES OF BOXES//
     doc
