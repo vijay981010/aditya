@@ -12,7 +12,7 @@ const {processRequest, sortBoxItem, getDates,
 const PDFdocument = require('pdfkit')
 const {generateAwb} = require('../pdf/awb')
 const {boxstickergenerate} = require('../pdf/boxsticker')
-const {primarydetails, boxdetails, footerdetails} = require('../pdf/packinglist')
+const {generatePackingListPdf} = require('../pdf/packinglist')
 const {generateFlatManifest} = require('../pdf/flatManifest')
 const fs = require('fs')
 const { validationResult } = require('express-validator')
@@ -1021,143 +1021,39 @@ exports.getLogo = async(req, res, next) => {
 exports.packingList = async(req, res, next) => {
     try{        
         let orderId = req.params.orderId
-        let userId = req.user.id
+        //let userId = req.user.id
 
         let order = await Order.findById(orderId).populate('client').exec()
         //res.json(order)
-        let user = await User.findById(userId)
-        let boxDetails = order.boxDetails
+        //let user = await User.findById(userId)        
 
         //CHECK IF BOXDETAILS ADDED//
-        if(boxDetails.length == 0)            
+        if(order.boxDetails.length == 0)            
             return res.render('error', {message: `No Box Details added. Please add Box Details first before generating AWB`, statusCode: '400'})
         
         
-    // ---------------------------- GET ARRAYS OF EACH TABLE COLUMN --------------- //
-        let itemArray = []
-        let hsnArr = []
-        let qtyArray = []
-        let priceArray = []
-        let lengthArray = [0]
-        let boxNumberArray = ['Box1']
-        let dimensionArray = [`(${boxDetails[0].boxLength}x${boxDetails[0].boxWidth}x${boxDetails[0].boxHeight})`]           
-        
-        boxDetails.forEach(box => {
-            lengthArray.push(box.itemDetails.length)
-            box.itemDetails.forEach(item => {
-            itemArray.push(item.itemName)
-            hsnArr.push(item.hsnCode)
-            qtyArray.push(item.itemQuantity)
-            priceArray.push(item.itemPrice)                   
+    // ---------------------------- GET ARRAYS OF EACH TABLE COLUMN --------------- //      
+      
+        let boxArr = []
+        let itemArr = []
+        let totArr = []
+        order.boxDetails.forEach((box,i) => {
+            let boxInfo = `Box ${i+1}(${box.boxLength}x${box.boxWidth}x${box.boxHeight})`
+            boxArr.push(boxInfo)
+            box.itemDetails.forEach((item,j) => {
+                if(j > 0) boxArr.push('')
+                itemArr.push(item)
+                totArr.push((item.itemQuantity * item.itemPrice).toFixed(2))
             })        
         })
 
-        let totalitems = itemArray.length
-        let totalArray = qtyArray.map((elem,i) => (elem * priceArray[i]).toFixed(1))      
-
-        //BOXNUMBER ARRAY COMPUTATION//
-        lengthArray.pop()
+        //PDF INITIALIZATION//
+        const doc = new PDFdocument({  
+            size: 'A4',
+            autoFirstPage: false    
+        })
         
-        let count = 2
-
-        lengthArray.forEach(item => {
-            for(let i = 1; i <= item; i++){
-                if(item != i){
-                    boxNumberArray.push('')
-                    dimensionArray.push('')                    
-                }else{
-                    boxNumberArray.push(`Box${count}`)            
-                    dimensionArray.push(`(${boxDetails[count-1].boxLength}x${boxDetails[count-1].boxWidth}x${boxDetails[count-1].boxHeight})`)                    
-                    count++
-                }
-            }
-        }) 
-        debug(totalitems)
-        let breakpoint = 22
-        let breakpoint2 = 37
-        let runs = Math.floor((totalitems-breakpoint) / breakpoint2)    
-
-    // ----------- CALCULATE TOTAL PAGES ----------- //
-        let totalPages = 0    
-
-        if(totalitems <= breakpoint){
-            totalPages = 1      
-        }else if(totalitems > breakpoint && totalitems <= (breakpoint+breakpoint2)){
-            totalPages = 2
-        }else{
-            totalPages = runs + 2 
-        }        
-        debug(totalPages)
-    // ----------------- GENERATE PDF ---------------------------- //
-
-        const doc = new PDFdocument
-
-        doc.info['Title'] = `packinglist${order.awbNumber}`
-        
-        primarydetails(doc, order)
-        boxdetails(290, doc, order)                
-        footerdetails(1, totalPages, doc, order)
-
-        for(let i = 0; i < totalitems; i++){                                  
-            if(i <= (breakpoint - 1)){             
-                print(345, 15, i, 0) //first page
-            }else if(i == breakpoint){
-                doc.addPage()
-                .moveTo(40, 40).lineTo(40, 750).stroke() //left vertical line
-                .moveTo(560, 40).lineTo(560, 750).stroke() //right vertical line
-                boxdetails(40, doc, order)
-                footerdetails(2, totalPages, doc, order)            
-                for(let j = 0; j < totalitems - i; j++){
-                    if(j <= breakpoint2){
-                        print(100, 15, j, breakpoint) //second page
-                    }                
-                }
-            }else{
-                for(let j = 1; j <= runs; j++){                
-                    if(i == (breakpoint + (breakpoint2 * j))){                    
-                        additionalPage(i, i + j, j) //further pages
-                    }
-                }
-            }
-        }
-
-        function print(start, gap, i, value){              
-            if((value + i + 1) == totalitems) {            
-              doc
-              .text('Total', 425, 685)
-              .text(order.currency, 475, 685)
-              .text(order.totalValue, 520, 685, {width: 50, align:'left'})            
-            }
-            
-            doc
-            .font('Helvetica').fontSize(11)   
-            if(boxNumberArray[value + i]){
-                doc
-                .text(boxNumberArray[value + i], 43, start + (gap * i), {width:90, align:'left'})
-                .text(dimensionArray[value + i], 43, start + (gap * i) + 15, {width:90, align:'left'})
-            }
-            doc            
-            .text(itemArray[value + i], 150, start + (gap * i), {width: 200, align:'left'})
-            .text(hsnArr[value + i], 365, start + (gap * i), {width:50, align:'center'}) 
-            .text(qtyArray[value + i], 440, start + (gap *i))
-            .text(priceArray[value + i], 485, start + (gap *i))
-            .text(totalArray[value + i], 520, start + (gap *i), {width: 50, align:'left'}) 
-                    
-        }
-
-        function additionalPage(i, value, page){        
-            doc.addPage()   
-            .moveTo(40, 40).lineTo(40, 750).stroke() //left vertical line
-            .moveTo(560, 40).lineTo(560, 750).stroke() //right vertical line     
-            boxdetails(40, doc, order)
-            footerdetails(page + 2, totalPages, doc, order)            
-                for(let x = 0; x < totalitems - i; x++){
-                    if(x <= breakpoint2){
-                        print(100, 15, x, value)
-                    }                
-                }
-        }
-
+        generatePackingListPdf(doc, order, itemArr, boxArr, totArr)
 
         res.setHeader('Content-type', 'application/pdf')
         res.set({ 'Content-Disposition': `inline; filename=packinglist_${order.awbNumber}.pdf` })
@@ -1254,7 +1150,8 @@ exports.boxSticker = async(req, res, next) => {
         }
 
     // ---------------------- INITIALIZE PDF --------------------------- //
-        const doc = new PDFdocument({             
+        const doc = new PDFdocument({
+            size:'A4',
             autoFirstPage: false
           })
 
