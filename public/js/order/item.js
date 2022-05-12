@@ -11,7 +11,7 @@ $(document).ready(function(){
         $('#myTable2')
         .append(`<tr id="r${itemId++}">
         <td class="col-sm-1"><input type='number' class='form-control text-center' name='boxNumber' required></td>
-        <td class="col-sm-2"><select class='form-select text-center' name='itemType' required><option value=''>--Select item type--</option><option value='normal'>normal</option><option value='nonDG'>non-DG</option></select></td>
+        <td class="col-sm-2"><select class='form-select text-center' name='itemType' required><option value='normal'>normal</option><option value='nonDG'>non-DG</option></select></td>
         <td class="col-sm-4"><input type='text' class='form-control text-center' name='itemName' required></td>
         <td class="col-sm-2"><input type='text' class='form-control text-center' name='hsnCode'></td>
         <td class="col-sm-1"><input type='number' class='form-control text-center' onkeyup='addInv(${invId})' name='itemQuantity' step='.01' required></td>
