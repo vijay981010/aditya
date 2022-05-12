@@ -208,7 +208,7 @@ exports.createOrder = async (req, res, next) => {
             }else if(role == 'client'){
                 consignorObj.client = client_id
             }
-
+            debug(consignorObj)
             const walkinConsignor = new Walkin(consignorObj)
             await walkinConsignor.save()
         }
@@ -220,7 +220,7 @@ exports.createOrder = async (req, res, next) => {
             }else if(role == 'client'){
                 consigneeObj.client = client_id
             }
-
+            debug(consigneeObj)
             const walkinConsignee = new Walkin(consigneeObj)
             await walkinConsignee.save()
         }
@@ -1136,8 +1136,7 @@ exports.excelPackingList = async(req, res, next) => {
 }
 
 exports.boxSticker = async(req, res, next) => {
-    try{
-        /* var startTime = performance.now() */
+    try{        
         let orderId = req.params.orderId
         let userId = req.user.id
 
@@ -1180,10 +1179,7 @@ exports.boxSticker = async(req, res, next) => {
             stream.on('finish', () => {            
                 fs.unlink(`box_${order.awbNumber}.png`, (err) => { if(err) next(err) })
             })
-        }
-
-        /* var endTime = performance.now()
-        debug(`Call for this took ${endTime - startTime} ms`) */
+        }        
 
     }catch(err){
         next(err)

@@ -92,7 +92,7 @@
                         </div>
                         <div class="card-body">
                             <div class="row">                                
-                                <div class="col-md-3">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="currency">Currency<span>*</span></label>                                                                               
                                         <select class="form-select text-center" name = "currency" id="currency" required>
@@ -108,7 +108,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="invoiceType">Invoice Type</label>                                                                               
                                         <select class="form-select text-center" name = "invoiceType">
@@ -122,18 +122,18 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="totalValue">Invoice Value</label>                                                                               
                                         <input class="form-control text-center" name = "totalValue" value="<%= order.totalValue %>" id="totalValue" type="number" readonly='readonly'/>                            
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                <!-- <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="actionItem">Action</label><br>                                                                         
                                         <button class="btn btn-primary btn-block" id="actionItem">Add Item</button>
                                     </div>
-                                </div>
+                                </div> -->
                             </div>                            
                             <div class="row">
                                 <table class="table table-bordered table-responsive-sm" id="myTable2">
@@ -184,7 +184,7 @@
                             <!-- <h2>Please contact Admin to update details</h2> -->
                             
                                 <button type="submit" class="btn btn-primary">Submit</button>
-                                                        
+                                <span><button class="btn btn-primary" id="actionItem">Add Item</button></span>
                         </div>
                     </div>                
               </div>  

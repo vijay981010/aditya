@@ -86,7 +86,7 @@ exports.generatePackingListPdf = (doc, order, itemArr, boxArr, totArr) => {
       let consignorAddress = `${order.consignorAddress1}, ${order.consignorAddress2}, ${order.consignorCity}, ${order.consignorState}, ${order.consignorPincode}`
       let consignorPhone = `Tel No: ${order.consignorContactNumber}`
       let ref = `Reference: ${order.client.username}`
-      let docs = `${order.docType}: ${order.docNumber}`
+      let docs = `${order.docType}: ${order.docNumber}`      
 
       let consigneeAddress = `${order.consignorAddress1}, ${order.consignorAddress2}, ${order.consignorCity}, ${order.consignorState}, ${order.consignorPincode}`
       let consigneePhone = `Tel No: ${order.consignorContactNumber}`      
@@ -95,7 +95,20 @@ exports.generatePackingListPdf = (doc, order, itemArr, boxArr, totArr) => {
       let consigneeArr = ['CONSIGNEE:', order.consignee, consigneeAddress, order.destination, consigneePhone, '', '']
 
       let propArr = [true]
-      let lineArr = [0, 15, 30, 75, 90, 105, 120]
+      let lwArr = [15, 15, 45, 15, 15, 15, 15]
+      //let lineArr = [0, 15, 30, 75, 90, 105, 120]
+      
+
+      //CHECK IF COMPANY//
+      if(order.consignorCompanyName || order.consignorCompanyName){
+        shipperArr.splice(1, 0, order.consignorCompanyName) 
+        consigneeArr.splice(1, 0, order.consigneeCompanyName) 
+        lwArr.splice(2, 1, 30)
+        lwArr.splice(1, 0, 15)
+        
+      }      
+
+      let lineArr = getStartRange(0, lwArr)      
       
       for(let i = 0; i < shipperArr.length; i++){        
           if(i < 2 || i == 3){
