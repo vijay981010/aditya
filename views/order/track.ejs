@@ -45,7 +45,7 @@
                                     <td><label for='statusRemove'>Action</label></td>
                                 </tr>
                                 <% if(order.trackingDetails.length > 0){     
-                                    order.trackingDetails.forEach((status,i) => { %>  
+                                    order.trackingDetails.slice().reverse().forEach((status,i) => { %>  
                                 <tr id="r<%= i+100 %>"> 
                                     <td>
                                         <input class='form-control text-center dateStat' name='statusDate[]' value="<%= moment(status.statusDate.toISOString().split('T')[0]).format(shortDateFormat) %>" required>                                        
