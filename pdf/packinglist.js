@@ -88,8 +88,8 @@ exports.generatePackingListPdf = (doc, order, itemArr, boxArr, totArr) => {
       let ref = `Reference: ${order.client.username}`
       let docs = `${order.docType}: ${order.docNumber}`      
 
-      let consigneeAddress = `${order.consignorAddress1}, ${order.consignorAddress2}, ${order.consignorCity}, ${order.consignorState}, ${order.consignorPincode}`
-      let consigneePhone = `Tel No: ${order.consignorContactNumber}`      
+      let consigneeAddress = `${order.consigneeAddress1}, ${order.consigneeAddress2}, ${order.consigneeCity}, ${order.consigneeState}, ${order.consigneePincode}`
+      let consigneePhone = `Tel No: ${order.consigneeContactNumber}`      
 
       let shipperArr = ['SHIPPER:', order.consignor, consignorAddress, order.origin, consignorPhone, ref, docs]
       let consigneeArr = ['CONSIGNEE:', order.consignee, consigneeAddress, order.destination, consigneePhone, '', '']
