@@ -193,7 +193,7 @@ exports.generatePackingListPdf = (doc, order, itemArr, boxArr, totArr) => {
   
   //FOOTER AND CONTINUED TEXT//
   function footerInfo(page, remItems){
-      let f1Arr = [disclaimer, `Authorized Signatory : ${order.consignor}`]  
+      let f1Arr = [disclaimer, `Authorized Signatory`]  //${order.consignor}
       let width2Arr = [390, 145] 
 
       let start2Arr = getStartRange(30, width2Arr)                

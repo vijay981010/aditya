@@ -100,7 +100,8 @@ const userSchema = new Schema({
         boxStickerWeightVisibility: Boolean,               
         autoHsn: Boolean,            
         awbPrintBranding: Boolean,
-        displayNoName: Boolean    
+        displayNoName: Boolean,
+        additionalTrackingStatus: Boolean  
     },    
     clientSettings:{
         manualAwbOption: Boolean,
@@ -109,7 +110,8 @@ const userSchema = new Schema({
         boxStickerWeightVisibility: Boolean,               
         autoHsn: Boolean,      
         awbPrintBranding: Boolean,
-        displayNoName: Boolean        
+        displayNoName: Boolean,
+        additionalTrackingStatus: Boolean     
     },
     admin: {
         type: Schema.Types.ObjectId,

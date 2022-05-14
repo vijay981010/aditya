@@ -184,3 +184,13 @@ exports.getDates = (startDate, endDate) => {
 
     return prefix = 'A' + date + m + y    
 }
+
+exports.getXthDay = (date, gapInDays) => {
+    let d = new Date(date)
+    let timeInMs = d.getTime()
+    
+    const gap = 1000 * 60 * 60 * 24 * gapInDays
+    let xthDay = timeInMs + gap
+    let xthDate = new Date(xthDay)
+    return xthDate.toISOString().split('T')[0]
+  }

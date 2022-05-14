@@ -8,7 +8,7 @@ const axios = require('axios')
 const mongoose = require('mongoose');
 const {vendorArray, stateList, cityList} = require('../fixedData/vendors')
 const {processRequest, sortBoxItem, getDates, 
-    regexUpperCase, getPrefix} = require('../helpers/helpers')
+    regexUpperCase, getPrefix, getXthDay} = require('../helpers/helpers')
 const PDFdocument = require('pdfkit')
 const {generateAwb} = require('../pdf/awb')
 const {boxstickergenerate} = require('../pdf/boxsticker')
@@ -159,6 +159,19 @@ exports.createOrder = async (req, res, next) => {
             statusActivity: 'shipment received at hub',
             statusLocation: 'India'
         }]
+
+        if(role=='admin' && user.settings.additionalTrackingStatus || role=='client' && user.admin.clientSettings.additionalTrackingStatus){
+            let nextDate = getXthDay(bookingDate, 1)            
+
+            let addStatus = {
+                statusDate: nextDate, statusTime: '14:00', 
+                statusActivity: 'shipment forwarded to destination', statusLocation: 'In Transit'              
+            }
+
+            trackArr.unshift(addStatus)
+        }
+
+        //debug(trackArr)
 
     // -------------- CREATE FINAL ORDER OBJECT ------------------ //        
         let obj = {
@@ -1052,7 +1065,7 @@ exports.packingList = async(req, res, next) => {
         let itemArr = []
         let totArr = []
         order.boxDetails.forEach((box,i) => {
-            let boxInfo = `Box ${i+1}(${box.boxLength}x${box.boxWidth}x${box.boxHeight})`
+            let boxInfo = `Box ${i+1}(${box.boxLength}x${box.boxWidth}x${box.boxHeight}) Act. Wt. ${box.actualWeight}`
             boxArr.push(boxInfo)
             box.itemDetails.forEach((item,j) => {
                 if(j > 0) boxArr.push('')
