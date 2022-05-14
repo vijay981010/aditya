@@ -1,126 +1,182 @@
-const {createCanvas} = require('canvas')
-var JsBarcode = require('jsbarcode')
-const fs = require('fs')
 var moment = require('moment')
 var shortDateFormat = 'DD-MM-yyyy'
-const logger = require('../helpers/logger')
 const debug = require('debug')('dev')
-let stream = require('stream')
-const fsPromises = require('fs').promises
+const {getStartRange, getEvenNumbers} = require('./pdfLibrary')
 
-exports.boxstickergenerate = (current, doc, order, user) => {
-  doc.addPage()
-  
-  doc.info['Title'] = `boxsticker${order.awbNumber}`
-
-  doc    
-    .fillColor('black')
-    .rect(40, 75, 150, 30).fill()
-
-    .lineWidth(1.5)
-    .moveTo(40, 120)
-    .lineTo(560, 120).stroke()
-
-    doc
-    .fillColor('white')
-    .font('Helvetica-Bold')
-    .fontSize(20)
-    .text(order.service, 40, 80)
-
-    doc.fillColor('black')
-    .font('Helvetica-Bold')
-    .fontSize(11)
-    .text('FROM', 40, 140)
-    .font('Helvetica')
+exports.boxstickergenerate = (doc, order, user) => {
     
-    if(order.consignorCompanyName){
-      doc
-      .text(order.consignorCompanyName, 40, 155)
-      .text(order.consignor, 40, 170)
-      .text(`${order.consignorAddress1}, ${order.consignorAddress2}, ${order.consignorCity}, ${order.consignorState}, ${order.consignorPincode}`, 40, 185, {width: 350, align:'left'})    
-    }else{
-      doc
-      .text(order.consignor, 40, 155)
-      .text(`${order.consignorAddress1}, ${order.consignorAddress2}, ${order.consignorCity}, ${order.consignorState}, ${order.consignorPincode}`, 40, 170, {width: 350, align:'left'})    
-    }
+    //ADD PAGE//
+    doc.addPage()    
+
+    //PDF TITLE//
+    doc.info['Title'] = `boxsticker${order.awbNumber}`
+
+    //REGISTER FONTS//
+    doc.registerFont('reg', 'Helvetica')
+    doc.registerFont('bold', 'Helvetica-Bold')
+    let fs = 11; let fs2 = 20; let fs3 = 12
+
+    //PDF VARIABLES//
+    let fullx = 595; let halfx = fullx/2
+    let fully = 842
+
+    //POSITION VARIABLES//
+    let x = 30; let y = 30; let w = fullx - x  
     
-    doc
-    .font('Helvetica-Bold')
-    .text(order.origin, 40, 215)
-    .font('Helvetica')
-    .text(`TEL NO: ${order.consignorContactNumber}`, 40, 230)
+    //MIDDLE LINE//
+    doc.moveTo(x-30, fully/2).lineTo(fullx, fully/2).stroke()    
 
-    .lineWidth(1.5)
-    .moveTo(40, 260)
-    .lineTo(560, 260).stroke()
+  // ------- RENDER PDF -------- //
+    //GET EVEN NUMBERS//
+    let evenNos = getEvenNumbers(order.numberOfBoxes)
+    debug(evenNos)
+    for(let i = 0; i < order.numberOfBoxes; i++){        
+      if(evenNos.indexOf(i) != -1){
+          doc.addPage()          
+          .moveTo(x-30, fully/2).lineTo(fullx, fully/2).stroke()
 
-    .font('Helvetica-Bold')
-    .fontSize(16)
-    .text(`BOX NO ${current + 1}/${order.numberOfBoxes}`, 465, 140, {width: 100, align:'left'})
-    .rect(440, 160, 115, 30).fill()
-    .rect(440, 210, 115, 30).fill()
-    .fillColor('white')
-    .fontSize(11)
-    if(order.client.username != 'Miscellaneous'){
-      doc.text(order.client.username, 445, 165)
-    }else{
-      doc.text(order.miscClients, 445, 165)      
+          y = 30      
+      }
+      title()
+      fromInfo(25)
+      toInfo(120)      
+      shipmentInfo(250)
+      barCode(310)
+      boxInfo(i+1)
+      y = 450
+    }    
+
+    function title(){            
+      let unit = (fs2 * 7.5)/9 //GET UNIT WIDTH VALUE//
+      let w = order.service.length * unit //GET TOTAL WIDTH VALUE DEPENDING ON CHARACTERS//
+      doc.fillColor('black')
+      .rect(x, y, w, 30).fill()
+
+      doc.fillColor('white').font('bold').fontSize(fs2)
+      .text(order.service, x, y + 7.5, {width: w, align:'center'})
+      .fillColor('black')
     }
-    doc.text(order.service, 445, 215)
 
-    .fillColor('black')
-    .font('Helvetica-Bold')
-    .fontSize(16)
-    .text('TO', 40, 270)
-    .font('Helvetica')
+    function fromInfo(start){
+      //GET SHIPPER INFO//
+      let consignorAddress = `${order.consignorAddress1}, ${order.consignorAddress2}, ${order.consignorCity}, ${order.consignorState}, ${order.consignorPincode}`
+      //let consignorPhone = `Tel No: ${order.consignorContactNumber}`
 
-    if(order.consigneeCompanyName){
-      doc
-      .text(order.consigneeCompanyName, 40, 290)
-      .text(order.consignee, 40, 310)
-      .text(`${order.consigneeAddress1}, ${order.consigneeAddress2}, ${order.consigneeCity}, ${order.consigneeState}, ${order.consigneePincode}`, 40, 330, {width: 450, align:'left'})
-    }else{
-      doc
-      .text(order.consignee, 40, 290)
-      .text(`${order.consigneeAddress1}, ${order.consigneeAddress2}, ${order.consigneeCity}, ${order.consigneeState}, ${order.consigneePincode}`, 40, 310, {width: 450, align:'left'})
+      let shipperArr = ['FROM', order.consignor, consignorAddress, order.origin, '']   
+      
+      //CHECK IF COMPANY//
+      if(order.consignorCompanyName) shipperArr.splice(1, 0, order.consignorCompanyName)
+
+      let lwArr = shipperArr.map(info => {        
+        let x
+        info == consignorAddress ? x = 45 : x = 15
+        return x
+      })
+      
+      //IF COMPANY ADJUST//
+      if(order.consignorCompanyName){
+        lwArr.splice(2, 1, 30)
+        lwArr.splice(1, 0, 15)
+      }              
+      
+      let lineArr = getStartRange(15, lwArr)             
+      
+      shipperArr.forEach((info,i) => {        
+        if(info == order.origin || i == 0){
+          doc.font('bold').fontSize(fs)
+          .text(info, x, y + start + lineArr[i], {width: fullx/1.5 - x, align:'left'})
+        }else{
+          doc.font('reg').fontSize(fs)
+          .text(info, x, y + start + lineArr[i], {width: fullx/1.5 - x, align:'left'})
+        }
+      })
+
+      doc.moveTo(x, y + start + 105).lineTo(fullx-30, y + start + 105).stroke()
     }
-    
-    doc
-    .font('Helvetica-Bold')
-    .text(order.destination, 40, 370)
-    .font('Helvetica')
-    .text(`TEL NO: ${order.consigneeContactNumber}`, 40, 390)
 
-    .lineWidth(1.5)
-    .moveTo(40, 410)
-    .lineTo(560, 410).stroke()
+    function toInfo(start){
+      //GET CONSIGNEE INFO//
+      let consigneeAddress = `${order.consigneeAddress1}, ${order.consigneeAddress2}, ${order.consigneeCity}, ${order.consigneeState}, ${order.consigneePincode}`
+      let consigneePhone = `Tel No: ${order.consigneeContactNumber}`
+      
+      let consigneeArr = ['TO', order.consignee, consigneeAddress, order.destination, consigneePhone]
 
-    .fontSize(14)
-    .text(`SHIPMENT DATE:`, 40, 430) 
-    .text(moment(order.bookingDate).format(shortDateFormat), 160, 430)
+      //CHECK IF COMPANY//
+      
+      if(order.consigneeCompanyName) consigneeArr.splice(1, 0, order.consigneeCompanyName)
+      
+      let lwArr = consigneeArr.map(info => {        
+        let x
+        info == consigneeAddress ? x = 51 : x = 17
+        return x
+      })
+      
+      //IF COMPANY ADJUST//
+      if(order.consigneeCompanyName) lwArr.splice(3, 1, 34)                    
 
-    if(!user.settings.boxStickerWeightVisibility) doc.text(`SHIPMENT WEIGHT: ${order.chargeableWeight}`, 40, 450)
-    
-    doc
-    .text(`NO OF BOX: ${order.numberOfBoxes}`, 40, 470)
-    .text(`WAYBILL NO: ${order.awbNumber}`, 300, 450)
+      let lineArr = getStartRange(17, lwArr) 
 
-    .image(`box_${order.awbNumber}.png`, 265, 490, {width: 80, align:'center'}) 
+      consigneeArr.forEach((info,i) => {        
+        if(info == order.destination || i == 0){
+          doc.font('bold').fontSize(14)
+          .text(info, x, y + start + lineArr[i], {width: fullx/1.5 - x, align:'left'})
+        }else{
+          doc.font('reg').fontSize(14)
+          .text(info, x, y + start + lineArr[i], {width: fullx/1.5 - x, align:'left'})
+        }
+      })
 
-    .lineWidth(1.5)
-    .moveTo(40, 550)
-    .lineTo(560, 550).stroke()
-
-    .text('Office Purpose Only', 230, 570, {width: 150, align:'center'})
-    .image(`box_${order.awbNumber}.png`, 265, 590, {width: 80, align:'center'}) 
-
-    .lineWidth(1.5)
-    .moveTo(40, 650)
-    .lineTo(560, 650).stroke()
-
-    if(user.role=='admin' && !user.settings.displayNoName){
-    doc.text(user.displayName, 230, 670, {width: 150, align:'center'})
+      doc.moveTo(x, y + start + 135).lineTo(fullx-30, y + start + 135).stroke()
     }
-        
+
+    function shipmentInfo(start){
+      let shipmentDate = `Shipment Date: ${moment(order.bookingDate).format(shortDateFormat)}`
+      let awb = `Waybill Number: ${order.awbNumber}`
+      //let weight = `Weight: ${order.chargeableWeight}`
+      let boxes = `No. of Box: ${order.numberOfBoxes}`
+
+      let shipmentArr = [shipmentDate, awb, boxes]
+
+      let lwArr = [15, 15, 15]
+      let lineArr = getStartRange(15, lwArr)
+
+      shipmentArr.forEach((shipment,i) => {
+          doc.font('reg').fontSize(fs)
+          .text(shipment, x, y + start + lineArr[i], {width: w, align:'left'})
+      })
+    }
+
+    function barCode(start){
+      doc.image(`box_${order.awbNumber}.png`, fullx/2 - 40, y + start, {width: 80, height: 60, align: 'center'})      
+    }
+
+    function boxInfo(current){
+      let unit = (fs3 * 7.5)/12 //GET UNIT WIDTH VALUE//  
+      
+      //DETERMIN CLIENT NAME//
+      let clientName      
+      order.client.username != 'Miscellaneous' ? clientName = order.client.username : clientName = order.miscClients       
+
+      // ----------- //
+      let lwArr = [30, 30]
+      let lineArr = getStartRange(65, lwArr)
+      
+      let infoArr = [clientName, order.service]
+      let wArr = infoArr.map(info => info.length * unit)  
+      
+      // ----------- //
+      doc.font('bold').fontSize(fs2)
+      .text(`Box No. ${current}/${order.numberOfBoxes}`, fullx/2, y + 40, {width: fullx/2 - x, align:'right'})
+      
+      // ----------- //
+      lineArr.forEach((line,i) => {
+        doc.fillColor('black')
+        .rect(fullx - x - wArr[i], y + line, wArr[i], 25).fill()
+
+        doc.fillColor('white').font('bold').fontSize(fs3)
+        .text(infoArr[i], fullx - x - wArr[i], y + line + 7.5, {width: wArr[i], align:'center'})
+      })      
+            
+    }      
 }
   

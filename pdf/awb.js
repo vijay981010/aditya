@@ -2,6 +2,7 @@
 var moment = require('moment')
 var shortDateFormat = 'DD-MM-yyyy'
 const debug = require('debug')('dev')
+const {getEvenNumbers} = require('./pdfLibrary')
 
 let full = 595
 let centerAlign = {width:full, align:'center'} 
@@ -264,12 +265,3 @@ function awbCopy(doc, user, order, consignee, totalVolWeight, totalActualWeight,
 
 // -------------------------------------------- //
 
-function getEvenNumbers(num){
-  let arr = []
-  for(let i = 1; i <= num; i++){
-    arr.push(i)
-  }
-  
-  return arr.filter(item => item%2 == 0)
-  
-}

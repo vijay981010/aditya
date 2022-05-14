@@ -1,6 +1,7 @@
 var moment = require('moment')
 var shortDateFormat = 'DD-MM-yyyy'
 const debug = require('debug')('dev')
+const {getStartRange} = require('./pdfLibrary')
 
 exports.generatePackingListPdf = (doc, order, itemArr, boxArr, totArr) => {
     //REGISTER FONTS//
@@ -85,7 +86,11 @@ exports.generatePackingListPdf = (doc, order, itemArr, boxArr, totArr) => {
 
       let consignorAddress = `${order.consignorAddress1}, ${order.consignorAddress2}, ${order.consignorCity}, ${order.consignorState}, ${order.consignorPincode}`
       let consignorPhone = `Tel No: ${order.consignorContactNumber}`
-      let ref = `Reference: ${order.client.username}`
+      
+      //DETERMINE REF//
+      let ref
+      order.client.username != 'Miscellaneous' ? ref = `Reference: ${order.client.username}` : ref = `Reference: ${order.miscClients}`
+      
       let docs = `${order.docType}: ${order.docNumber}`      
 
       let consigneeAddress = `${order.consigneeAddress1}, ${order.consigneeAddress2}, ${order.consigneeCity}, ${order.consigneeState}, ${order.consigneePincode}`
@@ -100,7 +105,7 @@ exports.generatePackingListPdf = (doc, order, itemArr, boxArr, totArr) => {
       
 
       //CHECK IF COMPANY//
-      if(order.consignorCompanyName || order.consignorCompanyName){
+      if(order.consignorCompanyName || order.consigneeCompanyName){
         shipperArr.splice(1, 0, order.consignorCompanyName) 
         consigneeArr.splice(1, 0, order.consigneeCompanyName) 
         lwArr.splice(2, 1, 30)
@@ -238,13 +243,4 @@ function getList(arr, page, pg1Limit, addPgLimit){
     }
   })
   return tot
-}
-
-function getStartRange(start, widthArr){
-  let startArr = [start]        
-  for(let i = 0; i < widthArr.length-1; i++){
-      let temp =   startArr[i] + widthArr[i]
-      startArr.push(temp)  
-  }
-  return startArr
 }
