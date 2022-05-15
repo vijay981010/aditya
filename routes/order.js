@@ -113,6 +113,8 @@ router.post('/client/flatmanifest', verifyToken, orderController.flatManifestPdf
 
 router.get('/:orderId/print/excel/packinglist', verifyToken, authorizeResource, orderController.excelPackingList)
 
+router.post('/export', verifyToken, authorizeRole(['admin']), orderController.orderExport)
+
 
 router.get('/search/history', verifyToken, orderController.searchHistory) //authorizeUser
 

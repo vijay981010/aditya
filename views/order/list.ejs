@@ -10,9 +10,13 @@
 <%- include('../order/modal/flatManifest') %>
 <!-- include flat Manifest modal -->
 
-<!-- include flat Manifest modal -->
+<!-- include order export modal -->
+<%- include('../order/modal/orderExport') %>
+<!-- include order export modal -->
+
+<!-- include cash invoice modal -->
 <%- include('../order/modal/cashInvoice') %>
-<!-- include flat Manifest modal -->
+<!-- include cash invoice modal -->
 
 <div class="container-fluid mb-5"> 
     <div class="container-fluid">
@@ -29,6 +33,9 @@
                 <%if(user.role=='admin' && user.settings.autoHsn==true || user.role=='client' && user.admin.clientSettings.autoHsn==true){%>
                 <a href="/orders/hsn/list" class="btn btn-primary mr-3">HSN Codes</a>
                 <%}%>
+                <%if(user.role=='admin'){%> 
+                <button id="orderExport" class="btn btn-primary mr-3">Export</button>  
+                <%}%>               
             </div>            
         </header>
     </div> 
@@ -145,4 +152,5 @@
 <script src = "/js/order/currentStatus.js"></script>
 <script src = "/js/order/flatManifest.js"></script>
 <script src = "/js/order/cashInvoice.js"></script>
+<script src = "/js/order/orderExport.js"></script>
 

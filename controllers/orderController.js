@@ -24,6 +24,7 @@ var JsBarcode = require('jsbarcode')
 const logger = require('../helpers/logger')
 const ExcelJs = require('exceljs')
 const {generatePackingList} = require('../excel/packingList')
+const {generateOrderExport} = require('../excel/orderExport')
 
 const db = mongoose.connection;
 
@@ -330,6 +331,45 @@ exports.updateOrder = async (req, res, next) => {
         await Order.findByIdAndUpdate(orderId, obj, {new: true})
         
         res.redirect('/orders/orderlist')
+
+    }catch(err){
+        next(err)
+    }
+}
+
+// ----------------------------------------------------------------------- //
+
+exports.orderExport = async(req, res, next) => {
+    try{
+        //GET FORM DATA//
+        let {exportStart, exportEnd} = req.body        
+        let {id} = req.user
+
+        //GET DATE RANGE//
+        let dateArray = getDates(new Date(exportStart), new Date(exportEnd))        
+
+        //APPLY FILTER ACCORDING TO ADMIN/CLIENT//
+        //let filter = {bookingDate: dateArray, client: id}
+        /* if(role == 'admin'){
+            
+        } */
+        let userlist = await User.find({admin: id}).select('username')
+        let filter = {bookingDate: dateArray, client: userlist}
+        
+        //GET ORDERS//
+        let orders = await Order.find(filter).populate({path: 'client', select: 'username'})        
+        
+    // ------------------------ EXCEL SECTION ------------------------- //
+        const workbook = new ExcelJs.Workbook()        
+
+        generateOrderExport(workbook, orders)
+
+        res.setHeader("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+        res.setHeader("Content-Disposition",`attachment; filename=orderexport_${exportStart}_${exportEnd}.xlsx`)
+
+        return workbook.xlsx.write(res).then(function (){
+            res.status(200).end();
+        })
 
     }catch(err){
         next(err)
