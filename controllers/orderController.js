@@ -346,7 +346,11 @@ exports.orderExport = async(req, res, next) => {
         let {id} = req.user
 
         //GET DATE RANGE//
-        let dateArray = getDates(new Date(exportStart), new Date(exportEnd))        
+        let dateArray = getDates(new Date(exportStart), new Date(exportEnd)) 
+            
+        //VALIDATE DATE RANGE//
+        if(dateArray.length == 0) 
+            return res.render('error', {message: `Start Date cannot be after End Date`, statusCode: '400'})
 
         //APPLY FILTER ACCORDING TO ADMIN/CLIENT//
         //let filter = {bookingDate: dateArray, client: id}
@@ -357,7 +361,10 @@ exports.orderExport = async(req, res, next) => {
         let filter = {bookingDate: dateArray, client: userlist}
         
         //GET ORDERS//
-        let orders = await Order.find(filter).populate({path: 'client', select: 'username'})        
+        let orders = await Order.find(filter).populate({path: 'client', select: 'username'})
+        
+        //VALIDATE ORDERS//
+        if(orders.length == 0) return res.render('error', {message: `No Orders found for the selected Date Range`, statusCode: '400'})
         
     // ------------------------ EXCEL SECTION ------------------------- //
         const workbook = new ExcelJs.Workbook()        
@@ -736,7 +743,7 @@ exports.trackDetails = async(req, res, next) => {
             let order_id = trackingNumber
             
             if(excludeArr.indexOf(trackingNumber) == -1)
-                order_id = `${userId.trackingId}${trackingNumber}`
+                order_id = `${userId.trackingId}${trackingNumber}`                        
             
             let postData = {
                 "username":"adinr4",

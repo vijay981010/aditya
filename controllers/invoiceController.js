@@ -28,11 +28,18 @@ exports.invoiceGenerate = async(req, res, next) => {
         invoiceStartDate, invoiceEndDate, note} = req.body                     
         
         //GET ARRAY OF DATE RANGE//
-        let dateArray = getDates(new Date(invoiceStartDate), new Date(invoiceEndDate))         
+        let dateArray = getDates(new Date(invoiceStartDate), new Date(invoiceEndDate))
+        
+        //VALIDATE DATE RANGE//
+        if(dateArray.length == 0) 
+            return res.render('error', {message: `Start Date cannot be after End Date`, statusCode: '400'})
 
         //GET ORDERS FOR THE SPECIFIED DATE RANGE AND CLIENT//
         let orderFields = 'bookingDate awbNumber destination consignee chargeableWeight baseRate brGst chargeDetails totalBill'        
-        let orders = await Order.find({bookingDate: dateArray, client}).select(orderFields)        
+        let orders = await Order.find({bookingDate: dateArray, client}).select(orderFields)   
+        
+        //VALIDATE IF ORDERS//
+        if(orders.length == 0) return res.render('error', {message: `No Orders found for the selected Date Range`, statusCode: '400'})
 
         //CHECK IF ALL ORDERS HAVE BILL AND WEIGHT ADDED//
         let count = checkOrderBillWeight(orders)

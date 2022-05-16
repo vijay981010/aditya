@@ -75,6 +75,10 @@ label>span{
   background-image: url('http://pebbletech.in/anshika/dropdown-arrow.png');
 }
 
+.navbar-dark .navbar-toggler-icon {
+  background-image: url('http://pebbletech.in/anshika/hamburger.png');
+}
+
 /*---------------------- TOGGLE BUTTON ------------------------- */
 
 .switch {
@@ -163,4 +167,9 @@ label>span{
   white-space: nowrap;
   text-overflow: ellipsis;
   max-width: 0;
+}
+
+.navbar-dark .navbar-toggler {
+  color: rgba(255,255,255,1);
+  border-color: rgba(255,255,255,1);
 }
