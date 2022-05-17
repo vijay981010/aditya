@@ -4,6 +4,7 @@ $(document).ready(function(){
 
     $('#actionItem').on('click', addItemRow)        
     $(document).on('click', '.removeItem', removeItemRow)
+    $(document).on('keyup', '.invoice', addInv)
 
     function addItemRow(event){
         event.preventDefault()
@@ -14,8 +15,8 @@ $(document).ready(function(){
         <td class="col-sm-2"><select class='form-select text-center' name='itemType' required><option value='normal'>normal</option><option value='nonDG'>non-DG</option></select></td>
         <td class="col-sm-4"><input type='text' class='form-control text-center' name='itemName' required></td>
         <td class="col-sm-2"><input type='text' class='form-control text-center' name='hsnCode'></td>
-        <td class="col-sm-1"><input type='number' class='form-control text-center' onkeyup='addInv(${invId})' name='itemQuantity' step='.01' required></td>
-        <td class="col-sm-1"><input type='number' class='form-control text-center' onkeyup='addInv(${invId})' name='itemPrice' step='.01' required></td>
+        <td class="col-sm-1"><input type='number' class='form-control text-center invoice' name='itemQuantity' step='.01' required></td>
+        <td class="col-sm-1"><input type='number' class='form-control text-center invoice' name='itemPrice' step='.01' required></td>
         <td class="col-sm-1"><button class="btn btn-danger removeItem"><i class="fa fa-minus-circle"></i></button></td>
         </tr>`)
         invId++
@@ -39,7 +40,7 @@ $(document).ready(function(){
     
 })
 
-function addInv(id){
+function addInv(){
     let totval = 0      
         
     var itemqty = $("input[name='itemQuantity']").map(function(){return $(this).val();}).get()

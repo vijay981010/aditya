@@ -19,6 +19,7 @@ $(document).ready(function(){
     })
 
     $(document).on('click', '.removeItem', removeItemRow)
+    $(document).on('keyup', '.invoice', addInv)
 
     $(document).on('change', '.itemlist', function(){
         let id = $(this)[0].id
@@ -58,8 +59,8 @@ $(document).ready(function(){
             </datalist>
             </td>
             <td class="col-sm-2"><input type='text' class='form-control text-center' id="hsn${itemId}" name='hsnCode'></td>
-            <td class="col-sm-1"><input type='number' class='form-control text-center' onkeyup='addInv(${invId})' name='itemQuantity' step='.01' required></td>
-            <td class="col-sm-1"><input type='number' class='form-control text-center' onkeyup='addInv(${invId})' name='itemPrice' step='.01' required></td>
+            <td class="col-sm-1"><input type='number' class='form-control text-center invoice' name='itemQuantity' step='.01' required></td>
+            <td class="col-sm-1"><input type='number' class='form-control text-center invoice' name='itemPrice' step='.01' required></td>
             <td class="col-sm-1"><button class="btn btn-danger removeItem"><i class="fa fa-minus-circle"></i></button></td>
             </tr>`)
             invId++
@@ -84,7 +85,7 @@ $(document).ready(function(){
     
 })
 
-function addInv(id){    
+function addInv(){    
     let totval = 0      
         
     var itemqty = $("input[name='itemQuantity']").map(function(){return $(this).val();}).get()

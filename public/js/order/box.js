@@ -4,15 +4,20 @@ $(document).ready(function(){
 
     $('#actionBox').on('click', addBoxRow)
     $(document).on('click', '.removeBox', removeBoxRow)    
+    $(document).on('keyup', '.box', function(){
+        console.log($(this)[0].id)
+        let id = $(this)[0].id               
+        addVol(id)
+    })      
     
     function addBoxRow(e){
         e.preventDefault()
         $('#myTable').append(`<tr id="r${boxId++}">
-            <td><input type='number' class='form-control text-center' onkeyup='addVol(${volId})' id='boxLength${volId}' name='boxLength' step='.01' required></td>
-            <td><input type='number' class='form-control text-center' onkeyup='addVol(${volId})' id='boxWidth${volId}' name='boxWidth' step='.01' required></td>
-            <td><input type='number' class='form-control text-center' onkeyup='addVol(${volId})' id='boxHeight${volId}' name='boxHeight' step='.01' required></td>
+            <td><input type='number' class='form-control text-center box' id='boxLength${volId}' name='boxLength' step='.01' required></td>
+            <td><input type='number' class='form-control text-center box' id='boxWidth${volId}' name='boxWidth' step='.01' required></td>
+            <td><input type='number' class='form-control text-center box' id='boxHeight${volId}' name='boxHeight' step='.01' required></td>
             <td><input type='number' class='form-control text-center' name='volumetricWeight' id='volumetricWeight${volId}' readonly='readonly'></td>
-            <td><input type='number' class='form-control text-center' onkeyup='addVol(${volId})' name='actualWeight' step='.01' required></td>
+            <td><input type='number' class='form-control text-center box' name='actualWeight' step='.01' required></td>
             <td><button class="btn btn-danger removeBox"><i class="fa fa-minus-circle"></i></button></td>
             </tr>`)
         volId++
@@ -41,9 +46,11 @@ $(document).ready(function(){
 
 
 function addVol(id){        
+    id = parseFloat(id.substring(id.length-1, id.length))
     let length = $(`#boxLength${id}`).val()                 
     let width = $(`#boxWidth${id}`).val()
-    let height = $(`#boxHeight${id}`).val()
+    let height = $(`#boxHeight${id}`).val()    
+    
     let totalvolweight = 0
     if(length != '' && width != '' && height != ''){                
         let volweight = (length*width*height)/5000                
