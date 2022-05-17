@@ -3,6 +3,7 @@ var moment = require('moment')
 var shortDateFormat = 'DD-MM-yyyy'
 
 exports.generateFlatManifest = (doc, orders, user, date) => {
+    doc.info['Title'] = `manifest_${date}`
     
 // -------------------- CALCULATE TOTAL PAGES --------------------- //
     let totalItems = orders.length     

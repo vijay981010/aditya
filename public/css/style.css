@@ -177,3 +177,7 @@ label>span{
   color: rgba(255,255,255,1);
   border-color: rgba(255,255,255,1);
 }
+
+.smallFont {
+  font-size: 0.7rem;
+}

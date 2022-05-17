@@ -19,12 +19,12 @@ exports.generateAwb = (doc, order, user, consignee) => {
     })    
     
     totalVolWeight = totalVolWeight.toFixed(2)
-    totalActualWeight = totalActualWeight.toFixed(2)
-
-    doc.info['Title'] = `awb${order.awbNumber}` //TITLE TO PDF//
+    totalActualWeight = totalActualWeight.toFixed(2)    
     
     //ACCORDING TO COPY TYPE RENDER PDFS//
     if(consignee){
+      doc.info['Title'] = `awb_cnee_${order.awbNumber}` //TITLE TO PDF//
+
       let copy = 'CONSIGNEE COPY'//COPY NAME      
       
       let titleX = 0; let titleY = 20
@@ -51,6 +51,8 @@ exports.generateAwb = (doc, order, user, consignee) => {
 
       
     }else{
+      doc.info['Title'] = `awb_cnor_acc_${order.awbNumber}` //TITLE TO PDF//
+
       //COPY NAME//
       let copy1 = 'ACCOUNT COPY'
       let copy2 = 'CONSIGNOR COPY'

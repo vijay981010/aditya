@@ -391,9 +391,24 @@ exports.patchBoxPage = async (req, res, next) => {
         let userId = req.user.id
         
         const user = await User.findById(userId).populate('admin').exec()
-        let order = await Order.findById(orderId).populate('client').exec()                    
+        let order = await Order.findById(orderId).populate('client').exec() 
+
+        //CREATE PKGLIST ARRAY//
+        let pkgTypeArr = ['pcs', 'pkt', 'bot', 'kgs', 'pai', 'nos', 'set', 'box']
+
+        //GET HSN LIST IF ADDON MODULE//
+        let hsnList
+        if(user.role=='admin' && user.settings.autoHsn==true || user.role=='client' && user.admin.clientSettings.autoHsn==true){
+            let filter = {admin: userId}
+            if(user.role == 'client') filter = {admin: user.admin._id} 
+            hsnList = await Hsn.find(filter)
+        }else{
+            hsnList = []
+        }
         
-        res.render('order/add/box', {user, order})
+        let renderObj = {user, order, pkgTypeArr, hsnList}
+
+        res.render('order/add/box', renderObj)
 
     }catch(err){
         next(err)
@@ -406,8 +421,8 @@ exports.patchBox = async (req, res, next) => {
             boxType, boxLength, boxWidth, boxHeight, 
             volumetricWeight, actualWeight, 
             boxNumber, itemType, itemName, hsnCode,
-            itemQuantity, itemPrice, chargeableWeight, 
-            currency, totalValue, invoiceType
+            itemQuantity, packagingType, itemPrice, 
+            chargeableWeight, currency, totalValue, invoiceType
         } = req.body      
         //res.json(req.body)                    
 
@@ -440,8 +455,8 @@ exports.patchBox = async (req, res, next) => {
         
         let itemArr = []; let boxArr = [];
 
-        let itemValArr = [boxNumber, itemType, itemName, hsnCode, itemQuantity, itemPrice]
-        let itemKeyArr = ['boxNumber', 'itemType', 'itemName', 'hsnCode', 'itemQuantity', 'itemPrice']
+        let itemValArr = [boxNumber, itemType, itemName, hsnCode, itemQuantity, packagingType, itemPrice]
+        let itemKeyArr = ['boxNumber', 'itemType', 'itemName', 'hsnCode', 'itemQuantity', 'packagingType', 'itemPrice']
         
         let boxValArr = [boxLength, boxWidth, boxHeight, volumetricWeight, actualWeight]
         let boxKeyArr = ['boxLength', 'boxWidth', 'boxHeight', 'volumetricWeight', 'actualWeight']

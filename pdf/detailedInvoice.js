@@ -4,25 +4,10 @@ var shortDateFormat = 'DD-MM-yyyy'
 const { ToWords } = require('to-words')
 
 exports.detailedInvoice = (doc, orders, invoice, user, compData) => {
+    doc.info['Title'] = `invoice${invoice.invoiceNumber}` //TITLE TO PDF//
+
 // ---- Calculate Total Number of Pages ------ //
-    /* let start = 0  
-    let breakpoint = 13//7
-    let fconst = 13//7
-    let len = 24//orders.length
-    //debug(orders.length % breakpoint)
-    let totalPages */
-    /* if(len % breakpoint > 0){
-        totalPages = Math.ceil(len / breakpoint)
-    }else if(len % breakpoint == 0){
-        totalPages = len / breakpoint
-    } */
-
-    /* if(len % 7 > 0){
-        totalPages = Math.ceil(len / 7)
-    }else if(len % 7 == 0){
-        totalPages = Math.ceil(len / 7)
-    } */
-
+    
     let start = 0
     let initialbreakpoint = 7
     let breakpoint = 14
@@ -81,8 +66,11 @@ exports.detailedInvoice = (doc, orders, invoice, user, compData) => {
             }
         }
         
-        //awbTable(doc, orders, start, breakpoint)
-        footerDetails(doc, i + 1, totalPages+1)
+        //IF DEFAULT NOTE ADDED, INCREASE TOTAL PAGE COUNT//
+        let footerTotPages = totalPages
+        if(user.invoiceDefaultNote) footerTotPages = totalPages + 1
+        
+        footerDetails(doc, i + 1, footerTotPages)
 
         //render totals on last page//
         if(i == totalPages - 1){
@@ -153,6 +141,8 @@ function invoiceeDetails(doc, invoice){
     
 }
 
+// ------------------------------------------------------------------------------- //
+
 function tabl(doc, orders, compData, start, breakpoint){
     
     let x = 30
@@ -218,38 +208,7 @@ function tabl(doc, orders, compData, start, breakpoint){
 
 }
 
-function awbTable(doc, orders, start, breakpoint){
-    let x = 20, y = 60, g = 25, dateG = 60, awbG = 160, destG = 270, consG = 420, wG = 630, aG = 700
-    let c = 0 // a counter for getting same row distance values on each page
-
-    doc
-    .font('Helvetica-Bold')
-    .fontSize(14)
-    .text('Sr.No.', x, y, {width: 100, align: 'center'})
-    .text('Date', x + dateG, y, {width: 100, align: 'center'})
-    .text('AWB', x + awbG, y, {width: 100, align: 'center'})
-    .text('Destination', x + destG, y, {width: 150, align: 'center'})
-    .text('Consignee', x + consG, y, {width: 230, align: 'center'})
-    .text('Weight', x + wG, y, {width: 100, align: 'center'})
-    .text('Amount', x + aG, y, {width: 100, align: 'center'})    
-    
-    for(let i = start; i < breakpoint; i++){
-        let iv = (2*c) + 1
-
-        doc
-        .font('Helvetica')
-        .text(i+1, x, y + (iv*g), {width: 100, align: 'center'})
-        .text(moment(orders[i].bookingDate).format(shortDateFormat), x + dateG, y + (iv*g), {width: 100, align: 'center'})
-        .text(orders[i].awbNumber, x + awbG, y + (iv*g), {width: 100, align: 'center'})
-        .text(orders[i].destination, x + destG, y + (iv*g), {width: 150, align: 'center'})
-        .text(orders[i].consignee, x + consG, y + (iv*g), {width: 230, align: 'center'})
-        .text(orders[i].chargeableWeight, x + wG, y + (iv*g), {width: 100, align: 'center'})
-        .text(orders[i].billAmount, x + aG, y + (iv*g), {width: 100, align: 'center'})
-
-        c++
-    }    
-
-}
+// ------------------------------------------------------------------------------- //
 
 function footerDetails(doc, current, total){
     doc
@@ -257,6 +216,8 @@ function footerDetails(doc, current, total){
     //.moveTo(330, 40).lineTo(470, 40).stroke()
     .text(`Page ${current} of ${total}`, 0, 575, {width: 842, height:15, align: 'center'})
 }
+
+// ------------------------------------------------------------------------------- //
 
 function summ(doc, invoice, compData){
     let x3 = 680, x2 = 560, y = 490
@@ -309,6 +270,8 @@ function summ(doc, invoice, compData){
     .text(compData.totalBill, x2-margin, y+(3*g), rightAlign)
     
 }
+
+// ------------------------------------------------------------------------------- //
 
 function displayNote(doc, addNote, defaultNote, total){
     

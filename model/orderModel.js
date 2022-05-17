@@ -36,6 +36,9 @@ const itemSchema = new Schema({
     itemQuantity: {
         type: Number
     },
+    packagingType: {
+        type: String
+    },
     itemPrice:{
         type: Number
     }

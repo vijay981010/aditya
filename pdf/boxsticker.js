@@ -9,7 +9,7 @@ exports.boxstickergenerate = (doc, order, user) => {
     doc.addPage()    
 
     //PDF TITLE//
-    doc.info['Title'] = `boxsticker${order.awbNumber}`
+    doc.info['Title'] = `boxlabel${order.awbNumber}`
 
     //REGISTER FONTS//
     doc.registerFont('reg', 'Helvetica')

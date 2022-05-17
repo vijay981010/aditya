@@ -2,8 +2,22 @@ var moment = require('moment')
 var shortDateFormat = 'DD-MM-yyyy'
 const debug = require('debug')('dev')
 const {getStartRange} = require('./pdfLibrary')
+const { ToWords } = require('to-words')
+
+//NUMBER TO WORDS CONFIG//
+const toWords = new ToWords({
+  localeCode: 'en-IN',
+  converterOptions: {
+    //currency: true,
+    ignoreDecimal: false,
+    ignoreZeroCurrency: false,
+    doNotAddOnly: false,
+  }
+})
 
 exports.generatePackingListPdf = (doc, order, itemArr, boxArr, totArr) => {
+    doc.info['Title'] = `packinglist${order.awbNumber}` //TITLE TO PDF//
+
     //REGISTER FONTS//
     doc.registerFont('reg', 'Helvetica')
     doc.registerFont('bold', 'Helvetica-Bold')
@@ -22,10 +36,11 @@ exports.generatePackingListPdf = (doc, order, itemArr, boxArr, totArr) => {
     
     //FIXED TEXT//
     let indi = 'Terms, Unsolicited Gift From Individual to Individual'
+    if(order.invoiceType == 'company') indi = ''    
     let disclaimer = `We here by Confirm that the Parcel does not Involve any Commercial Transaction. The Value is Declared for Customs Purpose Only`
 
     //DEFINE COLUMN STARTS AND WIDTHS //
-    let widthArr = [90, 230, 70, 40, 52.5, 52.5] //DEFINE COLUMN WIDTHS//
+    let widthArr = [90, 230, 70, 45, 47.5, 52.5] //DEFINE COLUMN WIDTHS//
 
     //DEFINE COLUMN START POINTS//
     let startArr = getStartRange(30, widthArr) 
@@ -178,8 +193,9 @@ exports.generatePackingListPdf = (doc, order, itemArr, boxArr, totArr) => {
       hArr = hArr.map(item => item*15)
       let rowStartArr = getStartRange(start, hArr)        
       
-      for(let i = 0; i < itemSet; i++){               
-        let boxRowArr = [boxArr[id], itemArr[id].itemName, itemArr[id].hsnCode, itemArr[id].itemQuantity, itemArr[i].itemPrice, totArr[id]] //
+      for(let i = 0; i < itemSet; i++){   
+        let qty = `${itemArr[id].itemQuantity} ${itemArr[id].packagingType}`            
+        let boxRowArr = [boxArr[id], itemArr[id].itemName, itemArr[id].hsnCode, qty, itemArr[i].itemPrice, totArr[id]] //
         
         for(let j = 0; j < startArr.length; j++){                     
           let yPos = y + rowStartArr[i]   
@@ -217,10 +233,13 @@ exports.generatePackingListPdf = (doc, order, itemArr, boxArr, totArr) => {
   
   //SUMMARY TEXT//
   function summaryInfo(){
-      let totArr = ['Total', order.currency, order.totalValue]  
-      let width3Arr = [40, 52.5, 52.5]
+      let words = toWords.convert(order.totalValue)
+      debug(words)
 
-      let start3Arr = getStartRange(420, width3Arr)        
+      let totArr = [`${order.currency} ${words} only`, '', 'Total', order.currency, order.totalValue]  
+      let width3Arr = [230, 70, 45, 47.5, 52.5]
+
+      let start3Arr = getStartRange(120, width3Arr)        
 
       for(let i = 0; i < totArr.length; i++){
         doc.font('bold').fontSize(fs2)

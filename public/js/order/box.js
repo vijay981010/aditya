@@ -13,9 +13,9 @@ $(document).ready(function(){
     function addBoxRow(e){
         e.preventDefault()
         $('#myTable').append(`<tr id="r${boxId++}">
-            <td><input type='number' class='form-control text-center box' id='boxLength${volId}' name='boxLength' step='.01' required></td>
-            <td><input type='number' class='form-control text-center box' id='boxWidth${volId}' name='boxWidth' step='.01' required></td>
-            <td><input type='number' class='form-control text-center box' id='boxHeight${volId}' name='boxHeight' step='.01' required></td>
+            <td><input type='number' class='form-control text-center box' id='boxL${volId}' name='boxLength' step='.01' required></td>
+            <td><input type='number' class='form-control text-center box' id='boxW${volId}' name='boxWidth' step='.01' required></td>
+            <td><input type='number' class='form-control text-center box' id='boxH${volId}' name='boxHeight' step='.01' required></td>
             <td><input type='number' class='form-control text-center' name='volumetricWeight' id='volumetricWeight${volId}' readonly='readonly'></td>
             <td><input type='number' class='form-control text-center box' name='actualWeight' step='.01' required></td>
             <td><button class="btn btn-danger removeBox"><i class="fa fa-minus-circle"></i></button></td>
@@ -46,10 +46,10 @@ $(document).ready(function(){
 
 
 function addVol(id){        
-    id = parseFloat(id.substring(id.length-1, id.length))
-    let length = $(`#boxLength${id}`).val()                 
-    let width = $(`#boxWidth${id}`).val()
-    let height = $(`#boxHeight${id}`).val()    
+    id = parseFloat(id.substring(4, id.length))
+    let length = $(`#boxL${id}`).val()                 
+    let width = $(`#boxW${id}`).val()
+    let height = $(`#boxH${id}`).val()    
     
     let totalvolweight = 0
     if(length != '' && width != '' && height != ''){                
