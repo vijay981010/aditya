@@ -1129,12 +1129,21 @@ exports.packingList = async(req, res, next) => {
         order.boxDetails.forEach((box,i) => {
             let boxInfo = `Box ${i+1}(${box.boxLength}x${box.boxWidth}x${box.boxHeight}) Act. Wt. ${box.actualWeight}`
             boxArr.push(boxInfo)
+            boxArr.push(' ') //PUSH BLANK ENTRY IN BETWEEN NEW BOXES//
             box.itemDetails.forEach((item,j) => {
                 if(j > 0) boxArr.push('')
                 itemArr.push(item)
                 totArr.push((item.itemQuantity * item.itemPrice).toFixed(2))
-            })        
+            })  
+            //PUSH BLANK ENTRY IN BETWEEN NEW BOXES//
+            let blankObj = {boxNumber: ' ', itemType: ' ', itemName: ' ', hsnCode: ' ', itemQuantity: ' ', packagingType: ' ', itemPrice: ' '}
+            itemArr.push(blankObj)      
+            totArr.push(' ')
         })
+
+        debug(boxArr)
+        debug(itemArr)
+        debug(totArr)
 
         //PDF INITIALIZATION//
         const doc = new PDFdocument({  
