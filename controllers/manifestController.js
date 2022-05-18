@@ -29,10 +29,13 @@ exports.manifestForm = async(req, res, next) => {
         const user = await User.findById(userId)
         const countries = await db.collection('countries').find().toArray()
         
-        let orderList = await Order.find().populate({path:'client', select:'admin'}).select('awbNumber').sort({bookingDate: 'desc', createdAt: 'desc'}).limit(300)
+        //GET CLIENT LIST OF ADMIN//
+        let clientList = await User.find({admin: userId}).select('username')
         
-        orderList = orderList.filter(elem => elem.client.admin == userId)
-        
+        //GET LATEST 450 ORDERS//
+        let orderList = await Order.find({client: clientList}).select('awbNumber').sort({bookingDate: 'desc', createdAt: 'desc'}).limit(450)
+                
+        debug(orderList.length)
         res.render('manifest/add', {user, countries, orderList})
     }catch(err){
         next(err)
