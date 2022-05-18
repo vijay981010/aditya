@@ -80,10 +80,12 @@ exports.manifestUpdateForm = async(req, res, next) => {
 
         const user = await User.findById(userId)
         const countries = await db.collection('countries').find().toArray()
+
+        //GET CLIENT LIST OF ADMIN//
+        let clientList = await User.find({admin: userId}).select('username')
         
         //GET ORDERLIST OF RESPECTIVE ADMIN//
-        let orderList = await Order.find().populate({path:'client', select:'admin'}).select('awbNumber').sort({bookingDate: 'desc', createdAt: 'desc'}).limit(300)        
-        orderList = orderList.filter(elem => elem.client.admin == userId)        
+        let orderList = await Order.find({client: clientList}).select('awbNumber').sort({bookingDate: 'desc', createdAt: 'desc'}).limit(450)                   
 
         //GET MANIFEST DETAILS//
         let manifest = await Manifest.findById(manifestId).populate({
