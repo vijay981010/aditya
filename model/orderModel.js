@@ -224,6 +224,9 @@ const orderSchema = new Schema({
         type: String,
         trim: true,             
     },
+    preferredVendor:{
+        type: String,
+    },
     status: {
         type: String,
         enum: ['active', 'inactive']

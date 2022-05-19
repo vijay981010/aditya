@@ -75,7 +75,20 @@
                         </div>
                     <% }else{ %>
                         <input type="hidden" name="service" value="<%= user.defaultService %>">
-                    <% } %>                    
+                    <% } %>  
+                    <% if(user.role=='admin' && user.settings.preferredVendor || user.role=='client' && user.admin.clientSettings.preferredVendor){%>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="awbNumber">Preferred Service<span>*</span></label> 
+                                <select class ="form-select" name = "preferredVendor" required >
+                                    <option value="<%= order.preferredVendor %>"><%= order.preferredVendor %></option>                                        
+                                    <% preferredVendors.forEach(vendor => { %>
+                                        <option value="<%= vendor %>"><%= vendor %></option>
+                                    <% }) %>                                        
+                                </select>
+                            </div>
+                        </div>
+                    <%}%>                  
                 </div>
                 <div class="row">
                     <div class="col-md-6">

@@ -2,6 +2,7 @@ const debug = require('debug')('dev')
 var moment = require('moment')
 var shortDateFormat = 'DD-MM-yyyy'
 const { ToWords } = require('to-words')
+const {removeNextLine} = require('../pdf/pdfLibrary')
 
 exports.detailedInvoice = (doc, orders, invoice, user, compData) => {
     doc.info['Title'] = `invoice${invoice.invoiceNumber}` //TITLE TO PDF//
@@ -276,7 +277,7 @@ function summ(doc, invoice, compData){
 function displayNote(doc, addNote, defaultNote, total){
     
     let x = 30, y = 65, g = 15
-    let leftAlign = {width: 842, align: 'left'}    
+    let leftAlign = {width: 792, align: 'left'}    
     
     //RENDER NOTE ALWAYS ON NEW PAGE WITH FOLLOWING DEFAULTS//
     doc
@@ -285,16 +286,20 @@ function displayNote(doc, addNote, defaultNote, total){
     .text('Note', 30, 45, leftAlign) 
     .font('Helvetica').fontSize(14)    
     
-    let defaultNoteSplit 
+    /* let defaultNoteSplit 
 
     if(defaultNote){
         defaultNoteSplit = defaultNote.split('\r') //SPLIT TEXT AREA VALUE//            
-
+        debug(defaultNoteSplit)
         //RENDER TEXT AREA ARRAY//
         defaultNoteSplit.forEach((line,i) => {        
             doc.text(line, x, y+(i*g), leftAlign)
         })        
-    }    
+    } */    
+    defaultNote = removeNextLine(defaultNote)
+    if(defaultNote){
+        doc.text(defaultNote, x, y+g, leftAlign)
+    }
     
     if(addNote){                
         let addNoteSplit = addNote.split('\r')  

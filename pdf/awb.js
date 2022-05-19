@@ -99,6 +99,11 @@ function awbCopy(doc, user, order, consignee, totalVolWeight, totalActualWeight,
   let accountData
   order.client.username != 'Miscellaneous' ? accountData = order.client.username : accountData = order.miscClients  
 
+  //CHECK SERVICE//
+  let service = order.service
+  if(user.role=='admin' && user.settings.preferredVendor || user.role=="client" && user.admin.clientSettings.preferredVendor)
+    service = order.preferredVendor
+
   //MAIN BOX//
   doc
   .lineWidth(2)
@@ -185,7 +190,7 @@ function awbCopy(doc, user, order, consignee, totalVolWeight, totalActualWeight,
     .text('VOLUMETRIC WEIGHT (KG)', 440, y+137.5, {width: 120, align: 'center'})
     .text('ACTUAL WEIGHT (KG)', 440, y+170, {width: 120, align: 'center'})
     .text('DESCRIPTION AND VALUE OF GOODS:', 45, y+230)
-    .text(`SERVICE: ${order.service}`, 290, y+235, {width: 150, align: 'left'})
+    .text(`SERVICE: ${service}`, 290, y+235, {width: 150, align: 'left'})
     .text('BOX DIMENSIONS', 450, y+235, {width: 110, align: 'center'})
 
     doc

@@ -17,5 +17,5 @@ exports.getEvenNumbers = (num) => {
 
 exports.removeNextLine = (strValue) => {
     strValue = strValue.split('\r')
-    return strValue.toString()
+    return strValue.join(" ")
 }

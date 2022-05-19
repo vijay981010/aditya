@@ -101,7 +101,8 @@ const userSchema = new Schema({
         autoHsn: Boolean,            
         awbPrintBranding: Boolean,
         displayNoName: Boolean,
-        additionalTrackingStatus: Boolean  
+        additionalTrackingStatus: Boolean,
+        preferredVendor: Boolean 
     },    
     clientSettings:{
         manualAwbOption: Boolean,
@@ -111,7 +112,8 @@ const userSchema = new Schema({
         autoHsn: Boolean,      
         awbPrintBranding: Boolean,
         displayNoName: Boolean,
-        additionalTrackingStatus: Boolean     
+        additionalTrackingStatus: Boolean,
+        preferredVendor: Boolean     
     },
     admin: {
         type: Schema.Types.ObjectId,

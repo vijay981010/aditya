@@ -38,21 +38,22 @@
             <tr>
                 <th>Date</th>
                 <th>Username</th>
-                <th>Status</th>
+                
 
                 <% if(user.role == 'superadmin'){ %>
                 <th>Access</th>
                 <th>Api Credit</th>
                 <th>Tracking Id</th>
                 <th>Display Name</th>
-                <% } %>        
+                <th>Action</th>
+                <% } %>   
+                
+                <th>Status</th>
 
                 <% if(user.role == 'admin'){ %>
                 <!-- <th>Services</th> -->
                 <% } %>    
-                <% if(user.role == 'superadmin'){ %>            
-                <th>Action</th>
-                <%}%>
+                
                 <th>Action</th> 
                 <th>Action</th>                               
             </tr>
@@ -61,28 +62,31 @@
             <% userList.slice().reverse().forEach((client,i) => { %> 
                 <tr>
                     <td><%= moment(client.createdAt).format(shortDateFormat) %></td>                    
-                    <td><%= client.username %></td>
-
-                    <td>
-                        <label class="switch">
-                            <input class="myClass" type="checkbox" id="<%= client._id %>" name="status" <%= client.status == 'active' ? 'checked' : '' %> >
-                            <span class='slider round'></span>
-                        </label>                        
-                    </td>
+                    <td><%= client.username %></td>                    
 
                     <% if(user.role == 'superadmin'){ %>
                     <td><%= client.accessRight %></td>
                     <td><%= client.apiCredit %></td>
                     <td><%= client.trackingId %></td>
                     <td><%= client.displayName %></td>
-                    <% } %>
-                
-                    <% if(user.role == 'superadmin'){ %>
                     <td><a class="btn-sm btn-primary" href="/users/<%= client._id %>/addons">Add Ons</a></td>
-                    <% } %>
-                    
-                    <td><a class="btn-sm btn-primary" href="/users/<%= client._id %>/edit">Edit</a></td>     
-                    <td><a class="btn-sm btn-primary" href="/users/<%= client._id %>/profile/edit">Profile</a></td>               
+                    <% } %>                    
+                                    
+                    <% if(client.username != 'Miscellaneous'){%>
+                    <td>
+                        <label class="switch">
+                            <input class="myClass" type="checkbox" id="<%= client._id %>" name="status" <%= client.status == 'active' ? 'checked' : '' %> >
+                            <span class='slider round'></span>
+                        </label>                        
+                    </td>
+                    <td><a class="btn-sm btn-primary" href="/users/<%= client._id %>/edit">Edit</a></td>  
+                    <td><a class="btn-sm btn-primary" href="/users/<%= client._id %>/profile/edit">Profile</a></td>
+                    <%}else{%>
+                    <td></td>
+                    <td></td>    
+                    <td></td>
+                    <%}%>                       
+                                   
                 </tr>
             <% }) %>                                                                                                           
         </tbody>
