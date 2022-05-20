@@ -20,8 +20,7 @@ const userSchema = new Schema({
         minlength: 8
     },
     token: {
-        type: String,
-        required: true
+        type: String,        
     },
     companyName: {
         type: String,

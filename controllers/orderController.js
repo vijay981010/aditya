@@ -737,7 +737,7 @@ exports.trackDetails = async(req, res, next) => {
     try{        
         
     // --------- GET ORDER MANUAL TRACKING DATA FROM DATABASE ----------------- //
-        let {trackingNumber, user} = req.query
+        let {trackingNumber, user} = req.query        
 
         //GET CLIENT LIST TO AVOID DUPLICATE TRACKING NUMBER ISSUE//
         let userId = await User.findOne({username: user}).select('username trackingId')        

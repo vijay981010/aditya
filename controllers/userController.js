@@ -40,6 +40,8 @@ exports.createUserPage = async (req, res, next) => {
 
 exports.createUser = async (req, res, next) => {
     try{        
+    // ------------------------------- GET LOGGED IN USER ------------------------ //
+        let userRole = req.user.role
     // -------------------------------- VALIDATION -------------------------------- //
         const errors = validationResult(req)
         
@@ -69,20 +71,37 @@ exports.createUser = async (req, res, next) => {
             role: role,
             username: username,
             password: hash,
-            token: token            
+            token: token,
+            status: 'inactive'          
         })
 
         //IF ADMIN CREATING CLIENT USER, ATTACH ADMIN ID REFERENCE//
         if(req.body.admin_id) newUser.admin = req.body.admin_id           
                 
-        await newUser.save() //WRITE TO DB    
+        let createdUser = await newUser.save() //WRITE TO DB    
+        
+        //CREATE A DEFAULT MISCELLANEOUS USER FOR ADMIN USER//
+        if(userRole == 'superadmin'){
+            let defaultClientPw = Math.floor(Math.random() * 100000000).toString() //GENERATE RANDOM 8 DIGIT PW
+            let hashPw = await bcrypt.hash(defaultClientPw, 10) //HASH THE PASSWORD
 
+            let defaultClient = new User({
+                role: 'client',
+                username: 'Miscellaneous',
+                password: hashPw,
+                admin: createdUser._id
+            })
+
+            await defaultClient.save()
+        }
+        
+        //GO TO USER LIST PAGE AFTER WRITING TO DB//
         if(req.user.role == "superadmin"){
             res.redirect('/users/adminlist')
         }else if(req.user.role == "admin"){
             res.redirect('/users/clientlist')
         }        
-        
+                        
     }catch(err){
         next(err)
     }    

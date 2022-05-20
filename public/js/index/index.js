@@ -1,9 +1,12 @@
 $(document).ready( function () {
 
-  let dtConfig = {
-    "scrollX": true,          
+  let dtConfig = {              
     "order": [],
-    "pageLength": 100    
+    "pageLength": 100
+  }
+
+  if(window.matchMedia("(max-width: 768px)").matches) {
+    dtConfig.scrollX = true 
   }
     
 // ------------------ DATATABLE ------------------ //

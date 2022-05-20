@@ -72,13 +72,15 @@
                     <td><a class="btn-sm btn-primary" href="/users/<%= client._id %>/addons">Add Ons</a></td>
                     <% } %>                    
                                     
-                    <% if(client.username != 'Miscellaneous'){%>
+                    <% if(client.username != 'Miscellaneous'){ %>                        
                     <td>
+                        <% if(user.accessRight.indexOf('user') != -1 || user.role=="superadmin"){ %> 
                         <label class="switch">
                             <input class="myClass" type="checkbox" id="<%= client._id %>" name="status" <%= client.status == 'active' ? 'checked' : '' %> >
                             <span class='slider round'></span>
                         </label>                        
-                    </td>
+                        <%}%>
+                    </td>                        
                     <td><a class="btn-sm btn-primary" href="/users/<%= client._id %>/edit">Edit</a></td>  
                     <td><a class="btn-sm btn-primary" href="/users/<%= client._id %>/profile/edit">Profile</a></td>
                     <%}else{%>

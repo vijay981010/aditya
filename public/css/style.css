@@ -79,10 +79,6 @@ label>span{
   background-image: url('http://pebbletech.in/anshika/dropdown-arrow.png');
 }
 
-.navbar-dark .navbar-toggler-icon {
-  background-image: url('http://pebbletech.in/anshika/hamburger.png');
-}
-
 /*---------------------- TOGGLE BUTTON ------------------------- */
 
 .switch {
@@ -149,13 +145,9 @@ label>span{
       display: none;
   }
 
-  /* .alert {
-    display: none;
-  } */
-
-  .dropdown-menu {
+  /* .dropdown-menu {
     position: relative !important;    
-  }
+  } */
   
   body{
     font-family: Helvetica;
@@ -173,10 +165,18 @@ label>span{
   max-width: 0;
 }
 
+/* ----------- MOBILE NAVBAR ----------- */
+
 .navbar-dark .navbar-toggler {
   color: rgba(255,255,255,1);
   border-color: rgba(255,255,255,1);
 }
+
+.navbar-dark .navbar-toggler-icon {
+  background-image: url('http://pebbletech.in/anshika/hamburger.png');
+}
+
+/* ------------------ */
 
 .smallFont {
   font-size: 0.7rem;
