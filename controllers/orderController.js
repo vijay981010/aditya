@@ -6,7 +6,8 @@ const Walkin = require('../model/walkinModel')
 let debug = require('debug')('dev')
 const axios = require('axios')
 const mongoose = require('mongoose');
-const {vendorArray, stateList, cityList, preferredVendors} = require('../fixedData/vendors')
+const {vendorArray, stateList, cityList, 
+    preferredVendors, linkedVendorArray} = require('../fixedData/vendors')
 const {processRequest, sortBoxItem, getDates, 
     regexUpperCase, getPrefix, getXthDay} = require('../helpers/helpers')
 const PDFdocument = require('pdfkit')
@@ -636,9 +637,10 @@ exports.patchTrackPage = async (req, res, next) => {
         const user = await User.findById(userId)
         let order = await Order.findById(orderId).populate('client').exec()
         
-        let apiVendors = vendorArray.slice(1)                        
+        let apiVendors = vendorArray.slice(1)
+        let linkedVendors = linkedVendorArray.slice(1)                        
 
-        res.render('order/add/track', {user, order, apiVendors})
+        res.render('order/add/track', {user, order, apiVendors, linkedVendors})
         
     }catch(err){
         next(err)
@@ -647,26 +649,26 @@ exports.patchTrackPage = async (req, res, next) => {
 
 exports.patchTrack = async (req, res, next) => {
     try{
+        //INITIALISE DEBUG FOR THIS FUNCTION//
+        let debug = require('debug')('c_app: shipwayTracking')
+
         // get all inputs
-        let { awbNumber, trackingNumber, vendorId, coforwarder, 
+        let { awbNumber, trackingType, trackingNumber, vendorId, coforwarder, 
             coforwarderAwb, clientNote, selfNote } = req.body                    
 
         let orderId = req.params.orderId 
         let userId = req.user.id       
-
-        let vendorName 
+        
         let apiCount
         let apiCredit
 
         let user = await User.findById(userId).select('apiCredit trackingId')   
         
-        //GET VENDOR NAME//        
-        vendorArray.forEach(elem => {
-            if(elem.id == vendorId){
-                vendorName = elem.name
-            }
-        })        
-                
+        //GET VENDOR NAME//
+        let vendorName     
+        trackingType=='shipway'? vendorName = getVendorName(vendorArray, vendorId) : vendorName = getVendorName(linkedVendorArray, vendorId)                
+        debug(vendorName, vendorId, trackingType)
+
         let order = await Order.findById(orderId)
         /* if(vendorName != 'OTHERS' ){
             if(order.trackingNumber != trackingNumber || order.vendorName != vendorName){
@@ -678,7 +680,7 @@ exports.patchTrack = async (req, res, next) => {
 
         //if vendorName is others then don't increment else
         //check if new tracking number or new vendorName, then increment
-        if(vendorName != 'OTHERS' ){
+        if(vendorName != 'OTHERS' && trackingType=='shipway'){
             if(order.trackingNumber != trackingNumber || order.vendorName != vendorName){
                 //CREATE PREFIXED TRACKING NUMBER TO AVOID DUPLICATES//
                 let order_id = `${user.trackingId}${awbNumber}`                
@@ -697,11 +699,10 @@ exports.patchTrack = async (req, res, next) => {
                     "products":"N/A",
                     "company":"N/A",
                     "shipment_type":"1"
-                }
+                }                
     
                 let response = await axios.post('https://shipway.in/api/PushOrderData', postData)
-                //debug(response.data)
-                /* let response = {data: {status: 'Success'}}  */
+                
                 if(response.data.status == 'Success'){                    
                     apiCount = order.apiCount + 1 //increment API count                    
                     apiCredit = user.apiCredit - 1 //decrement user API credit
@@ -726,26 +727,17 @@ exports.patchTrack = async (req, res, next) => {
     }
 }
 
-exports.checkDuplicateTracking = async(req, res, next) => {
-    try{
-        let {trackingNumber, user} = req.query
-        
-        let order = await Order.find({awbNumber: trackingNumber})
-    }catch(err){
-        next(err)
-    }
-}
-
 exports.trackDetails = async(req, res, next) => {
     try{        
-        
+        let debug = require('debug')('c_app: trackDetails')
     // --------- GET ORDER MANUAL TRACKING DATA FROM DATABASE ----------------- //
         let {trackingNumber, user} = req.query        
 
         //GET CLIENT LIST TO AVOID DUPLICATE TRACKING NUMBER ISSUE//
-        let userId = await User.findOne({username: user}).select('username trackingId')        
-        userlist = await User.find({role: 'client', admin: userId})        
-        userlist = userlist.map(user => user._id)  
+        let adminUser = await User.findOne({username: user}).select('trackingId trackingType')   
+        debug(adminUser)
+        userlist = await User.find({role: 'client', admin: adminUser})                 
+        userlist = userlist.map(user => user._id)          
 
         //FILTER OUT THE UNIQUE TRACKING NUMBER FOR RESPECTIVE ADMIN//
         let order = await Order.findOne({awbNumber: trackingNumber, client: userlist}).populate('client')        
@@ -755,53 +747,57 @@ exports.trackDetails = async(req, res, next) => {
     // -------- GET TRACKING DATA FROM API IF VENDOR ID EXISTS -------------------- //
     
         if(order.vendorId && order.vendorId != 0){
-            let excludeArr = ['914653', '9146530', '920193', '557740445', '1614352', '3779137', '3734458', '4570177', '3106960',
-            '527471', '3981373', '3431059', '3250406', '6172115', '8265503']
-        
-            let order_id = trackingNumber
+            if(adminUser.trackingType=='shipway'){
+                let excludeArr = ['914653', '9146530', '920193', '557740445', '1614352', '3779137', '3734458', '4570177', '3106960',
+                '527471', '3981373', '3431059', '3250406', '6172115', '8265503']
             
-            if(excludeArr.indexOf(trackingNumber) == -1)
-                order_id = `${userId.trackingId}${trackingNumber}`                        
-            
-            let postData = {
-                "username":"adinr4",
-                "password":"be57b1d8cbcf5c9cd7fe3d8011233985",
-                "order_id": order_id
-            }
-            let response = await axios.post('https://shipway.in/api/getOrderShipmentDetails', postData)
-
-            //debug(response.data)
-
-            if(response.data.status == "Success"){            
-                let apiData = response.data.response
-                let currentStatus = apiData.current_status
-                //process api scan items and push to order tracking details object
-                if(apiData.scan){
-                    apiData.scan.slice().reverse().forEach(item => {
-                        let obj = {} // initiate blank obj
-                        
-                        let d = item.time.split(' ')[0] //get date from item.time
-                        let t = item.time.split(' ')[1] // get time from item.time
-                        obj.statusDate = d 
-                        obj.statusTime = t
-                        obj.statusLocation = item.location
-                        obj.statusActivity = item.status_detail
-    
-                        order.trackingDetails.unshift(obj)
-                    })
-                }
+                let order_id = trackingNumber
                 
-                order.trackingStatus = apiData.current_status_code //GET LATEST STATUS CODE//
+                if(excludeArr.indexOf(trackingNumber) == -1)
+                    order_id = `${adminUser.trackingId}${trackingNumber}`                        
+                
+                let postData = {
+                    "username":"adinr4",
+                    "password":"be57b1d8cbcf5c9cd7fe3d8011233985",
+                    "order_id": order_id
+                }
+                let response = await axios.post('https://shipway.in/api/getOrderShipmentDetails', postData)
 
-                //UPDATE ORDER TRACKING STATUS CODE TO DB//
-                let updateObj = {trackingStatus: order.trackingStatus}
-                await Order.findByIdAndUpdate(order._id, updateObj)
-                                
-                //SEND RESPONSE OBJECT TO AJAX REQUEST//
-                res.status(200).json({order, currentStatus, status:'Success'})            
-            }else{
-                //res.status(400).send(`tracking number doesn't exist`)
-                res.json({status: 'fail'})
+                //debug(response.data)
+
+                if(response.data.status == "Success"){            
+                    let apiData = response.data.response
+                    let currentStatus = apiData.current_status
+                    //process api scan items and push to order tracking details object
+                    if(apiData.scan){
+                        apiData.scan.slice().reverse().forEach(item => {
+                            let obj = {} // initiate blank obj
+                            
+                            let d = item.time.split(' ')[0] //get date from item.time
+                            let t = item.time.split(' ')[1] // get time from item.time
+                            obj.statusDate = d 
+                            obj.statusTime = t
+                            obj.statusLocation = item.location
+                            obj.statusActivity = item.status_detail
+        
+                            order.trackingDetails.unshift(obj)
+                        })
+                    }
+                    
+                    order.trackingStatus = apiData.current_status_code //GET LATEST STATUS CODE//
+
+                    //UPDATE ORDER TRACKING STATUS CODE TO DB//
+                    let updateObj = {trackingStatus: order.trackingStatus}
+                    await Order.findByIdAndUpdate(order._id, updateObj)
+                                    
+                    //SEND RESPONSE OBJECT TO AJAX REQUEST//
+                    res.status(200).json({order, currentStatus, status:'Success'})            
+                }else{                
+                    res.json({status: 'fail'})
+                }
+            }else if(adminUser.trackingType=='linked'){
+                let link = getLink(order)
+                res.status(200).json({order, link, status:'Success'})
             }
         }else{
             res.status(200).json({order, status:'Success'})
@@ -1355,3 +1351,17 @@ function processSingleRow(valArr, keyArr){
     return arr
 }
 
+function getLink(obj){
+    if(obj.vendorId == '4') return `https://www.fedex.com/fedextrack/?trknbr=${obj.trackingNumber}`
+    if(obj.vendorId == '3') return `https://www.dhl.com/in-en/home/tracking/tracking-express.html?submit=1&tracking-id=${obj.trackingNumber}`
+    if(obj.vendorId == '8') return `https://www.dpd.co.uk/apps/tracking/?parcel=${obj.trackingNumber}*19857&geoSession=83e5e9d7-31b8-4c88-99ce-fc9af393d895&search`
+    if(obj.vendorId == '9') return `https://www.dpdgroup.com/nl/mydpd/my-parcels/track?lang=en&parcelNumber=${obj.trackingNumber}`
+}
+
+function getVendorName(arr, val){
+    //INITIALISE DEBUG FOR THIS FUNCTION//
+    let debug = require('debug')('c_app: getVendorName')    
+
+    let match = arr.filter(elem => elem.id == val)    
+    return match[0].name
+}

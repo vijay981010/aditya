@@ -257,7 +257,7 @@ exports.patchSettings = async (req, res, next) => {
 
     // -------------------------------- PROCESS INPUTS -------------------------------- //
         let { username, password, displayName, defaultService, 
-            apiCredit, serviceAccess, accessRight, trackingId } = req.body                 
+            apiCredit, serviceAccess, accessRight, trackingId, trackingType } = req.body                 
         
         let hash                
 
@@ -285,7 +285,7 @@ exports.patchSettings = async (req, res, next) => {
         if(userId == subUser.admin){
             userObj = {username}
         }else if(user.role == 'superadmin'){
-            userObj = {username, displayName, defaultService, apiCredit, serviceAccess, accessRight, trackingId}
+            userObj = {username, displayName, defaultService, apiCredit, serviceAccess, accessRight, trackingId, trackingType}
         }                  
         
         //check if password is inputted

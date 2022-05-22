@@ -10,13 +10,14 @@
         <div class="col-lg-10">
           <div class="card shadow-lg border-0 rounded-lg mt-5 mb-5">
             <form action = '/orders/<%= order._id %>/track?_method=PATCH' method = "post">
-              <div class="card-header">
-                  <h3 class="text-center font-weight-light my-4">Tracking for AWB: <%= order.awbNumber %></h3>
+              <div class="card-header bg-dark">
+                  <h5 class="text-center text-white">Tracking for AWB: <%= order.awbNumber %></h5>
               </div>
               <div class="card-body">                  
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
+                                <input type="hidden" name="trackingType" value="<%= user.trackingType %>">
                                 <input type="hidden" name="awbNumber" value="<%= order.awbNumber %>">
                                 <label for="trackingNumber">Tracking Number<span>*</span></label>                                                                               
                                 <input class="form-control" name = "trackingNumber" value="<%= order.trackingNumber %>" type="text" required/>                            
@@ -36,6 +37,10 @@
                                         apiVendors.forEach(vendor => { %>
                                         <option value="<%= vendor.id %>"><%= vendor.name %></option>
                                     <% })
+                                    }else if(user.trackingType=='linked'){
+                                        linkedVendors.forEach(vendor => { %>
+                                        <option value="<%= vendor.id %>"><%= vendor.name %></option>
+                                       <% })
                                     } %>                                    
                                 </select>
                             </div>

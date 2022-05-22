@@ -49,6 +49,7 @@
                 <th>Access</th>
                 <th>Api Credit</th>
                 <th>Tracking Id</th>
+                <th>Tracking Type</th>
                 <th>Display Name</th>
                 <th>Action</th>
                 <% } %>   
@@ -74,6 +75,7 @@
                     <td><%= client.accessRight %></td>
                     <td><%= client.apiCredit %></td>
                     <td><%= client.trackingId %></td>
+                    <td><%= client.trackingType %></td>
                     <td><%= client.displayName %></td>
                     <td><a class="btn-sm btn-primary" href="/users/<%= client._id %>/addons">Add Ons</a></td>
                     <% } %>                    

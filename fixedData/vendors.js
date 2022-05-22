@@ -27,3 +27,11 @@ exports.stateList = ['Maharashtra', 'Gujarat']
 
 exports.preferredVendors = ['Express Self', 'PBC Kenya DDP', 'PBC South Africa DDP', 'PBC-FRA-DDP DDP', 'DHL', 'FEDEX', 'UPS',
 'ARAMEX', 'DPD UK', 'DPD GERMANY', 'DPD EX GERMANY', 'CITY LINK', 'EX LHR FEDEX']
+
+exports.linkedVendorArray = [
+    {id: '0', name: 'OTHERS'},
+    {id: '3', name: 'DHL'}, 
+    {id: '4', name: 'FEDEX'}, 
+    {id: '8', name: 'DPD UK'}, 
+    {id: '9', name: 'DPD REST OF THE WORLD'}
+]
