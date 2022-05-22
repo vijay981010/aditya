@@ -43,9 +43,9 @@ exports.authenticateUser = async (req, res, next) => {
         }
 
     // ------------------- PROCESS INPUT ------------------- //
-        let { username, password } = req.body
+        let { username, password, adminCode } = req.body
 
-        const user = await User.findOne({username}).populate('admin')
+        const user = await User.findOne({username, adminCode}).populate('admin')
         
         //CHECK IF ADMIN USER HAS ACCESS TO USERS MODULE//  
         if(user.role == 'client' && user.admin.accessRight.indexOf('user') == -1) 

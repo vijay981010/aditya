@@ -3,7 +3,7 @@ const Order = require('../model/orderModel')
 const Hsn = require('../model/hsnCodeModel')
 const Service = require('../model/serviceModel')
 const Walkin = require('../model/walkinModel')
-const debug = require('debug')('dev')
+let debug = require('debug')('dev')
 const axios = require('axios')
 const mongoose = require('mongoose');
 const {vendorArray, stateList, cityList, preferredVendors} = require('../fixedData/vendors')
@@ -29,11 +29,14 @@ const {generateOrderExport} = require('../excel/orderExport')
 const db = mongoose.connection;
 
 exports.orderList = async (req, res, next) => {
-    try{                                                  
+    try{            
+        //DEFINE DEBUG FOR THIS FUNCTION//
+        let debug = require('debug')('c_app:orderlist')                                      
         let orderlist
 
         let userId = req.user.id
-        const user = await User.findById(userId).populate('admin').exec()
+        debug(userId)
+        const user = await User.findById(userId).populate('admin').exec()        
         
         if(user.role == 'client'){
             orderlist = await Order.find({client: userId}).sort({bookingDate: 'desc', createdAt: 'desc'}).limit(1000)          

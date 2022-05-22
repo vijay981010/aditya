@@ -8,8 +8,12 @@
 <div class="container-fluid mb-5"> 
     <div class="container-fluid">
         <header class="row py-3 mb-4 border-bottom">
-            <div class="col-md-3">                
-                <span class="fs-4 text-dark">List of users</span>
+            <div class="col-md-3">              
+                <% if(user.role=='superadmin'){ %>
+                    <span class="fs-4 text-dark">List of users</span>
+                <%}else{ %>
+                    <span class="fs-4 text-dark">List of users (Admin Code: <%= user.adminCode %>)</span>
+                <%}%>                
             </div>
             <div class="col-md-6"></div>
             <div class="col-md-3 d-flex flex-row-reverse">
@@ -41,6 +45,7 @@
                 
 
                 <% if(user.role == 'superadmin'){ %>
+                <th>Admin Code</th>
                 <th>Access</th>
                 <th>Api Credit</th>
                 <th>Tracking Id</th>
@@ -65,6 +70,7 @@
                     <td><%= client.username %></td>                    
 
                     <% if(user.role == 'superadmin'){ %>
+                    <td><%= client.adminCode %></td>
                     <td><%= client.accessRight %></td>
                     <td><%= client.apiCredit %></td>
                     <td><%= client.trackingId %></td>

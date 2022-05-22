@@ -15,7 +15,7 @@ router.get('/adminlist', verifyToken, authorizeRole(['superadmin']), userControl
 * @Acess : Superadmin, Respective admin
 * @Function : Fetch all client users and render client list page
 **/
-router.get('/clientlist', verifyToken, authorizeRole(['admin', 'superadmin']), userController.userList) //authorizeUser
+router.get('/clientlist', verifyToken, authorizeRole(['admin', 'superadmin']), userController.userList) 
 
 
 
@@ -24,22 +24,22 @@ router.get('/clientlist', verifyToken, authorizeRole(['admin', 'superadmin']), u
 * @Acess : Superadmin, Respective admin
 * @Function : Render add User form
 **/
-router.get('/add', verifyToken, authorizeRole(['admin', 'superadmin']), userController.createUserPage) //authorizeUser
+router.get('/add', verifyToken, authorizeRole(['admin', 'superadmin']), userController.createUserPage)
 
 /**
 * @Acess : Superadmin, Respective admin
 * @Function : Post user form data to dB
 **/
-router.post('/add', verifyToken, authorizeRole(['admin', 'superadmin']), createUserValidator, userController.createUser) //authorizeUser
+router.post('/add', verifyToken, authorizeRole(['admin', 'superadmin']), createUserValidator, userController.createUser)
 
 
 
 
-router.patch('/userstatus', verifyToken, authorizeRole(['admin', 'superadmin']), userController.userstatus) //authorizeUser
+router.patch('/userstatus', verifyToken, authorizeRole(['admin', 'superadmin']), userController.userstatus) 
 
-router.get('/:userId/edit', verifyToken, authorizeRole(['admin', 'superadmin']), userController.settingsPage) //authorizeUser
+router.get('/:userId/edit', verifyToken, authorizeRole(['admin', 'superadmin']), userController.settingsPage) 
 
-router.patch('/:userId/edit', verifyToken, authorizeRole(['admin', 'superadmin']), userSettingValidator, userController.patchSettings) //authorizeUser
+router.patch('/:userId/edit', verifyToken, authorizeRole(['admin', 'superadmin']), userController.checkUsername, userSettingValidator, userController.patchSettings) 
 
 
 
@@ -48,14 +48,14 @@ router.patch('/:userId/edit', verifyToken, authorizeRole(['admin', 'superadmin']
 * @Acess : Global, Respective
 * @Function : Fetch individual profile and render profile update form
 **/
-router.get('/profile', verifyToken, userController.singleProfile) //authorizeUser
+router.get('/profile', verifyToken, userController.singleProfile) 
 
-router.get('/:clientId/profile/edit', verifyToken, authorizeRole(['admin', 'superadmin']), userController.adminEditClientProfile) //authorizeUser
+router.get('/:clientId/profile/edit', verifyToken, authorizeRole(['admin', 'superadmin']), userController.adminEditClientProfile)
 /**
 * @Acess : Global, Respective
 * @Function : Update individual profile in dB
 **/
-router.post('/profile', verifyToken, profileValidator, userController.updateProfile) //authorizeUser
+router.post('/profile', verifyToken, profileValidator, userController.updateProfile) 
 
 
 

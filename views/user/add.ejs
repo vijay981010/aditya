@@ -23,6 +23,7 @@
                     <div class="form-group">                          
                         <% if(user.role == 'admin'){ %>
                         <input type="hidden" name="admin_id" value="<%= user._id %>" >
+                        <input type="hidden" name="adminCode" value="<%= user.adminCode %>">
                         <input type="hidden" name="role" value="client" >
                         <% } else if(user.role == 'superadmin') { %> 
                         <input type="hidden" name="role" value="admin" >

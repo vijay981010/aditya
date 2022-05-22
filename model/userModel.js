@@ -114,6 +114,12 @@ const userSchema = new Schema({
         additionalTrackingStatus: Boolean,
         preferredVendor: Boolean     
     },
+    trackingType:{
+        type: String
+    },
+    adminCode:{
+        type: String
+    },
     admin: {
         type: Schema.Types.ObjectId,
         ref: 'User',             

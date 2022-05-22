@@ -1,6 +1,6 @@
 const User = require('../model/userModel')
 const Service = require('../model/serviceModel')
-const debug = require('debug')('dev')
+let debug = require('debug')('c_app: userController')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 const axios = require('axios')
@@ -64,19 +64,28 @@ exports.createUser = async (req, res, next) => {
             { data: username },
             process.env.ACCESS_TOKEN_SECRET_KEY,
             {expiresIn : '2h'}
-       )
+       )              
 
        //CREATE NEW USER OBJECT//
        const newUser = new User({
-            role: role,
-            username: username,
-            password: hash,
-            token: token,
-            status: 'inactive'          
+            role, username, token,
+            password: hash, status: 'inactive'                
         })
 
-        //IF ADMIN CREATING CLIENT USER, ATTACH ADMIN ID REFERENCE//
-        if(req.body.admin_id) newUser.admin = req.body.admin_id           
+        if(userRole=='superadmin'){
+            //GENERATE UNIQUE ADMIN CODE AND STRINGIFY IT//
+            let adminCode
+            do{
+                adminCode = Math.floor(Math.random() * 10000).toString()
+            }while(await User.findOne({adminCode: adminCode}))
+            newUser.adminCode = adminCode
+        }
+
+        //IF ADMIN CREATING CLIENT USER, ATTACH ADMIN ID AS REFERENCE AND ADMIN CODE//
+        if(req.body.admin_id){
+            newUser.admin = req.body.admin_id    
+            newUser.adminCode = req.body.adminCode         
+        } 
                 
         let createdUser = await newUser.save() //WRITE TO DB    
         
@@ -207,6 +216,22 @@ exports.settingsPage = async (req, res, next) => {
         }else{                        
             res.render('error', {message: `You aren't authorized to access this resource`, statusCode: '403'})
         }
+    }catch(err){
+        next(err)
+    }
+}
+
+exports.checkUsername = async(req, res, next) => {
+    try{
+        let debug = require('debug')('c_app: checkUsername')
+
+        let {username, hiddenUsername} = req.body
+        
+        if(username != hiddenUsername) return next()
+        
+        req.skipValidation = true
+        next()        
+
     }catch(err){
         next(err)
     }

@@ -12,90 +12,109 @@
     <!-- /include header -->
 
     <div class="row justify-content-center">                 
-        <div class="col-lg-6">
+        <div class="col-lg-8">
           <div class="card shadow-lg border-0 rounded-lg mt-5">
             <form action = '/users/<%= subUser._id %>/edit?_method=PATCH' method = "post">
-              <div class="card-header">
-                  <h3 class="text-center font-weight-light my-4">User Settings</h3>
+              <div class="card-header bg-dark">
+                  <h5 class="text-center text-white">User Settings</h5>
               </div>
               <div class="card-body">   
                   <div class="row">
                       <div class="col-md-6">
-                        <div class="form-group">                                                                                              
+                        <div class="form-group">         
+                            <input type="hidden" value="<%= subUser.username %>" name="hiddenUsername">
                             <label for="username">Username<span>*</span></label>
                             <input class="form-control" name="username" value="<%= subUser.username %>" type="text" required/>                            
                         </div>
                       </div>
-                      <% if(user.role=='superadmin'){ %>
-                        <div class="col-md-6">
+                      <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="password">Password (optional: only if you want to change password)</label>                        
+                            <input class="form-control" name = "password" type="password"/>                            
+                        </div>
+                      </div>                                            
+                  </div>
+                  <% if(user.role=='superadmin'){ %>                
+                  <div class="row">                    
+                        <div class="col-md-4">
+                            <div class="form-group">                                                                                              
+                                <label for="adminCode">Admin Code<span>*</span></label>
+                                <input class="form-control" name="adminCode" value="<%= subUser.adminCode %>" type="text" required readonly/>                            
+                            </div>
+                        </div>
+                        <div class="col-md-4">
                             <div class="form-group">                                                                                              
                                 <label for="trackingId">Tracking ID<span>*</span></label>
                                 <input class="form-control" name="trackingId" value="<%= subUser.trackingId %>" type="text" required/>                            
                             </div>
-                        </div>                    
-                    <%}%>                      
-                  </div>                
-                <% if(user.role == 'superadmin'){%> 
-                  <div class="row">                                          
-                    <div class="col-md-6">
-                        <div class="form-group">                                                                                              
-                            <label for="displayName">Display Name<span>*</span></label>
-                            <input class="form-control" name = "displayName" value = "<%= subUser.displayName %>" type="text" required/>                            
                         </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">                                                                                              
-                            <label for="defaultService">Default Service<span>*</span></label>
-                            <input class="form-control" name = "defaultService" value = "<%= subUser.defaultService %>" type="text" required/>                            
-                        </div>
-                    </div>                      
-                  </div>                                   
-                  <% } %>
-                    <div class="form-group">
-                        <label for="password">Password <i class="text-uppercase">(optional: only if you want to change password)</i></label>                        
-                        <input class="form-control" name = "password" type="password"/>                            
-                    </div>
-                    <% if(user.role == "superadmin"){ %>                        
-                        <div class="form-group">
-                            <label for="apiCredit">API Credit</label>
-                            <input class="form-control" name = "apiCredit" value="<%=subUser.apiCredit %>" type="number"/>                            
-                        </div>
-                        <div class="row">                                                                           
-                            <div class="col-md-6">                        
-                                <div class="form-group">
-                                    <label for="order">Select Module</label><br>                                                                         
-                                    <select class="form-select" id="accessRight">
-                                        <option value="">---Select Module---</option>
-                                        <% moduleList.forEach(module => { %>                                        
-                                        <option value="<%= module %>"><%= module %></option>
-                                        <% }) %>
-                                    </select>                            
-                                </div>    
+                        <div class="col-md-4">
+                            <div class="form-group">                                                                                              
+                                <label for="trackingType">Tracking Type<span>*</span></label>
+                                <select class="form-select" name="trackingType" required>
+                                    <option value="<%= subUser.trackingType %>"><%= subUser.trackingType %></option>
+                                    <option value="linked">linked</option>
+                                    <option value="shipway">shipway</option>
+                                    <option value="tracktry">tracktry</option>
+                                </select>
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="actionModule">Action</label><br>                                                                         
-                                    <button class="btn btn-primary btn-block" id="actionModule">Add Module</button>
-                                </div>
-                            </div> 
-                            <div class="row">                        
-                                <table class="table table-bordered table-responsive-sm" id="moduleTable">                            
-                                        <tr>
-                                            <td><label for='module'>Module Name</label></td>                                                                                                        
-                                            <td><label for='moduleRemove'>Action</label></td>
-                                        </tr>
-                                        <% if(subUser.accessRight.length > 0) {  
-                                            subUser.accessRight.forEach((module, i) => { %>
-                                            <tr id="r<%= i+100 %>">                                                
-                                                <td><input type='text' class='form-control text-center' name='accessRight[]' value="<%= module %>" readonly="readonly"></td>
-                                                <td><button class="btn btn-danger removeModule"><i class="fa fa-minus-circle"></i></button></td>
-                                            </tr>                                
-                                         <% })
-                                         } %>        
-                                </table>                    
-                            </div>                                               
+                        </div>                                        
+                    </div>                
+                    <div class="row">                                          
+                        <div class="col-md-4">
+                            <div class="form-group">                                                                                              
+                                <label for="displayName">Display Name<span>*</span></label>
+                                <input class="form-control" name = "displayName" value = "<%= subUser.displayName %>" type="text" required/>                            
+                            </div>
                         </div>
-                        
+                        <div class="col-md-4">
+                            <div class="form-group">                                                                                              
+                                <label for="defaultService">Default Service<span>*</span></label>
+                                <input class="form-control" name = "defaultService" value = "<%= subUser.defaultService %>" type="text" required/>                            
+                            </div>
+                        </div> 
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="apiCredit">API Credit</label>
+                                <input class="form-control" name = "apiCredit" value="<%=subUser.apiCredit %>" type="number"/>                            
+                            </div>
+                        </div>                     
+                    </div>                                                                                                                                  
+                    <div class="row">                                                                           
+                        <div class="col-md-6">                        
+                            <div class="form-group">
+                                <label for="order">Select Module</label><br>                                                                         
+                                <select class="form-select" id="accessRight">
+                                    <option value="">---Select Module---</option>
+                                    <% moduleList.forEach(module => { %>                                        
+                                    <option value="<%= module %>"><%= module %></option>
+                                    <% }) %>
+                                </select>                            
+                            </div>    
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="actionModule">Action</label><br>                                                                         
+                                <button class="btn btn-primary btn-block" id="actionModule">Add Module</button>
+                            </div>
+                        </div> 
+                        <div class="row">                        
+                            <table class="table table-bordered table-responsive-sm" id="moduleTable">                            
+                                    <tr>
+                                        <td><label for='module'>Module Name</label></td>                                                                                                        
+                                        <td><label for='moduleRemove'>Action</label></td>
+                                    </tr>
+                                    <% if(subUser.accessRight.length > 0) {  
+                                        subUser.accessRight.forEach((module, i) => { %>
+                                        <tr id="r<%= i+100 %>">                                                
+                                            <td><input type='text' class='form-control text-center' name='accessRight[]' value="<%= module %>" readonly="readonly"></td>
+                                            <td><button class="btn btn-danger removeModule"><i class="fa fa-minus-circle"></i></button></td>
+                                        </tr>                                
+                                        <% })
+                                        } %>        
+                            </table>                    
+                        </div>                                               
+                    </div>                        
                     <% } %>       
                     <% if(user.role == "admin" && user.accessRight.indexOf('services') != -1){ %>                                                
                         <div class="row">                                                                           
@@ -135,12 +154,10 @@
                         </div>                        
                     <% } %>                                                                                           
               </div> 
-              <div class="card-footer">
-                    <div class="row">
-                        <div class="col-md-12 text-center">
-                            <button type="submit" class="btn btn-primary">Update</button>
-                        </div>
-                    </div>                
+              <div class="card-footer">                    
+                    <div class="col-md-12 text-center">
+                        <button type="submit" class="btn btn-primary">Update</button>
+                    </div>                             
               </div> 
             </form>               
           </div>            

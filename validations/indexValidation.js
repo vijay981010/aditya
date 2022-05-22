@@ -13,5 +13,16 @@ exports.autheticateUserValidator = [
             return Promise.reject('This user is not permitted to login!!')
         }
     }),    
-    check('password', 'Please enter Password').notEmpty()
+    check('password', 'Please enter Password').notEmpty(),
+    check('adminCode', 'Please enter Admin Code').notEmpty(),
+    check('adminCode').custom(async (value, req) => {
+        let debug = require('debug')('c_app: loginValidator')                
+        
+        let {username} = req.req.body
+        let user = await User.findOne({username, adminCode: value})        
+                
+        if(user == null) return Promise.reject('Incorrect Admin Code!!')
+        
+        debug(user.username, user.adminCode, user._id)
+    })
 ]
