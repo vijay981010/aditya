@@ -33,7 +33,7 @@
                                     <option value=''>---Select Vendor---</option>
                                     <% } %>                                    
                                     <option value="0">OTHERS</option>
-                                    <% if(user.apiCredit > 0){ 
+                                    <% if(user.apiCredit > 0 && user.trackingType=='shipway'){ 
                                         apiVendors.forEach(vendor => { %>
                                         <option value="<%= vendor.id %>"><%= vendor.name %></option>
                                     <% })

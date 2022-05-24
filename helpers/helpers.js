@@ -1,25 +1,20 @@
 const User = require('../model/userModel')
 const Order = require('../model/orderModel')
 const jwt = require('jsonwebtoken')
-const debug = require('debug')('dev')
-const logger = require('../helpers/logger')
 const Invoice = require('../model/invoiceModel')
 const Manifest = require('../model/manifestModel')
 const Walkin = require('../model/walkinModel')
 
 exports.verifyToken = (req, res, next) => {    
     const token = req.cookies.coapp     
-    
-    //logger.info(`verifyToken invoked on URL: ${req.originalUrl}`)   
-    if (!token) {
-        //return res.status(403).json({message: "A token is required for authentication"})          
+          
+    if (!token)              
         return res.render('error', {message: `A token is required for authentication`, statusCode: '403'})            
-    }    
+    
     try{
         const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET_KEY) 
         req.user = decoded
-    }catch(err){        
-        //return res.status(401).json({Message: "Invalid Token"})
+    }catch(err){                
         return res.render('error', {message: `Invalid Token`, statusCode: '401'})        
     }
     next()
@@ -120,10 +115,7 @@ exports.processRequest = (valueArray, keyArray, arrayLength) => {
 
 // ----------------------------------------------------------------------------------------------- //
 
-exports.sortBoxItem = (box, item, numOfBox) => {
-    /* debug(box)
-    debug(item)
-    debug(numOfBox) */
+exports.sortBoxItem = (box, item, numOfBox) => {    
     for(let i = 0; i < numOfBox; i++){
     let tempArr = []
     item.forEach(elem => {

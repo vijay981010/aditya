@@ -130,7 +130,7 @@
                     <% } %>                    
                     <td><%= order.trackingNumber %></td>
                     <% if(user.role == 'admin'){ 
-                         if(order.vendorName == 'OTHERS'){ %>
+                         if(order.vendorName == 'OTHERS' || user.trackingType=='linked'){ %>
                             <td><a href="/orders/<%= order._id %>/trackingdetails"><%= order.vendorName %></a></td>
                         <% }else{ %>
                             <td><%= order.vendorName %></td>
