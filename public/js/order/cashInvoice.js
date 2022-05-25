@@ -1,4 +1,4 @@
-$('#cashInvoice').on('click', function(){        
+$('.cashInvoice').on('click', function(){        
     $('#cashInvoiceModal').modal('show')
 
     let orderId = $(this).data('cashorder')

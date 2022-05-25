@@ -115,8 +115,8 @@
                                 <%if(user.settings.packingListExcel==true){%>
                                 <a class="dropdown-item" href="<%= order._id %>/print/excel/packinglist" >Packing List Excel</a>                
                                 <%}%>       
-                                <%if(user.settings.cashInvoice==true && order.miscClients){%>
-                                <button class="dropdown-item" data-cashorder="<%= order._id %>" data-misc="<%= order.miscClients %>" id="cashInvoice">Cash Invoice</button>
+                                <%if(user.settings.cashInvoice==true && order.miscClients && order.boxDetails.length > 0 && order.totalBill){%>
+                                <button class="dropdown-item cashInvoice" data-cashorder="<%= order._id %>" data-misc="<%= order.miscClients %>">Cash Invoice</button>
                                 <%}%>
                             </div>
                         </div>

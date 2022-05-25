@@ -252,7 +252,7 @@ function summ(doc, invoice, compData){
     doc
     .font('Helvetica-Bold').fontSize(12).fill('black')    
     .text('Sub-Total', x3-margin, y+g, leftAlign)
-    .text('Igst(@18%)', x3-margin, y+(2*g), leftAlign)
+    .text('IGST(@18%)', x3-margin, y+(2*g), leftAlign)
     .text('Total Amount(in Words)', 30, y+(2*g), {width: 842, height:15, align: 'left'})
         
     .font('Helvetica-Bold').fontSize(12).fill('white') 
