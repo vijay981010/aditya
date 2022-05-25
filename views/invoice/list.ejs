@@ -112,7 +112,7 @@
                     <td><%= invoice.totalWeight %></td>                   
                     <td><%= invoice.totalAwbs %></td>                   
                     <td><a class="btn-sm btn-primary" target="_blank" href="/invoices/<%= invoice._id %>/pdf">Download</a></td>
-                    <td><a class="btn-sm btn-primary" href="/invoices/<%= invoice._id %>/delete">Delete</a></td>                    
+                    <td><button class="btn-sm btn-danger deleteInvoice" data-id="<%= invoice._id %>"><i class="far fa-trash-alt"></i></button></td>                    
                 </tr>
             <% }) %>                                                                                                           
         </tbody>
@@ -125,3 +125,5 @@
 <!-- include footer -->
 <%- include('../include/_footer') %>
 <!-- /include footer -->
+
+<script src = "/js/invoice/deleteInvoice.js"></script>

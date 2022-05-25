@@ -1,10 +1,10 @@
 const User = require('../model/userModel')
 const Order = require('../model/orderModel')
 const Invoice = require('../model/invoiceModel')
-const debug = require('debug')('dev')
 const {getDates} = require('../helpers/helpers')
 const PDFdocument = require('pdfkit')
 const {detailedInvoice} = require('../pdf/detailedInvoice')
+const bcrypt = require('bcrypt')
 
 exports.invoiceList = async(req, res, next) => {
     try{
@@ -121,7 +121,19 @@ exports.invoicePdf = async(req, res, next) => {
 
 exports.invoiceDelete = async(req, res, next) => {
     try{
+        let debug = require('debug')('c_app: invoiceDelete')
 
+        let id = req.params.invoiceId
+        let userId = req.user.id        
+
+        const user = await User.findById(userId)        
+
+        if(await bcrypt.compare(req.body.pw, user.password)){            
+            await Invoice.findByIdAndDelete(id)
+            res.status(200).json({msg: 'success'})
+        }else{            
+            res.json({msg: 'error'})
+        }
     }catch(err){
         next(err)
     }

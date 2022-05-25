@@ -1,4 +1,4 @@
-const debug = require('debug')('dev')
+let debug = require('debug')('c_app: detailedInvoice')
 var moment = require('moment')
 var shortDateFormat = 'DD-MM-yyyy'
 const { ToWords } = require('to-words')
@@ -285,37 +285,18 @@ function displayNote(doc, addNote, defaultNote, total){
     .font('Helvetica-Bold').fontSize(16).fill('black')    
     .text('Note', 30, 45, leftAlign) 
     .font('Helvetica').fontSize(14)    
+       
     
-    /* let defaultNoteSplit 
+    if(defaultNote) defaultNote = removeNextLine(defaultNote)        
+    if(addNote) addNote = removeNextLine(addNote)
 
-    if(defaultNote){
-        defaultNoteSplit = defaultNote.split('\r') //SPLIT TEXT AREA VALUE//            
-        debug(defaultNoteSplit)
-        //RENDER TEXT AREA ARRAY//
-        defaultNoteSplit.forEach((line,i) => {        
-            doc.text(line, x, y+(i*g), leftAlign)
-        })        
-    } */    
-    defaultNote = removeNextLine(defaultNote)
-    if(defaultNote){
+    if(defaultNote && addNote){
+        doc.text(`${defaultNote}\n\n${addNote}`, x, y+g, leftAlign)
+    }else if(addNote && !defaultNote){
+        doc.text(addNote, x, y+g, leftAlign)
+    }else if(defaultNote && !addNote){
         doc.text(defaultNote, x, y+g, leftAlign)
-    }
-    
-    if(addNote){                
-        let addNoteSplit = addNote.split('\r')  
-        
-        //GET STARTING POINT FOR ADDITIONAL NOTE
-        let l
-        defaultNote ? l = defaultNoteSplit.length+2 : l = 0
-         
-        //RENDER TEXT AREA ARRAY//
-        //THE FIRST LINE IS RENDERED SEPARATELY BECAUSE FOR SOME REASON, THERE IS A GAP OF TWO AFTER FIRST LINE//
-        doc.text(addNoteSplit[0], x, y+(l*g), leftAlign)
-
-        for(let i = 0; i < addNoteSplit.length; i++){
-            doc.text(addNoteSplit[i+1], x, y+((l+i)*g), leftAlign)
-        }
-    }
+    }       
 
     //PAGE NUMBER//
     doc
