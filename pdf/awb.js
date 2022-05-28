@@ -70,20 +70,28 @@ exports.generateAwb = (doc, order, user, consignee) => {
 }
 
 function awbTitle(doc, user, x, y){  
+  let title = user.awbSettings.title
+  let subTitle = user.awbSettings.subTitle
+  if(user.role == 'client'){
+    title = user.admin.awbSettings.title
+    subTitle = user.admin.awbSettings.subTitle
+  }
+
   //GET LOGO FILE PREFIX//
   let filePrefix = user.trackingId
   if(user.role == 'client') filePrefix = user.admin.trackingId
 
   //MAIN TITLE//
   doc
-  .font('Helvetica-Bold').fontSize(20)
-  .text(`AIRWAY BILL`, x, y, centerAlign)   
+  .font('Helvetica-Bold').fontSize(title.fontSize)
+  .text(title.name, x + title.xStart, y + title.yStart, {width:title.width, align:title.align})   
   
   //CHECK FOR DISPLAY NAME//
-  if(user.role=='admin' && !user.settings.displayNoName){
+  if(user.role=='admin' && !user.settings.displayNoName|| user.role=='client' && !user.admin.clientSettings.displayNoName){
     doc
-    .font('Helvetica-Bold').fontSize(15)
-    .text(user.displayName, x, y+20, centerAlign)
+    .font('Helvetica-Bold').fontSize(subTitle.fontSize)
+    //.text(user.displayName, x, y+20, centerAlign)
+    .text(subTitle.name, x + subTitle.xStart, y + subTitle.yStart, {width:subTitle.width, align:subTitle.align})
   }
   
   //CHECK FOR LOGO//

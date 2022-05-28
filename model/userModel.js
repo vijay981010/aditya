@@ -114,6 +114,24 @@ const userSchema = new Schema({
         additionalTrackingStatus: Boolean,
         preferredVendor: Boolean     
     },
+    awbSettings:{
+        title: {
+            name: String,
+            fontSize: Number,
+            xStart: Number,
+            yStart: Number,
+            width: Number,
+            align: String
+        },
+        subTitle: {
+            name: String,
+            fontSize: Number,
+            xStart: Number,
+            yStart: Number,
+            width: Number,
+            align: String
+        },
+    },
     trackingType:{
         type: String
     },

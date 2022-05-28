@@ -58,7 +58,8 @@ $(document).ready(function(){
                         
                         //CREATE VALUE ARR//
                         let bookingDate = moment(order.bookingDate).format('DD-MM-YYYY')
-                        let shipmentValueArr = [bookingDate, order.consignor, order.consignee, order.destination, 
+                        let destination = `${order.consigneePincode}, ${order.destination}`
+                        let shipmentValueArr = [bookingDate, order.consignor, order.consignee, destination, 
                         order.awbNumber, order.clientNote, clientName, forwardingNumber, order.vendorName]
                         
                         //render shipment details table
