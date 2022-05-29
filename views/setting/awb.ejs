@@ -1,0 +1,108 @@
+<!-- include header -->
+<%- include('../include/_header') %>
+<!-- /include header -->
+
+<!-- include header -->
+<%- include('../include/_navbar') %>
+<!-- /include header -->
+
+
+<div class="row justify-content-center">   
+    <header class="row py-3 border-bottom">             
+        <span class="fs-4 text-dark text-center">AWB PDF Settings</span>                      
+    </header>              
+    <div class="col-lg-11">
+      <div class="card shadow-lg border-0 rounded-lg mt-2 mb-5">
+        <form action = '/settings/awb' method = "post">
+          <div class="card-header bg-dark">
+              <h5 class="text-center text-white">Title Details</h5>
+          </div>
+          <div class="card-body">                      
+                <div class="form-group">                                                                                                    
+                    <label for="titleName">Title Name<span>*</span></label>                                   
+                    <input class="form-control" name="titleName" value="<%= awbSettings.title.name %>" type="text" required/>                            
+                </div>                                    
+                <div class="row">
+                    <div class="col-md-2">
+                        <label for="titleFontSize">Font Size<span>*</span></label>                                   
+                        <input class="form-control" name="titleFontSize" value="<%= awbSettings.title.fontSize %>" type="number" required/>
+                    </div>
+                    <div class="col-md-2">
+                        <label for="titleXStart">X Start<span>*</span></label>                                   
+                        <input class="form-control" name="titleXStart" value="<%= awbSettings.title.xStart %>" type="number" required/>
+                    </div>
+                    <div class="col-md-2">
+                        <label for="titleYStart">Y Start<span>*</span></label>                                   
+                        <input class="form-control" name="titleYStart" value="<%= awbSettings.title.yStart %>" type="number" required/>
+                    </div>
+                    <div class="col-md-2">
+                        <label for="titleWidth">Width<span>*</span></label>                                   
+                        <input class="form-control" name="titleWidth" value="<%= awbSettings.title.width %>" type="number" required/>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="titleAlign">Align<span>*</span></label>
+                        <select class="form-select" name="titleAlign" required >
+                            <option value="<%= awbSettings.title.align %>"><%= awbSettings.title.align %></option>                           
+                            <option value="left">left</option>
+                            <option value="center">center</option>
+                            <option value="right">right</option>
+                        </select>
+                    </div>                                                            
+                </div>                                                  
+          </div> 
+          <div class="card-header bg-dark">
+                <h5 class="text-center text-white">Sub-Title Details</h5>
+            </div>    
+            <div class="card-body">
+                <div class="form-group">                                                                                                    
+                    <label for="subTitleName">Name<span>*</span></label>                                   
+                    <input class="form-control" name="subTitleName" value="<%= awbSettings.subTitle.name %>" type="text" required/>                            
+                </div>
+                <div class="row">
+                    <div class="col-md-2">
+                        <label for="subTitleFontSize">Font Size<span>*</span></label>                                   
+                        <input class="form-control" name="subTitleFontSize" value="<%= awbSettings.subTitle.fontSize %>" type="number" required/>
+                    </div>
+                    <div class="col-md-2">
+                        <label for="subTitleXStart">X Start<span>*</span></label>                                   
+                        <input class="form-control" name="subTitleXStart" value="<%= awbSettings.subTitle.xStart %>" type="number" required/>
+                    </div>
+                    <div class="col-md-2">
+                        <label for="subTitleYStart">Y Start<span>*</span></label>                                   
+                        <input class="form-control" name="subTitleYStart" value="<%= awbSettings.subTitle.yStart %>" type="number" required/>
+                    </div>
+                    <div class="col-md-2">
+                        <label for="subTitleWidth">Width<span>*</span></label>                                   
+                        <input class="form-control" name="subTitleWidth" value="<%= awbSettings.subTitle.width %>" type="number" required/>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="subTitleAlign">Align<span>*</span></label>
+                        <select class="form-select" name="subTitleAlign" required >
+                            <option value="<%= awbSettings.subTitle.align %>"><%= awbSettings.subTitle.align %></option>                           
+                            <option value="left">left</option>
+                            <option value="center">center</option>
+                            <option value="right">right</option>
+                        </select>
+                    </div>                                                             
+                </div>
+            </div>
+          <div class="card-footer">                
+                <div class="col-md-12 text-center">
+                    <button type="submit" class="btn btn-primary">Update</button>
+                </div>                               
+          </div>  
+        </form>              
+      </div>            
+    </div>          
+</div>
+
+
+
+
+
+
+
+
+<!-- include footer -->
+<%- include('../include/_footer') %>
+<!-- /include footer -->
