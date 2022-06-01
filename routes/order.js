@@ -59,6 +59,13 @@ router.get('/hsn/:hsnId/edit', verifyToken, authorizeRole(['admin']), authorizeA
 router.post('/hsn/:hsnId/edit', verifyToken, authorizeRole(['admin']), authorizeAddOn('autoHsn'), orderController.editHsn)
 
 
+/**************************************************
+* @Acess : Global, Respective
+* @Function : Render Order Archive Page and get respective data
+**/
+router.get('/search/archive', verifyToken, authorizeRole(['admin']), orderController.orderSearchPage)
+
+router.get('/search/awb', verifyToken, authorizeRole(['admin']), orderController.searchByAwb)
 
 
 

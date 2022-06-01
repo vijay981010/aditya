@@ -342,6 +342,41 @@ exports.updateOrder = async (req, res, next) => {
 }
 
 // ----------------------------------------------------------------------- //
+exports.orderSearchPage = async (req, res, next) => {
+    try{
+        let userId = req.user.id                
+        const user = await User.findById(userId)
+
+        let userlist = await User.find({admin: userId}).select('username')        
+        let filter = {client: userlist}
+        if(user.role=='client') filter = {client: userId}
+
+        let awblist = await Order.find(filter).select('awbNumber destination')              
+        
+        res.render('order/archive', {user, awblist})
+    }catch(err){
+        next(err)
+    }
+}
+
+exports.searchByAwb = async(req, res, next) => {
+    try{        
+        let userId = req.user.id        
+        let userlist = await User.find({admin: userId}).select('username')
+
+        let {param} = req.query 
+                             
+        let clientPop = {path: 'client', select: 'username'}        
+        let orderFields = 'bookingDate awbNumber client miscClients consignor consignee origin destination numberOfBoxes chargeableWeight trackingNumber trackingStatus vendorName'
+        let data = await Order.find({awbNumber: param, client: userlist}).populate(clientPop).select(orderFields)
+        
+        data.length == 0 ? res.json({data: 'undefined'}): res.status(200).json(data)
+    }catch(err){
+        next(err)
+    }
+}
+
+// ----------------------------------------------------------------------- //
 
 exports.orderExport = async(req, res, next) => {
     try{

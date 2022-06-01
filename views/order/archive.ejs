@@ -1,0 +1,77 @@
+<!-- include header -->
+<%- include('../include/_header') %>
+<!-- /include header -->
+
+<!-- include header -->
+<%- include('../include/_navbar') %>
+<!-- /include header -->
+<div class="container-fluid mb-5"> 
+    <div class="container-fluid">
+        <header class="row py-3 mb-4 border-bottom">
+            <div class="col-md-3">                
+                <span class="fs-4 text-dark">Orders Archive</span>
+            </div>   
+            <div class="col-md-3"></div>
+            <div class="col-md-6 d-flex flex-row-reverse">                
+                <button class="btn btn-danger" id="removeArchive">Clear</button>                                                
+            </div>         
+        </header>
+        <div class="row justify-content-center mb-3"> 
+            <div class="col-md-4">
+                <div class="card">                    
+                    <div class="card-header bg-dark">
+                        <h5 class="text-center text-white">Search By AWB</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="username">AWB</label>                                
+                            <input class="form-control" type="text" list="awblist" name="awb" id="awb">                                                                                         
+                            <datalist id="awblist">
+                                <% awblist.forEach(awb => { %>
+                                    <option value="<%= awb.awbNumber %>"><%= awb.destination %></option>
+                                <% }) %>                
+                            </datalist>                                
+                        </div>                                        
+                    </div>
+                    <div class="card-footer">                    
+                        <div class="col-md-12 text-center">                                
+                            <button type="submit" class="btn-sm btn-primary" id="awbSearch">Search</button>
+                        </div>                       
+                    </div>                                     
+                </div>
+            </div>                                                           
+        </div>
+        <div class="row">            
+            <table id="archiveTable" class="table table-bordered table-responsive-sm" width="100%"> 
+                <thead class="bg-dark text-white">
+                    <tr>
+                        <th><label for='bookingDate'><b>Date</b></label></th>
+                        <th><label for='awbNumber'><b>Awb</b></label></th> 
+                        <th><label for='trackingStatus'><b>Status</b></label></th>                     
+                        <th><label for='client'><b>Client</b></label></th>                    
+                        <th><label for='consignor'><b>Consignor</b></label></th>
+                        <th><label for='consignee'><b>Consignee</b></label></th>
+                        <th><label for='action'><b>Action</b></label></th>                                                        
+                        <th><label for='origin'><b>Origin</b></label></th>
+                        <th><label for='destination'><b>Destn</b></label></th>
+                        <th><label for='numberOfBoxes'><b>Boxes</b></label></th>
+                        <th><label for='chargeableWeight'><b>Weight</b></label></th>                                        
+                        <th><label for='trackingNumber'><b>Track</b></label></th>
+                        <th><label for='vendorName'><b>Vendor</b></label></th>                                                                                                                                        
+                    </tr> 
+                </thead>                                                           
+        </table>
+        </div>
+        
+    </div>              
+</div>
+
+       
+
+
+<!-- include footer -->
+<%- include('../include/_footer') %>
+<!-- /include footer -->
+
+<script src="/js/order/searchArchive.js"></script>
+
