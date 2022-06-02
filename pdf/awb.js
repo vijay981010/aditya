@@ -1,14 +1,14 @@
 
 var moment = require('moment')
 var shortDateFormat = 'DD-MM-yyyy'
-const debug = require('debug')('dev')
+let debug = require('debug')('c_app: awb')
 const {getEvenNumbers} = require('./pdfLibrary')
 
 let full = 595
 let centerAlign = {width:full, align:'center'} 
 
-exports.generateAwb = (doc, order, user, consignee) => {
-
+exports.generateAwb = (doc, order, user, consignee, consignor) => {
+  debug(consignee, consignor)
     //COMPUTE TOTAL VOLUMETRIC WEIGHT AND ACTUAL WEIGHT//
     let totalVolWeight = 0
     let totalActualWeight = 0
@@ -22,10 +22,16 @@ exports.generateAwb = (doc, order, user, consignee) => {
     totalActualWeight = totalActualWeight.toFixed(2)    
     
     //ACCORDING TO COPY TYPE RENDER PDFS//
-    if(consignee){
+    if(consignee || consignor){
       doc.info['Title'] = `awb_cnee_${order.awbNumber}` //TITLE TO PDF//
 
-      let copy = 'CONSIGNEE COPY'//COPY NAME      
+      let copy = 'CONSIGNEE COPY'//COPY NAME     
+      let totalPages = order.numberOfBoxes
+      if(consignor){
+        copy = 'CONSIGNOR COPY'
+        doc.info['Title'] = `awb_cnor_${order.awbNumber}` //TITLE TO PDF//
+        totalPages = 1
+      } 
       
       let titleX = 0; let titleY = 20
       let copyX = 40; let copyY = 60
@@ -34,14 +40,14 @@ exports.generateAwb = (doc, order, user, consignee) => {
       let evenNos = getEvenNumbers(order.numberOfBoxes)
       debug(evenNos)
 
-      for(let i = 0; i < order.numberOfBoxes; i++){        
+      for(let i = 0; i < totalPages; i++){        
         if(evenNos.indexOf(i) != -1){
           doc.addPage()
           titleX = 0; titleY = 20; copyX = 40; copyY = 60
         }
         debug(titleY, copyY)  
         awbTitle(doc, user, titleX, titleY)  
-        awbCopy(doc, user, order, consignee, totalVolWeight, totalActualWeight, copy, i+1, copyX, copyY)        
+        awbCopy(doc, user, order, consignee, consignor, totalVolWeight, totalActualWeight, copy, i+1, copyX, copyY)        
         titleY +=  gap
         copyY += gap
 
@@ -59,10 +65,10 @@ exports.generateAwb = (doc, order, user, consignee) => {
 
       //CALL FUNCTIONS//
       awbTitle(doc, user, 0, 20)
-      awbCopy(doc, user, order, consignee, totalVolWeight, totalActualWeight, copy1, '', 40, 60)    
+      awbCopy(doc, user, order, consignee, consignor, totalVolWeight, totalActualWeight, copy1, '', 40, 60)    
 
       awbTitle(doc, user, 0, 440)
-      awbCopy(doc, user, order, consignee, totalVolWeight, totalActualWeight, copy2, '', 40, 480)
+      awbCopy(doc, user, order, consignee, consignor, totalVolWeight, totalActualWeight, copy2, '', 40, 480)
 
       doc.moveTo(0, 420).lineTo(full, 420).stroke() //RENDER CUT LINE IN BETWEEN PAGE//
     }
@@ -102,7 +108,7 @@ function awbTitle(doc, user, x, y){
 
 // ----------------------------------------------------------------------------------------------------------------- //
 
-function awbCopy(doc, user, order, consignee, totalVolWeight, totalActualWeight, copy, currentBox, x, y){
+function awbCopy(doc, user, order, consignee, consignor, totalVolWeight, totalActualWeight, copy, currentBox, x, y){
   //CHECK MISCELLANEOUS USER//
   let accountData
   order.client.username != 'Miscellaneous' ? accountData = order.client.username : accountData = order.miscClients  
@@ -191,7 +197,8 @@ function awbCopy(doc, user, order, consignee, totalVolWeight, totalActualWeight,
 
     .text('CONSIGNEE ADDRESS', 275, y+105)
     .text('ZIPCODE:', 275, y+195, {width: 220, align:'left'})
-    .text('TEL NO:', 275, y+205, {width: 220, align:'left'})    
+    .text(`TEL NO:`, 275, y+205, {lineBreak: false}).font('Helvetica').text(order.consigneeContactNumber, {width: 125, align:'left'} )
+    //.text('Hello ', 275, y+205, {lineBreak : false}).font('Helvetica').text('World!')
 
     .text('CHARGEABLE WEIGHT (KG)', 440, y+105, {width: 120, align: 'center'})
     .text('SHIPMENT TYPE', 440, y+200, {width: 120, align: 'center'})
@@ -223,10 +230,10 @@ function awbCopy(doc, user, order, consignee, totalVolWeight, totalActualWeight,
     .text(order.consigneeCity, 275, y+165, {width: 220, align:'left'})
     .text(order.consigneeState, 275, y+175, {width: 220, align:'left'})
     .text(order.destination, 275, y+185, {width: 220, align:'left'})
-    .text(order.consigneePincode, 325, y+195, {width: 220, align:'left'})
-    .text(order.consigneeContactNumber, 315, y+205, {width: 220, align:'left'})    
+    .text(order.consigneePincode, 315, y+195, {width: 100, align:'left'})
+    //.text(order.consigneeContactNumber, 310, y+205, {width: 100, align:'left'})    
 
-    if(!consignee){
+    if(!consignee || consignor){
       doc
       .text(order.chargeableWeight, 440, y+115, {width: 120, align: 'center'})
       .text(totalVolWeight, 440, y+147.5, {width: 120, align: 'center'})
@@ -240,7 +247,7 @@ function awbCopy(doc, user, order, consignee, totalVolWeight, totalActualWeight,
       
 
     //RENDER BOX NUMBER AND BOX DIMENSIONS//
-    if(!consignee){
+    if(!consignee || consignor){
       doc.text(order.numberOfBoxes, 510, y+85, { width: 50, align: 'center' }) 
 
       order.boxDetails.forEach((box, i) => {

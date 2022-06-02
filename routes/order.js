@@ -108,7 +108,9 @@ router.patch('/:orderId/trackingdetails',verifyToken, authorizeRole(['admin', 's
 
 router.get('/:orderId/print/awb', verifyToken, authorizeResource, orderController.getLogo, orderController.printawb) 
 
-router.get('/:orderId/print/awb/:consigneeId', verifyToken, authorizeResource, orderController.getLogo, orderController.printawb)
+router.get('/:orderId/print/awb/:consigneeId/consignee', verifyToken, authorizeResource, orderController.getLogo, orderController.printawb)
+
+router.get('/:orderId/print/awb/:consignorId/consignor', verifyToken, authorizeResource, orderController.getLogo, orderController.printawb)
 
 router.get('/:orderId/print/packinglist', verifyToken, authorizeResource, orderController.packingList) 
 

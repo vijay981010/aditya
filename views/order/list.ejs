@@ -110,7 +110,8 @@
                             </a>                            
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">                                               
                                 <a class="dropdown-item" href="<%= order._id %>/print/awb" target="_blank">Accounts/Consignor AWB Copy</a>                                
-                                <a class="dropdown-item" href="<%= order._id %>/print/awb/consignee" target="_blank">Consignee AWB Copy</a>                                
+                                <a class="dropdown-item" href="<%= order._id %>/print/awb/consignee/consignee" target="_blank">Consignee AWB Copy</a>
+                                <a class="dropdown-item" href="<%= order._id %>/print/awb/consignor/consignor" target="_blank">Consignor AWB Copy</a>                                
                                 <a class="dropdown-item" href="<%= order._id %>/print/boxsticker" target="_blank">Box Sticker</a>
                                 <a class="dropdown-item" href="<%= order._id %>/print/packinglist" target="_blank">Packing List</a>
                                 <%if(user.settings.packingListExcel==true){%>

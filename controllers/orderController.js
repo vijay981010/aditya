@@ -1036,10 +1036,13 @@ exports.searchHistory = async(req, res, next) => {
 
 exports.printawb = async(req, res, next) => {
     try{              
+        let debug = require('debug')('c_app: printawb')
+
         let orderId = req.params.orderId
         let userId = req.user.id
         let consignee = req.params.consigneeId //FLAG FOR CONSIGNEE COPY//
-
+        let consignor = req.params.consignorId //FLAG FOR CONSIGNEE COPY//
+        debug(consignee, consignor)
         let order = await Order.findById(orderId).populate('client').exec()
         let user = await User.findById(userId).populate('admin').exec()
 
@@ -1068,14 +1071,16 @@ exports.printawb = async(req, res, next) => {
     // ---------------------- CALLBACK TO GENERATE PDF --------------------------- //
         function callback(){
             let fileName
-            if(consignee){
-                fileName = `awb_consignee_${order.awbNumber}.pdf`                
-                doc.addPage()
-                generateAwb(doc, order, user, true)                 
+            if(consignee || consignor){
+                fileName = `awb_consignee_${order.awbNumber}.pdf` 
+                if(consignor) fileName = `awb_consignor_${order.awbNumber}.pdf`              
+                doc.addPage()                
+                consignee ? generateAwb(doc, order, user, true, false) : generateAwb(doc, order, user, false, true)
+                
             }else{
                 fileName = `awb_acc_consignor_${order.awbNumber}.pdf`
                 doc.addPage()
-                generateAwb(doc, order, user, false)
+                generateAwb(doc, order, user, false, false)
             }                        
 
             res.setHeader('Content-type', 'application/pdf')
