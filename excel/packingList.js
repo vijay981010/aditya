@@ -87,7 +87,7 @@ exports.generatePackingList = (workbook, order, compData) => {
         `Country Of Origin: ${order.origin}`, `Final Destination: ${order.destination}`]
 
     let consigneeArr = [order.consignee, order.consigneeAddress1, order.consigneeAddress2, order.consigneePincode,
-        order.consigneeCity, order.consigneeState, order.origin, `Tel. No: ${order.consignorContactNumber}`, '', '',
+        order.consigneeCity, order.consigneeState, order.destination, `Tel. No: ${order.consigneeContactNumber}`, '', '',
         'Terms,Unsolicited Gift From Individual to Individual', `No. Of Box: ${order.numberOfBoxes}`, `Total Weight: ${order.chargeableWeight}`,
         `Invoice No. and Date: ${order.awbNumber}`]
 
