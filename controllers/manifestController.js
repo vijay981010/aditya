@@ -85,7 +85,7 @@ exports.manifestUpdateForm = async(req, res, next) => {
         let clientList = await User.find({admin: userId}).select('username')
         
         //GET ORDERLIST OF RESPECTIVE ADMIN//
-        let orderList = await Order.find({client: clientList}).select('awbNumber').sort({bookingDate: 'desc', createdAt: 'desc'}).limit(450)                   
+        let orderList = await Order.find({client: clientList}).select('awbNumber').sort({bookingDate: 'desc', createdAt: 'desc'}).limit(1000)                   
 
         //GET MANIFEST DETAILS//
         let manifest = await Manifest.findById(manifestId).populate({
