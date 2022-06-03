@@ -24,6 +24,7 @@ exports.manifestList = async(req, res, next) => {
 
 exports.manifestForm = async(req, res, next) => {
     try{
+        let debug = require('debug')('c_app: manifestForm')
         let userId = req.user.id
         
         const user = await User.findById(userId)
@@ -33,9 +34,8 @@ exports.manifestForm = async(req, res, next) => {
         let clientList = await User.find({admin: userId}).select('username')
         
         //GET LATEST 450 ORDERS//
-        let orderList = await Order.find({client: clientList}).select('awbNumber').sort({bookingDate: 'desc', createdAt: 'desc'}).limit(450)
-                
-        debug(orderList.length)
+        let orderList = await Order.find({client: clientList}).select('awbNumber').sort({bookingDate: 'desc', createdAt: 'desc'}).limit(1000)
+                        
         res.render('manifest/add', {user, countries, orderList})
     }catch(err){
         next(err)

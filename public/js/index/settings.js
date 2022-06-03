@@ -30,5 +30,34 @@ function getDateXDaysAgo(numOfDays, date = new Date()) {
   return daysAgo;
 }
 
+// --------- DELETE FUNCTION ------------- //
+
+function sendAlert(url, msg){
+    
+  let pw = prompt('Are you sure you want to delete, then enter password', '')
+  if(pw == '' || pw == null){        
+  }else{                      
+      $.ajax({
+          url: url,
+          method: "DELETE",
+          data: {pw}, 
+          dataType: 'json',
+          error: function(xhr, status, error){
+              console.log(xhr, status, error)                
+              alert('Some Unknown Error')
+          },
+          success: function(response){  
+              if(response.msg == 'success'){
+                  alert(msg)
+                  location.reload()                  
+              }else if(response.msg == 'error'){
+                  alert('Incorrect Password')    
+              }               
+                                                    
+          }
+      })
+  }
+}
+
 
 //https://nodejs-courierhub.herokuapp.com

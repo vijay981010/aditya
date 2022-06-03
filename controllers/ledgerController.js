@@ -1,7 +1,7 @@
-const debug = require('debug')('dev')
 const User = require('../model/userModel')
 const Order = require('../model/orderModel')
 const Ledger = require('../model/ledgerModel')
+const bcrypt = require('bcrypt')
 
 exports.list = async(req, res, next) => {
     try{
@@ -149,6 +149,25 @@ exports.filter = async(req, res, next) => {
         //SEND DATA OBJ TO AJAX//
         res.json(data)
 
+    }catch(err){
+        next(err)
+    }
+}
+
+exports.deleteTxn = async(req, res, next) => {
+    try{        
+        let debug = require('debug')('c_app: deleteTxn')
+        let id = req.params.ledgerId
+        let userId = req.user.id        
+        
+        const user = await User.findById(userId)        
+
+        if(await bcrypt.compare(req.body.pw, user.password)){                        
+            await Ledger.findByIdAndDelete(id)
+            res.status(200).json({msg: 'success'})
+        }else{            
+            res.json({msg: 'error'})
+        }
     }catch(err){
         next(err)
     }
