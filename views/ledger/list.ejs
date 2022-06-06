@@ -5,6 +5,11 @@
 <!-- include header -->
 <%- include('../include/_navbar') %>
 <!-- /include header -->
+
+<!-- include ledger export modal -->
+<%- include('../ledger/modal/ledgerExport') %>
+<!-- include ledger export modal -->
+
 <div class="container-fluid mb-5"> 
     <div class="container-fluid">
         <header class="row py-3 mb-4 border-bottom">
@@ -14,6 +19,7 @@
             <div class="col-md-6"></div>
             <div class="col-md-3 d-flex flex-row-reverse">
                 <a href="/ledger/add" class="btn btn-primary">Add Transaction</a>
+                <button id="ledgerExport" class="btn btn-primary mr-3">Export</button>
             </div>           
         </header>
     </div> 
@@ -111,3 +117,4 @@
 
 <script src="/js/ledger/filterData.js"></script>
 <script src = "/js/ledger/deleteTxn.js"></script>
+<script src = "/js/ledger/ledgerExport.js"></script>

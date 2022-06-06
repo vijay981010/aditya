@@ -1,0 +1,57 @@
+<!-- Modal -->
+<div class="modal" id="ledgerExportModal">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="ledgerExportModalLabel">Select Date Range</h5>
+          <button type="button" id="closeLedgerExportModal" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form action="/ledger/export" method="POST">   
+            <div class="modal-body">
+                <div class="form-group">                    
+                    <label for="exportClient">Select Client</label>
+                    <select class="form-select" name="exportClient">
+                      <option value="">--Select--</option>                   
+                      <% clientUserList.forEach(user => { %>
+                          <option value="<%= user._id %>"><%= user.username %></option>
+                      <% }) %>
+                    </select>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                      <div class="form-group">                    
+                          <label for="exportStart">Select Ledger Start Date</label>
+                          <input class="form-control inputDate" name="ledgerStart">
+                      </div> 
+                  </div>
+                  <div class="col-md-6">
+                      <div class="form-group">
+                          <label for="exportEnd">Select Ledger End Date</label>
+                          <input class="form-control inputDate" name="ledgerEnd">
+                      </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                      <div class="form-group">                    
+                          <label for="exportStart">Select Orders Start Date</label>
+                          <input class="form-control inputDate" name="orderStart">
+                      </div> 
+                  </div>
+                  <div class="col-md-6">
+                      <div class="form-group">
+                          <label for="exportEnd">Select Orders End Date</label>
+                          <input class="form-control inputDate" name="orderEnd">
+                      </div>
+                  </div>
+                </div>                                            
+            </div>
+            <div class="modal-footer">          
+                <input type="submit" value="Export Ledger" class="btn btn-primary" id="ledgerExportSubmit">
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>

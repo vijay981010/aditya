@@ -1,7 +1,7 @@
 const User = require('../model/userModel')
 const Order = require('../model/orderModel')
 const Invoice = require('../model/invoiceModel')
-const {getDates} = require('../helpers/helpers')
+const {getDates, checkOrderBillWeight} = require('../helpers/helpers')
 const PDFdocument = require('pdfkit')
 const {detailedInvoice} = require('../pdf/detailedInvoice')
 const bcrypt = require('bcrypt')
@@ -228,11 +228,3 @@ function getCompData(orders){
     return compData = {chargesArr, taxArr, totalBillArr, totalCharges, totalFsc, totalTax, totalBill, totalBaseRate}
 }
 
-function checkOrderBillWeight(orders){
-    let count = 0
-    orders.forEach(order => {
-        if(!order.baseRate) count++
-        if(!order.chargeableWeight) count++
-    })
-    return count
-}

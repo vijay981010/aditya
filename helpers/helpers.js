@@ -186,3 +186,13 @@ exports.getXthDay = (date, gapInDays) => {
     let xthDate = new Date(xthDay)
     return xthDate.toISOString().split('T')[0]
   }
+
+  // ------------------------------------- CHECK ORDERS FOR BILL AND WEIGHT ------------------------- //
+  exports.checkOrderBillWeight = (orders) => {
+    let count = 0
+    orders.forEach(order => {
+        if(!order.totalBill) count++
+        if(!order.chargeableWeight) count++
+    })
+    return count
+}

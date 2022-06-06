@@ -2,6 +2,9 @@ const User = require('../model/userModel')
 const Order = require('../model/orderModel')
 const Ledger = require('../model/ledgerModel')
 const bcrypt = require('bcrypt')
+const {generateLedgerExport} = require('../excel/ledgerExport')
+const {getDates, checkOrderBillWeight} = require('../helpers/helpers')
+const ExcelJs = require('exceljs')
 
 exports.list = async(req, res, next) => {
     try{
@@ -168,6 +171,82 @@ exports.deleteTxn = async(req, res, next) => {
         }else{            
             res.json({msg: 'error'})
         }
+    }catch(err){
+        next(err)
+    }
+}
+
+exports.exportLedger = async(req, res, next) => {
+    try{
+        let debug = require('debug')('c_app: exportLedger')
+        //GET FORM DATA//
+        let {exportClient, ledgerStart, ledgerEnd, orderStart, orderEnd} = req.body        
+        let {id} = req.user
+
+        //GET CLIENT INFO//
+        let clientData = await User.findById(exportClient).select('username')
+
+        //GET DATE RANGE//
+        let dateArray = getDates(new Date(ledgerStart), new Date(ledgerEnd)) 
+        let orderDateArray = getDates(new Date(orderStart), new Date(orderEnd)) 
+            
+        //VALIDATE DATE RANGE//
+        if(dateArray.length == 0 || orderDateArray == 0) 
+            return res.render('error', {message: `Start Date cannot be after End Date`, statusCode: '400'})                        
+
+        //GET TXN AND ORDER LIST//
+        let txnList = await Ledger.find({date: dateArray, client: exportClient})   
+        let orderFields = 'bookingDate totalBill chargeableWeight awbNumber'
+        let orderList = await Order.find({date: orderDateArray, client: exportClient}).select(orderFields)   
+        
+        //VALIDATE TXNS//
+        if(txnList.length == 0) return res.render('error', {message: `No Transactions found for the selected parameters`, statusCode: '400'})
+
+        //VALIDATE ORDERS//
+        let count = checkOrderBillWeight(orderList)
+        if(count > 0) return res.render('error', {message: `Some Orders don't have bill/weight added. Please check`, statusCode: '400'})
+
+        //COMPUTE FINAL ARR//
+        let finalArr = [...txnList, ...orderList]
+        
+        finalArr.forEach(item => {
+            if(item.date) item.commonDate = item.date
+            if(item.bookingDate) item.commonDate = item.bookingDate            
+        })        
+
+        finalArr.sort((a, b) => {
+            a = new Date(a.commonDate).getTime()
+            b = new Date(b.commonDate).getTime()
+            return a - b
+        })          
+        
+        //CALCULATE TOTAL DEBIT, CREDIT, BALANCE//
+        let totalDebit = 0, totalCredit = 0
+        finalArr.forEach(obj =>{
+            if(obj.totalBill) totalDebit += obj.totalBill
+            if(obj.type=='debit') totalDebit += obj.amount
+            if(obj.type=='credit') totalCredit += obj.amount
+        })
+
+        let balance = totalDebit - totalCredit
+        
+        let compData = [
+            {Date: '', Description: 'Total', Debit: totalDebit, Credit: totalCredit},
+            {Date:'', Description: 'Balance', Debit: balance, Credit: ''}
+        ]       
+        
+    // ------------------------ EXCEL SECTION ------------------------- //
+        const workbook = new ExcelJs.Workbook()        
+
+        generateLedgerExport(workbook, finalArr, compData)
+
+        res.setHeader("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+        res.setHeader("Content-Disposition",`attachment; filename=ledger_${clientData.username}.xlsx`)
+
+        return workbook.xlsx.write(res).then(function (){
+            res.status(200).end();
+        })        
+
     }catch(err){
         next(err)
     }

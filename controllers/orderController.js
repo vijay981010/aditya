@@ -770,7 +770,7 @@ exports.trackDetails = async(req, res, next) => {
         
         //GET CLIENT LIST TO AVOID DUPLICATE TRACKING NUMBER ISSUE//
         let adminUser = await User.findOne({username: user}).select('trackingId trackingType')   
-        debug(adminUser.trackingId)
+        
         userlist = await User.find({role: 'client', admin: adminUser})                        
         userlist = userlist.map(user => user._id)          
 
@@ -784,7 +784,7 @@ exports.trackDetails = async(req, res, next) => {
         if(order.vendorId && order.vendorId != 0){   
             //CHECK FOR SHIPWAY AND SHIPWAY VENDOR ID, ELSE GO TO LINKED//                  
             if(adminUser.trackingType=='shipway' || linkedVendorArray.map(item => item.id).indexOf(order.vendorId) == -1){
-                debug('shipway tracking')
+                //debug('shipway tracking')
                 let excludeArr = ['914653', '9146530', '920193', '557740445', '1614352', '3779137', '3734458', '4570177', '3106960',
                 '527471', '3981373', '3431059', '3250406', '6172115', '8265503']
             
@@ -833,7 +833,7 @@ exports.trackDetails = async(req, res, next) => {
                     res.json({status: 'fail'})
                 }
             }else if(adminUser.trackingType=='linked'){
-                debug('linked tracking')
+                //debug('linked tracking')
                 let link = getLink(order)
                 res.status(200).json({order, link, status:'Success'})
             }
