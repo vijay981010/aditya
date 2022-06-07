@@ -1,0 +1,116 @@
+<div class="card-body">                  
+    <div class="row">
+        <%if(type != 'view'){%>  
+        <div class="col-md-1">
+            <div class="form-group">                                                                                       
+                <label for="client"><b>Client</b><span>*</span></label>                                   
+                <select class="form-select" name="client" required >
+                    <option value="<%= bill.client ? bill.client._id : '' %>"><%= bill.client ? bill.client.username : '--select--' %></option>                                        
+                    <% clientList.forEach(client => { %>
+                        <option value="<%= client._id %>"><%= client.username %></option>
+                    <% }) %>                                        
+                </select>                            
+            </div>
+        </div>
+        <%}%>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label for="date"><b>Bill Date</b><span>*</span></label>
+                <input class="form-control inputDate" name="date" value="<%= bill.date ? bill.date.toISOString().split('T')[0] : '' %>" required/>                            
+            </div> 
+        </div>         
+        <div class="col-md-2">
+            <div class="form-group">
+                <label for="paymentDate"><b>Due Date</b><span>*</span></label>
+                <input class="form-control" id="noLimitDate" name="paymentDate" value="<%= bill.paymentDate ? bill.paymentDate.toISOString().split('T')[0] : '' %>" required/>                            
+            </div> 
+        </div> 
+        <div class="col-md-1">
+            <div class="form-group">                                                                                       
+                <label for="status"><b>Status</b><span>*</span></label>                                   
+                <select class="form-select" name="status" id="status" required >
+                    <option value="<%= bill.status ? bill.status : 'pending' %>"><%= bill.status ? bill.status : 'pending' %></option>                                        
+                    <% statusList.forEach(status => { %>
+                        <option value="<%= status %>"><%= status %></option>
+                    <% }) %>                                        
+                </select>                            
+            </div>
+        </div>  
+        <%if(type != 'view'){%>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="link"><b>Invoice Link</b><span>*</span></label>
+                <input class="form-control" name="link" value="<%= bill.link %>" required/>                            
+            </div>
+        </div>        
+        <div class="col-md-2">
+            <div class="form-group">
+                <label for="paymentLink"><b>Payment Link</b></label>
+                <input class="form-control" name="paymentLink" value="<%= bill.paymentLink %>"/>                            
+            </div>
+        </div>
+        <div class="col-md-1">
+            <div class="form-group">
+                <label for="actionBill"><b>Action</b></label><br>                                                                         
+                <button class="btn btn-primary btn-block" id="actionBill">Add Item</button>
+            </div>
+        </div> 
+        <%}else{%>  
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="link"><b>Invoice</b><span>*</span></label>
+                <a href="<%= bill.link %>" class="btn btn-info form-control" target="_blank">View Invoice</a>
+            </div>
+        </div>
+        <%if(bill.status != 'paid'){%>        
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="link"><b>Payment</b><span>*</span></label>                
+                <div class="dropdown">
+                    <button class="btn btn-success dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Make Payment
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="/images/gpay.jpg" target="_blank">Google Pay</a>
+                        <a class="dropdown-item" id="bankTransferModal" href="" data-toggle="modal" data-target="#bankTransferModal">Bank Transfer</a>
+                        <a class="dropdown-item" href="<%= bill.paymentLink %>" target="_blank">Credit-Card/Debit-Card/Netbanking/Wallet</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <%}
+        }%>
+    </div> 
+    <div class="row">   
+        <div class="card-header bg-dark">                  
+            <h5 class="text-center text-white">Item Details</h5>
+        </div>                     
+        <table class="table table-bordered table-responsive-sm" id="billTable">                            
+                <tr>
+                    <td><label for='itemName'><b>Name</b><span>*</span></label></td>
+                    <td><label for='itemDescription'><b>Description</b><span>*</span></label></td>
+                    <td><label for='itemAmount'><b>Amount</b><span>*</span></label></td>   
+                    <%if(type != 'view'){%>                 
+                    <td><label for='BillRemove'><b>Action</b></label></td>
+                    <%}%>
+                </tr>
+                <% if(bill.itemDetails.length > 0){
+                    bill.itemDetails.forEach((item,i) => { %> 
+                    <tr id="r<%= i+100 %>">
+                        <td><input type='text' class='form-control text-center' name='name[]' value='<%= item.name %>' required></td>
+                        <td><input type='text' class='form-control text-center' name='description[]' value='<%= item.description %>' required></td>
+                        <td><input type='number' min="0" class='form-control text-center' name='amount[]' value='<%= item.amount %>' required></td>  
+                        <%if(type != 'view'){%>                      
+                        <td><button class="btn btn-danger removeBill"><i class="fa fa-minus-circle"></i></button></td>
+                        <%}%>
+                    </tr>
+                <% })  
+                } %>                           
+        </table>                    
+    </div> 
+    <div class="row">
+        <label for="note"><b>Additional Note</b></label>
+        <textarea name="note" class="form-control"><%= bill.note %></textarea>
+    </div>      
+</div>
+

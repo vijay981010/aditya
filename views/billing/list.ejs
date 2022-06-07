@@ -1,0 +1,89 @@
+<!-- include header -->
+<%- include('../include/_header') %>
+<!-- /include header -->
+
+<!-- include header -->
+<%- include('../include/_navbar') %>
+<!-- /include header -->
+
+<div class="container-fluid mb-5"> 
+    <div class="container-fluid">
+        <header class="row py-3 mb-4 border-bottom">
+            <div class="col-md-3">                
+                <span class="fs-4 text-dark">List of Bills</span>
+            </div> 
+            <div class="col-md-6"></div>
+            <%if(user.role=='superadmin'){%>
+            <div class="col-md-3 d-flex flex-row-reverse">                
+                <a href="/bills/add" class="btn btn-primary">Add Bill</a>                
+            </div>           
+            <%}%>            
+        </header>
+    </div>         
+  
+    <table id="myTable" class="display cell-border responsive" width="100%" >
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Bill No</th>
+                <%if(user.role=='superadmin'){%>
+                <th>Client</th>
+                <%}%>                
+                <th>Items</th>
+                <th>Amount</th>                
+                <th>Note</th>
+                <th>Status</th> 
+                <th>Payment Date</th>                               
+                <th>Action</th>
+                <%if(user.role=='superadmin'){%>
+                <th>Action</th>
+                <%}%>                                           
+            </tr>
+        </thead>
+        <tbody>                      
+            <% billList.forEach((bill,i) => { %> 
+                <tr>
+                    <td><%= moment(bill.date).format(shortDateFormat) %></td>
+                    <td><%= bill.billNumber %></td>                                          
+                    <%if(user.role=='superadmin'){%>
+                    <td><%= bill.client.username %></td>
+                    <%}%>                
+                    <td>
+                        <% itemList[i].forEach(item => { %>
+                            <%= item.name %>,                                             
+                        <% }) %>
+                    </td>
+                    <td><%= bill.totalAmount %></td>                
+                    <td>
+                        <% if(bill.note){%>
+                        <a data-toggle="tooltip" title="<%= bill.note %>"><i class="fas fa-info-circle"></i></a>
+                        <%}%>    
+                    </td>
+                    <td><%= bill.status %></td>  
+                    <td><%= bill.paymentDate ? moment(bill.paymentDate).format(shortDateFormat) : '' %></td>                              
+                    <td><a class="btn-sm btn-primary" href="<%= bill._id %>/view" target="_blank">View</a></td>
+                    <%if(user.role=='superadmin'){%>
+                    <td>
+                        <button class="btn-sm btn-primary dropdown-toggle" id="dropdownMenuButton" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Action
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="<%= bill._id %>/edit">Edit</a>
+                            <a class="dropdown-item deleteBill" data-id="<%= bill._id %>">Delete</a>
+                        </div>
+                    </td>
+                    <%}%>                                                            
+                </tr>
+            <% }) %>                                                                                                           
+        </tbody>
+    </table>    
+</div>
+
+       
+
+
+<!-- include footer -->
+<%- include('../include/_footer') %>
+<!-- /include footer -->
+
+<script src = "/js/billing/deleteBill.js"></script>

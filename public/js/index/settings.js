@@ -30,6 +30,18 @@ function getDateXDaysAgo(numOfDays, date = new Date()) {
   return daysAgo;
 }
 
+// ---------------------------------------- //
+
+function getDaysDifference(c){  
+  let date = new Date(c)
+  let today = new Date()
+
+  if(date.getTime() < today.getTime()) return 0
+
+  let diff = today.setDate(date.getDate() - today.getDate())
+  return new Date(diff).getDate()
+}
+
 // --------- DELETE FUNCTION ------------- //
 
 function sendAlert(url, msg){

@@ -9,13 +9,15 @@ const { validationResult } = require('express-validator')
 
 exports.userList = async (req, res, next) => {
     try{                
+        let debug = require('debug')('c_app: userList')
+
         let userId = req.user.id
         let userList
-        const user = await User.findById(userId)
+        const user = await User.findById(userId)        
 
         //GET USERS AS PER ROLE//
         if(user.role == "superadmin"){
-            userList = await User.find({role: 'admin'})
+            userList = await User.find({role: 'admin'}).populate({path: 'invoice', select: 'billNumber'})
         }else if(user.role == "admin"){
             userList = await User.find({role: 'client', admin: userId})
         }

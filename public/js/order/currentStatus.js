@@ -1,6 +1,6 @@
 $(document).ready(function(){
     //setInterval(runCron, 5000)
-    $('.paginate_button').click(function(){
+    /* $('.paginate_button').click(function(){
         console.log('clicked')
         runCron()
     })
@@ -10,7 +10,9 @@ $(document).ready(function(){
         runCron()
     })
     
-    runCron()
+    runCron() */
+
+    $('#getTrackStatus').click(runCron)    
     
 
     function runCron(){            

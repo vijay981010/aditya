@@ -138,6 +138,10 @@ const userSchema = new Schema({
     adminCode:{
         type: String
     },
+    invoice: {
+        type: Schema.Types.ObjectId,
+        ref: 'Billing'
+    },
     admin: {
         type: Schema.Types.ObjectId,
         ref: 'User',             

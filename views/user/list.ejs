@@ -8,14 +8,14 @@
 <div class="container-fluid mb-5"> 
     <div class="container-fluid">
         <header class="row py-3 mb-4 border-bottom">
-            <div class="col-md-3">              
+            <div class="col-md-6">              
                 <% if(user.role=='superadmin'){ %>
                     <span class="fs-4 text-dark">List of users</span>
                 <%}else{ %>
                     <span class="fs-4 text-dark">List of users (Admin Code: <%= user.adminCode %>)</span>
                 <%}%>                
             </div>
-            <div class="col-md-6"></div>
+            <div class="col-md-3"></div>
             <div class="col-md-3 d-flex flex-row-reverse">
                 <a href="/users/add" class="btn btn-primary">Add User</a>
             </div>
@@ -51,6 +51,7 @@
                 <th>Tracking Id</th>
                 <th>Tracking Type</th>
                 <th>Display Name</th>
+                <th>Last Bill</th>
                 <th>Action</th>
                 <% } %>   
                 
@@ -77,6 +78,7 @@
                     <td><%= client.trackingId %></td>
                     <td><%= client.trackingType %></td>
                     <td><%= client.displayName %></td>
+                    <td><%= client.invoice ? client.invoice.billNumber : '' %></td>
                     <td><a class="btn-sm btn-primary" href="/users/<%= client._id %>/addons">Add Ons</a></td>
                     <% } %>                    
                                     

@@ -12,7 +12,7 @@ $(document).ready(function(){
     
     function addBoxRow(e){
         e.preventDefault()
-        $('#myTable').append(`<tr id="r${boxId++}">
+        $('#boxTable').append(`<tr id="r${boxId++}">
             <td><input type='number' class='form-control text-center box' id='boxL${volId}' name='boxLength' step='.01' required></td>
             <td><input type='number' class='form-control text-center box' id='boxW${volId}' name='boxWidth' step='.01' required></td>
             <td><input type='number' class='form-control text-center box' id='boxH${volId}' name='boxHeight' step='.01' required></td>

@@ -26,9 +26,25 @@ $(document).ready( function () {
           $(instance.altInput).prop('readonly', false);
           $(instance.altInput).blur();
         }
-  }    
+  }
+
+  const config2 = {
+    enableTime: false,    
+    altInput: true,
+    altFormat: "F j, Y",
+    dateFormat: "Y-m-d",    
+    onOpen: function(selectedDates, dateStr, instance) {
+        $(instance.altInput).prop('readonly', true);
+      },
+      onClose: function(selectedDates, dateStr, instance) {
+        $(instance.altInput).prop('readonly', false);
+        $(instance.altInput).blur();
+      }
+  }
+    
     
   flatpickr("#inputDate", config)
+  flatpickr("#noLimitDate", config2)
   flatpickr(".inputDate", config)
 
 // ------------------ MuLTISELECT ------------------ //        
@@ -51,6 +67,18 @@ $(document).ready( function () {
   $('#goBack').on('click', function(){
       history.back()
   })
+
+// -------------------------------------------- //
+if($('#paymentInfo')){
+  let paymentDate = $('#paymentNotification').data('id')
+  let remainingDays = getDaysDifference(paymentDate)
+  let appendTxt = `<span> Kindly clear in ${remainingDays} days for uninterrupted service.</span>` 
+  if(remainingDays == 31) appendTxt = `<span> Subscription will expire tomorrow.</span>`
+  if(remainingDays == 1) appendTxt = `<span> Subscription will expire day after tomorrow.</span>`
+  $('#paymentInfo').append(appendTxt)
+  
+}
+
 
 });
 

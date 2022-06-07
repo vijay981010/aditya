@@ -18,6 +18,15 @@
 <%- include('../order/modal/cashInvoice') %>
 <!-- include cash invoice modal -->
 
+<%if(user.role=='admin' && user.invoice){
+    if(user.invoice.status != 'paid'){ %>
+  <div class="container-fluid bg-danger">
+      <div class="row justify-content-center p-2">          
+          <h6 id="paymentInfo" class="text-white d-inline">Hi, Invoice is raised. <a id="paymentNotification" data-id="<%= user.invoice.paymentDate %>" href="/bills/<%= user.invoice._id %>/view" class="btn-sm btn-dark" target="_blank">Click here for details</a></h6>
+      </div>
+  </div>
+  <%}}%>
+
 <div class="container-fluid mb-5"> 
     <div class="container-fluid">
         <header class="row py-3 mb-4 border-bottom">
@@ -35,8 +44,9 @@
                 <%}%>
                 <%if(user.role=='admin'){%> 
                 <button id="orderExport" class="btn btn-primary mr-3">Export</button>  
-                <a href="/orders/search/archive" class="btn btn-primary mr-3">Archive</a> 
-                <%}%>                              
+                <a href="/orders/search/archive" class="btn btn-primary mr-3">Archive</a>                 
+                <button id="getTrackStatus" class="btn btn-primary mr-3">Status</button>
+                <%}%>                                              
             </div>            
         </header>
     </div> 

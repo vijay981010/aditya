@@ -45,11 +45,15 @@ exports.authenticateUser = async (req, res, next) => {
     // ------------------- PROCESS INPUT ------------------- //
         let { username, password, adminCode } = req.body
 
-        const user = await User.findOne({username, adminCode}).populate('admin')
+        const user = await User.findOne({username, adminCode}).populate('admin').populate('invoice')
         
         //CHECK IF ADMIN USER HAS ACCESS TO USERS MODULE//  
         if(user.role == 'client' && user.admin.accessRight.indexOf('user') == -1) 
             return res.render('error', {message: `Access Unauthorized`, statusCode: '400'})
+
+        //CHECK IF ADMIN USER HAS PAID INVOICE//
+        //if(checkDateExpiry(user.invoice.paymentDate))
+          //  return res.render('error', {message: `Your Subscription has expired. Kindly clear invoice to resume or contact Admin`, statusCode: '400'})        
         
         //CHECK IF PASSWORD IS CORRECT//
         if(user && await bcrypt.compare(password, user.password)){
@@ -83,3 +87,5 @@ exports.authenticateUser = async (req, res, next) => {
     }
 
 }
+
+

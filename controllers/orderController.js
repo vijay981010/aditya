@@ -37,7 +37,7 @@ exports.orderList = async (req, res, next) => {
 
         let userId = req.user.id
         debug(userId)
-        const user = await User.findById(userId).populate('admin').exec()        
+        const user = await User.findById(userId).populate('admin').populate('invoice')       
         
         if(user.role == 'client'){
             orderlist = await Order.find({client: userId}).sort({bookingDate: 'desc', createdAt: 'desc'}).limit(1000)          
