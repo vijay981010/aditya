@@ -84,8 +84,8 @@ function awbTitle(doc, user, x, y){
   }
 
   //GET LOGO FILE PREFIX//
-  let filePrefix = user.trackingId
-  if(user.role == 'client') filePrefix = user.admin.trackingId
+  let filePrefix = user.adminCode
+  if(user.role == 'client') filePrefix = user.admin.adminCode
 
   //MAIN TITLE//
   doc
@@ -102,7 +102,7 @@ function awbTitle(doc, user, x, y){
   
   //CHECK FOR LOGO//
   if(user.role=='admin' && user.settings.awbPrintBranding || user.role=='client' && user.admin.clientSettings.awbPrintBranding){
-      doc.image(`${filePrefix}-logo.png`, x+40, y-20, {width: 60, align:'left'})
+      doc.image(`public/images/${filePrefix}-logo.png`, x+40, y-20, {width: 60, align:'left'})      
   }
 }
 

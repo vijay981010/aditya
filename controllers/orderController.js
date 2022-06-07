@@ -35,16 +35,19 @@ exports.orderList = async (req, res, next) => {
         let debug = require('debug')('c_app:orderlist')                                      
         let orderlist
 
-        let userId = req.user.id
-        debug(userId)
-        const user = await User.findById(userId).populate('admin').populate('invoice')       
+        let userId = req.user.id        
+        const user = await User.findById(userId).populate('admin').populate('invoice')  
+        debug(user.username)   
+        
         
         if(user.role == 'client'){
             orderlist = await Order.find({client: userId}).sort({bookingDate: 'desc', createdAt: 'desc'}).limit(1000)          
         }else if(user.role == 'admin'){            
-            orderlist = await Order.find().populate('client').sort({bookingDate: 'desc', createdAt: 'desc'}).limit(1000).exec()            
-            orderlist = orderlist.filter(elem => elem.client.admin == userId)            
+            let userlist = await User.find({admin: userId}).select('username')               
+            orderlist = await Order.find({client: userlist}).populate('client').sort({bookingDate: 'desc', createdAt: 'desc'}).limit(1000)            
         }
+
+        debug(orderlist.length)
 
         if(!orderlist) return res.render('error', {message:'Some unknown error.Couldnt get orderlist. Please try again', statusCode: '500'})
 
@@ -1089,23 +1092,20 @@ exports.printawb = async(req, res, next) => {
             stream = doc.pipe(res) 
             doc.end()
 
-            stream.on('finish', callback2)
-            
-            function callback2(){
-                fs.unlink(`awb_${order.awbNumber}.png`, (err) => { 
-                    if(err) return next(err)
-                    if(user.role=='admin' && user.settings.awbPrintBranding || user.role=='client'&& user.admin.clientSettings.awbPrintBranding){
-                        debug('starting to unlink logo')
-                        //GET FILE PREFIX//
-                        let filePrefix = user.trackingId
-                        if(user.role=='client') filePrefix = user.admin.trackingId
+            stream.on('finish', () => {
+                fs.unlink(`awb_${order.awbNumber}.png`, (err) => { if(err) return next(err) })
+            })                           
 
-                        fs.unlink(`${filePrefix}-logo.png`, (err) => {
-                            if(err) return next(err)
-                        })
-                    }                                    
-                })
-            }    
+            /* if(user.role=='admin' && user.settings.awbPrintBranding || user.role=='client'&& user.admin.clientSettings.awbPrintBranding){
+                    debug('starting to unlink logo')
+                    //GET FILE PREFIX//
+                    let filePrefix = user.trackingId
+                    if(user.role=='client') filePrefix = user.admin.trackingId
+
+                    fs.unlink(`${filePrefix}-logo.png`, (err) => {
+                        if(err) return next(err)
+                    })
+                } */
                         
         }                
     }catch(err){
@@ -1113,7 +1113,7 @@ exports.printawb = async(req, res, next) => {
     }
 }
 
-exports.getLogo = async(req, res, next) => {
+/* exports.getLogo = async(req, res, next) => {
     try{
         debug('entered get Logo')
         let userId = req.user.id
@@ -1147,7 +1147,7 @@ exports.getLogo = async(req, res, next) => {
     }catch(err){
         next(err)
     }
-}
+} */
 
 exports.packingList = async(req, res, next) => {
     try{        

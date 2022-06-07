@@ -1,9 +1,9 @@
-const debug = require('debug')('dev')
 const User = require('../model/userModel')
 const Order = require('../model/orderModel')
 
 exports.index = async (req, res, next) => {
     try{        
+        let debug = require('debug')('c_app: dashboardIndex')
         
         let userId = req.user.id
         let role = req.user.role
@@ -18,11 +18,11 @@ exports.index = async (req, res, next) => {
 
         //GET ALL ORDERS FOR CLIENT USERS//
         allOrders = await Order.find({client: userId}).select('apiCount') 
-
+        
         //GET ALL ORDERS FOR ADMIN USER//
         if(role == 'admin'){
-            allOrders = await Order.find().populate('client').select('apiCount') 
-            allOrders = allOrders.filter(elem => elem.client.admin == userId)
+            allOrders = await Order.find().populate('client').select('apiCount')                         
+            allOrders = allOrders.filter(elem => elem.client.admin == userId)            
 
             totalApi = allOrders.map(item => item.apiCount) //GET APICOUNT ARRAY//
             totalApi = totalApi.reduce((a, b) => a + b, 0) //GET SUM OF APICOUNT//

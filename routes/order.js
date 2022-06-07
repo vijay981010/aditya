@@ -106,11 +106,11 @@ router.patch('/:orderId/trackingdetails',verifyToken, authorizeRole(['admin', 's
 **/
 //router.delete('/:orderId', verifyToken, authorizeRole(['admin', 'superadmin']), authorizeUser, orderController.deleteOrder)
 
-router.get('/:orderId/print/awb', verifyToken, authorizeResource, orderController.getLogo, orderController.printawb) 
+router.get('/:orderId/print/awb', verifyToken, authorizeResource, orderController.printawb) //orderController.getLogo
 
-router.get('/:orderId/print/awb/:consigneeId/consignee', verifyToken, authorizeResource, orderController.getLogo, orderController.printawb)
+router.get('/:orderId/print/awb/:consigneeId/consignee', verifyToken, authorizeResource, orderController.printawb) //orderController.getLogo
 
-router.get('/:orderId/print/awb/:consignorId/consignor', verifyToken, authorizeResource, orderController.getLogo, orderController.printawb)
+router.get('/:orderId/print/awb/:consignorId/consignor', verifyToken, authorizeResource, orderController.printawb) //orderController.getLogo
 
 router.get('/:orderId/print/packinglist', verifyToken, authorizeResource, orderController.packingList) 
 
