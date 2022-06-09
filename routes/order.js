@@ -12,7 +12,7 @@ let corsOption = {
     origin: async function(origin, callback){
         let userList = await User.find({role: 'admin'}).select('website')
         whiteList = userList.map(user => user.website)
-        whiteList.push('http://pranambharatcourier.in/')
+        whiteList.push('http://pranambharatcourier.in')
         debug(whiteList)
         if(whiteList.indexOf(origin) != -1){
             callback(null, true)
