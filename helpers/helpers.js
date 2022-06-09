@@ -9,7 +9,7 @@ exports.verifyToken = (req, res, next) => {
     const token = req.cookies.coapp     
           
     if (!token)              
-        return res.render('error', {message: `A token is required for authentication`, statusCode: '403'})            
+        return res.status(401).render('error', {message: `A token is required for authentication`, statusCode: '403'})            
     
     try{
         const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET_KEY) 

@@ -59,19 +59,13 @@ exports.createUser = async (req, res, next) => {
     // -------------------------------- PROCESS INPUTS -------------------------------- //
         const {role, username, password} = req.body //GET FORM DATA
         
-        const hash = await bcrypt.hash(password, 10) //HASH THE PASSWORD
-        
-        //GENERATE JWT//
-        const token = jwt.sign(
-            { data: username },
-            process.env.ACCESS_TOKEN_SECRET_KEY,
-            {expiresIn : '2h'}
-       )              
+        const hash = await bcrypt.hash(password, 10) //HASH THE PASSWORD                              
 
-       //CREATE NEW USER OBJECT//
-       const newUser = new User({
-            role, username, token,
-            password: hash, status: 'inactive'                
+        //CREATE NEW USER OBJECT//
+        const newUser = new User({
+                role, username,
+                password: hash, 
+                status: 'inactive'                
         })
 
         if(userRole=='superadmin'){

@@ -27,6 +27,7 @@ const ExcelJs = require('exceljs')
 const {generatePackingList} = require('../excel/packingList')
 const {generateOrderExport} = require('../excel/orderExport')
 
+
 const db = mongoose.connection;
 
 exports.orderList = async (req, res, next) => {
@@ -765,9 +766,11 @@ exports.patchTrack = async (req, res, next) => {
     }
 }
 
+
 exports.trackDetails = async(req, res, next) => {
     try{        
         let debug = require('debug')('c_app: trackDetails')
+        
     // --------- GET ORDER MANUAL TRACKING DATA FROM DATABASE ----------------- //
         let {trackingNumber, user} = req.query        
         

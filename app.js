@@ -6,10 +6,8 @@ if(process.env.NODE_ENV !== 'production'){
 //require
 const express = require('express')
 var cookieParser = require('cookie-parser')
-let session = require('express-session')
 const mongoose = require('mongoose')
 const errorHandler = require('./errorHandler')
-const cors = require('cors')
 const methodOverride = require('method-override')
 var compression = require('compression')
 var helmet = require('helmet')
@@ -68,16 +66,6 @@ app.use(helmet.frameguard({
 app.use(helmet.hidePoweredBy())
 app.use(express.urlencoded({ extended: true }))
 
-
-//session middleware
-app.use(session({
-    secret: process.env.SESSION_SECRET_KEY,
-    resave: false,
-    saveUninitialized: true,
-    cookie: { maxAge: 1000*60*60*2 }
-}))
-
-app.use(cors())
 
 //compression for all routes
 app.use(compression())

@@ -3,6 +3,25 @@ const router = Router();
 const orderController = require('../controllers/orderController')
 const {verifyToken, authorizeRole, authorizeResource, authorizeAddOn} = require('../helpers/helpers')
 const {primaryDetailsValidator} = require('../validations/orderValidation')
+const cors = require('cors')
+const User = require('../model/userModel')
+let debug = require('debug')('c_app: orderRoute')
+
+
+let corsOption = {
+    origin: async function(origin, callback){
+        let userList = await User.find({role: 'admin'}).select('website')
+        whiteList = userList.map(user => user.website)
+        whiteList.push('http://pranambharatcourier.in/')
+        debug(whiteList)
+        if(whiteList.indexOf(origin) != -1){
+            callback(null, true)
+        }else{
+            let err = new Error(`Not allowed by cors`)
+            callback(err)
+        }
+    }
+}
 
 /**
 * @Acess : Global, Respective
@@ -90,7 +109,7 @@ router.patch('/:orderId/bill', verifyToken, authorizeRole(['admin', 'superadmin'
 
 
 
-router.get('/track/details', orderController.trackDetails)
+router.get('/track/details', cors(corsOption), orderController.trackDetails)
 
 
 

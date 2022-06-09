@@ -22,8 +22,7 @@ exports.loginPage = (req, res, next) => {
 }
 
 exports.logoutPage = (req, res, next) => {
-    try{
-        req.session.destroy()
+    try{        
         res.clearCookie('coapp')
         res.redirect('/')
     }catch(err){
@@ -49,38 +48,27 @@ exports.authenticateUser = async (req, res, next) => {
         
         //CHECK IF ADMIN USER HAS ACCESS TO USERS MODULE//  
         if(user.role == 'client' && user.admin.accessRight.indexOf('user') == -1) 
-            return res.render('error', {message: `Access Unauthorized`, statusCode: '400'})
-
-        //CHECK IF ADMIN USER HAS PAID INVOICE//
-        //if(checkDateExpiry(user.invoice.paymentDate))
-          //  return res.render('error', {message: `Your Subscription has expired. Kindly clear invoice to resume or contact Admin`, statusCode: '400'})        
+            return res.status(400).render('error', {message: `Access Unauthorized`, statusCode: '400'})        
         
         //CHECK IF PASSWORD IS CORRECT//
-        if(user && await bcrypt.compare(password, user.password)){
-            //SET SESSION//
-            let session = req.session
-            session.data = user._id            
+        if(user && await bcrypt.compare(password, user.password)){                  
+            //DATA TO SIGN ON JWT
+            let data = { id: user._id, role: user.role }
 
             //SET JWT//
-            const token = jwt.sign({ 
-                id: user._id,
-                role: user.role
-            },
-                process.env.ACCESS_TOKEN_SECRET_KEY,
-                {expiresIn : '24h'}
-            )
-           user.token = token             
+            const token = jwt.sign( data, process.env.ACCESS_TOKEN_SECRET_KEY, {expiresIn : '24h'} )                       
                            
-           //SET COOKIE//
-           res.cookie('coapp', token, { 
-                maxAge: 1000*60*60*24,  
-                httpOnly: true 
-           })
-           
-           //REDIRECT TO DASHBOARD//
-           res.redirect('/dashboard')                                                                                                          
+            //SET COOKIE//
+            res.cookie('coapp', token, { 
+                    secure: process.env.NODE_ENV !== "development",
+                    maxAge: 1000*60*60*24,  
+                    httpOnly: true 
+            })
+            
+            //REDIRECT TO DASHBOARD//
+            res.redirect('/dashboard')                                                                                                          
         }else{                      
-            res.render('error', {message: `Incorrect Password`, statusCode: '400'})
+            res.status(400).render('error', {message: `Incorrect Password`, statusCode: '400'})
         }    
     }catch(err){
         next(err)
