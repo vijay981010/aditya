@@ -4,11 +4,11 @@ const orderController = require('../controllers/orderController')
 const {verifyToken, authorizeRole, authorizeResource, authorizeAddOn} = require('../helpers/helpers')
 const {primaryDetailsValidator} = require('../validations/orderValidation')
 const cors = require('cors')
-const User = require('../model/userModel')
-let debug = require('debug')('c_app: orderRoute')
+/* const User = require('../model/userModel')
+let debug = require('debug')('c_app: orderRoute') */
 
 
-let corsOption = {
+/* let corsOption = {
     origin: async function(origin, callback){
         let userList = await User.find({role: 'admin'}).select('website')
         whiteList = userList.map(user => user.website)
@@ -21,7 +21,7 @@ let corsOption = {
             callback(err)
         }
     }
-}
+} */
 
 /**
 * @Acess : Global, Respective
@@ -109,7 +109,7 @@ router.patch('/:orderId/bill', verifyToken, authorizeRole(['admin', 'superadmin'
 
 
 
-router.get('/track/details', cors(corsOption), orderController.trackDetails)
+router.get('/track/details', cors(), orderController.trackDetails)
 
 
 
