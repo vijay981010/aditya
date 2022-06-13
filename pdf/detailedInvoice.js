@@ -105,11 +105,14 @@ function invoicerDetails(doc, user){
 // ------------------------------------------------------------------------------- //
 
 function invoiceeDetails(doc, invoice){
+    let clientName = invoice.client.username
+    if(invoice.client.companyName) clientName = invoice.client.companyName
+
     let x = 0, y = 135, g=20, g2 = 15
     let x2 = 560, x3 = 630
     let margin = 30   
-    let onethird = 281, full = 842
-    let leftAlign = {width: onethird, align: 'left'}        
+    let onethird = 281, full = 842, twofifth = 351
+    let leftAlign = {width: twofifth, align: 'left'}        
     let rightAlign = {width: onethird, align: 'right'}    
     let centerAlign = {width: full, align: 'center'}
 
@@ -119,7 +122,7 @@ function invoiceeDetails(doc, invoice){
     
     doc
     .font('Helvetica-Bold').fontSize(12)
-    .text(invoice.client.username, x+margin, y+g, leftAlign)
+    .text(clientName, x+margin, y+g, leftAlign)
     .font('Helvetica').fontSize(12)
     .text(invoice.client.address, x+margin, y+g+g2, leftAlign)
     .text(`GST: ${invoice.client.gstNumber}`, x+margin, y+g+(4*g2), leftAlign)
@@ -155,7 +158,7 @@ function tabl(doc, orders, compData, start, breakpoint){
     let c = 0 // a counter for getting same row distance values on each page
     
     let widthArr = [30, 70, 60, 130, 170, 30, 50, 50, 50, 50, 50, 50]
-    let headerArr = ['Sr No', 'Date', 'AWB', 'Destination', 'consignee', 'D/S', 'weight', 'amount', 'FSC', 'charges', 'tax', 'total']
+    let headerArr = ['Sr No', 'Date', 'AWB', 'Destination', 'Consignee', 'D/S', 'Weight', 'Amount', 'FSC', 'Charges', 'Tax', 'Total']
     let valueArr = [1, '20-04-2022', '1234567', 'United Kingdom', 'Aditya Nair Aditya Nair Aditya Nair', 'spx', 20, 10000, 1000, 1000, 12000]
     let startArr = [30]    
     

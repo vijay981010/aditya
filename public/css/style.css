@@ -50,7 +50,7 @@ table.dataTable thead tr {
 }
 
 table.dataTable thead .sorting {
-  background-image: url('http://pebbletech.in/anshika/sort.png');    
+  background-image: url('/images/sort.png');    
 }
 
 table.dataTable{      
@@ -76,7 +76,7 @@ label>span{
 /*---------------------- DROPDOWN ARROW IMG ------------------------- */  
 
 .form-select{
-  background-image: url('http://pebbletech.in/anshika/dropdown-arrow.png');
+  background-image: url('/images/dropdown-arrow.png');
 }
 
 /*---------------------- TOGGLE BUTTON ------------------------- */
@@ -173,7 +173,7 @@ label>span{
 }
 
 .navbar-dark .navbar-toggler-icon {
-  background-image: url('http://pebbletech.in/anshika/hamburger.png');
+  background-image: url('/images/hamburger.png');
 }
 
 /* ------------------ */

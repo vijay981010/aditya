@@ -50,10 +50,9 @@ app.use(
     helmet.contentSecurityPolicy({
         useDefaults: true,
         directives: {
-        "style-src": [ "'self'", "stackpath.bootstrapcdn.com", "cdn.jsdelivr.net", "cdn.datatables.net", "www.gstatic.com"], //"'unsafe-inline'"
-        "script-src": ["'self'", "stackpath.bootstrapcdn.com", "code.jquery.com", "cdn.jsdelivr.net", "cdnjs.cloudflare.com", "cdn.datatables.net", "www.gstatic.com"],         
-        //"script-src-attr": ["'unsafe-inline'"], 
-        "img-src": ["cdn.datatables.net", "pebbletech.in"]    
+        "style-src": [ "'self'", "stackpath.bootstrapcdn.com", "cdn.jsdelivr.net", "cdn.datatables.net", "www.gstatic.com"], 
+        "script-src": ["'self'", "stackpath.bootstrapcdn.com", "code.jquery.com", "cdn.jsdelivr.net", "cdnjs.cloudflare.com", "cdn.datatables.net", "www.gstatic.com"],                 
+        "img-src": ["'self'", "cdn.datatables.net"]    
         },                    
     })
 )
