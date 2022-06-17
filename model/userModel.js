@@ -101,7 +101,8 @@ const userSchema = new Schema({
         awbPrintBranding: Boolean,
         displayNoName: Boolean,
         additionalTrackingStatus: Boolean,
-        preferredVendor: Boolean 
+        preferredVendor: Boolean,
+        noTaxColumn: Boolean, 
     },    
     clientSettings:{
         manualAwbOption: Boolean,
@@ -112,7 +113,8 @@ const userSchema = new Schema({
         awbPrintBranding: Boolean,
         displayNoName: Boolean,
         additionalTrackingStatus: Boolean,
-        preferredVendor: Boolean     
+        preferredVendor: Boolean,
+        noTaxColumn: Boolean     
     },
     awbSettings:{
         title: {

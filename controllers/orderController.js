@@ -437,7 +437,7 @@ exports.patchBoxPage = async (req, res, next) => {
         let order = await Order.findById(orderId).populate('client').exec() 
 
         //CREATE PKGLIST ARRAY//
-        let pkgTypeArr = ['pcs', 'pkt', 'bot', 'kgs', 'pai', 'nos', 'set', 'box']
+        let pkgTypeArr = ['pcs', 'pkt', 'bot', 'kgs', 'pai', 'nos', 'set', 'box', 'grv']
 
         //GET HSN LIST IF ADDON MODULE//
         let hsnList

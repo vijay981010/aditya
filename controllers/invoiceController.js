@@ -95,6 +95,13 @@ exports.invoicePdf = async(req, res, next) => {
         //GET ORDERS BETWEEN THAT DATE RANGE FOR THAT ADMIN//
         let orderFields = 'bookingDate awbNumber destination consignee boxType chargeableWeight baseRate brGst fuelSurcharge fsGst chargeDetails totalBill'
         let orders = await Order.find({bookingDate: dateArray, client: invoice.client}).select(orderFields)      
+
+        //VALIDATE IF ORDERS//
+        if(orders.length == 0) return res.render('error', {message: `No Orders found for the selected Date Range`, statusCode: '400'})
+
+        //CHECK IF ALL ORDERS HAVE BILL AND WEIGHT ADDED//
+        let count = checkOrderBillWeight(orders)
+        if(count > 0) return res.render('error', {message: `Some Orders don't have bill/weight added. Please check`, statusCode: '400'})
         
         //CALCULATE DATA//  
         let compData = getCompData(orders)              
@@ -212,6 +219,8 @@ function getCompData(orders){
         return total
     })
 
+    let subTotalArr = orders.map((order, i) => order.baseRate + order.fuelSurcharge + chargesArr[i])
+
     let totalFscArr = orders.map(order => order.fuelSurcharge)
     let totalBillArr = orders.map(order => order.totalBill)
     let totalBaseRateArr = orders.map(order => order.baseRate)
@@ -225,6 +234,6 @@ function getCompData(orders){
     let totalBaseRate = totalBaseRateArr.reduce((a, b) => a + b, 0)
     let totalFsc = totalFscArr.reduce((a, b) => a + b, 0)
     
-    return compData = {chargesArr, taxArr, totalBillArr, totalCharges, totalFsc, totalTax, totalBill, totalBaseRate}
+    return compData = {chargesArr, taxArr, totalBillArr, totalCharges, totalFsc, totalTax, totalBill, totalBaseRate, subTotalArr}
 }
 

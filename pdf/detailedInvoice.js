@@ -44,7 +44,7 @@ exports.detailedInvoice = (doc, orders, invoice, user, compData) => {
         if(i == 0){
             invoicerDetails(doc, user)
             invoiceeDetails(doc, invoice)
-            tabl(doc, orders, compData, start, initialbreakpoint)
+            tabl(doc, user, orders, compData, start, initialbreakpoint)
             start = 7
             if(21 > len){
                 breakpoint = len
@@ -54,7 +54,7 @@ exports.detailedInvoice = (doc, orders, invoice, user, compData) => {
         }
         if(i > 0){
             debug(i, start, breakpoint)
-            tabl(doc, orders, compData, start, breakpoint)
+            tabl(doc, user, orders, compData, start, breakpoint)
 
             //update the startpoint for next page
             start = breakpoint
@@ -147,7 +147,7 @@ function invoiceeDetails(doc, invoice){
 
 // ------------------------------------------------------------------------------- //
 
-function tabl(doc, orders, compData, start, breakpoint){
+function tabl(doc, user, orders, compData, start, breakpoint){
     
     let x = 30
     let y
@@ -159,6 +159,10 @@ function tabl(doc, orders, compData, start, breakpoint){
     
     let widthArr = [30, 70, 60, 130, 170, 30, 50, 50, 50, 50, 50, 50]
     let headerArr = ['Sr No', 'Date', 'AWB', 'Destination', 'Consignee', 'D/S', 'Weight', 'Amount', 'FSC', 'Charges', 'Tax', 'Total']
+    if(user.role=='admin' && user.settings.noTaxColumn){
+        headerArr = ['Sr No', 'Date', 'AWB', 'Destination', 'Consignee', 'D/S', 'Weight', 'Amount', 'FSC', 'Charges', 'Sub-Total']
+        widthArr = [30, 70, 60, 130, 170, 30, 60, 60, 60, 60, 60]
+    }
     let valueArr = [1, '20-04-2022', '1234567', 'United Kingdom', 'Aditya Nair Aditya Nair Aditya Nair', 'spx', 20, 10000, 1000, 1000, 12000]
     let startArr = [30]    
     
@@ -186,10 +190,18 @@ function tabl(doc, orders, compData, start, breakpoint){
         let s = c + 1
         let valueArr = [
             i+1, moment(orders[i].bookingDate).format(shortDateFormat), orders[i].awbNumber, orders[i].destination,
-        orders[i].consignee, orders[i].boxType, orders[i].chargeableWeight.toFixed(2), orders[i].baseRate.toFixed(2), 
-        orders[i].fuelSurcharge.toFixed(2), compData.chargesArr[i].toFixed(2), compData.taxArr[i].toFixed(2), 
-        compData.totalBillArr[i].toFixed(2)
-    ]
+            orders[i].consignee, orders[i].boxType, orders[i].chargeableWeight.toFixed(2), orders[i].baseRate.toFixed(2), 
+            orders[i].fuelSurcharge.toFixed(2), compData.chargesArr[i].toFixed(2), compData.taxArr[i].toFixed(2), 
+            compData.totalBillArr[i].toFixed(2)
+        ]
+
+        if(user.role=='admin' && user.settings.noTaxColumn){
+            valueArr = [
+                i+1, moment(orders[i].bookingDate).format(shortDateFormat), orders[i].awbNumber, orders[i].destination,
+                orders[i].consignee, orders[i].boxType, orders[i].chargeableWeight.toFixed(2), orders[i].baseRate.toFixed(2), 
+                orders[i].fuelSurcharge.toFixed(2), compData.chargesArr[i].toFixed(2), compData.subTotalArr[i].toFixed(2)
+            ]
+        }
         
         for(let j = 0; j < startArr.length; j++){
             doc
