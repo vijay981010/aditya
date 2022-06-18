@@ -1,16 +1,18 @@
 const { Router } = require('express')
 const router = Router();
-const invoiceController = require('../controllers/invoiceController')
-const {verifyToken, authorizeRole, authorizeResource} = require('../helpers/helpers')
+const {invoiceList, invoiceGenerate, invoicePdf, invoiceDelete, cashInvoicePdf} = require('../controllers/invoiceController')
+const {verifyToken, authorizeRole, authorizeResource, authorizeModule} = require('../helpers/helpers')
 
-router.get('/list', verifyToken, authorizeRole(['admin', 'superadmin']), invoiceController.invoiceList) //authorizeUser
+let admin = ['admin', 'superadmin']
 
-router.post('/', verifyToken, authorizeRole(['admin', 'superadmin']), invoiceController.invoiceGenerate) //authorizeUser
+router.get('/list', verifyToken, authorizeRole(admin), authorizeModule(['invoice']), invoiceList)
 
-router.get('/:invoiceId/pdf', verifyToken, authorizeRole(['admin', 'superadmin']), authorizeResource, invoiceController.invoicePdf) //authorizeUser
+router.post('/', verifyToken, authorizeRole(admin), invoiceGenerate)
 
-router.delete('/:invoiceId/delete', verifyToken, authorizeRole(['admin', 'superadmin']), authorizeResource, invoiceController.invoiceDelete) //authorizeUser
+router.get('/:invoiceId/pdf', verifyToken, authorizeRole(admin), authorizeResource, invoicePdf)
 
-router.post('/cashinvoice', verifyToken, authorizeRole(['admin', 'superadmin']), invoiceController.cashInvoicePdf)
+router.delete('/:invoiceId/delete', verifyToken, authorizeRole(admin), authorizeResource, invoiceDelete)
+
+router.post('/cashinvoice', verifyToken, authorizeRole(admin), cashInvoicePdf)
 
 module.exports = router

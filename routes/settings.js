@@ -12,4 +12,9 @@ router.get('/awb', verifyToken, authorizeRole(admin), settingsController.awbSett
 router.post('/awb', verifyToken, authorizeRole(admin), settingsController.processAwbSettings)
 
 
+router.get('/invoice', verifyToken, authorizeRole(admin), settingsController.invoiceSettings)
+
+router.post('/invoice', verifyToken, authorizeRole(admin), settingsController.processInvoiceSettings)
+
+
 module.exports = router

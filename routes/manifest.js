@@ -1,24 +1,26 @@
-const { Router } = require('express');
-const { verify } = require('jsonwebtoken');
-const router = Router();
-const manifestController = require('../controllers/manifestController')
-const {verifyToken, authorizeRole, authorizeUser, authorizeResource} = require('../helpers/helpers')
+const { Router } = require('express')
+const router = Router()
+const {manifestList, manifestForm, manifestGenerate,
+    manifestUpdateForm, manifestUpdate, manifestExcel, ediExcel} = require('../controllers/manifestController')
+const {verifyToken, authorizeRole, authorizeResource, authorizeModule} = require('../helpers/helpers')
 
-router.get('/list', verifyToken, authorizeRole(['admin', 'superadmin']), manifestController.manifestList) //authorizeUser
+let admin = ['admin', 'superadmin']
 
-router.get('/', verifyToken, authorizeRole(['admin', 'superadmin']), manifestController.manifestForm) //authorizeUser
+router.get('/list', verifyToken, authorizeRole(admin), authorizeModule('manifest'), manifestList)  
 
-router.post('/', verifyToken, authorizeRole(['admin', 'superadmin']), manifestController.manifestGenerate) //authorizeUser
+router.get('/', verifyToken, authorizeRole(admin), authorizeModule('manifest'), manifestForm)  
 
-router.get('/:manifestId', verifyToken, authorizeRole(['admin', 'superadmin']), authorizeResource, manifestController.manifestUpdateForm) //authorizeUser
+router.post('/', verifyToken, authorizeRole(admin), manifestGenerate)  
 
-router.put('/:manifestId', verifyToken, authorizeRole(['admin', 'superadmin']), authorizeResource, manifestController.manifestUpdate) //authorizeUser
+router.get('/:manifestId', verifyToken, authorizeRole(admin), authorizeResource, manifestUpdateForm)  
+
+router.put('/:manifestId', verifyToken, authorizeRole(admin), authorizeResource, manifestUpdate)  
 
 
 
-router.get('/:manifestId/manifestexcel', verifyToken, authorizeRole(['admin', 'superadmin']), authorizeResource, manifestController.manifestExcel) //authorizeUser
+router.get('/:manifestId/manifestexcel', verifyToken, authorizeRole(admin), authorizeResource, manifestExcel)  
 
-router.get('/:manifestId/ediexcel', verifyToken, authorizeRole(['admin', 'superadmin']), authorizeResource, manifestController.ediExcel) //authorizeUser
+router.get('/:manifestId/ediexcel', verifyToken, authorizeRole(admin), authorizeResource, ediExcel)  
 
 
 module.exports = router

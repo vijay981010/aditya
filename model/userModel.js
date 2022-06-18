@@ -134,6 +134,9 @@ const userSchema = new Schema({
             align: String
         },
     },
+    invoiceSettings:{
+        layout: String,
+    },
     trackingType:{
         type: String
     },

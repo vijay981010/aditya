@@ -75,6 +75,27 @@ exports.createUser = async (req, res, next) => {
                 adminCode = Math.floor(Math.random() * 10000).toString()
             }while(await User.findOne({adminCode: adminCode}))
             newUser.adminCode = adminCode
+
+            //ADD DEFAULT SETTINGS//            
+            newUser.invoiceSettings = {layout: 'landscape'}
+            newUser.awbSettings = {
+                title: {
+                    name: 'AIRWAY BILL',
+                    fontSize: 20,
+                    xStart: 0,
+                    yStart: 0,
+                    width: 595,
+                    align: 'center'
+                },
+                subTitle: {
+                    name: username,
+                    fontSize: 15,
+                    xStart: 0,
+                    yStart: 20,
+                    width: 595,
+                    align: 'center'
+                },
+            }
         }
 
         //IF ADMIN CREATING CLIENT USER, ATTACH ADMIN ID AS REFERENCE AND ADMIN CODE//

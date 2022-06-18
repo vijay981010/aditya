@@ -5,9 +5,9 @@ exports.list = async(req, res, next) => {
         let userId = req.user.id        
         let user = await User.findById(userId)
 
-        let settingsList = [
-            {name: 'AWB Pdf', url: '/settings/awb'}
-        ]
+        let settingsList = [ {name: 'AWB Pdf', url: '/settings/awb'} ]
+
+        if(user.accessRight.indexOf('invoice') != -1) settingsList.push({name: 'Invoice Pdf', url: '/settings/invoice'})
 
         res.render('setting/list', {user, settingsList})
     }catch(err){
@@ -54,6 +54,36 @@ exports.processAwbSettings = async(req, res, next) => {
         awbSettings = {title, subTitle}
 
         await User.findByIdAndUpdate(userId, {awbSettings})
+        res.redirect('/settings/list')
+    }catch(err){
+        next(err)
+    }
+}
+
+exports.invoiceSettings = async(req, res, next) => {
+    try{
+        
+        let userId = req.user.id        
+        let user = await User.findById(userId)
+
+        let invoiceSettings = user.invoiceSettings        
+        
+        res.render('setting/invoice', {user, invoiceSettings})
+    }catch(err){
+        next(err)
+    }
+}
+
+exports.processInvoiceSettings = async(req, res, next) => {
+    try{        
+
+        let userId = req.user.id
+        
+        let {layout} = req.body
+        
+        invoiceSettings = {layout}
+
+        await User.findByIdAndUpdate(userId, {invoiceSettings})
         res.redirect('/settings/list')
     }catch(err){
         next(err)

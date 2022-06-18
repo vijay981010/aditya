@@ -1,0 +1,44 @@
+<!-- include header -->
+<%- include('../include/_header') %>
+<!-- /include header -->
+
+<!-- include header -->
+<%- include('../include/_navbar') %>
+<!-- /include header -->
+
+<div class="container">
+    <div class="row justify-content-center">   
+        <header class="row py-3 border-bottom">             
+            <span class="fs-4 text-dark text-center">Invoice PDF Settings</span>                      
+        </header>              
+        <div class="col-lg-5">
+          <div class="card shadow-lg border-0 rounded-lg mt-2 mb-5">
+            <form action = '/settings/invoice' method = "post">
+              <div class="card-header bg-dark">
+                  <h5 class="text-center text-white">Layout Details</h5>
+              </div>
+              <div class="card-body">                      
+                    <div class="form-group">                                                                                                    
+                        <label for="layout">Layout<span>*</span></label>  
+                        <select class="form-select" name="layout">
+                            <option value="<%= invoiceSettings.layout ? invoiceSettings.layout : 'landscape' %>"><%= invoiceSettings.layout ? invoiceSettings.layout : 'Landscape' %></option>
+                            <option value="portrait">Portrait</option>
+                            <option value="landscape">Landscape</option>
+                        </select>                                               
+                    </div>                                                                                                     
+              </div>           
+              <div class="card-footer">                
+                    <div class="col-md-12 text-center">
+                        <button type="submit" class="btn btn-primary">Update</button>
+                    </div>                               
+              </div>  
+            </form>              
+          </div>            
+        </div>          
+    </div>
+</div>
+
+
+<!-- include footer -->
+<%- include('../include/_footer') %>
+<!-- /include footer -->

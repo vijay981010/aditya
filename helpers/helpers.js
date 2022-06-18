@@ -22,15 +22,27 @@ exports.verifyToken = (req, res, next) => {
 
 // ----------------------------------------------------------------------------------------------- //
 
-exports.authorizeRole = (role) =>{    
+exports.authorizeRole = (role) =>{  
+    let debug = require('debug')('c_app: authorizeRole')
     return async (req, res, next) => {                      
         if(role.indexOf(req.user.role) == -1){            
-            return res.render('error', {message: `This page is not availaible for you`, statusCode: '403'})
-        }        
+            return res.status(403).render('error', {message: `This page is not availaible for you`, statusCode: '403'})
+        }
+                    
         next()
     }
 }
 
+exports.authorizeModule = (mod) => {
+    return async(req, res, next) => {
+        let user = await User.findById(req.user.id).select('accessRight')
+        
+        if(!user.accessRight.includes(mod)) 
+            return res.status(403).render('error', {message: `This module isn't in your plan`, statusCode: '403'})
+
+        next()
+    }
+}
 // ------------------------------------------------------------------------------------------------ //
 
 exports.authorizeAddOn = (addOn) => {

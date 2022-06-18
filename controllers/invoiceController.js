@@ -108,8 +108,8 @@ exports.invoicePdf = async(req, res, next) => {
 
     // ------------------- GENERATE PDF -------------------------- //
         const doc = new PDFdocument({          
-            size: 'A4',         
-            layout: 'landscape',
+            size: 'A4',                     
+            layout: user.invoiceSettings.layout,
             autoFirstPage: false  
         })        
 
@@ -183,7 +183,7 @@ exports.cashInvoicePdf = async(req, res, next) => {
     // ------------------- GENERATE PDF -------------------------- //
         const doc = new PDFdocument({          
             size: 'A4',         
-            layout: 'landscape',
+            layout: user.invoiceSettings.layout,
             autoFirstPage: false  
         })        
 
