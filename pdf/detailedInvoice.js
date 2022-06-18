@@ -129,7 +129,7 @@ function invoiceeDetails(doc, user, invoice){
     let x = 0, y = 135, g=20, g2 = 15
     let x2 = 396/* 560 */, x3 = 415/* 630 */
     let margin = 30   
-    let onethird = 199/* 281 */, full = 595/* 842 */, twofifth = 238/* 351 */
+    let onethird = 199/* 281 */, full = 595/* 842 */, twofifth = 308/* 351 */
     
     if(user.invoiceSettings.layout == 'landscape'){
         x2 = 560, x3 = 630, fs = 16, fs2 = 12, onethird = 281, full = 842, twofifth = 351
