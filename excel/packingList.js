@@ -1,31 +1,43 @@
-const debug = require('debug')('dev')
+const debug = require('debug')('c_app: packingListExcel')
 var moment = require('moment')
 var shortDateFormat = 'DD-MM-yyyy'
+const { ToWords } = require('to-words')
 
-exports.generatePackingList = (workbook, order, compData) => {
+//NUMBER TO WORDS CONFIG//
+const toWords = new ToWords({
+    localeCode: 'en-IN',
+    converterOptions: {
+      //currency: true,
+      ignoreDecimal: false,
+      ignoreZeroCurrency: false,
+      doNotAddOnly: false,
+    }
+  })
+
+exports.generatePackingList = (workbook, order, itemArr, boxArr, totArr) => {
     const sheet = workbook.addWorksheet('PackingList')
 
 // ---------------------------- BORDERS, MERGE CELLS -------------------- //    
     let trbl = {top: {style: 'thin'}, right: {style: 'thin'}, bottom: {style: 'thin'}, left: {style: 'thin'}} 
 
-    sheet.mergeCells(`A1: F1`)  
+    sheet.mergeCells(`A1: H1`)  
     sheet.getRow(1).getCell(1).border = trbl
     
     for(let i = 2; i < 17; i++){
-        sheet.mergeCells(`A${i}: C${i}`)
-        sheet.mergeCells(`D${i}: F${i}`)
+        sheet.mergeCells(`A${i}: D${i}`)
+        sheet.mergeCells(`E${i}: H${i}`)
 
         sheet.getRow(i).getCell(1).border = trbl            
-        sheet.getRow(i).getCell(4).border = trbl 
+        sheet.getRow(i).getCell(5).border = trbl 
            
         sheet.getRow(i).getCell(1).alignment = {horizontal: 'left'}
-        sheet.getRow(i).getCell(4).alignment = {horizontal: 'left'}    
+        sheet.getRow(i).getCell(5).alignment = {horizontal: 'left'}    
     }    
     
-    sheet.mergeCells(`B17: C17`) 
-    sheet.mergeCells(`B18: C18`)  
+    sheet.mergeCells(`B17: D17`) 
+    sheet.mergeCells(`B18: D18`)  
 
-    for(let i = 1; i < 7; i++){
+    for(let i = 1; i < 9; i++){
         sheet.getRow(17).getCell(i).border = trbl
         sheet.getRow(18).getCell(i).border = trbl
 
@@ -46,15 +58,15 @@ exports.generatePackingList = (workbook, order, compData) => {
         'richText': [{'font' : fontOpts, 'text': 'Shipper'}]
     }
 
-    sheet.getRow(2).getCell(4).value = {
+    sheet.getRow(2).getCell(5).value = {
         'richText': [{'font' : fontOpts, 'text': 'Consignee'}]
     }
 
-    let headerArray = ['Box No.', 'Description', '', 'Qty', 'Value', 'Total']      
-    let header2Array = ['', 'TERMS,UNSOLICITED GIFT FROM INDIVIDUAL TO INDIVIDUAL', '', '', order.currency, order.currency, ''] 
+    let headerArray = ['Box No.', 'Description', 'HSN', 'Qty', 'Value', 'Total']      
+    let header2Array = ['', 'TERMS,UNSOLICITED GIFT FROM INDIVIDUAL TO INDIVIDUAL', '', '', order.currency, order.currency] 
     sheet.getRow(18).height = 50 
 
-    for(let i = 1; i < 3; i++){        
+    for(let i = 1; i < 3; i++){                     
         sheet.getRow(17).getCell(i).alignment = {horizontal: 'center'}        
         sheet.getRow(18).getCell(i).alignment = {horizontal: 'center', vertical: 'middle', wrapText: true}                       
         
@@ -66,15 +78,15 @@ exports.generatePackingList = (workbook, order, compData) => {
         }        
     }    
 
-    for(let i = 4; i < 7; i++){        
+    for(let i = 5; i < 9; i++){              
         sheet.getRow(17).getCell(i).alignment = {horizontal: 'center'}            
         sheet.getRow(18).getCell(i).alignment = {horizontal: 'center', vertical: 'middle'}                    
 
         sheet.getRow(17).getCell(i).value = {
-            'richText': [{'font' : fontOpts, 'text': headerArray[i-1]}]
+            'richText': [{'font' : fontOpts, 'text': headerArray[i-3]}]
         }
         sheet.getRow(18).getCell(i).value = {
-            'richText': [{'font' : fontOpts, 'text': header2Array[i-1]}]
+            'richText': [{'font' : fontOpts, 'text': header2Array[i-3]}]
         }
     }     
     
@@ -96,16 +108,17 @@ exports.generatePackingList = (workbook, order, compData) => {
             'richText': [{'font' : fontOpts2, 'text': shipperArr[i-3]}]
         }
 
-        sheet.getRow(i).getCell(4).value = {
+        sheet.getRow(i).getCell(5).value = {
             'richText': [{'font' : fontOpts2, 'text': consigneeArr[i-3]}]
         }
     }
 
-    for(let j = 0; j < compData.itemArray.length; j++){
+    for(let j = 0; j < itemArr.length; j++){
         let start = j + 19
-        sheet.mergeCells(`B${start}: C${start}`)  
+        sheet.mergeCells(`B${start}: D${start}`)  
         
-        let valueArr = [`${compData.boxNumberArray[j]} ${compData.dimensionArray[j]}`, compData.itemArray[j]]
+        //let valueArr = [`${compData.boxNumberArray[j]} ${compData.dimensionArray[j]}`, compData.itemArray[j]]
+        let valueArr = [boxArr[j], itemArr[j].itemName]
         for(let i = 1; i < 3; i++){
             sheet.getRow(start).height = 30
             sheet.getRow(start).getCell(i).alignment = {horizontal: 'center', vertical: 'middle', wrapText: true}
@@ -119,23 +132,25 @@ exports.generatePackingList = (workbook, order, compData) => {
         }            
     }
 
-    for(let j = 0; j < compData.itemArray.length; j++){
-        let start = j + 19         
-        let valueArr = [compData.qtyArray[j], compData.priceArray[j], compData.totalArray[j]]
+    for(let j = 0; j < itemArr.length; j++){
+        let start = j + 19        
+        let qty = `${itemArr[j].itemQuantity} ${itemArr[j].packagingType}` 
+        //let valueArr = [compData.qtyArray[j], compData.priceArray[j], compData.totalArray[j]]
+        let valueArr = [itemArr[j].hsnCode, qty, itemArr[j].itemPrice, totArr[j]]
 
-        for(let i = 4; i < 7; i++){
+        for(let i = 5; i < 9; i++){
             sheet.getRow(start).getCell(i).alignment = {horizontal: 'center', vertical: 'middle'}
             sheet.getRow(start).getCell(i).border = trbl   
 
             sheet.getRow(start).getCell(i).value = {
-                'richText': [{'font' : fontOpts2, 'text': valueArr[i-4]}] 
+                'richText': [{'font' : fontOpts2, 'text': valueArr[i-5]}] 
             }
         }            
     }
 
 // --------------------------------------- FOOTER ---------------------------------- //
     let maxHeight = 36
-    let filledRows = compData.itemArray.length + 19
+    let filledRows = itemArr.length + 19
     let footerStart
     debug(filledRows)
     //ADJUST FOOTER START DEPENDING ON TOTAL ITEMS//
@@ -149,15 +164,17 @@ exports.generatePackingList = (workbook, order, compData) => {
     debug(footerStart, footerEnd)
     //AREA AFTER ALL ITEMS ARE RENDERED//
     for(let i = filledRows; i < footerStart; i++){
-        sheet.mergeCells(`B${i}: C${i}`) 
-        for(let j = 1; j < 7; j++){
+        sheet.mergeCells(`B${i}: D${i}`) 
+        for(let j = 1; j < 9; j++){
             sheet.getRow(i).getCell(j).border = trbl            
         }        
     } 
 
+    let words = toWords.convert(order.totalValue)
+
     //FINAL TOTAL SUMMARY SECTION//
-    let footerArr = ['Total', order.currency, order.totalValue]
-    for(let i = 4; i < 7; i++){
+    let footerArr = [`${order.currency} ${words} only`, '', 'Total', order.currency, order.totalValue]
+    for(let i = 4; i < 9; i++){
         sheet.getRow(footerStart - 1).getCell(i).alignment = {horizontal: 'center'}
         sheet.getRow(footerStart - 1).getCell(i).value = {
             'richText': [{'font' : fontOpts, 'text': footerArr[i-4]}]
@@ -166,11 +183,11 @@ exports.generatePackingList = (workbook, order, compData) => {
 
 // --------------------------- LAST ROWS --------------------------- //
     //MERGE ROWS AND CELLS//
-    sheet.mergeCells(`A${footerStart}:C${footerEnd}`)
-    sheet.mergeCells(`D${footerStart}:F${footerEnd}`)
+    sheet.mergeCells(`A${footerStart}:E${footerEnd}`)
+    sheet.mergeCells(`F${footerStart}:H${footerEnd}`)
 
     sheet.getRow(footerStart).getCell(1).border = trbl
-    sheet.getRow(footerStart).getCell(4).border = trbl    
+    sheet.getRow(footerStart).getCell(5).border = trbl    
     
     //SET HEIGHT//
     sheet.getRow(footerStart).height = 40   
@@ -181,8 +198,8 @@ exports.generatePackingList = (workbook, order, compData) => {
         'richText': [{'font' : fontOpts, 'text': `We here by Confirm that the Parcel does not involve any Commercial Transaction. The Value is declared for Customs Purpose only`}]
     }
 
-    sheet.getRow(footerStart).getCell(4).alignment = {horizontal: 'center'}
-    sheet.getRow(footerStart).getCell(4).value = {
+    sheet.getRow(footerStart).getCell(6).alignment = {horizontal: 'center'}
+    sheet.getRow(footerStart).getCell(6).value = {
         'richText': [{'font' : fontOpts, 'text': `Authorized Signatory: ${order.consignor}`}]
     }
 }

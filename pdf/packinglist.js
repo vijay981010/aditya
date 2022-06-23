@@ -1,6 +1,6 @@
 var moment = require('moment')
 var shortDateFormat = 'DD-MM-yyyy'
-const debug = require('debug')('dev')
+const debug = require('debug')('c_app: packingList')
 const {getStartRange} = require('./pdfLibrary')
 const { ToWords } = require('to-words')
 
@@ -194,7 +194,8 @@ exports.generatePackingListPdf = (doc, order, itemArr, boxArr, totArr) => {
       let rowStartArr = getStartRange(start, hArr)        
       
       for(let i = 0; i < itemSet; i++){   
-        let qty = `${itemArr[id].itemQuantity} ${itemArr[id].packagingType}`            
+        let qty = `${itemArr[id].itemQuantity} ${itemArr[id].packagingType}`
+        debug(boxArr[id])            
         let boxRowArr = [boxArr[id], itemArr[id].itemName, itemArr[id].hsnCode, qty, itemArr[i].itemPrice, totArr[id]] //
         
         for(let j = 0; j < startArr.length; j++){                     

@@ -1154,12 +1154,9 @@ exports.printawb = async(req, res, next) => {
 
 exports.packingList = async(req, res, next) => {
     try{        
-        let orderId = req.params.orderId
-        //let userId = req.user.id
+        let {orderId, type} = req.params
 
-        let order = await Order.findById(orderId).populate('client').exec()
-        //res.json(order)
-        //let user = await User.findById(userId)        
+        let order = await Order.findById(orderId).populate('client').exec()               
 
         //CHECK IF BOXDETAILS ADDED//
         if(order.boxDetails.length == 0)            
@@ -1188,26 +1185,41 @@ exports.packingList = async(req, res, next) => {
             }            
         })
 
-        //PDF INITIALIZATION//
-        const doc = new PDFdocument({  
-            size: 'A4',
-            autoFirstPage: false    
-        })
-        
-        generatePackingListPdf(doc, order, itemArr, boxArr, totArr)
+        if(type == 'excel'){
+            let workbook = new ExcelJs.Workbook() 
+            
+            //generatePackingList(workbook, order, compData)
+            generatePackingList(workbook, order, itemArr, boxArr, totArr)
 
-        res.setHeader('Content-type', 'application/pdf')
-        res.set({ 'Content-Disposition': `inline; filename=packinglist_${order.awbNumber}.pdf` })
-        
-        doc.pipe(res)                                              
-        doc.end()
+            res.setHeader("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+            res.setHeader("Content-Disposition",`attachment; filename=packinglist_${order.awbNumber}.xlsx`)
+
+            return workbook.xlsx.write(res).then(function (){
+                res.status(200).end();
+            })
+        }else if(type == 'pdf'){
+            //PDF INITIALIZATION//
+            const doc = new PDFdocument({  
+                size: 'A4',
+                autoFirstPage: false    
+            })
+
+            generatePackingListPdf(doc, order, itemArr, boxArr, totArr)
+
+            res.setHeader('Content-type', 'application/pdf')
+            res.set({ 'Content-Disposition': `inline; filename=packinglist_${order.awbNumber}.pdf` })
+            
+            doc.pipe(res)                                              
+            doc.end()
+
+        }                
 
     }catch(err){
         next(err)
     }
 }
 
-exports.excelPackingList = async(req, res, next) => {
+/* exports.excelPackingList = async(req, res, next) => {
     try{
         let orderId = req.params.orderId
         let userId = req.user.id
@@ -1274,7 +1286,7 @@ exports.excelPackingList = async(req, res, next) => {
     }catch(err){
         next(err)
     }
-}
+} */
 
 exports.boxSticker = async(req, res, next) => {
     try{        

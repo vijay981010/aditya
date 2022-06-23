@@ -131,7 +131,7 @@ router.get('/:orderId/print/awb/:consigneeId/consignee', verifyToken, authorizeR
 
 router.get('/:orderId/print/awb/:consignorId/consignor', verifyToken, authorizeResource, orderController.printawb) //orderController.getLogo
 
-router.get('/:orderId/print/packinglist', verifyToken, authorizeResource, orderController.packingList) 
+router.get('/:orderId/print/packinglist/:type', verifyToken, authorizeResource, orderController.packingList) 
 
 router.get('/:orderId/print/boxsticker', verifyToken, authorizeResource, orderController.boxSticker)
 
@@ -139,7 +139,7 @@ router.post('/client/flatmanifest', verifyToken, orderController.flatManifestPdf
 
 //router.get('/:date/:clientId/print/flatmanifest', verifyToken, orderController.downloadFlatManifest)
 
-router.get('/:orderId/print/excel/packinglist', verifyToken, authorizeResource, orderController.excelPackingList)
+//router.get('/:orderId/print/packinglist/:type', verifyToken, authorizeResource, orderController.packingList)
 
 router.post('/export', verifyToken, authorizeRole(['admin']), orderController.orderExport)
 

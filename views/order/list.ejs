@@ -123,9 +123,9 @@
                                 <a class="dropdown-item" href="<%= order._id %>/print/awb/consignee/consignee" target="_blank">Consignee AWB Copy</a>
                                 <a class="dropdown-item" href="<%= order._id %>/print/awb/consignor/consignor" target="_blank">Consignor AWB Copy</a>                                
                                 <a class="dropdown-item" href="<%= order._id %>/print/boxsticker" target="_blank">Box Sticker</a>
-                                <a class="dropdown-item" href="<%= order._id %>/print/packinglist" target="_blank">Packing List</a>
+                                <a class="dropdown-item" href="<%= order._id %>/print/packinglist/pdf" target="_blank">Packing List</a>
                                 <%if(user.settings.packingListExcel==true){%>
-                                <a class="dropdown-item" href="<%= order._id %>/print/excel/packinglist" >Packing List Excel</a>                
+                                <a class="dropdown-item" href="<%= order._id %>/print/packinglist/excel" >Packing List Excel</a>                
                                 <%}%>       
                                 <%if(user.settings.cashInvoice==true && order.miscClients && order.boxDetails.length > 0 && order.totalBill){%>
                                 <button class="dropdown-item cashInvoice" data-cashorder="<%= order._id %>" data-misc="<%= order.miscClients %>">Cash Invoice</button>
