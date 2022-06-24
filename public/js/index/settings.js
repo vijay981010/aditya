@@ -71,5 +71,27 @@ function sendAlert(url, msg){
   }
 }
 
+// --------------- COMMON ITEM DETAILS FUNCTIONS --------------------------- //
+function getOptionString(arr, item){
+  let optionListArr = []
+  arr.forEach(elem => {
+      let temp = `<option value="${elem[item]}">${elem[item]}</option>`
+      optionListArr.push(temp)
+  })
+  return optionListArr.join("")
+}
+
+function addInv(){
+  let totval = 0      
+      
+  var itemqty = $("input[name='itemQuantity']").map(function(){return $(this).val();}).get()
+  var itemprice = $("input[name='itemPrice']").map(function(){return $(this).val();}).get()
+  for(let i = 0; i < itemqty.length; i++){
+      totval = parseFloat(totval) + (parseFloat(itemqty[i])*parseFloat(itemprice[i]))
+  }
+  $('#totalValue').val(totval.toFixed(2))
+      
+}
+
 
 //https://nodejs-courierhub.herokuapp.com
