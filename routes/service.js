@@ -1,18 +1,34 @@
-const { Router } = require('express');
-const { verify } = require('jsonwebtoken');
-const router = Router();
-const serviceController = require('../controllers/serviceController')
-const {verifyToken, authorizeRole, authorizeUser} = require('../helpers/helpers')
+const { Router } = require('express')
+const router = Router()
 
-router.get('/list', verifyToken, authorizeRole(['admin', 'superadmin']), serviceController.serviceList) //authorizeUser
+const {list, form, checkFile, processService, rateChecker, serviceExport} = require('../controllers/serviceController')
 
-router.get('/', verifyToken, authorizeRole(['admin', 'superadmin']), serviceController.serviceForm) //authorizeUser
+const {verifyToken, authorizeRole, authorizeModule} = require('../helpers/helpers')
+const multer = require('multer')
+const upload = multer({ dest: 'controllers/uploads/' })
 
-router.post('/', verifyToken, authorizeRole(['admin', 'superadmin']), serviceController.createService) //authorizeUser
 
-router.get('/:serviceId', verifyToken, authorizeRole(['admin', 'superadmin']), serviceController.serviceUpdateForm) //authorizeUser
+let admin = ['admin', 'superadmin']
 
-router.put('/:serviceId', verifyToken, authorizeRole(['admin', 'superadmin']), serviceController.updateService) //authorizeUser
+// --------------------------------------------------- //
+
+router.get('/list', verifyToken, authorizeModule('services'), list)
+
+router.get('/', verifyToken, authorizeRole(admin), authorizeModule('services'), form)
+
+router.post('/', verifyToken, authorizeRole(admin), upload.single('uploaded_file'), checkFile, processService)
+
+router.get('/:serviceId', verifyToken, authorizeRole(admin), authorizeModule('services'), form)
+
+router.post('/:serviceId', verifyToken, authorizeRole(admin), upload.single('uploaded_file'), checkFile, processService)
+
+
+router.post('/rate/checker', rateChecker)
+
+
+router.get('/:serviceId/export', verifyToken, authorizeRole(admin), authorizeModule('services'), serviceExport)
+
+router.get('/:serviceId/export/:fsc', verifyToken, authorizeRole(admin), authorizeModule('services'), serviceExport)
 
 
 module.exports = router

@@ -5,25 +5,31 @@
 <!-- include header -->
 <%- include('../include/_navbar') %>
 <!-- /include header -->
+
+<!-- include header -->
+<%- include('../include/_validations') %>
+<!-- /include header -->
+
 <div class="container">
     <div class="row justify-content-center">                 
-        <div class="col-lg-10">
+        <div class="col-lg-7">
+          <div class="form-group text-center">                                                                                                                                                                  
+            <a href="https://www.dropbox.com/scl/fi/4zbm42vfhgw95v4t1vwku/service.xlsx?dl=1&rlkey=mxrqsf8ymgrkw3tf82ykfp742">
+              <button class="btn btn-primary my-4">Download Sample Excel</button>
+            </a>
+          </div>
           <div class="card shadow-lg border-0 rounded-lg mt-5 mb-5">
-            <form action = '/services/<%= service._id %>?_method=PUT' method = "post">
-              <div class="card-header">
-                  <h3 class="text-center font-weight-light my-4">Update Service</h3>
+            <form action = '/services/<%= service._id %>' enctype="multipart/form-data" method = "post">
+              <div class="card-header bg-dark">
+                  <h5 class="text-center text-white">Update Service</h5>
               </div>
-               
-              <!-- include fields -->
-              <%- include('../include/_serviceFields') %>
-                <!-- /include fields -->
+              
+              <%- include('form_fields') %>
 
-              <div class="card-footer">
-                    <div class="row">
-                        <div class="col-md-12 text-center">
-                            <button type="submit" class="btn btn-primary">Update</button>
-                        </div>
-                    </div>                
+              <div class="card-footer">                    
+                  <div class="col-md-12 text-center">
+                      <button type="submit" class="btn-sm btn-primary">Update</button>
+                  </div>                                
               </div>  
             </form>             
           </div>            
@@ -37,3 +43,5 @@
 <!-- include footer -->
 <%- include('../include/_footer') %>
 <!-- /include footer -->
+
+<script src = "/js/rateChecker.js"></script>   

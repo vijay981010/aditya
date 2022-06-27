@@ -196,7 +196,7 @@ exports.generatePackingListPdf = (doc, order, itemArr, boxArr, totArr) => {
       for(let i = 0; i < itemSet; i++){   
         let qty = `${itemArr[id].itemQuantity} ${itemArr[id].packagingType}`
         debug(boxArr[id])            
-        let boxRowArr = [boxArr[id], itemArr[id].itemName, itemArr[id].hsnCode, qty, itemArr[i].itemPrice, totArr[id]] //
+        let boxRowArr = [boxArr[id], itemArr[id].itemName, itemArr[id].hsnCode, qty, itemArr[id].itemPrice, totArr[id]] //
         
         for(let j = 0; j < startArr.length; j++){                     
           let yPos = y + rowStartArr[i]   

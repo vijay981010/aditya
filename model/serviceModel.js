@@ -2,18 +2,45 @@ const mongoose = require('mongoose')
 
 const Schema = mongoose.Schema
 
-const serviceSchema = new Schema({
-    serviceName: {
+const ratechartSchema = new Schema({
+    weight: {
+        type: Number,
+    },
+    rate: {
+        type: Number,
+    }
+})
+
+const zoneSchema = new Schema({        
+    zoneName: {
         type: String,
-        trim: true,
-        maxlength: 30
+        trim: true,        
+    },
+    countries: {
+        type: Array,        
+    },
+    ratechart: [ ratechartSchema ],           
+}, { timestamps: true } )
+
+const serviceSchema = new Schema({
+    serviceCode: {
+        type: String,
+        trim: true,        
     },
     displayName: {
         type: String,
         trim: true,
-        maxlength: 30
     },
+    category: String,    
+    serviceFsc:{
+        type: Number,
+    },
+    zone: [zoneSchema],
     admin: {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    },
+    client: {
         type: Schema.Types.ObjectId,
         ref: 'User'
     }

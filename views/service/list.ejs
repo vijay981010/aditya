@@ -6,56 +6,125 @@
 <%- include('../include/_navbar') %>
 <!-- /include header -->
 <div class="container-fluid mb-5"> 
+    
     <div class="container-fluid">
         <header class="row py-3 mb-4 border-bottom">
+            <%if(user.role=='admin'){%>
             <div class="col-md-3">                
                 <span class="fs-4 text-dark">Services List</span>
             </div>
             <div class="col-md-6"></div>
             <div class="col-md-3 d-flex flex-row-reverse">
-                <a href="/services" class="btn btn-primary">Add Service</a>
+                <a href="/services" class="btn btn-primary">Add Service</a>                             
             </div>
+            <%}%> 
         </header>
-    </div> 
+    </div>       
 
-    <div class="row">
-        <div class="col-md-9"></div>
-        <div class="col-md-3">
-            <div class="alert alert-success" >
-                <strong>Success!</strong> User Status updated successfully.
+    <div class="col-lg-12 mb-4">
+        <div class="card">
+            <div class="card-header bg-dark">
+                <h5 class="text-center text-white">Rate Checker</h5>
             </div>
-            <div class="alert alert-warning">
-                <strong>Error!</strong> Failed to update user status.
+            <div class="card-body">
+                <div class = "row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="username">Select Service</label>
+                            <select class="form-select param" id="service"> 
+                                <option value="">---Select Service---</option>                   
+                                <% serviceList.forEach(service => { %>                                    
+                                    <option value="<%= service._id %>">
+                                        <%if(user.role=='admin'){%>
+                                            <%= service.serviceCode %>
+                                        <%}else if(user.role=='client'){%>
+                                            <%= service.displayName %>
+                                        <%}%>                                        
+                                    </option>
+                                <% }) %>
+                            </select>
+                        </div>                
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="country">Select Country</label>
+                            <select class="form-select param" id="destination">
+                                <option value="">---Select Country---</option>
+                                <% countries.forEach(country => { %> 
+                                    <option value="<%= country.name %>"><%= country.name %></option> 
+                                <% }) %>                        
+                            </select>
+                        </div>                
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="weight">Enter Weight</label>
+                            <input type="number" class="form-control param" id="weight">
+                        </div>                
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="rate">Rate</label>
+                            <input class="form-control" id="rate" readonly>
+                        </div>                
+                    </div>                                    
+                </div>
             </div>
-            <div class="alert alert-danger">
-                <strong>Unknown!</strong> Some unknown error.
+            <div class="card-footer">                    
             </div>
-        </div>
+        </div>            
     </div>
-    
-      
-    <table id="myTable" class="display cell-border responsive" width="100%">
-        <thead>
-            <tr>
-                <th>Service Name</th>
-                <th>Display Name</th>
-                <th>Created At</th>
-                <th>Updated At</th>                                      
-                <th>Action</th>                
-            </tr>
-        </thead>
-        <tbody> 
-            <% serviceList.slice().reverse().forEach(service => { %> 
+
+    <% if(user.role=='admin'){%>
+        <table id="myTable" class="display cell-border responsive" width="100%">
+            <thead>
                 <tr>
-                <td><%= service.serviceName %></td>                
-                <td><%= service.displayName %></td>
-                <td><%= service.createdAt %></td>
-                <td><%= service.updatedAt %></td>                
-                <td><a class="btn-sm btn-primary" href="/services/<%= service._id %>">Edit</a></td>
-                </tr>                
-            <% }) %>                                                                                                     
-        </tbody>
-    </table>    
+                    <th>Code</th>
+                    <th>Client</th>
+                    <th>Name</th>
+                    <th>FSC</th>
+                    <th>Zone List</th>
+                    <th>Created At</th>
+                    <th>Updated At</th>                                      
+                    <th>Action</th>       
+                    <th>Action</th>                
+                </tr>
+            </thead>
+            <tbody> 
+                <% serviceList.slice().reverse().forEach(service => { %> 
+                    <tr>
+                    <td><%= service.serviceCode %></td>  
+                    <td><%= service.client ? service.client.username : service.category %></td>              
+                    <td><%= service.displayName %></td>
+                    <td><%= service.serviceFsc %></td>
+                    <td>
+                        <% service.zone.forEach(zone => { %>
+                        <%= zone.zoneName %>
+                        <a href="" data-toggle="tooltip" title="<%= zone.countries %>">
+                            <span class="text-gradient"><i class="fa fa-info-circle"></i></span>
+                        </a>,
+                        <% }) %>
+                    </td>
+                    <td><%= moment(service.createdAt).format(shortDateFormat) %></td>
+                    <td><%= moment(service.updatedAt).format(shortDateFormat) %></td>                
+                    <td><a class="btn-sm btn-primary" href="/services/<%= service._id %>">Edit</a></td>
+                    <td>
+                        <div class="dropdown">
+                            <button class="btn-sm btn-primary dropdown-toggle" type="button" data-toggle="dropdown" id="dropdownMenuButton" aria-haspopup="true" aria-expanded="false">
+                                Export
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">                                
+                                <a class="dropdown-item" href="/services/<%= service._id %>/export">without FSC</a>                                
+                                <a class="dropdown-item" href="/services/<%= service._id %>/export/fsc">with FSC</a> 
+                            </div>
+                        </div>
+                    </td>
+                    </tr>                
+                <% }) %>                                                                                                     
+            </tbody>
+        </table>
+    <%}%>
+        
 </div>
 
        
@@ -64,3 +133,5 @@
 <!-- include footer -->
 <%- include('../include/_footer') %>
 <!-- /include footer -->
+
+<script src = "/js/rateChecker.js"></script>     

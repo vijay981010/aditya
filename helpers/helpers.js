@@ -34,9 +34,18 @@ exports.authorizeRole = (role) =>{
 }
 
 exports.authorizeModule = (mod) => {
+    let debug = require('debug')('c_app: authorizeModule')
     return async(req, res, next) => {
-        let user = await User.findById(req.user.id).select('accessRight')
+        let user = await User.findById(req.user.id).populate({path: 'admin', select:'accessRight'}).select('accessRight role')
         
+        if(mod == 'services'){            
+            if(user.role=='client' && user.admin.accessRight.includes(mod)){                
+                return next()
+            }
+        }
+        
+        //debug(user.accessRight)
+        //debug(mod, user.accessRight.includes(mod))
         if(!user.accessRight.includes(mod)) 
             return res.status(403).render('error', {message: `This module isn't in your plan`, statusCode: '403'})
 
