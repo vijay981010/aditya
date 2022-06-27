@@ -61,6 +61,7 @@ exports.authenticateUser = async (req, res, next) => {
             //SET COOKIE//
             res.cookie('coapp', token, { 
                     secure: process.env.NODE_ENV !== "development",
+                    sameSite: true,
                     maxAge: 1000*60*60*24,  
                     httpOnly: true 
             })
