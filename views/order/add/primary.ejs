@@ -41,8 +41,9 @@
                                     <input class="form-control" name="miscClients" value='' id="miscClients" type="text" readonly required>                          
                                 </div>
                             </div>
+                            <input type="hidden" name="service" value="<%= user.defaultService %>">
                             <% if(user.accessRight.indexOf('services') != -1) { %>
-                                <div class="col-md-4">
+                                <!-- <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="service">Service<span>*</span></label>
                                         <select class ="form-select" name = "service" required >
@@ -59,14 +60,15 @@
                                                                                     
                                         </select>                                
                                     </div> 
-                                </div>
+                                </div> -->
                             <% }else{ %>
-                                <input type="hidden" name="service" value="<%= user.defaultService %>">
+                                
                             <% } %>
                         <% }else if(user.role == "client"){ %>
                             <input type="hidden" name="client_id" id="client" value="<%= user._id %>">
+                            <input type="hidden" name="service" value="<%= adminUser.defaultService %>">
                             <% if(adminUser.accessRight.indexOf('services') != -1) { %>
-                                <div class="col-md-4">
+                                <!-- <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="service">Service<span>*</span></label>
                                         <select class ="form-select" name = "service" required >
@@ -83,9 +85,9 @@
                                                                                     
                                         </select>                                
                                     </div> 
-                                </div>
+                                </div> -->
                             <% }else{ %>
-                                <input type="hidden" name="service" value="<%= adminUser.defaultService %>">
+                                
                             <% }
                         } %>
                         
