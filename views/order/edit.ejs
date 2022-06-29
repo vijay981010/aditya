@@ -54,28 +54,8 @@
                         </div>
                         <% } %>
                     <% } %>
-                    <% if(user.accessRight.indexOf('services') != -1){ %>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="service">Service<span">*</span></label>
-                                <select class ="form-select" name = "service" required >
-                                    <option value="">---Select Service---</option>
-                                    <% if(user.role == "admin") { 
-                                        serviceList.forEach(service => { %>
-                                            <option value="<%= service._id %>"><%= service.serviceName %></option>
-                                        <% })
-                                    }else if(user.role == "client"){ 
-                                        displayNames.forEach(name => { %>
-                                            <option value="<%= name %>"><%= name %></option>
-                                       <% })
-                                    } %>
-                                                                            
-                                </select>                                
-                            </div> 
-                        </div>
-                    <% }else{ %>
-                        <input type="hidden" name="service" value="<%= user.defaultService %>">
-                    <% } %>  
+                    <input type="hidden" name="service" value="<%= user.defaultService %>">
+                    
                     <% if(user.role=='admin' && user.settings.preferredVendor || user.role=='client' && user.admin.clientSettings.preferredVendor){%>
                         <div class="col-md-3">
                             <div class="form-group">
