@@ -27,12 +27,10 @@ const manifestSchema = new Schema({
         default: Date.now                
     },
     dispatchFrom: {
-        type: String,        
-        enum: ['Express Parcel Service', 'International Express']
+        type: String,                
     },
     dispatchTo: {
-        type: String,        
-        enum: ['Rainbow Logistics Ltd', 'Rainbow Sky Couriers LLC', 'Deanshill Logistics Ltd', 'Skyport Worldwide Ltd']
+        type: String,                
     },
     manifestOrigin: {
         type: String,            

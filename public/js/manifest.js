@@ -9,7 +9,12 @@ $(document).ready(function(){
         let bagnumber = document.getElementById('bagNumber').value
         let orderid = document.getElementById('order').value
         let awbnumber = $('#order').find(':selected').attr('data-awb')
-        let mhbsnumber = document.getElementById('mhbsNumber').value    
+        let mhbsnumber = document.getElementById('mhbsNumber').value  
+        
+        if(bagnumber.trim() == '' || orderid == '' || mhbsnumber.trim() == ''){
+            alert('Please input all values!!')
+            return false
+        }
         
         $('#bagTable')
         .append(`<tr id="r${bagId++}">

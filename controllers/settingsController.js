@@ -8,6 +8,7 @@ exports.list = async(req, res, next) => {
         let settingsList = [ {name: 'AWB Pdf', url: '/settings/awb'} ]
 
         if(user.accessRight.indexOf('invoice') != -1) settingsList.push({name: 'Invoice Pdf', url: '/settings/invoice'})
+        if(user.accessRight.indexOf('manifest') != -1) settingsList.push({name: 'Manifest', url: '/settings/manifest'})
 
         res.render('setting/list', {user, settingsList})
     }catch(err){
@@ -85,6 +86,36 @@ exports.processInvoiceSettings = async(req, res, next) => {
 
         await User.findByIdAndUpdate(userId, {invoiceSettings})
         res.redirect('/settings/list')
+    }catch(err){
+        next(err)
+    }
+}
+
+exports.manifestSettings = async(req, res, next) => {
+    try{
+        
+        let userId = req.user.id        
+        let user = await User.findById(userId)
+
+        let manifestSettings = user.manifestSettings        
+        
+        res.render('setting/manifest', {user, manifestSettings})
+    }catch(err){
+        next(err)
+    }
+}
+
+exports.processManifestSettings = async(req, res, next) => {
+    try{
+        //res.json(req.body)
+        let userId = req.user.id
+
+        let updateObj = {manifestSettings: req.body}
+
+        await User.findByIdAndUpdate(userId, updateObj)
+
+        res.redirect('/settings/manifest')
+
     }catch(err){
         next(err)
     }

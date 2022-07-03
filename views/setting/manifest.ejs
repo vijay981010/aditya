@@ -1,0 +1,113 @@
+<!-- include header -->
+<%- include('../include/_header') %>
+<!-- /include header -->
+
+<!-- include header -->
+<%- include('../include/_navbar') %>
+<!-- /include header -->
+
+<div class="container-fluid">
+    <div class="row justify-content-center">   
+        <header class="row py-3 border-bottom">             
+            <span class="fs-4 text-dark text-center">Manifest Settings</span>                      
+        </header>              
+        <div class="col-lg-11">
+          <div class="card shadow-lg border-0 rounded-lg mt-2 mb-5">
+            <form action = '/settings/manifest' method = "post">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card mb-2 ml-2 mt-2">
+                        <div class="card-header bg-dark">
+                            <h5 class="text-center text-white">Manifest Dispatch From List</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">                                                                           
+                                <div class="col-md-9">                        
+                                    <div class="form-group">
+                                        <label for="dispatchFrom">Dispatch From</label><br>                                                                         
+                                        <input type="text" class="form-control" id="dispatchFrom">
+                                    </div>    
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="actionDf">Action</label><br>                                                                         
+                                        <button class="btn btn-primary btn-block" id="actionDf">Add Item</button>
+                                    </div>
+                                </div>                                                                                
+                            </div>
+                            <div class="row">                        
+                                <table class="table table-bordered table-responsive-sm" id="dfTable">                            
+                                        <tr>
+                                            <td><label for='dispatchFrom'>Dispatch From</label></td>                                                                                                        
+                                            <td><label for='dfRemove'>Action</label></td>
+                                        </tr>
+                                        <% if(manifestSettings.dispatchFrom.length > 0) {  
+                                            manifestSettings.dispatchFrom.forEach((item, i) => { %>
+                                            <tr id="r<%= i+100 %>">                                                
+                                                <td><input type='text' class='form-control text-center' name='dispatchFrom[]' value="<%= item %>" readonly></td>
+                                                <td><button class="btn btn-danger removeDf"><i class="fa fa-minus-circle"></i></button></td>
+                                            </tr>                                
+                                         <% })
+                                         } %>        
+                                </table>                    
+                            </div>
+                        </div>
+                    </div>                    
+                </div>
+                <div class="col-md-6">
+                    <div class="card mb-2 mr-2 mt-2">
+                        <div class="card-header bg-dark">
+                            <h5 class="text-center text-white">Manifest Dispatch To List</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">                                                                           
+                                <div class="col-md-9">                        
+                                    <div class="form-group">
+                                        <label for="dispatchTo">Dispatch To</label><br>                                                                         
+                                        <input type="text" class="form-control" id="dispatchTo">
+                                    </div>    
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="actionDt">Action</label><br>                                                                         
+                                        <button class="btn btn-primary btn-block" id="actionDt">Add Item</button>
+                                    </div>
+                                </div>                                                                                
+                            </div>
+                            <div class="row">                        
+                                <table class="table table-bordered table-responsive-sm" id="dtTable">                            
+                                        <tr>
+                                            <td><label for='dispatchTo'>Dispatch To</label></td>                                                                                                        
+                                            <td><label for='dtRemove'>Action</label></td>
+                                        </tr>
+                                        <% if(manifestSettings.dispatchTo.length > 0) {  
+                                            manifestSettings.dispatchTo.forEach((item, i) => { %>
+                                            <tr id="r<%= i+100 %>">                                                
+                                                <td><input type='text' class='form-control text-center' name='dispatchTo[]' value="<%= item %>" readonly></td>
+                                                <td><button class="btn btn-danger removeDt"><i class="fa fa-minus-circle"></i></button></td>
+                                            </tr>                                
+                                         <% })
+                                         } %>        
+                                </table>                    
+                            </div>
+                        </div>
+                    </div>                    
+                </div>
+            </div>
+            <div class="card-footer">                
+                <div class="col-md-12 text-center">
+                    <button type="submit" class="btn btn-primary">Update</button>
+                </div>                               
+            </div>  
+            </form>              
+          </div>            
+        </div>          
+    </div>
+</div>
+
+
+<!-- include footer -->
+<%- include('../include/_footer') %>
+<!-- /include footer -->
+
+<script src = "/js/setting/manifest.js"></script>

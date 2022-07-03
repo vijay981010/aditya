@@ -19,34 +19,34 @@
                             <div class="form-group">
                                 <label for="manifestNumber">Manifest Number<span>*</span></label>    
                                 <input type="hidden" name="admin" value="<%= user._id %>">
-                                <input class="form-control" name = "manifestNumber" type="text" required/>                            
+                                <input class="form-control" name="manifestNumber" type="text" required/>                            
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="manifestDate">Manifest Date<span>*</span></label>                                                                               
-                                <input class="form-control" name = "manifestDate" type="date" id="inputDate" required/>                            
+                                <input class="form-control" name="manifestDate" type="date" id="inputDate" required/>                            
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="dispatchFrom">Dispatch From<span>*</span></label>                                                                               
-                                <select class="form-select" name = "dispatchFrom">
-                                    <option value = "">---Select Dispatch From---</option>
-                                    <option value="Express Parcel Service">Express Parcel Service</option>
-                                    <option value="International Express">International Express</option>                                    
+                                <select class="form-select" name="dispatchFrom">
+                                    <option value="">---Select Dispatch From---</option>
+                                    <% user.manifestSettings.dispatchFrom.forEach(item => { %>
+                                    <option value="<%= item %>"><%= item %></option>
+                                    <% }) %>
                                 </select>                            
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="dispatchTo">Dispatch To<span>*</span></label>                                                                               
-                                <select class="form-select" name = "dispatchTo">
+                                <select class="form-select" name="dispatchTo">
                                     <option value = "">---Select Dispatch To---</option>
-                                    <option value="Rainbow Logistics Ltd">Rainbow Logistics Ltd</option>
-                                    <option value="Rainbow Sky Couriers LLC">Rainbow Sky Couriers LLC</option>
-                                    <option value="Deanshill Logistics Ltd">Deanshill Logistics Ltd</option>
-                                    <option value="Skyport Worldwide Ltd">Skyport Worldwide Ltd</option>
+                                    <% user.manifestSettings.dispatchTo.forEach(item => { %>
+                                    <option value="<%= item %>"><%= item %></option>
+                                    <% }) %>
                                 </select>                            
                             </div>
                         </div>                                                

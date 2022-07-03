@@ -17,4 +17,9 @@ router.get('/invoice', verifyToken, authorizeRole(admin), settingsController.inv
 router.post('/invoice', verifyToken, authorizeRole(admin), settingsController.processInvoiceSettings)
 
 
+router.get('/manifest', verifyToken, authorizeRole(admin), settingsController.manifestSettings)
+
+router.post('/manifest', verifyToken, authorizeRole(admin), settingsController.processManifestSettings)
+
+
 module.exports = router

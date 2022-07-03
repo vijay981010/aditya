@@ -137,6 +137,10 @@ const userSchema = new Schema({
     invoiceSettings:{
         layout: String,
     },
+    manifestSettings:{
+        dispatchFrom: Array,
+        dispatchTo: Array
+    },
     trackingType:{
         type: String
     },
