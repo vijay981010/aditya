@@ -12,7 +12,7 @@
           <div class="card shadow-lg border-0 rounded-lg mt-5 mb-5">
             <form action = '/orders/<%= order._id %>/bill?_method=PATCH' method = "post">
               <div class="card-header bg-dark">
-                  <h5 class="text-center text-white">Bill Details</h5>
+                  <h5 class="text-center text-white">Bill Details for AWB <%= order.awbNumber %></h5>
               </div>
               <div class="card-body">                                                          
                     <div class="row"> 
@@ -24,7 +24,8 @@
                                 <div class="card-body">                                
                                     <div class="row">
                                         <div class="col-md-5">
-                                            <div class="form-group">                
+                                            <div class="form-group">            
+                                                <input type="hidden" id="orderId" value="<%= order._id %>">
                                                 <label for="baseRate">Amount<span>*</span></label>    
                                                 <% if(order.baseRate){ %>
                                                     <input class="form-control" name = "baseRate" id="base" type="number" value="<%= order.baseRate %>" required >                            
@@ -99,7 +100,22 @@
                                                 </div>                                                
                                             </div>
                                         </div>                                        
-                                    </div>                                                                          
+                                    </div> 
+                                    <div class="card p-2">
+                                        <div class="row">
+                                            <div class="form-group">  
+                                                <label for="invoiceFlag">Display in Invoice Statement</label>                                            
+                                            </div>
+                                        </div>    
+                                        <div class="row">
+                                            <div class="form-group">
+                                                <label class="switch">                                                                        
+                                                    <input type="checkbox" id="invoiceFlag" <%= order.invoiceFlag ? 'checked' : '' %>> 
+                                                    <span class='slider round'></span>                                                                                                                                                  
+                                                </label>                                                                                
+                                            </div>
+                                        </div>
+                                    </div>                                                                                                         
                                 </div>
                             </div>
                         </div>

@@ -7,7 +7,7 @@ let debug = require('debug')('dev')
 const axios = require('axios')
 const mongoose = require('mongoose');
 const {vendorArray, stateList, cityList, 
-    preferredVendors, linkedVendorArray} = require('../fixedData/vendors')
+    preferredVendors, linkedVendorArray, coforwarders} = require('../fixedData/vendors')
 const {processRequest, sortBoxItem, getDates, 
     regexUpperCase, getPrefix, getXthDay} = require('../helpers/helpers')
 const PDFdocument = require('pdfkit')
@@ -679,7 +679,7 @@ exports.patchTrackPage = async (req, res, next) => {
         let apiVendors = vendorArray.slice(1)
         let linkedVendors = linkedVendorArray.slice(1)                        
 
-        res.render('order/add/track', {user, order, apiVendors, linkedVendors})
+        res.render('order/add/track', {user, order, apiVendors, linkedVendors, coforwarders})
         
     }catch(err){
         next(err)
@@ -953,6 +953,21 @@ exports.patchBill = async (req, res) => {
 
         res.redirect('/orders/orderlist')
 
+    }catch(err){
+        next(err)
+    }
+}
+
+exports.invoiceStatus = async (req, res, next) => {
+    try{
+        let debug = require('debug')('c_app: invoiceStatus')
+        
+        let { invoiceFlag, orderId } = req.body
+        
+        let response = await Order.findByIdAndUpdate(orderId, {invoiceFlag}, {new: true})
+        
+        res.status(200).json({status: 200})
+        
     }catch(err){
         next(err)
     }

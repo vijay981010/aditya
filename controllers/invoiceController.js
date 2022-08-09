@@ -36,7 +36,7 @@ exports.invoiceGenerate = async(req, res, next) => {
 
         //GET ORDERS FOR THE SPECIFIED DATE RANGE AND CLIENT//
         let orderFields = 'bookingDate awbNumber destination consignee chargeableWeight baseRate brGst chargeDetails totalBill'        
-        let orders = await Order.find({bookingDate: dateArray, client}).select(orderFields)   
+        let orders = await Order.find({bookingDate: dateArray, client, invoiceFlag: true}).select(orderFields)   
         
         //VALIDATE IF ORDERS//
         if(orders.length == 0) return res.render('error', {message: `No Orders found for the selected Date Range`, statusCode: '400'})
@@ -94,7 +94,7 @@ exports.invoicePdf = async(req, res, next) => {
 
         //GET ORDERS BETWEEN THAT DATE RANGE FOR THAT ADMIN//
         let orderFields = 'bookingDate awbNumber destination consignee boxType chargeableWeight baseRate brGst fuelSurcharge fsGst chargeDetails totalBill'
-        let orders = await Order.find({bookingDate: dateArray, client: invoice.client}).select(orderFields)      
+        let orders = await Order.find({bookingDate: dateArray, client: invoice.client, invoiceFlag: true}).select(orderFields)      
 
         //VALIDATE IF ORDERS//
         if(orders.length == 0) return res.render('error', {message: `No Orders found for the selected Date Range`, statusCode: '400'})

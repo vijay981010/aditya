@@ -103,6 +103,7 @@ const userSchema = new Schema({
         additionalTrackingStatus: Boolean,
         preferredVendor: Boolean,
         noTaxColumn: Boolean, 
+        coforwarder: Boolean,
     },    
     clientSettings:{
         manualAwbOption: Boolean,
@@ -114,7 +115,8 @@ const userSchema = new Schema({
         displayNoName: Boolean,
         additionalTrackingStatus: Boolean,
         preferredVendor: Boolean,
-        noTaxColumn: Boolean     
+        noTaxColumn: Boolean,
+        coforwarder: Boolean     
     },
     awbSettings:{
         title: {

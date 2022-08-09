@@ -125,4 +125,27 @@ $(document).ready(function(){
         chargeId--    
         getTotal()
     }
+
+    // ------------------- INVOICE FLAG TOGGLE ------------------------ //
+    $('#invoiceFlag').change(function(){
+        let invoiceFlag = $(this).is(':checked')
+        let orderId = $('#orderId').val()        
+        
+        $.ajax({
+            url: `${environment.baseurl}/orders/invoice/info`,
+            method: 'PATCH',
+            data: {invoiceFlag, orderId},
+            dataType: 'json',
+            error: function(xhr, status, error){
+                alert('Some unknown error')
+                console.log(xhr, status, error)
+            },
+            success: function(response){
+                console.log(response)
+                response.status == 200 
+                ? alert('Invoice Status for Order is successfully updated')
+                : alert('An error occurred. Please contact admin!!')
+            }
+        })
+    })
 })

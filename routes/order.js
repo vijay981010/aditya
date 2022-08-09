@@ -147,5 +147,8 @@ router.post('/export', verifyToken, authorizeRole(['admin']), orderController.or
 router.get('/search/history', verifyToken, orderController.searchHistory) 
 
 
+router.patch('/invoice/info', verifyToken, authorizeRole(['admin']), orderController.invoiceStatus)
+
+
 
 module.exports = router

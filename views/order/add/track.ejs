@@ -49,14 +49,23 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="coforwarder">Co-forwarder</label>                                                                               
-                                <input class="form-control" name = "coforwarder" value="<%= order.coforwarder %>" type="text"/>                            
+                                <label for="coforwarder">Co-forwarder</label>                                                                            
+                                <%if(user.username == 'krishnaintlexp'){%>
+                                <select class="form-select" name="coforwarder">
+                                    <option value="<%= order.coforwarder %>"><%= order.coforwarder %></option>
+                                    <% coforwarders.forEach(coforwarder => { %>
+                                        <option value="<%= coforwarder %>"><%= coforwarder %></option>
+                                    <% }) %>
+                                </select>
+                                <%}else{%>
+                                <input class="form-control" name="coforwarder" value="<%= order.coforwarder %>" type="text"/>                            
+                                <%}%>                                
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="coforwarderAwb">Co-forwarder AWB</label>                                                                                                             
-                                <input class="form-control" name = "coforwarderAwb" value="<%= order.coforwarderAwb %>" type="text"/>                            
+                                <input class="form-control" name="coforwarderAwb" value="<%= order.coforwarderAwb %>" type="text"/>                            
                             </div>
                         </div>                                          
                     </div>

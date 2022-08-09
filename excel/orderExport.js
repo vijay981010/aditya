@@ -48,8 +48,8 @@ exports.generateOrderExport = (workbook, orders) => {
     let headerArray = ['Date', 'User', 'AWB', 'Consignor', 'Company Name', 'Contact', 'Email', 'Address1', 'Address2', 'Pincode', 'City', 
     'State', 'Country', 'Doc', 'Doc Number', 'Consignee', 'Company Name', 'Contact', 'Email', 'Address1', 'Address2', 'Pincode', 'City', 
     'State', 'Country', 'Boxes', 'Box Type', 'Length', 'Width', 'Height', 'Vol Wt', 'Act Wt', 'Chg Wt', 'Invoice Type', 'Items',
-    'Hsn Codes', 'Quantities', 'Prices', 'Total Value', 'Currency', 'Tracking No', 'Vendor', 'Status', 'Coforwarder AWB', 'Client Note',
-    'Self Note', 'Base Rate', 'GST', 'FSC', 'GST', 'Charges', 'Amounts', 'GST', 'Total Bill']   
+    'Hsn Codes', 'Quantities', 'Prices', 'Total Value', 'Currency', 'Tracking No', 'Vendor', 'Status', 'Coforwarder', 'Coforwarder AWB', 
+    'Client Note', 'Self Note', 'Base Rate', 'GST', 'FSC', 'GST', 'Charges', 'Amounts', 'GST', 'Total Bill']   
 
     for(let i = 0; i < headerArray.length; i++){
         sheet.getRow(1).getCell(i+1).alignment = {horizontal: 'center'} 
@@ -67,7 +67,7 @@ exports.generateOrderExport = (workbook, orders) => {
         order.consigneePincode, order.consigneePincode, order.consigneeCity, order.consigneeState, order.origin, boxNoArr[i],
         order.boxType, lengthArr[i], widthArr[i], heightArr[i], volWtArr[i], actWtArr[i], order.chargeableWeight, order.invoiceType,
         itemArr[i], hsnArr[i], qtyArr[i], priceArr[i], order.totalValue, order.currency, order.trackingNumber, order.vendorName, order.trackingStatus,
-        order.coforwarderAwb, order.clientNote, order.selfNote, order.baseRate, order.brGst, order.fuelSurcharge, order.fsGst, 
+        order.coforwarder, order.coforwarderAwb, order.clientNote, order.selfNote, order.baseRate, order.brGst, order.fuelSurcharge, order.fsGst, 
         titleArr[i], amountArr[i], gstArr[i], order.totalBill
     ]
         
