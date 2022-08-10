@@ -278,8 +278,9 @@ exports.singleOrder = async (req, res, next) => {
         let order = await Order.findById(orderId).populate('client').exec()
 
         let preferredVendors
-        if(user.role=='admin') preferredVendors = user.settings.preferredVendorList
-        if(user.role=='client') preferredVendors = user.admin.settings.preferredVendorList
+        if(user.role=='admin') preferredVendors = user.preferredVendorList
+        if(user.role=='client') preferredVendors = user.admin.preferredVendorList
+        debug(preferredVendors)
         
         res.render('order/edit', {order, user, clientlist, countries, preferredVendors})
         
