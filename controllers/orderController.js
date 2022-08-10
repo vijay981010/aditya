@@ -276,6 +276,10 @@ exports.singleOrder = async (req, res, next) => {
         const clientlist = await User.find({role: 'client', admin: userId})
         const countries = await db.collection('countries').find().toArray()
         let order = await Order.findById(orderId).populate('client').exec()
+
+        let preferredVendors
+        if(user.role=='admin') preferredVendors = user.settings.preferredVendorList
+        if(user.role=='client') preferredVendors = user.admin.settings.preferredVendorList
         
         res.render('order/edit', {order, user, clientlist, countries, preferredVendors})
         

@@ -122,7 +122,7 @@ exports.boxstickergenerate = (doc, order, user) => {
           .text(info, x, y + start + lineArr[i], {width: fullx/1.5 - x, align:'left'})
         }else{
           doc.font('reg').fontSize(14)
-          .text(info, x, y + start + lineArr[i], {width: fullx/1.5 - x, align:'left'})
+          .text(info, x, y + start + lineArr[i], {width: fullx/1.2 - x, align:'left'})
         }
       })
 
