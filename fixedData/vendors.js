@@ -17,6 +17,14 @@ exports.vendorArray = [
     {id: '1', name: 'BLUEDART'}, 
     {id: '11', name: 'ARAMEX'}]
 
+exports.linkedVendorArray = [
+    {id: '0', name: 'OTHERS'},
+    {id: '3', name: 'DHL'}, 
+    {id: '4', name: 'FEDEX'}, 
+    {id: '8', name: 'DPD UK'}, 
+    {id: '9', name: 'DPD REST OF THE WORLD'}
+]
+
 exports.cityList = [
     'Mumbai', 'Pune', 'Nashik', 'Aurangabad', 'Ratnagiri', 'Latur', 
     'Kolhapur', 'Satara', 'Nagpur', 'Surat', 'Gandhinagar', 'Vadodara', 'Bharuch', 'Navsari', 
@@ -25,16 +33,3 @@ exports.cityList = [
 
 exports.stateList = ['Maharashtra', 'Gujarat']
 
-exports.preferredVendors = ['Express Self', 'PBC Kenya DDP', 'PBC South Africa DDP', 'PBC-FRA-DDP DDP', 'DHL', 'FEDEX', 'UPS',
-'ARAMEX', 'DPD UK', 'DPD GERMANY', 'DPD EX GERMANY', 'CITY LINK', 'EX LHR FEDEX']
-
-exports.coforwarders = ['Pxc pacific Global pvt ltd', 'Atlantic international express', 'St international', 'Pace project & logistics pvt ltd',
-'Sairaj international', 'Imd international', 'Pegeon maritime & logistics']
-
-exports.linkedVendorArray = [
-    {id: '0', name: 'OTHERS'},
-    {id: '3', name: 'DHL'}, 
-    {id: '4', name: 'FEDEX'}, 
-    {id: '8', name: 'DPD UK'}, 
-    {id: '9', name: 'DPD REST OF THE WORLD'}
-]

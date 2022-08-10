@@ -6,8 +6,7 @@ const Walkin = require('../model/walkinModel')
 let debug = require('debug')('dev')
 const axios = require('axios')
 const mongoose = require('mongoose');
-const {vendorArray, stateList, cityList, 
-    preferredVendors, linkedVendorArray, coforwarders} = require('../fixedData/vendors')
+const {vendorArray, stateList, cityList, linkedVendorArray} = require('../fixedData/vendors')
 const {processRequest, sortBoxItem, getDates, 
     regexUpperCase, getPrefix, getXthDay} = require('../helpers/helpers')
 const PDFdocument = require('pdfkit')
@@ -72,24 +71,27 @@ exports.createOrderPage = async (req, res, next) => {
         const countries = await db.collection('countries').find().toArray()
         const serviceList = await Service.find({admin: userId})
 
+        //FIND ADMIN OF CLIENT AND GET ACCESSRIGHT OF THAT ADMIN//
+        let adminUser = await User.findById(user.admin)       
+
         //GET LIST OF CONSIGNOR/EE FOR RESPECTIVE ADMIN/CLIENT//
         let consignorList
         let consigneeList
+        let preferredVendors
 
         if(role=='admin'){
             consignorList = await Walkin.find({role: 'consignor', admin: userId}).select('name')
             consigneeList = await Walkin.find({role: 'consignee', admin: userId}).select('name')
+            preferredVendors = user.preferredVendorList
         }else if(role=='client'){
             consignorList = await Walkin.find({role: 'consignor', client: userId}).select('name')
             consigneeList = await Walkin.find({role: 'consignee', client: userId}).select('name')
+            preferredVendors = user.admin.preferredVendorList
         }
         
         //CONVERT SERVICENAMES TO DISPLAYNAMES//
         let displayNames = await Service.find({serviceName: user.serviceAccess})        
         displayNames = displayNames.map(item => item.displayName)
-        
-        //FIND ADMIN OF CLIENT AND GET ACCESSRIGHT OF THAT ADMIN//
-        let adminUser = await User.findById(user.admin)        
         
         res.render('order/add/primary', { 
             user, clientlist, countries, 
@@ -670,6 +672,7 @@ exports.getHsnCode = async(req, res, next) => {
 
 exports.patchTrackPage = async (req, res, next) => {
     try{
+        let debug = require('debug')('c_app: patchTrackPage')
         let orderId = req.params.orderId
         let userId = req.user.id        
 
@@ -677,8 +680,10 @@ exports.patchTrackPage = async (req, res, next) => {
         let order = await Order.findById(orderId).populate('client').exec()
         
         let apiVendors = vendorArray.slice(1)
-        let linkedVendors = linkedVendorArray.slice(1)                        
+        let linkedVendors = linkedVendorArray.slice(1)
 
+        let coforwarders = user.coforwarderList
+        //debug(coforwarders)
         res.render('order/add/track', {user, order, apiVendors, linkedVendors, coforwarders})
         
     }catch(err){

@@ -149,6 +149,8 @@ const userSchema = new Schema({
     adminCode:{
         type: String
     },
+    coforwarderList: Array,
+    preferredVendorList: Array,
     invoice: {
         type: Schema.Types.ObjectId,
         ref: 'Billing'

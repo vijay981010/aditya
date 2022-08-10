@@ -50,7 +50,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="coforwarder">Co-forwarder</label>                                                                            
-                                <%if(user.username == 'krishnaintlexp'){%>
+                                <%if(user.settings.coforwarder){%>
                                 <select class="form-select" name="coforwarder">
                                     <option value="<%= order.coforwarder %>"><%= order.coforwarder %></option>
                                     <% coforwarders.forEach(coforwarder => { %>

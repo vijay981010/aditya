@@ -161,7 +161,11 @@ exports.boxstickergenerate = (doc, order, user) => {
       let lwArr = [30, 30]
       let lineArr = getStartRange(65, lwArr)
       
-      let infoArr = [clientName, order.service]
+      //CHECK COFORWARDER SETTING
+      let service = order.service
+      if(user.settings.coforwarder) service = order.coforwarder || order.service
+
+      let infoArr = [clientName, service]
       let wArr = infoArr.map(info => info.length * unit)  
       
       // ----------- //

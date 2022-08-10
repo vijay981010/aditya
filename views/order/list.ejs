@@ -71,6 +71,9 @@
                 <th>Destination</th>
                 <th>Box</th>
                 <th>Weight</th>
+                <% if(user.settings.coforwarder){%>
+                <th>Forwarder</th>
+                <%}%>
                 <% if(user.accessRight.indexOf('invoice') != -1){ %> 
                 <th>Bill</th>
                 <% } %>                
@@ -140,6 +143,9 @@
                     <td><%= order.destination %></td>
                     <td><%= order.numberOfBoxes %></td>
                     <td><%= order.chargeableWeight %></td>
+                    <% if(user.settings.coforwarder){%>
+                    <td><%= order.coforwarder %></td>
+                    <%}%>
                     <% if(user.accessRight.indexOf('invoice') != -1){ %> 
                     <td><%= order.totalBill %></td>
                     <% } %>                    
