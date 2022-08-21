@@ -24,6 +24,8 @@ exports.invoiceList = async(req, res, next) => {
 
 exports.invoiceGenerate = async(req, res, next) => {
     try{
+        let debug = require('debug')('c_app: invoiceGenerate')
+
         let {admin, client, invoiceNumber, invoiceDate,
         invoiceStartDate, invoiceEndDate, note} = req.body                     
         
@@ -37,7 +39,7 @@ exports.invoiceGenerate = async(req, res, next) => {
         //GET ORDERS FOR THE SPECIFIED DATE RANGE AND CLIENT//
         let orderFields = 'bookingDate awbNumber destination consignee chargeableWeight baseRate brGst chargeDetails totalBill'        
         let orders = await Order.find({bookingDate: dateArray, client, invoiceFlag: true}).select(orderFields)   
-        
+        debug(orders)
         //VALIDATE IF ORDERS//
         if(orders.length == 0) return res.render('error', {message: `No Orders found for the selected Date Range`, statusCode: '400'})
 

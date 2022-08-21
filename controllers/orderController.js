@@ -1179,10 +1179,15 @@ exports.printawb = async(req, res, next) => {
 
 exports.packingList = async(req, res, next) => {
     try{        
+        let debug = require('debug')('c_app: packingList')
         let {orderId, type} = req.params
 
-        let order = await Order.findById(orderId).populate('client').exec()               
-
+        let order = await Order.findById(orderId).populate('client').exec() 
+        
+        //GET USER
+        let userId = req.user.id
+        let user = await User.findById(userId).populate('admin').select('role settings clientSettings')
+        debug(user)
         //CHECK IF BOXDETAILS ADDED//
         if(order.boxDetails.length == 0)            
             return res.render('error', {message: `No Box Details added. Please add Box Details first before generating AWB`, statusCode: '400'})
@@ -1195,6 +1200,8 @@ exports.packingList = async(req, res, next) => {
         let totArr = []
         order.boxDetails.forEach((box,i) => {
             let boxInfo = `Box ${i+1}(${box.boxLength}x${box.boxWidth}x${box.boxHeight}) Act. Wt. ${box.actualWeight}`
+            if(user.role=='admin' && user.settings.packingListBoxNo || user.role=='client' && user.admin.clientSettings.packingListBoxNo)
+                boxInfo = `Box ${i+1}`
             boxArr.push(boxInfo)
             if(order.boxDetails.length > 1) boxArr.push(' ') //PUSH BLANK ENTRY IN BETWEEN NEW BOXES//
             box.itemDetails.forEach((item,j) => {

@@ -104,6 +104,7 @@ const userSchema = new Schema({
         preferredVendor: Boolean,
         noTaxColumn: Boolean, 
         coforwarder: Boolean,
+        packingListBoxNo: Boolean
     },    
     clientSettings:{
         manualAwbOption: Boolean,
@@ -116,7 +117,8 @@ const userSchema = new Schema({
         additionalTrackingStatus: Boolean,
         preferredVendor: Boolean,
         noTaxColumn: Boolean,
-        coforwarder: Boolean     
+        coforwarder: Boolean,
+        packingListBoxNo: Boolean     
     },
     awbSettings:{
         title: {
@@ -150,7 +152,7 @@ const userSchema = new Schema({
         type: String
     },
     coforwarderList: Array,
-    preferredVendorList: Array,
+    preferredVendorList: Array,    
     invoice: {
         type: Schema.Types.ObjectId,
         ref: 'Billing'

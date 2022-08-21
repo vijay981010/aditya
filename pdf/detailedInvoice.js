@@ -197,8 +197,8 @@ function tabl(doc, user, orders, compData, start, breakpoint){
     }
 
     if(user.role=='admin' && user.settings.noTaxColumn){
-        headerArr = ['Sr No', 'Date', 'AWB', 'Destination', 'Consignee', 'D/S', 'Weight', 'Amount', 'FSC', 'Charges', 'Sub-Total']        
-        widthArr = [25, 45, 45, 90, 130, 18, 38, 38, 38, 38, 40]
+        headerArr = ['Sr', 'Date', 'AWB', 'Destination', 'Consignee', 'D/S', 'Weight', 'Amount', 'FSC', 'Charges', 'Sub-Total']        
+        widthArr = [20, 45, 50, 90, 130, 18, 38, 38, 38, 38, 40]
         if(user.invoiceSettings.layout == 'landscape'){
             fs = 11
             widthArr = [30, 70, 60, 130, 170, 30, 60, 60, 60, 60, 60]
