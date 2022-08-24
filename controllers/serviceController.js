@@ -13,14 +13,14 @@ const db = mongoose.connection
 exports.list = async(req, res, next) => {
     try{
         let userId = req.user.id
-        const user = await User.findById(userId)
+        const user = await User.findById(userId).populate({path: 'admin', select: 'username'})
 
         const countries = await db.collection('countries').find().toArray()
 
         let zonePop = {path: 'zone', select: 'zoneName countries'}
         let clientPop = {path: 'client', select: 'username'}
         let filter = {admin: userId}
-        if(user.role=='client') filter = {$or: [{client: userId}, {category:'common'}]}
+        if(user.role=='client') filter = {$or: [{client: userId}, {admin: user.admin._id, category:'common'}]}
 
         const serviceList = await Service.find(filter).sort({updatedAt: 'asc'}).populate(zonePop).populate(clientPop)
         res.render('service/list', {user, countries, serviceList}) 
