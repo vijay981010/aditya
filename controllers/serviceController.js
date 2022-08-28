@@ -63,7 +63,10 @@ exports.processService = async(req, res, next) => {
         let debug = require('debug')('c_app: createService') //DEBUG//
         
         //GET FORM DATA//
-        let {serviceCode, displayName, serviceFsc, admin, client, category} = req.body
+        let {serviceCode, displayName, serviceGst, serviceFsc, admin, client, category} = req.body
+
+        //PARSE SERVICE GST//
+        serviceGst = JSON.parse(serviceGst)
         
         //CAPITALIZE SERVICE CODE//
         serviceCode = serviceCode.toUpperCase()
@@ -138,11 +141,11 @@ exports.processService = async(req, res, next) => {
         let sFsc = 0
         if(serviceFsc != 0) sFsc = serviceFsc/100                    
         
-        let finalArr = processServiceExcel(keysArr, rateData, sFsc, zoneArray, countryArr)   
+        let finalArr = processServiceExcel(keysArr, rateData, sFsc, serviceGst, zoneArray, countryArr)   
         //debug(finalArr)       
 
 //WRITE TO DB//
-        let obj = {serviceCode, displayName, serviceFsc, zone: finalArr, admin, client, category}        
+        let obj = {serviceCode, displayName, serviceFsc, serviceGst, zone: finalArr, admin, client, category}        
 
         if(req.params.serviceId){
             await Service.findByIdAndUpdate(req.params.serviceId, obj)
@@ -164,6 +167,7 @@ exports.rateChecker = async(req, res, next) => {
         let {serviceId, country, weight} = req.body
         //debug(weight)
         let ratelist = await Service.findById(serviceId)
+        let gst = ratelist.serviceGst
         //debug(ratelist)    
 
     //------- FILTER ZONE BY COUNTRY ------------- //
@@ -179,7 +183,7 @@ exports.rateChecker = async(req, res, next) => {
            if(match.length == 0){
             res.json({data: 'undefined'})
            }else{
-            res.json({data: match[0].rate})
+            res.json({data: match[0].rate, gst})
            }           
         }
         
@@ -238,7 +242,7 @@ async function renderServiceForm(req, res, next, alert){
         //RENDER INFO FOR UPDATE SERVICE//
         if(req.params.serviceId){
             let serviceId = req.params.serviceId
-            let serviceFields = 'serviceCode category displayName serviceFsc'
+            let serviceFields = 'serviceCode serviceGst category displayName serviceFsc'
             let clientPop = {path: 'client', select: 'username'}
             const service = await Service.findById(serviceId).populate(clientPop).select(serviceFields)
             renderData = { user, clientList, service }
@@ -256,7 +260,7 @@ async function renderServiceForm(req, res, next, alert){
     }    
 }
 
-function processServiceExcel(keysArr, rateData, sFsc, zoneArray, countryArr){
+function processServiceExcel(keysArr, rateData, sFsc, serviceGst, zoneArray, countryArr){
     let finalrate = []   
     let finalArr = []
     
@@ -269,7 +273,10 @@ function processServiceExcel(keysArr, rateData, sFsc, zoneArray, countryArr){
             //ADD FUEL SURCHARGE//
             let rate = parseFloat(rateData[j][keysArr[i]])
             let fsc = sFsc*rate
-            rate += fsc                
+            rate += fsc 
+            
+            //CHECK AND ADD GST
+            if(serviceGst) rate = rate + (rate*0.185) 
 
             //ADD TO OBJECT
             obj.weight = rateData[j][keysArr[0]]

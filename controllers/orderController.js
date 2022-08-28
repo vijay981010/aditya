@@ -1446,6 +1446,8 @@ function getLink(obj){
     if(obj.vendorId == '3') return `https://www.dhl.com/in-en/home/tracking/tracking-express.html?submit=1&tracking-id=${obj.trackingNumber}`
     //if(obj.vendorId == '8') return `https://www.dpd.co.uk/apps/tracking/?parcel=${obj.trackingNumber}*19857&geoSession=83e5e9d7-31b8-4c88-99ce-fc9af393d895&search`
     if(obj.vendorId=='8' || obj.vendorId=='9') return `https://www.dpdgroup.com/nl/mydpd/my-parcels/track?lang=en&parcelNumber=${obj.trackingNumber}`
+    if(obj.vendorId=='10') return `https://www.dpd.com/de/en/empfangen/sendungsverfolgung-und-live-tracking/`
+    if(obj.vendorId=='13') return `https://www.ups.com/track?loc=en_US&requester=ST/`
 }
 
 function getVendorName(arr, val){

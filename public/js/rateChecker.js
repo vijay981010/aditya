@@ -36,6 +36,9 @@
                 alert(xhr, status, error)                
             },
             success: function(result){ 
+                //RESET LABEL
+                $('#rateLabel').html('Rate')
+                
                 console.log(result)
                 //$('#rate').attr('value', '') //CLEAR EXISTING VALUE//                
                 if(result.data == "undefined"){
@@ -44,6 +47,9 @@
                 }else{                    
                     //$('#rate').attr('value', result.data)
                     $('#rate').val(result.data)
+                    //APPEND TO LABEL
+                    if(result.gst) $('#rateLabel').append(' (inclusive of GST)')
+                    if(!result.gst) $('#rateLabel').append(' (exclusive of GST)')                    
                 }                    
                 
             }

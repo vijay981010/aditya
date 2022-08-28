@@ -37,10 +37,20 @@
                 <% }) %>
             </select>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-2">
             <div class="form-group">
-                <label for="serviceFsc">Fuel Surcharge (In Percent)</label>                                                                               
+                <label for="serviceFsc">FSC (In Percent)</label>                                                                               
                 <input class="form-control" name="serviceFsc" value="<%= service.serviceFsc ? service.serviceFsc : 0%>" type="number" step="0.01"/>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label for="serviceGst">GST</label>  
+                <select class="form-select" name="serviceGst" required>
+                    <option value="<%= service.serviceGst ? 'true' : 'false' %>"><%= service.serviceGst ? 'Yes' : 'No' %></option>
+                    <option value="true">Yes</option>
+                    <option value="false">No</option>
+                </select>                                                                                            
             </div>
         </div>
         <div class="col-md-4">

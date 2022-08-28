@@ -22,7 +22,9 @@ exports.linkedVendorArray = [
     {id: '3', name: 'DHL'}, 
     {id: '4', name: 'FEDEX'}, 
     {id: '8', name: 'DPD UK'}, 
-    {id: '9', name: 'DPD REST OF THE WORLD'}
+    {id: '9', name: 'DPD REST OF THE WORLD'},
+    {id: '10', name: 'DPD GERMANY'},
+    {id: '13', name: 'UPS'}
 ]
 
 exports.cityList = [

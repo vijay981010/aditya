@@ -35,6 +35,9 @@ const serviceSchema = new Schema({
     serviceFsc:{
         type: Number,
     },
+    serviceGst:{
+        type: Boolean,
+    },
     zone: [zoneSchema],
     admin: {
         type: Schema.Types.ObjectId,
