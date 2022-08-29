@@ -14,11 +14,15 @@ exports.getService = (workbook, service, fsc) => {
     service.zone.forEach(item => {
         let temp = []                
         item.ratechart.forEach(rate => {
+            //CHECK IF WITH GST OR NOT GST
+            let pushVal = rate.rate
+            if(service.serviceGst) pushVal = reversePercentage(rate.rate, 18.5)            
+            
             //CHECK IF WITH FSC OR W/O FSC
-            let pushVal = reversePercentage(rate.rate, service.serviceFsc)
-            if(fsc) pushVal = rate.rate
+            if(!fsc) pushVal = reversePercentage(pushVal, service.serviceFsc)            
+            //if(fsc) pushVal = rate.rate
 
-            temp.push(pushVal)
+            temp.push(pushVal.toFixed(2))
         })
         ratelistArr.push(temp)
     })

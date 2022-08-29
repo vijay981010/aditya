@@ -280,7 +280,7 @@ function processServiceExcel(keysArr, rateData, sFsc, serviceGst, zoneArray, cou
 
             //ADD TO OBJECT
             obj.weight = rateData[j][keysArr[0]]
-            obj.rate = rate
+            obj.rate = rate.toFixed(2)
             
             //PUSH OBJ TO ARRAY
             ratechart.push(obj)

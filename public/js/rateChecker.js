@@ -46,7 +46,7 @@
                     alert("Rate isn't defined for the inputted parameters")
                 }else{                    
                     //$('#rate').attr('value', result.data)
-                    $('#rate').val(result.data)
+                    $('#rate').val(result.data.toFixed(2))
                     //APPEND TO LABEL
                     if(result.gst) $('#rateLabel').append(' (inclusive of GST)')
                     if(!result.gst) $('#rateLabel').append(' (exclusive of GST)')                    
