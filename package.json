@@ -2,7 +2,7 @@
   "name": "courierapp",
   "version": "1.0.0",
   "engines": {
-    "node": ">=16.13.1"
+    "node": "16.13.1"
   },
   "description": "An app for courier agents to manage their operations",
   "main": "app.js",
