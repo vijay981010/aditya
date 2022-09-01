@@ -89,6 +89,7 @@ exports.createOrderPage = async (req, res, next) => {
             preferredVendors = user.admin.preferredVendorList
         }
         
+        
         //CONVERT SERVICENAMES TO DISPLAYNAMES//
         let displayNames = await Service.find({serviceName: user.serviceAccess})        
         displayNames = displayNames.map(item => item.displayName)
