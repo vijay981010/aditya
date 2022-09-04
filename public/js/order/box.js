@@ -51,24 +51,38 @@ function addVol(id){
     let width = $(`#boxW${id}`).val()
     let height = $(`#boxH${id}`).val()    
     
-    let totalvolweight = 0
+    //let totalvolweight = 0
     if(length != '' && width != '' && height != ''){                
         let volweight = (length*width*height)/5000                
         $(`#volumetricWeight${id}`).val(volweight.toFixed(2))                                        
     }         
-    let totvolweight = 0
-    let totactualweight = 0  
+    //let totvolweight = 0
+    //let totactualweight = 0  
+    let chargeableWeight = 0 //INITIALIZE FINAL WEIGHT
+    
+    //SERIALIZE VOL AND ACTUAL WT VALUES IN ARRAY
     var volweight = $("input[name='volumetricWeight']").map(function(){return $(this).val();}).get()
     var actualweight = $("input[name='actualWeight']").map(function(){return $(this).val();}).get()
-        for(let i = 0; i < volweight.length; i++){
-            totvolweight = parseFloat(totvolweight) + parseFloat(volweight[i])
-            totactualweight = parseFloat(totactualweight) + parseFloat(actualweight[i])
+
+    //PARSE STRING VALUES
+    volweight = volweight.map(e => parseFloat(e)), actualweight = actualweight.map(e => parseFloat(e))
+
+        //CALCULATE FINAL WEIGHT BASED ON HIGHER VALUES PER BOX
+        for(let i = 0; i < volweight.length; i++){  
+            volweight[i] >= actualweight[i]
+            ? chargeableWeight += volweight[i] 
+            : chargeableWeight += actualweight[i]         
+            //totvolweight = parseFloat(totvolweight) + parseFloat(volweight[i])
+            //totactualweight = parseFloat(totactualweight) + parseFloat(actualweight[i])
         }
-        if(parseFloat(totvolweight) > parseFloat(totactualweight)){
+        /* if(parseFloat(totvolweight) > parseFloat(totactualweight)){
             $('#chargeableWeight').val(totvolweight.toFixed(2));                    
         }else{
             $('#chargeableWeight').val(totactualweight.toFixed(2));                    
-        }                                               
+        } */   
+        
+        //RENDER
+        $('#chargeableWeight').val(chargeableWeight.toFixed(2))
 }
 
 

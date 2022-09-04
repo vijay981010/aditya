@@ -79,6 +79,9 @@ if($('#paymentInfo')){
   
 }
 
+// ----------------- SEARCHABLE DROPDOWN ------------ //
+$('.select2').select2()
+
 
 });
 

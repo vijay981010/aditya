@@ -27,11 +27,11 @@
                 <h5 class="text-center text-white">Rate Checker</h5>
             </div>
             <div class="card-body">
-                <div class = "row">
+                <div class="row">
                     <div class="col-md-3">
                         <div class="form-group">
                             <label for="username">Select Service</label>
-                            <select class="form-select param" id="service"> 
+                            <select class="form-select select2 param" id="service"> 
                                 <option value="">---Select Service---</option>                   
                                 <% serviceList.forEach(service => { %>                                    
                                     <option value="<%= service._id %>">
@@ -48,7 +48,7 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             <label for="country">Select Country</label>
-                            <select class="form-select param" id="destination">
+                            <select class="form-select select2 param" id="destination">
                                 <option value="">---Select Country---</option>
                                 <% countries.forEach(country => { %> 
                                     <option value="<%= country.name %>"><%= country.name %></option> 
