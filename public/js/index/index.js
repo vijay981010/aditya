@@ -73,10 +73,10 @@ if($('#paymentInfo')){
   let paymentDate = $('#paymentNotification').data('id')
   let remainingDays = getDaysDifference(paymentDate)
   let appendTxt = `<span> Kindly clear in ${remainingDays} days for uninterrupted service.</span>` 
-  if(remainingDays == 31) appendTxt = `<span> Subscription will expire tomorrow.</span>`
-  if(remainingDays == 1) appendTxt = `<span> Subscription will expire day after tomorrow.</span>`
+  if(remainingDays == 0) appendTxt = `<span> Subscription will expire today.</span>`
+  if(remainingDays == 1) appendTxt = `<span> Subscription will expire tomorrow.</span>`
   $('#paymentInfo').append(appendTxt)
-  
+  //console.log(paymentDate, remainingDays)
 }
 
 // ----------------- SEARCHABLE DROPDOWN ------------ //

@@ -38,8 +38,13 @@ function getDaysDifference(c){
 
   if(date.getTime() < today.getTime()) return 0
 
-  let diff = today.setDate(date.getDate() - today.getDate())
-  return new Date(diff).getDate()
+  //let diff = today.setDate(date.getDate() - today.getDate())
+  //return new Date(diff).getDate()
+
+  let diff = date.getTime() - today.getTime()
+  let gap = Math.ceil(diff / (86400 * 1000)) //GET GAP OF DAYS BY DIVIDING WITH 24 HRS
+
+  return gap
 }
 
 // --------- DELETE FUNCTION ------------- //
