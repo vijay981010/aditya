@@ -24,7 +24,10 @@ exports.linkedVendorArray = [
     {id: '8', name: 'DPD UK'}, 
     {id: '9', name: 'DPD REST OF THE WORLD'},
     {id: '10', name: 'DPD GERMANY'},
-    {id: '13', name: 'UPS'}
+    {id: '13', name: 'UPS'},
+    {id: '14', name: 'MARK EXPRESS'},
+    {id: '15', name: 'SHREE MARUTI COURIER'},
+    {id: '16', name: 'ARAMEX'}    
 ]
 
 exports.cityList = [
@@ -33,5 +36,10 @@ exports.cityList = [
     'Ahmedabad', 'Rajkot'
 ]
 
-exports.stateList = ['Maharashtra', 'Gujarat']
+exports.stateList = ['Andhra Pradesh', 'Arunachal Pradesh', 'Assam', 'Bihar', 'Chhattisgarh', 
+'Goa', 'Gujarat', 'Haryana', 'Himachal Pradesh', 'Jharkhand', 'Karnataka', 'Kerala', 'Madhya Pradesh', 
+'Maharashtra', 'Manipur', 'Meghalaya', 'Mizoram', 'Nagaland', 'Odhisha', 'Punjab',
+'Rajasthan', 'Sikkim', 'Tamil Nadu', 'Telangana', 'Tripura', 'Uttarakhand', 'Uttar Pradesh',
+'West Bengal', 'Andaman and Nicobar Islands', 'Chandigarh', 'Jammu & Kashmir', 'Ladakh',
+'Lakshadweep', 'Puducherry']
 

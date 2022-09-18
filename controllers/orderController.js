@@ -1449,6 +1449,9 @@ function getLink(obj){
     if(obj.vendorId=='8' || obj.vendorId=='9') return `https://www.dpdgroup.com/nl/mydpd/my-parcels/track?lang=en&parcelNumber=${obj.trackingNumber}`
     if(obj.vendorId=='10') return `https://www.dpd.com/de/en/empfangen/sendungsverfolgung-und-live-tracking/`
     if(obj.vendorId=='13') return `https://www.ups.com/track?loc=en_US&requester=ST/`
+    if(obj.vendorId=='14') return `https://markexpress.co.in/`
+    if(obj.vendorId=='15') return `https://www.shreemaruticourier.com/`
+    if(obj.vendorId=='16') return `https://www.aramex.com/in/en/track/shipments`
 }
 
 function getVendorName(arr, val){

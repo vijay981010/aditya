@@ -203,17 +203,17 @@
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
-                                                <label for="consignorCity">State<span>*</span></label>
-                                                <%if(user.username != 'eps'){ %>
-                                                <input class="form-control" name="consignorState" id="consignorState" type="text" required/>
-                                                <%}else{%>   
+                                                <label for="consignorState">State<span>*</span></label>
+                                                <%if(user.username=='eps' || user.username=='stintlexp'){ %>
                                                 <input class="form-select" name="consignorState" list="consignorStatelist" id="consignorState" required>
                                                 <datalist id="consignorStatelist">       
                                                     <% stateList.forEach(state => { %>
                                                     <option value="<%= state %>"><%= state %></option>
                                                     <% }) %>                                                                             
                                                 </datalist>                                                      
-                                                <%}%>                                                   
+                                                <%}else{%>
+                                                <input class="form-control" name="consignorState" id="consignorState" type="text" required/>
+                                                <%}%>                                                                                                   
                                             </div>
                                         </div>
                                     </div>
@@ -329,6 +329,13 @@
                                                 <label for="consigneeCity">State<span>*</span></label>
                                                 <%if(user.username=='eps'){%>
                                                 <input class="form-control" name="consigneeState" value="UK" id="consigneeState" type="text" required/>
+                                                <%}else if(user.username=='stintlexp'){%>
+                                                <input class="form-select" name="consigneeState" list="consigneeStatelist" id="consigneeState" required>
+                                                <datalist id="consigneeStatelist">       
+                                                    <% stateList.forEach(state => { %>
+                                                    <option value="<%= state %>"><%= state %></option>
+                                                    <% }) %>                                                                             
+                                                </datalist>
                                                 <%}else{%>                     
                                                 <input class="form-control" name="consigneeState" id="consigneeState" type="text" required/>
                                                 <%}%>                                        
