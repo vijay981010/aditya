@@ -41,15 +41,15 @@
                 <%if(user.admin.accessRight.includes('services')){%>
                 <a href="/services/list" class="btn btn-primary mr-3">Rate Checker</a>  
                 <%}           
-                }%>
-                <%if(user.role=='admin' && user.settings.autoHsn==true || user.role=='client' && user.admin.clientSettings.autoHsn==true){%>
-                <a href="/orders/hsn/list" class="btn btn-primary mr-3">HSN Codes</a>
-                <%}%>
+                }%>                
                 <%if(user.role=='admin'){%> 
                 <button id="orderExport" class="btn btn-primary mr-3">Export</button>  
                 <a href="/orders/search/archive" class="btn btn-primary mr-3">Archive</a>                 
                 <button id="getTrackStatus" class="btn btn-primary mr-3">Status</button>
-                <%}%>                                              
+                <%}%>       
+                <%if(user.role=='admin' && user.settings.autoHsn==true || user.role=='client' && user.admin.clientSettings.autoHsn==true){%>
+                <a href="/orders/hsn/list" class="btn btn-primary mr-3">HSN Codes</a>
+                <%}%>                                       
             </div>            
         </header>
     </div> 

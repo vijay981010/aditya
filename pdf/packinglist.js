@@ -15,7 +15,7 @@ const toWords = new ToWords({
   }
 })
 
-exports.generatePackingListPdf = (doc, order, itemArr, boxArr, totArr) => {
+exports.generatePackingListPdf = (doc, order, itemArr, boxArr, totArr, commons) => {
     doc.info['Title'] = `packinglist${order.awbNumber}` //TITLE TO PDF//
 
     //REGISTER FONTS//
@@ -86,7 +86,7 @@ exports.generatePackingListPdf = (doc, order, itemArr, boxArr, totArr) => {
   //TITLE AND PAGE NUMBER//
   function title(){
       doc.font('bold').fontSize(fs3)
-      .text('INVOICE', x-30, y + 7, {width: fullx, align:'center'})
+      .text(`${commons[0].packingListTitle}`, x-30, y + 7, {width: fullx, align:'center'})
 
       doc.font('reg').fontSize(fs)
       .text(`Page No: ${page}`, x-30, y-15, {width: fullx, align:'center'})

@@ -1185,6 +1185,9 @@ exports.packingList = async(req, res, next) => {
 
         let order = await Order.findById(orderId).populate('client').exec() 
         
+        const commons = await db.collection('commons').find().toArray()  
+        console.log(commons)      
+        
         //GET USER
         let userId = req.user.id
         let user = await User.findById(userId).populate('admin').select('role settings clientSettings')
@@ -1222,7 +1225,7 @@ exports.packingList = async(req, res, next) => {
             let workbook = new ExcelJs.Workbook() 
             
             //generatePackingList(workbook, order, compData)
-            generatePackingList(workbook, order, itemArr, boxArr, totArr)
+            generatePackingList(workbook, order, itemArr, boxArr, totArr, commons)
 
             res.setHeader("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
             res.setHeader("Content-Disposition",`attachment; filename=packinglist_${order.awbNumber}.xlsx`)
@@ -1237,7 +1240,7 @@ exports.packingList = async(req, res, next) => {
                 autoFirstPage: false    
             })
 
-            generatePackingListPdf(doc, order, itemArr, boxArr, totArr)
+            generatePackingListPdf(doc, order, itemArr, boxArr, totArr, commons)
 
             res.setHeader('Content-type', 'application/pdf')
             res.set({ 'Content-Disposition': `inline; filename=packinglist_${order.awbNumber}.pdf` })
