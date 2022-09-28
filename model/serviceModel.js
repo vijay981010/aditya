@@ -31,7 +31,7 @@ const serviceSchema = new Schema({
         type: String,
         trim: true,
     },
-    category: String,    
+    //category: String,    
     serviceFsc:{
         type: Number,
     },
@@ -43,10 +43,10 @@ const serviceSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'User'
     },
-    client: {
+    client: [{
         type: Schema.Types.ObjectId,
         ref: 'User'
-    }
+    }]
 }, { timestamps: true })
 
 

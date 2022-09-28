@@ -1,18 +1,18 @@
 <div class="card-body">                  
     <div class="row">
-        <div class="col-md-2">
+        <div class="col-md-4">
             <div class="form-group">                    
                 <label for="serviceCode">Service Code<span>*</span></label>                                                                               
                 <input class="form-control text-uppercase" name="serviceCode" value="<%= service.serviceCode %>" type="text" minlength="5" maxlength="5" required/>                            
             </div>
         </div>            
-        <div class="col-md-6">
+        <div class="col-md-8">
             <div class="form-group">                    
                 <label for="displayName">Display Name<span>*</span></label>                                                                               
                 <input class="form-control" name="displayName" value="<%= service.displayName %>" type="text" required/>                            
             </div>
         </div>
-        <div class="col-md-4">
+        <!-- <div class="col-md-4">
             <div class="form-group">
                 <div class="form-group">
                     <label for="serviceFsc">Category<span>*</span></label>
@@ -23,11 +23,11 @@
                     </select>
                 </div>                
             </div>
-        </div>
+        </div> -->
     </div>
         
     <div class="row">
-        <div class="col-md-4">
+        <!-- <div class="col-md-4">
             <input type="hidden" name="admin" value="<%= user._id %>">
             <label for="clientId">Client<span>*</span></label> 
             <select class="form-select" name="client" id="client" required disabled>
@@ -36,14 +36,14 @@
                     <option value="<%= client._id %>"><%= client.username %></option>
                 <% }) %>
             </select>
-        </div>
-        <div class="col-md-2">
+        </div> -->
+        <div class="col-md-4">
             <div class="form-group">
                 <label for="serviceFsc">FSC (In Percent)</label>                                                                               
                 <input class="form-control" name="serviceFsc" value="<%= service.serviceFsc ? service.serviceFsc : 0%>" type="number" step="0.01"/>
             </div>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-4">
             <div class="form-group">
                 <label for="serviceGst">GST</label>  
                 <select class="form-select" name="serviceGst" required>
@@ -59,6 +59,45 @@
                 <input type="file" class="form-control-file" name="uploaded_file" accept='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel' required>                            
             </div>        
         </div>
+    </div>
+
+    <div class="row">                                                                           
+        <div class="col-md-6">                        
+            <div class="form-group">
+                <label for="order">Select Client</label><br>    
+                <input type="hidden" name="admin" value="<%= user._id %>">                                                                     
+                <select class="form-select" id="client">                                  
+                    <% clientList.forEach(client => { %>                        
+                        <option value="<%= client.username %>" data-id="<%= client._id %>"><%= client.username %></option>
+                    <% }) %>                  
+                </select>                            
+            </div>    
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="actionClient">Action</label><br>                                                                         
+                <button class="btn btn-primary btn-block" id="actionClient">Add Client</button>
+            </div>
+        </div> 
+        <div class="row">                        
+            <table class="table table-bordered table-responsive-sm" id="clientTable">                            
+                    <tr>
+                        <td><label for='client'>Client Name</label></td>                                                                                                        
+                        <td><label for='clientRemove'>Action</label></td>
+                    </tr>
+                    <% if(service.client.length > 0) {  
+                        service.client.forEach((client, i) => { %>
+                        <tr id="r<%= i+100 %>">                                                
+                            <td>
+                                <input type='text' class='form-control text-center' value="<%= client.username %>" readonly>
+                                <input type="hidden" name="client[]" value="<%= client._id %>"> 
+                            </td>
+                            <td><button class="btn btn-danger removeClient"><i class="fa fa-minus-circle"></i></button></td>
+                        </tr>                                
+                    <% })
+                    } %>                          
+            </table>                    
+        </div>                                               
     </div>
                                                                      
 </div>

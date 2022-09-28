@@ -5,6 +5,15 @@
 <!-- include header -->
 <%- include('../include/_navbar') %>
 <!-- /include header -->
+
+<!-- include client list modal -->
+<%- include('../service/modal/clientList') %>
+<!-- include client list modal -->
+
+<!-- include zone list modal -->
+<%- include('../service/modal/zoneList') %>
+<!-- include zone list modal -->
+
 <div class="container-fluid mb-5"> 
     
     <div class="container-fluid">
@@ -80,12 +89,14 @@
             <thead>
                 <tr>
                     <th>Code</th>
-                    <th>Client</th>
+                    <!-- <th>Client</th> -->
                     <th>Name</th>
                     <th>FSC</th>
-                    <th>Zone List</th>
+                    <!-- <th>Zone List</th> -->
                     <th>Created At</th>
-                    <th>Updated At</th>                                      
+                    <th>Updated At</th>   
+                    <th>Action</th>
+                    <th>Action</th>                                   
                     <th>Action</th>       
                     <th>Action</th>                
                 </tr>
@@ -94,19 +105,23 @@
                 <% serviceList.slice().reverse().forEach(service => { %> 
                     <tr>
                     <td><%= service.serviceCode %></td>  
-                    <td><%= service.client ? service.client.username : service.category %></td>              
+                    <!-- <td><% service.client.forEach(client => { %>
+                        <%= client.username %>,
+                    <% }) %></td> -->              
                     <td><%= service.displayName %></td>
                     <td><%= service.serviceFsc %></td>
-                    <td>
+                    <!-- <td>
                         <% service.zone.forEach(zone => { %>
                         <%= zone.zoneName %>
                         <a href="" data-toggle="tooltip" title="<%= zone.countries %>">
                             <span class="text-gradient"><i class="fa fa-info-circle"></i></span>
                         </a>,
                         <% }) %>
-                    </td>
+                    </td> -->
                     <td><%= moment(service.createdAt).format(shortDateFormat) %></td>
-                    <td><%= moment(service.updatedAt).format(shortDateFormat) %></td>                
+                    <td><%= moment(service.updatedAt).format(shortDateFormat) %></td>      
+                    <td><button class="btn-sm btn-primary clientList" data-srv="<%= service.displayName %>" data-id="<%= service._id %>">View Clients</button></td>   
+                    <td><button class="btn-sm btn-primary zoneList" data-srv="<%= service.displayName %>" data-id="<%= service._id %>">View Zones</button></td>          
                     <td><a class="btn-sm btn-primary" href="/services/<%= service._id %>">Edit</a></td>
                     <td>
                         <div class="dropdown">
@@ -135,3 +150,5 @@
 <!-- /include footer -->
 
 <script src = "/js/rateChecker.js"></script>     
+<script src = "/js/service/clientList.js"></script>
+<script src = "/js/service/zoneList.js"></script>

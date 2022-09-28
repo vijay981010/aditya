@@ -56,14 +56,39 @@
         })
     }
 
-/* function roundToFive(num){
-    let roundNum = Math.floor(num)
-    let deciDigit = (num - roundNum).toFixed(1)
-    if(deciDigit == 0.5 || deciDigit == 0){ // equals to 0.5 or 0
-      return num
-    }else if(deciDigit < 0.5){ // less than 0.5
-      return Math.round(num) + 0.5   
-    }else if(deciDigit > 0.5){  //greater than 0.5
-      return Math.ceil(num)
+    
+    var clientId = 0 
+
+    $('#actionClient').on('click', addClientRow)
+    $(document).on('click', '.removeClient', removeClientRow)
+
+    function addClientRow(e){
+        e.preventDefault()        
+        let clientName = document.getElementById('client').value
+        let client_id = $('#client').find(':selected').attr('data-id')                
+        
+        $('#clientTable')
+        .append(`<tr id="r${clientId++}">                       
+            <td>
+                <input type='text' class='form-control text-center' name='clientName[]' value="${clientName}" readonly>
+                <input type='hidden' class='form-control text-center' name='client[]' value="${client_id}">
+            </td>                    
+            <td><button class="btn btn-danger removeClient"><i class="fa fa-minus-circle"></i></button></td>
+            </tr>`)                                 
     }
-  } */
+
+    function removeClientRow(event){
+        event.preventDefault()                
+        var child = $(this).closest('tr').nextAll()
+
+        child.each(function () {                
+            var id = $(this).attr('id')
+            var dig = parseInt(id.substring(1))
+            $(this).attr('id', `r${dig - 1}`)
+        })
+            
+        $(this).closest('tr').remove()              
+        clientId--                     
+    }
+    
+    

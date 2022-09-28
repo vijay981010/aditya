@@ -7,11 +7,14 @@ var excelToJson = require('convert-excel-to-json')
 const mongoose = require('mongoose')
 const ExcelJs = require('exceljs')
 const {getService} = require('../excel/service')
+const debug = require('debug')
 
 const db = mongoose.connection
 
 exports.list = async(req, res, next) => {
     try{
+        const debugFunc = ('c_app: serviceList') //DEBUG//
+
         let userId = req.user.id
         const user = await User.findById(userId).populate({path: 'admin', select: 'username'})
 
@@ -20,9 +23,16 @@ exports.list = async(req, res, next) => {
         let zonePop = {path: 'zone', select: 'zoneName countries'}
         let clientPop = {path: 'client', select: 'username'}
         let filter = {admin: userId}
-        if(user.role=='client') filter = {$or: [{client: userId}, {admin: user.admin._id, category:'common'}]}
-
+        if(user.role=='client') filter = {$and: [{client: {$in: [userId]}}, {admin: user.admin._id}]}
+        
         const serviceList = await Service.find(filter).sort({updatedAt: 'asc'}).populate(zonePop).populate(clientPop)
+        
+        const clientList = serviceList.map(service => {
+            return service.client.map(e => {
+                return e.username
+            })
+        })
+                        
         res.render('service/list', {user, countries, serviceList}) 
     }catch(err){
         next(err)
@@ -31,8 +41,7 @@ exports.list = async(req, res, next) => {
 
 exports.form = async(req, res, next) => renderServiceForm(req, res, next)
 
-exports.checkFile = async (req, res, next) => {
-    let debug = require('debug')('c_app: checkFile')
+exports.checkFile = async (req, res, next) => {    
     
     //1.GET FILEPATH AND INITIALIZE ERROR OBJECT
     let filePath = __dirname + '/uploads/' + req.file.filename 
@@ -60,10 +69,17 @@ exports.checkFile = async (req, res, next) => {
 
 exports.processService = async(req, res, next) => {
     try{
-        let debug = require('debug')('c_app: createService') //DEBUG//
+        const debugFunc = debug('c_app: clientInfo') //DEBUG//
         
         //GET FORM DATA//
-        let {serviceCode, displayName, serviceGst, serviceFsc, admin, client, category} = req.body
+        let {serviceCode, displayName, serviceGst, serviceFsc, admin, client} = req.body        
+        debugFunc(client)
+
+        //IF NO CLIENT SELECTED RETURN ERROR
+        if(!client) return renderServiceForm(req, res, next, [{msg: `Please select atleast one client`, id: 'FORM ERROR'}])
+
+        //REMOVE DUPLICATES FROM CLIENT
+        client = [...new Set(client)]
 
         //PARSE SERVICE GST//
         serviceGst = JSON.parse(serviceGst)
@@ -145,7 +161,7 @@ exports.processService = async(req, res, next) => {
         //debug(finalArr)       
 
 //WRITE TO DB//
-        let obj = {serviceCode, displayName, serviceFsc, serviceGst, zone: finalArr, admin, client, category}        
+        let obj = {serviceCode, displayName, serviceFsc, serviceGst, zone: finalArr, admin, client}        
 
         if(req.params.serviceId){
             await Service.findByIdAndUpdate(req.params.serviceId, obj)
@@ -225,6 +241,47 @@ exports.serviceExport = async(req, res, next) => {
     }
 }
 
+exports.clientList = async(req, res, next) => {
+    try{
+        const debugFunc = debug('c_app: clientList')               
+
+        //GET SERVICE ID
+        const { serviceId } = req.params
+
+        //GET SERVICE DETAILS        
+        let clientPop = {path: 'client', select: 'username'}                       
+        const serviceList = await Service.findById(serviceId).select('client').populate(clientPop)
+        debugFunc(serviceList)                
+
+        const clientList = serviceList.client.map(e => e.username)
+        debugFunc(clientList)
+
+        //RESPONSE
+        res.status(200).json(clientList)
+    }catch(err){
+        next(err)
+    }
+}
+
+exports.zoneList = async(req, res, next) => {
+    try{
+        const debugFunc = debug('c_app: zoneList')               
+
+        //GET SERVICE ID
+        const { serviceId } = req.params
+
+        //GET SERVICE DETAILS                                     
+        const serviceList = await Service.findById(serviceId).select('zone')
+        const zoneList = serviceList.zone.map(item => ({ zoneName: item.zoneName, countries: item.countries }))
+        debugFunc(zoneList)                        
+
+        //RESPONSE
+        res.status(200).json(zoneList)
+    }catch(err){
+        next(err)
+    }
+}
+
 
 async function renderServiceForm(req, res, next, alert){
     try{
@@ -242,7 +299,7 @@ async function renderServiceForm(req, res, next, alert){
         //RENDER INFO FOR UPDATE SERVICE//
         if(req.params.serviceId){
             let serviceId = req.params.serviceId
-            let serviceFields = 'serviceCode serviceGst category displayName serviceFsc'
+            let serviceFields = 'serviceCode serviceGst displayName serviceFsc'
             let clientPop = {path: 'client', select: 'username'}
             const service = await Service.findById(serviceId).populate(clientPop).select(serviceFields)
             renderData = { user, clientList, service }
