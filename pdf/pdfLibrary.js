@@ -18,4 +18,7 @@ exports.getEvenNumbers = (num) => {
 exports.removeNextLine = (strValue) => {
     strValue = strValue.split('\r')
     return strValue.join(" ")
+    // const regEx = /[\r|/]/g
+    // return str.replace(regEx, " ")
+  
 }

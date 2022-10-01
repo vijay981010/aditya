@@ -111,6 +111,8 @@ router.patch('/:orderId/bill', verifyToken, authorizeRole(['admin', 'superadmin'
 
 router.get('/track/details', cors(), orderController.trackDetails)
 
+router.get('/:orderId/email', verifyToken, authorizeRole(['admin']), authorizeResource, orderController.sendEmailNotification)
+
 
 
 

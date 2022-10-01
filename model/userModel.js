@@ -81,6 +81,14 @@ const userSchema = new Schema({
         type: String,
         trim: true
     },
+    signature: {
+        type: String,
+        trim: true
+    },
+    emailCompanyText: {
+        type: String,
+        trim: true
+    },
     status: {
         type: String,
         enum: ['active', 'inactive']
@@ -104,7 +112,8 @@ const userSchema = new Schema({
         preferredVendor: Boolean,
         noTaxColumn: Boolean, 
         coforwarder: Boolean,
-        packingListBoxNo: Boolean
+        packingListBoxNo: Boolean,
+        emailNotifications: Boolean
     },    
     clientSettings:{
         manualAwbOption: Boolean,
@@ -118,7 +127,8 @@ const userSchema = new Schema({
         preferredVendor: Boolean,
         noTaxColumn: Boolean,
         coforwarder: Boolean,
-        packingListBoxNo: Boolean     
+        packingListBoxNo: Boolean,
+        emailNotifications: Boolean     
     },
     awbSettings:{
         title: {

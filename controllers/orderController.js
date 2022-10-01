@@ -8,7 +8,7 @@ const axios = require('axios')
 const mongoose = require('mongoose');
 const {vendorArray, stateList, cityList, linkedVendorArray} = require('../fixedData/vendors')
 const {processRequest, sortBoxItem, getDates, 
-    regexUpperCase, getPrefix, getXthDay} = require('../helpers/helpers')
+    regexUpperCase, getPrefix, getXthDay, sendOrderNotification} = require('../helpers/helpers')
 const PDFdocument = require('pdfkit')
 const {generateAwb} = require('../pdf/awb')
 const {boxstickergenerate} = require('../pdf/boxsticker')
@@ -940,12 +940,29 @@ exports.patchBillPage = async (req, res) => {
     }
 }
 
-exports.patchBill = async (req, res) => {
+exports.patchBill = async (req, res, next) => {
     try{
         //res.json(req.body)
+        let debug = require('debug')('c_app: patchBill')
         let orderId = req.params.orderId
 
         let {baseRate, brGst, fuelSurcharge, fsGst, title, amount, gst, totalBill} = req.body
+
+        //GET CLIENT EMAIL AND AWB NUMBER
+        const clientInfo = await Order.findById(orderId).select('client awbNumber').populate({path: 'client', select: 'email contactName'}) 
+        
+        let { client : { email, contactName }, awbNumber } = clientInfo       
+        if(email == '') email = 'hello@pebbletech.in'
+        if(contactName == '') contactName = 'Shipper'
+
+        const receiver = [email]                        
+
+        //CREATE EMAIL NOTIF SUBJECT AND TEXT
+        const subject = `Bill Updation Notification`
+        const html = `<p>Dear ${contactName}</p><br>
+            <p>Bill for AWB No: ${awbNumber} has been computed. The amount is ${totalBill}</p>`
+
+        debug(html)
 
         let chargeArr = []        
 
@@ -962,7 +979,65 @@ exports.patchBill = async (req, res) => {
 
         await Order.findByIdAndUpdate(orderId, patchObj)
 
+        //await sendOrderNotification(receiver, subject, html)
+
         res.redirect('/orders/orderlist')
+
+    }catch(err){
+        next(err)
+    }
+}
+
+exports.sendEmailNotification = async(req, res, next) => {
+    try{
+        let debug = require('debug')('c_app: sendEmailNotificaton')
+
+        const userId = req.user.id
+        const orderId = req.params.orderId
+
+        //GET ORDER INFO
+        const fields = 'awbNumber preferredVendor trackingNumber consignor consignee destination totalBill client consignorEmail'
+        const orderInfo = await Order.findById(orderId).select(fields).populate({path: 'client', select: 'email username'})        
+        debug(orderInfo)
+        
+        //CHECK TRACKING NUMBER AND TOTAL BILL
+        if(!orderInfo.trackingNumber || !orderInfo.totalBill)
+            return res.render('error', {message: `Tracking number or Total Bill not added. Please add before sending email notification`, statusCode: '400'})
+
+        //DESTRUCTURE
+        const {awbNumber, preferredVendor, trackingNumber, consignor, consignee, destination, totalBill, client, consignorEmail} = orderInfo
+
+        //CHECK CLIENT EMAIL AND MISCELLANEOUS USER
+        let { email, username } = client       
+        
+        if(username == 'Miscellaneous') email = consignorEmail
+        if(email == '') email = 'hello@pebbletech.in' 
+        
+        debug(email)
+        
+        //GET ADMIN INFO
+        let adminInfo = await User.findById(userId).select('signature emailCompanyText')
+        let {signature, emailCompanyText} = adminInfo
+        signature = signature.split('//').join("")        
+                
+        //CREATE EMAIL CONTENT
+        const content = `<p>Hi,</p>
+        <p>Your order <b>${awbNumber}</b> is ready for dispatch through ${preferredVendor} with forwarding No ${trackingNumber} 
+        from <b>${emailCompanyText}</b> - <b>${consignor} TO  ${consignee}</b></p>
+        <p>FOR <b>${destination}</b></p>
+        <p>Here is your receipt.</p>
+        <p><b>Total Courier Amount: Rs. ${totalBill}/- </b></p>`
+
+        //APPEND SIGNATURE
+        const html = `${content}${signature}`
+        //debug(html)        
+
+        const receiver = [email] 
+        const subject = 'Order Booking Notification'       
+
+        await sendOrderNotification(receiver, subject, html)
+
+        res.status(200).render('success', {message: `Email Sent Successfully`, statusCode: '200'})
 
     }catch(err){
         next(err)

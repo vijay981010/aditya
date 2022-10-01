@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken')
 const Invoice = require('../model/invoiceModel')
 const Manifest = require('../model/manifestModel')
 const Walkin = require('../model/walkinModel')
+const nodemailer = require("nodemailer")
 
 exports.verifyToken = (req, res, next) => {    
     const token = req.cookies.coapp     
@@ -216,4 +217,35 @@ exports.getXthDay = (date, gapInDays) => {
         if(!order.chargeableWeight) count++
     })
     return count
+}
+
+// ------------------------------------- SEND EMAIL FUNCTION -------------------------------------- //
+
+ exports.sendOrderNotification = async(receiver, subject, html) => {
+    let debug = require('debug')('c_app: sendOrderNotification')
+
+    //CONVERT RECEIVER OBJECT VALUES TO STRING
+    const receiverList = receiver.join(",")
+    
+    let transporter = nodemailer.createTransport({
+        host: "smtp.gmail.com",
+        port: 465,                
+        auth: {
+            user: "infoexpic@gmail.com",
+            pass: "ghxugykcmuqjntcl", 
+        }
+    })
+
+    let msg = {
+        from: "infoexpic@gmail.com",
+        to: receiverList,
+        subject: subject, // Subject line
+        html: html, // plain text body
+        //html: "<b>Hello world?</b>", // html body
+    }
+
+    //send mail with defined transport object
+    let info = await transporter.sendMail(msg)
+
+    debug("Message sent: %s", info.messageId)
 }
