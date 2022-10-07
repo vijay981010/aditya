@@ -48,11 +48,19 @@ function getOrder(param){
                         <a class="dropdown-item" href="${environment.baseurl}/orders/${data._id}/bill">Bill Details</a>
                         </div></div></td>`
 
+                    let action2 = `<td><div class="dropdown">
+                    <a href="" class="btn-sm btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="text-gradient"><i class="fas fa-print btn-primary-dark"></i></span>
+                    </a>                    
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">                                               
+                    <a class="dropdown-item" href="${environment.baseurl}/orders/${data._id}/print/awb" target="_blank">Accounts/Consignor AWB Copy</a>
+                    <a class="dropdown-item" href="${environment.baseurl}/orders/${data._id}/print/packinglist/pdf" target="_blank">Packing List</a>
+                    </div></div></td>`
                     
                 
                     $('#archiveTable').append(`<tbody><tr class='archivedOrder'><td>${data.bookingDate}</td><td>${data.awbNumber}</td>
                     <td>${data.trackingStatus}</td><td>${clientName}</td><td>${data.consignor}</td><td>${data.consignee}</td>
-                    ${action}<td>${data.origin}</td><td>${data.destination}</td><td>${data.numberOfBoxes}</td><td>${data.chargeableWeight}</td>
+                    ${action}${action2}<td>${data.origin}</td><td>${data.destination}</td><td>${data.numberOfBoxes}</td><td>${data.chargeableWeight}</td>
                     <td>${data.trackingNumber}</td><td>${data.vendorName}</td></tr></tbody>`)
                 })
             }                        
