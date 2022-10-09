@@ -33,6 +33,9 @@ const invoiceSchema = new Schema({
     totalAwbs: {
         type: Number,
     },
+    gstType: {
+        type: String,
+    },
     client:{
         type: Schema.Types.ObjectId,
         ref: 'User',

@@ -25,7 +25,7 @@
                         <div class = "row">
                             <div class="col-md-6">
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <input type = 'hidden' name="admin" value="<%= user._id %>">
                                             <label for="username">Customer<span>*</span></label>
@@ -37,10 +37,19 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <div class="form-group">                
                                             <label for="invoiceDate">Invoice Date<span>*</span></label>                                                                               
                                             <input class="form-control inputDate" name="invoiceDate" required/>                            
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">                
+                                            <label for="gstType">GST Type<span>*</span></label>                                                                                                                           
+                                            <select class="form-select" name="gstType" required> 
+                                                <option value="cgst">SGST/CGST</option>                   
+                                                <option value="igst" selected>IGST</option>                   
+                                            </select>                            
                                         </div>
                                     </div>
                                 </div>

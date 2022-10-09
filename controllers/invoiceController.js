@@ -27,7 +27,7 @@ exports.invoiceGenerate = async(req, res, next) => {
         let debug = require('debug')('c_app: invoiceGenerate')
 
         let {admin, client, invoiceNumber, invoiceDate,
-        invoiceStartDate, invoiceEndDate, note} = req.body                     
+        invoiceStartDate, invoiceEndDate, note, gstType} = req.body                     
         
         //GET ARRAY OF DATE RANGE//
         let dateArray = getDates(new Date(invoiceStartDate), new Date(invoiceEndDate))
@@ -65,7 +65,7 @@ exports.invoiceGenerate = async(req, res, next) => {
         //CREATE INVOICE OBJECT TO WRITE TO DB//
         let invoiceObj = {
             admin, client, invoiceNumber, invoiceDate, invoiceStartDate, invoiceEndDate, note,
-            totalAmount, totalWeight, totalAwbs: orders.length
+            totalAmount, totalWeight, totalAwbs: orders.length, gstType
         }
 
         let invoice = new Invoice(invoiceObj)
@@ -85,7 +85,7 @@ exports.invoicePdf = async(req, res, next) => {
         let userId = req.user.id //
         
         //GET INVOICE DETAILS//
-        let invoiceFields = 'invoiceNumber invoiceStartDate invoiceEndDate totalAmount invoiceDate note'
+        let invoiceFields = 'invoiceNumber invoiceStartDate invoiceEndDate totalAmount invoiceDate note gstType'
         let invoice = await Invoice.findById(invoiceId).populate('client').populate('admin').select(invoiceFields)
 
         //GET USER DETAILS//

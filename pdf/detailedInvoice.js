@@ -284,8 +284,8 @@ function footerDetails(doc, user, current, total){
 // ------------------------------------------------------------------------------- //
 
 function summ(doc, user, invoice, compData){
-    let x3 = 480/* 680 */, x2 = 396/* 560 */, y = 723/* 490 */
-    let margin = 30, g=18
+    let x3 = 480/* 680 */, x2 = 396/* 560 */, y = 723, y2 = 729/* 490 */
+    let margin = 30, g=18, g2 = 15
     let onethird = 198/* 281 */, full = 595/* 842 */
     let fs = 9/* 12 */, rx1 = 425/* 640 */, rw1 = 155/* 195 */, rw2 = /* 155 */109, rm = 5/* 7 */
 
@@ -322,9 +322,22 @@ function summ(doc, user, invoice, compData){
 
     //TITLES OF TOTAL AMOUNT IN FIGURES//
     doc
-    .font('Helvetica-Bold').fontSize(fs).fill('black')    
-    .text('Sub-Total', x3-margin, y+g, leftAlign)
-    .text('IGST(@18%)', x3-margin, y+(2*g), leftAlign)
+    .font('Helvetica-Bold').fontSize(fs).fill('black') 
+    
+    if(invoice.gstType == 'igst' || !invoice.gstType){
+        doc
+        .text('Sub-Total', x3-margin, y+g, leftAlign)
+        .text('IGST(@18%)', x3-margin, y+(2*g), leftAlign)
+    }
+
+    if(invoice.gstType == 'cgst'){
+        doc
+        .text('Sub-Total', x3-margin, y2, leftAlign)
+        .text('CGST(@9%)', x3-margin, y2+g2, leftAlign)
+        .text('SGST(@9%)', x3-margin, y2+(2*g2), leftAlign)
+    }
+            
+    doc
     .text('Total Amount(in Words)', 30, y+(2*g), {width: 842, height:15, align: 'left'})
         
     .font('Helvetica-Bold').fontSize(fs).fill('white') 
@@ -335,10 +348,22 @@ function summ(doc, user, invoice, compData){
 
     //VALUES OF TOTAL AMOUNT IN FIGURES//
     doc
-    .font('Helvetica').fontSize(fs).fill('black')    
-    .text(subTotal.toFixed(2), x2-margin, y+g, rightAlign)
-    .text(compData.totalTax.toFixed(2), x2-margin, y+(2*g), rightAlign)
+    .font('Helvetica').fontSize(fs).fill('black') 
+    
+    if(invoice.gstType == 'igst' || !invoice.gstType){
+        doc
+        .text(subTotal.toFixed(2), x2-margin, y+g, rightAlign)
+        .text(compData.totalTax.toFixed(2), x2-margin, y+(2*g), rightAlign)
+    }
 
+    if(invoice.gstType == 'cgst'){
+       doc
+       .text(subTotal.toFixed(2), x2-margin, y2, rightAlign)
+       .text((compData.totalTax/2).toFixed(2), x2-margin, y2+g2, rightAlign)
+       .text((compData.totalTax/2).toFixed(2), x2-margin, y2+(2*g2), rightAlign)
+    }
+        
+    doc
     .font('Helvetica-Bold').fontSize(fs).fill('white')
     .text(compData.totalBill, x2-margin, y+(3*g), rightAlign)
     
