@@ -113,6 +113,8 @@ router.get('/track/details', cors(), orderController.trackDetails)
 
 router.get('/:orderId/email', verifyToken, authorizeRole(['admin']), authorizeResource, orderController.sendEmailNotification)
 
+router.get('/:orderId/whatsapp', verifyToken, authorizeRole(['admin']), authorizeResource, orderController.sendWhatsappNotification)
+
 
 
 

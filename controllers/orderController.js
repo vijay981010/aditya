@@ -25,6 +25,7 @@ const logger = require('../helpers/logger')
 const ExcelJs = require('exceljs')
 const {generatePackingList} = require('../excel/packingList')
 const {generateOrderExport} = require('../excel/orderExport')
+const wbm = require('wbm')
 
 
 const db = mongoose.connection;
@@ -986,6 +987,24 @@ exports.patchBill = async (req, res, next) => {
     }catch(err){
         next(err)
     }
+}
+
+exports.sendWhatsappNotification = async(req, res, next) => {
+    wbm.start({showBrowser: true, qrCodeData: true, session: true})
+        .then(async qrCodeData => {
+            console.log(qrCodeData); // show data used to generate QR Code
+            await wbm.waitQRCode();
+            // waitQRCode() is necessary when qrCodeData is true
+            // ...
+            //const phones = ['917400113067']
+            //const message = 'Good Morning.'
+            //await wbm.send(phones, message)
+            await wbm.sendTo('917400113067', 'Hey man')
+
+            await wbm.end();
+
+            res.send('done')
+        } ).catch(err => { console.log(err); })
 }
 
 exports.sendEmailNotification = async(req, res, next) => {
