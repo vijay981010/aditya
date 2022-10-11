@@ -290,7 +290,7 @@ function summ(doc, user, invoice, compData){
     let fs = 9/* 12 */, rx1 = 425/* 640 */, rw1 = 155/* 195 */, rw2 = /* 155 */109, rm = 5/* 7 */
 
     if(user.invoiceSettings.layout == 'landscape'){
-        x3 = 680, x2 = 560, y = 490, onethird = 281, full = 842
+        x3 = 680, x2 = 560, y = 490, y2 = 496, onethird = 281, full = 842
         fs = 12, rx1 = 640, rw1 = 195, rw2 = 109, rm = 7
     }
 
@@ -331,6 +331,8 @@ function summ(doc, user, invoice, compData){
     }
 
     if(invoice.gstType == 'cgst'){
+        console.log("x", x3-margin, "y", y2)
+        
         doc
         .text('Sub-Total', x3-margin, y2, leftAlign)
         .text('CGST(@9%)', x3-margin, y2+g2, leftAlign)

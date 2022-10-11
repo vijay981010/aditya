@@ -25,7 +25,6 @@ const logger = require('../helpers/logger')
 const ExcelJs = require('exceljs')
 const {generatePackingList} = require('../excel/packingList')
 const {generateOrderExport} = require('../excel/orderExport')
-const wbm = require('wbm')
 
 
 const db = mongoose.connection;
@@ -990,21 +989,21 @@ exports.patchBill = async (req, res, next) => {
 }
 
 exports.sendWhatsappNotification = async(req, res, next) => {
-    wbm.start({showBrowser: true, qrCodeData: true, session: true})
-        .then(async qrCodeData => {
-            console.log(qrCodeData); // show data used to generate QR Code
-            await wbm.waitQRCode();
-            // waitQRCode() is necessary when qrCodeData is true
-            // ...
-            //const phones = ['917400113067']
-            //const message = 'Good Morning.'
-            //await wbm.send(phones, message)
-            await wbm.sendTo('917400113067', 'Hey man')
+    // wbm.start({showBrowser: true, qrCodeData: true, session: true})
+    //     .then(async qrCodeData => {
+    //         console.log(qrCodeData); // show data used to generate QR Code
+    //         await wbm.waitQRCode();
+    //         // waitQRCode() is necessary when qrCodeData is true
+    //         // ...
+    //         //const phones = ['917400113067']
+    //         //const message = 'Good Morning.'
+    //         //await wbm.send(phones, message)
+    //         await wbm.sendTo('917400113067', 'Hey man')
 
-            await wbm.end();
+    //         await wbm.end();
 
-            res.send('done')
-        } ).catch(err => { console.log(err); })
+    //         res.send('done')
+    //     } ).catch(err => { console.log(err); })
 }
 
 exports.sendEmailNotification = async(req, res, next) => {
@@ -1030,7 +1029,9 @@ exports.sendEmailNotification = async(req, res, next) => {
         let { email, username } = client       
         
         if(username == 'Miscellaneous') email = consignorEmail
-        if(email == '') email = 'hello@pebbletech.in' 
+        if(email == '') return res.render('error', {message: `Email not present. Kindly enter Email`, statusCode: '400'})
+        
+        //email = 'hello@pebbletech.in' 
         
         debug(email)
         
