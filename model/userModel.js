@@ -85,7 +85,19 @@ const userSchema = new Schema({
         type: String,
         trim: true
     },
+    waSignature: {
+        type: String,
+        trim: true
+    },
     emailCompanyText: {
+        type: String,
+        trim: true
+    },
+    senderEmail: {
+        type: String,
+        trim: true
+    },
+    senderPassword: {
         type: String,
         trim: true
     },
@@ -113,7 +125,8 @@ const userSchema = new Schema({
         noTaxColumn: Boolean, 
         coforwarder: Boolean,
         packingListBoxNo: Boolean,
-        emailNotifications: Boolean
+        emailNotifications: Boolean,
+        whatsappNotifications: Boolean
     },    
     clientSettings:{
         manualAwbOption: Boolean,
@@ -128,7 +141,8 @@ const userSchema = new Schema({
         noTaxColumn: Boolean,
         coforwarder: Boolean,
         packingListBoxNo: Boolean,
-        emailNotifications: Boolean     
+        emailNotifications: Boolean,
+        whatsappNotifications: Boolean     
     },
     awbSettings:{
         title: {

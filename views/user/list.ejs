@@ -53,6 +53,7 @@
                 <th>Display Name</th>
                 <th>Last Bill</th>
                 <th>Action</th>
+                <th>Action</th>
                 <% } %>   
                 
                 <th>Status</th>
@@ -80,6 +81,7 @@
                     <td><%= client.displayName %></td>
                     <td><%= client.invoice ? client.invoice.billNumber : '' %></td>
                     <td><a class="btn-sm btn-primary" href="/users/<%= client._id %>/addons">Add Ons</a></td>
+                    <td><a class="btn-sm btn-primary" href="/orders/<%= client._id %>/orderlist">Orders</a></td>
                     <% } %>                    
                                     
                     <% if(client.username != 'Miscellaneous'){ %>                        

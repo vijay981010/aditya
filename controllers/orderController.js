@@ -35,14 +35,15 @@ exports.orderList = async (req, res, next) => {
         let debug = require('debug')('c_app:orderlist')                                      
         let orderlist
 
-        let userId = req.user.id        
-        const user = await User.findById(userId).populate('admin').populate('invoice')  
+        let userId = req.user.id                
+        let user = await User.findById(userId).populate('admin').populate('invoice')  
+        if(user.role == 'superadmin') userId = req.params.userId //IF SUPERADMIN
         debug(user.username)   
         
         
         if(user.role == 'client'){
             orderlist = await Order.find({client: userId}).sort({bookingDate: 'desc', createdAt: 'desc'}).limit(1000)          
-        }else if(user.role == 'admin'){            
+        }else if(user.role == 'admin' || user.role == 'superadmin'){            
             let userlist = await User.find({admin: userId}).select('username')               
             orderlist = await Order.find({client: userlist}).populate('client').sort({bookingDate: 'desc', createdAt: 'desc'}).limit(1000)            
         }
@@ -361,7 +362,7 @@ exports.orderSearchPage = async (req, res, next) => {
 
         let userlist = await User.find({admin: userId}).select('username')        
         let filter = {client: userlist}
-        if(user.role=='client') filter = {client: userId}
+        if(user.role=='client') filter = {client: userId}        
 
         let awblist = await Order.find(filter).select('awbNumber destination')              
         
@@ -988,22 +989,72 @@ exports.patchBill = async (req, res, next) => {
     }
 }
 
+exports.deleteOrder = async (req, res, next) => {
+    try{
+
+        let debug = require('debug')('c_app: deleteOrder')    
+        
+        let id = req.params.orderId              
+        
+        await Order.findByIdAndDelete(id)
+        res.status(200).json({msg: 'success'})
+
+    }catch(err){
+        next(err)
+    }
+}
+
 exports.sendWhatsappNotification = async(req, res, next) => {
-    // wbm.start({showBrowser: true, qrCodeData: true, session: true})
-    //     .then(async qrCodeData => {
-    //         console.log(qrCodeData); // show data used to generate QR Code
-    //         await wbm.waitQRCode();
-    //         // waitQRCode() is necessary when qrCodeData is true
-    //         // ...
-    //         //const phones = ['917400113067']
-    //         //const message = 'Good Morning.'
-    //         //await wbm.send(phones, message)
-    //         await wbm.sendTo('917400113067', 'Hey man')
+    try{
+        let debug = require('debug')('c_app: sendWhatsappNotificaton')
 
-    //         await wbm.end();
+        const userId = req.user.id        
+        const orderId = req.params.orderId
 
-    //         res.send('done')
-    //     } ).catch(err => { console.log(err); })
+        //GET ORDER INFO
+        const fields = 'awbNumber preferredVendor trackingNumber consignor consignee destination totalBill client'
+        const orderInfo = await Order.findById(orderId).select(fields).populate({path: 'client', select: 'contactNumber username'})                
+        
+        //CHECK TRACKING NUMBER AND TOTAL BILL
+        if(!orderInfo.trackingNumber || !orderInfo.totalBill)
+            return res.render('error', {message: `Tracking number or Total Bill not added. Please add before sending whatsapp notification`, statusCode: '400'})
+
+        //DESTRUCTURE
+        const {awbNumber, preferredVendor, trackingNumber, consignor, consignee, destination, totalBill, client} = orderInfo
+
+        //CHECK CLIENT EMAIL AND MISCELLANEOUS USER
+        let { contactNumber, username } = client     
+
+        if(username == 'Miscellaneous') contactNumber = consignorContactNumber
+        if(contactNumber == '') return res.render('error', {message: `Contact Number not present. Kindly enter Contact Number`, statusCode: '400'})
+        
+        //email = 'hello@pebbletech.in' 
+        
+        debug(contactNumber)
+
+        //GET ADMIN INFO
+        let adminInfo = await User.findById(userId).select('waSignature emailCompanyText')
+        let {waSignature, emailCompanyText} = adminInfo
+        //waSignature = waSignature.split('').join("")          
+
+        //CREATE EMAIL CONTENT
+        let content = `Hi,
+        Your order ${awbNumber} is ready for dispatch through ${preferredVendor} with forwarding No ${trackingNumber} from ${emailCompanyText} - ${consignor} TO  ${consignee}
+        
+        FOR ${destination}
+        
+        Here is your receipt.
+        
+        Total Courier Amount: Rs. ${totalBill}/- 
+        
+        ${waSignature}`
+
+        let urlEncoded = encodeURI(content)
+        
+        res.redirect(`https://api.whatsapp.com/send?phone=${contactNumber}&text=${urlEncoded}`)
+    }catch(err){
+        next(err)
+    }    
 }
 
 exports.sendEmailNotification = async(req, res, next) => {
@@ -1036,8 +1087,8 @@ exports.sendEmailNotification = async(req, res, next) => {
         debug(email)
         
         //GET ADMIN INFO
-        let adminInfo = await User.findById(userId).select('signature emailCompanyText')
-        let {signature, emailCompanyText} = adminInfo
+        let adminInfo = await User.findById(userId).select('signature emailCompanyText senderEmail senderPassword')
+        let {signature, emailCompanyText, senderEmail, senderPassword} = adminInfo
         signature = signature.split('//').join("")        
                 
         //CREATE EMAIL CONTENT
@@ -1053,9 +1104,11 @@ exports.sendEmailNotification = async(req, res, next) => {
         //debug(html)        
 
         const receiver = [email] 
-        const subject = 'Order Booking Notification'       
+        const subject = 'Order Booking Notification'    
+        // const user = "infoexpic@gmail.com"
+        // const pass = "ghxugykcmuqjntcl"   
 
-        await sendOrderNotification(receiver, subject, html)
+        await sendOrderNotification(senderEmail, senderPassword, receiver, subject, html)
 
         res.status(200).render('success', {message: `Email Sent Successfully`, statusCode: '200'})
 
@@ -1149,15 +1202,6 @@ exports.searchHistory = async(req, res, next) => {
     res.status(200).json(data) //SEND RESPONSE TO AJAX REQUEST
 }
 
-// ----------------------------------------------------------------------- //
-
-/* exports.deleteOrder = async (req, res) => {
-    try{
-
-    }catch(err){
-        next(err)
-    }
-} */
 
 // ----------------------------------------------------------------------- //
 

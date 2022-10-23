@@ -29,7 +29,7 @@ let debug = require('debug')('c_app: orderRoute') */
 **/
 router.get('/orderlist', verifyToken, orderController.orderList) 
 
-
+router.get('/:userId/orderlist', verifyToken, orderController.orderList)
 
 
 /**
@@ -112,6 +112,10 @@ router.patch('/:orderId/bill', verifyToken, authorizeRole(['admin', 'superadmin'
 router.get('/track/details', cors(), orderController.trackDetails)
 
 router.get('/:orderId/email', verifyToken, authorizeRole(['admin']), authorizeResource, orderController.sendEmailNotification)
+
+router.get('/:orderId/whatsapp', verifyToken, authorizeRole(['admin']), authorizeResource, orderController.sendWhatsappNotification)
+
+router.delete('/:orderId/delete', verifyToken, authorizeRole(['superadmin']), orderController.deleteOrder)
 
 //router.get('/:orderId/whatsapp', verifyToken, authorizeRole(['admin']), authorizeResource, orderController.sendWhatsappNotification)
 

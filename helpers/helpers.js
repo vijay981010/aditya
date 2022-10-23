@@ -6,15 +6,17 @@ const Manifest = require('../model/manifestModel')
 const Walkin = require('../model/walkinModel')
 const nodemailer = require("nodemailer")
 
-exports.verifyToken = (req, res, next) => {    
+exports.verifyToken = (req, res, next) => {  
+    let debug = require('debug')('c_app:verifyToken') 
+    
     const token = req.cookies.coapp     
-          
+    
     if (!token)              
         return res.status(401).render('error', {message: `A token is required for authentication`, statusCode: '403'})            
     
     try{
-        const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET_KEY) 
-        req.user = decoded
+        const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET_KEY)         
+        req.user = decoded        
     }catch(err){                
         return res.render('error', {message: `Invalid Token`, statusCode: '401'})        
     }
@@ -25,8 +27,9 @@ exports.verifyToken = (req, res, next) => {
 
 exports.authorizeRole = (role) =>{  
     let debug = require('debug')('c_app: authorizeRole')
+    
     return async (req, res, next) => {                      
-        if(role.indexOf(req.user.role) == -1){            
+        if(role.indexOf(req.user.role) == -1){                 
             return res.status(403).render('error', {message: `This page is not availaible for you`, statusCode: '403'})
         }
                     
@@ -221,7 +224,7 @@ exports.getXthDay = (date, gapInDays) => {
 
 // ------------------------------------- SEND EMAIL FUNCTION -------------------------------------- //
 
- exports.sendOrderNotification = async(receiver, subject, html) => {
+ exports.sendOrderNotification = async(user, pass, receiver, subject, html) => {
     let debug = require('debug')('c_app: sendOrderNotification')
 
     //CONVERT RECEIVER OBJECT VALUES TO STRING
@@ -231,13 +234,13 @@ exports.getXthDay = (date, gapInDays) => {
         host: "smtp.gmail.com",
         port: 465,                
         auth: {
-            user: "infoexpic@gmail.com",
-            pass: "ghxugykcmuqjntcl", 
+            user: user,
+            pass: pass, 
         }
     })
 
     let msg = {
-        from: "infoexpic@gmail.com",
+        from: user,
         to: receiverList,
         subject: subject, // Subject line
         html: html, // plain text body

@@ -59,7 +59,7 @@
             <tr>
                 <th>Date</th>
                 <th>AWB</th>                
-                <% if(user.role == 'admin'){ %>
+                <% if(user.role != 'client'){ %>
                     <th>Status</th>                           
                     <th>Client</th>                               
                 <% } %>
@@ -85,15 +85,15 @@
             <% orderlist.forEach(order => { %> 
                 <tr>
                     <td><%= moment(order.bookingDate).format(shortDateFormat) %></td>  
-                    <% if(user.role == 'admin'){ %>
+                    <% if(user.role != 'client'){ %>
                         <td class="cron"><%= order.awbNumber %></td>                        
                      <% }else{ %>
                         <td><%= order.awbNumber %></td>
                     <% } %>                    
-                    <% if(user.role == 'admin'){ %>
+                    <% if(user.role != 'client'){ %>
                     <td id="<%= order.awbNumber %>" class="longText"></td>
                     <% } %>                 
-                    <% if(user.role == 'admin'){ %>                        
+                    <% if(user.role != 'client'){ %>                        
                         <%if(order.miscClients=='' || !order.miscClients){%>
                             <td><%= order.client.username %></td>                                                    
                         <% }else{ %> 
@@ -118,7 +118,13 @@
                                 <% } %>      
                                 <% if(user.settings.emailNotifications==true){ %>
                                 <a class="dropdown-item" href="<%= order._id %>/email">Send Email Notification</a>                                
-                                <%}%>                                                          
+                                <%}%>       
+                                <% if(user.settings.whatsappNotifications==true){ %>
+                                <a class="dropdown-item" href="<%= order._id %>/whatsapp" target="_blank">Send Whatsapp Notification</a>
+                                <%}%>
+                                <% if(user.role=='superadmin'){%>                                
+                                <a class="dropdown-item delete" data-id='<%= order._id %>' data-awb='<%= order.awbNumber %>'>Delete</a>                             
+                                <%}%>                                                   
                             </div>
                         </div>                        
                     </td>
@@ -153,13 +159,13 @@
                     <td><%= order.totalBill %></td>
                     <% } %>                    
                     <td><%= order.trackingNumber %></td>
-                    <% if(user.role == 'admin'){ 
+                    <% if(user.role != 'client'){ 
                          if(order.vendorName == 'OTHERS' || user.trackingType=='linked'){ %>
                             <td><a href="/orders/<%= order._id %>/trackingdetails"><%= order.vendorName %></a></td>
                         <% }else{ %>
                             <td><%= order.vendorName %></td>
                         <% } 
-                     }else if(user.role == 'client'){ %>
+                     }else if(user.role != 'admin'){ %>
                         <td><%= order.vendorName %></td>
                      <% } %>
                 </tr>
@@ -177,4 +183,5 @@
 <script src = "/js/order/flatManifest.js"></script>
 <script src = "/js/order/cashInvoice.js"></script>
 <script src = "/js/order/orderExport.js"></script>
+<script src = "/js/order/deleteOrder.js"></script>
 
