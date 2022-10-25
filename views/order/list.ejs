@@ -122,7 +122,7 @@
                                 <% if(user.settings.whatsappNotifications==true){ %>
                                 <a class="dropdown-item" href="<%= order._id %>/whatsapp" target="_blank">Send Whatsapp Notification</a>
                                 <%}%>
-                                <% if(user.role=='superadmin'){%>                                
+                                <% if(user.role=='superadmin' || user.settings.deleteOrder){%>                                
                                 <a class="dropdown-item delete" data-id='<%= order._id %>' data-awb='<%= order.awbNumber %>'>Delete</a>                             
                                 <%}%>                                                   
                             </div>

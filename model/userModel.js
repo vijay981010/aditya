@@ -126,7 +126,8 @@ const userSchema = new Schema({
         coforwarder: Boolean,
         packingListBoxNo: Boolean,
         emailNotifications: Boolean,
-        whatsappNotifications: Boolean
+        whatsappNotifications: Boolean,
+        deleteOrder: Boolean
     },    
     clientSettings:{
         manualAwbOption: Boolean,
@@ -142,7 +143,8 @@ const userSchema = new Schema({
         coforwarder: Boolean,
         packingListBoxNo: Boolean,
         emailNotifications: Boolean,
-        whatsappNotifications: Boolean     
+        whatsappNotifications: Boolean,
+        deleteOrder: Boolean     
     },
     awbSettings:{
         title: {

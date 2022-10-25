@@ -115,7 +115,7 @@ router.get('/:orderId/email', verifyToken, authorizeRole(['admin']), authorizeRe
 
 router.get('/:orderId/whatsapp', verifyToken, authorizeRole(['admin']), authorizeResource, orderController.sendWhatsappNotification)
 
-router.delete('/:orderId/delete', verifyToken, authorizeRole(['superadmin']), orderController.deleteOrder)
+router.delete('/:orderId/delete', verifyToken, authorizeRole(['admin','superadmin']), orderController.deleteOrder)
 
 //router.get('/:orderId/whatsapp', verifyToken, authorizeRole(['admin']), authorizeResource, orderController.sendWhatsappNotification)
 
