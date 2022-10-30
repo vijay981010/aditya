@@ -1,10 +1,13 @@
 const User = require('../model/userModel')
 const Order = require('../model/orderModel')
 const Invoice = require('../model/invoiceModel')
-const {getDates, checkOrderBillWeight} = require('../helpers/helpers')
+const {getDates, checkOrderBillWeight, sendOrderNotification} = require('../helpers/helpers')
 const PDFdocument = require('pdfkit')
 const {detailedInvoice} = require('../pdf/detailedInvoice')
 const bcrypt = require('bcrypt')
+var moment = require('moment')
+var shortDateFormat = 'DD-MM-yyyy'
+
 
 exports.invoiceList = async(req, res, next) => {
     try{
@@ -80,16 +83,21 @@ exports.invoiceGenerate = async(req, res, next) => {
 
 exports.invoicePdf = async(req, res, next) => {
     try{
-        
+        let debug = require('debug')('c_app: invoicePdf')
         let invoiceId = req.params.invoiceId
-        let userId = req.user.id //
+        //let userId = req.user.id //
         
         //GET INVOICE DETAILS//
         let invoiceFields = 'invoiceNumber invoiceStartDate invoiceEndDate totalAmount invoiceDate note gstType'
         let invoice = await Invoice.findById(invoiceId).populate('client').populate('admin').select(invoiceFields)
 
+        //debug(invoice.admin)
+
         //GET USER DETAILS//
-        let user = await User.findById(userId)
+        //let user = await User.findById(userId)
+
+        //debug(user)
+        let user = invoice.admin
 
         //GET DATE RANGE BETWEEN START AND END//
         let dateArray = getDates(new Date(invoice.invoiceStartDate), new Date(invoice.invoiceEndDate))
@@ -239,3 +247,49 @@ function getCompData(orders){
     return compData = {chargesArr, taxArr, totalBillArr, totalCharges, totalFsc, totalTax, totalBill, totalBaseRate, subTotalArr}
 }
 
+exports.sendEmail = async(req, res, next) => {
+    try{
+        let debug = require('debug')('c_app: sendEmail')
+
+        // let userId = req.user.id
+
+        // //GET USER DETAILS//
+        // let user = await User.findById(userId)
+
+        const { invoiceId } = req.params
+
+        let invoiceFields = 'invoiceNumber invoiceStartDate invoiceEndDate totalAmount'
+        let clientPop = {path: 'client', select: 'email'}
+        let adminPop = {path:'admin', select:'senderEmail senderPassword'}
+        let invoice = await Invoice.findById(invoiceId).populate(clientPop).populate(adminPop).select(invoiceFields)
+
+        const {client: {email}, admin: {senderEmail, senderPassword}, invoiceNumber, invoiceStartDate, invoiceEndDate, totalAmount} = invoice
+
+        //CHECK IF EMAIL
+        if(email == '') return res.render('error', {message: `Email not present. Kindly enter Email`, statusCode: '400'})
+
+        //debug(invoice)
+        const receiver = [email]
+        const subject = 'Invoice Notification'    
+        let user = senderEmail
+        let pass = senderPassword
+        debug(receiver)
+
+        let html = `<p>Dear Shipper,<p>
+                    <p>Here is your invoice : <b>${invoiceNumber}</b></p> 
+                    <p>billed for the time period: <b>${moment(invoiceStartDate).format(shortDateFormat)}</b> to <b>${moment(invoiceEndDate).format(shortDateFormat)}</b></p>
+                    <p>amounting to a total of: <b>Rs ${totalAmount}/-</b></p>
+        
+                    <p><a href='${process.env.BASE_URL}/invoices/${invoiceId}/pdf'>Click Here</a> to download the detailed invoice</p><br>
+                
+                    <p>Thank you for your business</p>`
+
+        //debug(html)
+        await sendOrderNotification(user, pass, receiver, subject, html)
+        
+        res.status(200).render('success', {message: `Email Sent Successfully`, statusCode: '200'})
+
+    }catch(err){
+        next(err)
+    }    
+}
