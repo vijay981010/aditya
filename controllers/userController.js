@@ -122,11 +122,12 @@ exports.createUser = async (req, res, next) => {
         }
         
         //GO TO USER LIST PAGE AFTER WRITING TO DB//
-        if(req.user.role == "superadmin"){
-            res.redirect('/users/adminlist')
-        }else if(req.user.role == "admin"){
-            res.redirect('/users/clientlist')
-        }        
+        let redirectPath
+        
+        if(req.user.role == 'superadmin') redirectPath = '/users/adminlist'
+        if(req.user.role == "admin") redirectPath = '/users/clientlist'                
+
+        res.status(201).redirect(redirectPath)
                         
     }catch(err){
         next(err)

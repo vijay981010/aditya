@@ -67,7 +67,7 @@ exports.authenticateUser = async (req, res, next) => {
             })
             
             //REDIRECT TO DASHBOARD//
-            res.redirect('/dashboard')                                                                                                          
+            res.status(200).redirect('/dashboard')                                                                                                          
         }else{                      
             res.status(400).render('error', {message: `Incorrect Password`, statusCode: '400'})
         }    

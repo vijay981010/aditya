@@ -267,8 +267,8 @@ exports.sendEmail = async(req, res, next) => {
         //debug(invoice)
         const receiver = [email]
         const subject = 'Invoice Notification'    
-        let user = "anshika.notifications@gmail.com"
-        let pass = "eyrabgrqftstlhcb"
+        let user = "vayudootenterprises2022@gmail.com"
+        let pass = "fpqevrdcmgkdxfzw"
         debug(receiver)
 
         let html = `<p>Dear Shipper,<p>
