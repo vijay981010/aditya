@@ -8,6 +8,7 @@ const bcrypt = require('bcrypt')
 var moment = require('moment')
 var shortDateFormat = 'DD-MM-yyyy'
 
+
 exports.invoiceList = async(req, res, next) => {
     try{
         let userId = req.user.id                
@@ -262,13 +263,16 @@ exports.sendEmail = async(req, res, next) => {
         let adminPop = {path:'admin', select:'senderEmail senderPassword'}
         let invoice = await Invoice.findById(invoiceId).populate(clientPop).populate(adminPop).select(invoiceFields)
 
-        const {client: {email}, invoiceNumber, invoiceStartDate, invoiceEndDate, totalAmount} = invoice
+        const {client: {email}, admin: {senderEmail, senderPassword}, invoiceNumber, invoiceStartDate, invoiceEndDate, totalAmount} = invoice
+
+        //CHECK IF EMAIL
+        if(email == '') return res.render('error', {message: `Email not present. Kindly enter Email`, statusCode: '400'})
 
         //debug(invoice)
         const receiver = [email]
         const subject = 'Invoice Notification'    
-        let user = "anshika.notifications@gmail.com"
-        let pass = "eyrabgrqftstlhcb"
+        let user = senderEmail
+        let pass = senderPassword
         debug(receiver)
 
         let html = `<p>Dear Shipper,<p>
@@ -276,7 +280,7 @@ exports.sendEmail = async(req, res, next) => {
                     <p>billed for the time period: <b>${moment(invoiceStartDate).format(shortDateFormat)}</b> to <b>${moment(invoiceEndDate).format(shortDateFormat)}</b></p>
                     <p>amounting to a total of: <b>Rs ${totalAmount}/-</b></p>
         
-                    <p><a href='http://localhost:3000/invoices/${invoiceId}/pdf'>Click Here</a> to download the detailed invoice</p><br>
+                    <p><a href='${process.env.BASE_URL}/invoices/${invoiceId}/pdf'>Click Here</a> to download the detailed invoice</p><br>
                 
                     <p>Thank you for your business</p>`
 
